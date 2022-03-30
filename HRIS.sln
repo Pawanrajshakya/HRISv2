@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRIS.API", "HRIS.API\HRIS.API.csproj", "{8018E2DC-15FC-4EB7-8DA0-351B79743C5D}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "HRIS.Web(1)", "HRIS.Web\", "{7B97AE7E-E779-4FA2-B5E0-07981522A6FF}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "HRIS.Web", "HRIS.Web\", "{7B97AE7E-E779-4FA2-B5E0-07981522A6FF}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_23976"
@@ -23,7 +23,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "HRIS.Web(1)", "HRIS.Web\", 
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "23976"
+		SlnRelativePath = "HRIS.Web\"
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRIS", "..\..\HRISv2\HRIS\HRIS\HRIS.csproj", "{E7D1BF54-0F9F-4472-B33C-7C2F7D841BDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +42,10 @@ Global
 		{7B97AE7E-E779-4FA2-B5E0-07981522A6FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B97AE7E-E779-4FA2-B5E0-07981522A6FF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B97AE7E-E779-4FA2-B5E0-07981522A6FF}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{E7D1BF54-0F9F-4472-B33C-7C2F7D841BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7D1BF54-0F9F-4472-B33C-7C2F7D841BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7D1BF54-0F9F-4472-B33C-7C2F7D841BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7D1BF54-0F9F-4472-B33C-7C2F7D841BDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HRIS.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
