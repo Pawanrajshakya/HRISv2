@@ -1,4 +1,4 @@
-﻿namespace HRIS.API.Models
+﻿namespace HRIS.API
 {
     public class ReportParameters
     {

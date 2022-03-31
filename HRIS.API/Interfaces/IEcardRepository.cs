@@ -1,7 +1,6 @@
-﻿using HRIS.API.Models.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace HRIS.API.Interfaces
+namespace HRIS.API
 {
     public interface IEcardRepository
     {

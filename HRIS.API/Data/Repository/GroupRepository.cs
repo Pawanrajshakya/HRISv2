@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HRIS.API.Interfaces;
-using HRIS.API.Models.DTO;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HRIS.API.Data.Repository
+namespace HRIS.API
 {
     public class GroupRepository : IGroupRepository
     {

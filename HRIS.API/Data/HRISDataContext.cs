@@ -1,7 +1,6 @@
-﻿using HRIS.API.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace HRIS.API.Data
+namespace HRIS.API
 {
     public class HRISDataContext : DbContext
     {

@@ -1,9 +1,7 @@
-﻿using HRIS.API.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Linq;
 
-namespace HRIS.API.Filters
+namespace HRIS.API
 {
     public class UserActionFilter : IActionFilter
     {
@@ -23,12 +21,12 @@ namespace HRIS.API.Filters
             //bool hasRole = false;
             //bool hasGroup = false;
 
-            var user = _userRepository.GetByLanID(Helpers.UserSession.LanID);
+            var user = _userRepository.GetByLanID(UserSession.LanID);
 
             if (user == null)
                 context.Result = new UnauthorizedResult();
 
-            Helpers.UserSession.Instance.User = user;
+            UserSession.Instance.User = user;
 
             //if (Helpers.UserSession.Roles.ToList().Contains((Models._Role)Helpers.UserSession.Instance.User.RoleID))
             //    hasRole = true;

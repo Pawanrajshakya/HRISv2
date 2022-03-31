@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HRIS.API.Helpers;
-using HRIS.API.Interfaces;
-using HRIS.API.Models;
-using HRIS.API.Models.DTO;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace HRIS.API.Data.Repository
+namespace HRIS.API
 {
     public class RCRepository : IRCRepository
     {

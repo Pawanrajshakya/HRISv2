@@ -1,8 +1,4 @@
-﻿using HRIS.API.Filters;
-using HRIS.API.Interfaces;
-using HRIS.API.Models;
-using HRIS.API.Models.DTO;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace HRIS.API.Controllers
@@ -21,7 +17,7 @@ namespace HRIS.API.Controllers
         [HttpGet]
         public ActionResult<UserDto> Get()
         {
-            return userRepository.GetByLanID(Helpers.UserSession.LanID);
+            return userRepository.GetByLanID(UserSession.LanID);
         }
 
         [HttpGet("{userId}")]
@@ -58,7 +54,7 @@ namespace HRIS.API.Controllers
         [Route("test")]
         public ActionResult<UserDto> Test()
         {
-            return Ok(Helpers.UserSession.Instance.User);
+            return Ok(UserSession.Instance.User);
         }
     }
 }

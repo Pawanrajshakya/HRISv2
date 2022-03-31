@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HRIS.API.Models
+namespace HRIS.API
 {
     public enum _Group
     {

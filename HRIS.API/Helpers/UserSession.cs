@@ -1,13 +1,4 @@
-﻿using HRIS.API.Interfaces;
-using HRIS.API.Models;
-using HRIS.API.Models.DTO;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace HRIS.API.Helpers
+﻿namespace HRIS.API
 {
     public sealed class UserSession
     {

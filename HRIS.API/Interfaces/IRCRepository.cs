@@ -1,11 +1,6 @@
-﻿using HRIS.API.Models;
-using HRIS.API.Models.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace HRIS.API.Interfaces
+namespace HRIS.API
 {
     public interface IRCRepository
     {

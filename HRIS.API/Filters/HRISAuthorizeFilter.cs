@@ -1,10 +1,8 @@
-﻿using HRIS.API.Helpers;
-using HRIS.API.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 
-namespace HRIS.API.Filters
+namespace HRIS.API
 {
     public class HRISAuthorizeFilter : Attribute, IAuthorizationFilter
     {

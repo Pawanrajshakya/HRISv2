@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HRIS.API.Models
+namespace HRIS.API
 {
     public class Role
     {

@@ -1,5 +1,4 @@
-﻿using HRIS.API.Filters;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace HRIS.API.Controllers
 {

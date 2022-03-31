@@ -1,16 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HRIS.API.Data;
-using HRIS.API.Data.Repository;
-using HRIS.API.Filters;
-using HRIS.API.Helpers;
-using HRIS.API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Server.IISIntegration;
@@ -18,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace HRIS.API
 {
@@ -81,10 +72,27 @@ namespace HRIS.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            app.UseExceptionHandler(errorApp =>
             {
-                app.UseDeveloperExceptionPage();
-            }
+                errorApp.Run(async context =>
+                {
+                    context.Response.StatusCode = 500;
+                    context.Response.ContentType = "application/json";
+
+                    var exceptionHandlerPathFeature =
+                        context.Features.Get<IExceptionHandlerPathFeature>();
+
+                    EmailManager.SendEmail(env.ApplicationName + " " + env.EnvironmentName, 
+                        exceptionHandlerPathFeature.Error.Message, 
+                        _config["SMTPServer"],
+                        _config["LogEmail:Sender"],
+                        _config["LogEmail:Receiver"]);
+
+                    var error = new { exceptionHandlerPathFeature.Error.Message};
+
+                    await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(error)); //(exceptionHandlerPathFeature.Error.Message);
+                });
+            });
 
             app.UseHttpsRedirection();
 

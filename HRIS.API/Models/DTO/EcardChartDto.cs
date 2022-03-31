@@ -1,4 +1,4 @@
-﻿namespace HRIS.API.Models.DTO
+﻿namespace HRIS.API
 {
     public class EcardChartDto
     {

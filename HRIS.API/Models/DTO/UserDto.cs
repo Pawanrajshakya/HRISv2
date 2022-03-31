@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HRIS.API.Models.DTO
+namespace HRIS.API
 {
     public class UserDto
     {

@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using HRIS.API.Models;
-using HRIS.API.Models.DTO;
-using System.Linq;
 
-namespace HRIS.API.Helpers
+namespace HRIS.API
 {
     public class AutoMapperProfiles : Profile
     {

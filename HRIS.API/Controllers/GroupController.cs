@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using HRIS.API.Interfaces;
-using HRIS.API.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRIS.API.Controllers

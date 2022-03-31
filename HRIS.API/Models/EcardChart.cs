@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace HRIS.API.Models
+namespace HRIS.API
 {
     public class EcardChart
     {
