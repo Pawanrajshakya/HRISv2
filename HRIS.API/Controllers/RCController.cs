@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HRIS.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("hris/[controller]")]
     [ApiController]
     public class RCController : BaseController
     {

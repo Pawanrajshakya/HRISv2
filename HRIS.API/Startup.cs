@@ -90,9 +90,8 @@ namespace HRIS.API
 
             app.UseCors(x => x.AllowAnyHeader()
             .AllowAnyMethod()
-            .WithOrigins("http://localhost:4004",
-            "http://localhost:4200",
-            "https://webd16dssap01/HRIS_V2")
+            .WithOrigins("http://localhost:4200",
+            "https://webd16dssap01/HRISv2")
             .AllowCredentials());
 
             app.UseRouting();

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace HRIS.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("hris/[controller]")]
     [ApiController]
     public class UserController : BaseController
     {
