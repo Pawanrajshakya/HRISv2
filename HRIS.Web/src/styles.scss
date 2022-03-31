@@ -1,4 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+/* Importing Bootstrap SCSS file. */
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden !important;
+  font-family: 'Source Sans Pro',sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  min-height: 600px;
+  padding: 0;
+  font-size: 14px !important;
+  background: url(../src/assets/bg.jpg) repeat-x;
+  background-color: white !important;
+}
+
+.menu_link {
+  text-decoration: none !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 14px !important;
+}
+
+.menu_link:hover {
+  color: white !important;
+}
+
+.dropdown-menu li {
+  margin-left: -10px !important;
+}
+
+
+
+.table td {
+  vertical-align: middle !important;
+}
+
+.container, .container-sm, .container-md, .container-lg, .container-xl {
+  max-width: 100% !important;
+}
+
+tr.mat-row, tr.mat-footer-row {
+  height: auto !important;
+}
+
+tr.mat-header-row {
+  background-color: #fafafa;
+  height: 30px !important;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  padding-left: 4px !important;
+  padding-right: 2px !important;
+  vertical-align: middle !important;
+}
+
+
+th.mat-header-cell {
+  font-weight: 700;
+  font-size: 14px;
+  color: #333;
+}
+
+/*.table-bordered th, .table-bordered td {
+  border-color: #d9edf7 !important;
+}*/
+
+$primary: #3c8dbc;
+$info: #d9edf7;
+
+
+/*$danger: #dd0000;
+$success: lime;
+$warning: orange;
+$info: aqua;
+
+$body-bg: #f3f3f0;*/
+@import "~bootstrap/scss/bootstrap";
+
+/*@import "bootstrap";*/
+
