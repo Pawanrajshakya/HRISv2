@@ -1,0 +1,69 @@
+<div class="card border-info">
+  <div class="card-header text-primary bg-info border-info font-weight-bold">
+    <i class="bi bi-person-fill"></i> Manage Admin Users
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-3 offset-9 mb-2">
+        <button type="button" class="btn btn-outline-primary btn-sm">
+          <i class="fa fa-plus-circle fa-fw text-success"></i>Add New
+        </button>
+        &nbsp;
+        <button type="button" class="btn btn-outline-primary btn-sm">
+            <i class="fa fa-download fa-fw text-success"></i>Export
+          </button>
+      </div>
+      
+      <div class="col-12">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Filter By</span>
+          </div>
+          <input type="text" class="form-control" (keyup)="applyFilter($event)"
+            placeholder="EIN / Full Name / Role / LAN ID" #input>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="example-container table-responsive">
+          <table mat-table [dataSource]="data" matSort matSortActive="created" matSortDisableClear
+            matSortDirection="desc" matSort class="table table-hover">
+            <ng-container matColumnDef="firstName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>
+              <td mat-cell *matCellDef="let row">{{row.firstName}} {{row.lastName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="ein">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>EIN</th>
+              <td mat-cell *matCellDef="let row">{{row.ein}}</td>
+            </ng-container>
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+              <td mat-cell *matCellDef="let row">{{row.roleDesc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="lanid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>LANID</th>
+              <td mat-cell *matCellDef="let row">{{row.lanID}}</td>
+            </ng-container>
+            <ng-container matColumnDef="emailAddress">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+              <td mat-cell *matCellDef="let row"><a href="mailto:{{row.emailAddress}}"> {{row.emailAddress}}</a></td>
+            </ng-container>
+            <ng-container matColumnDef="editOption">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let row"><a class="btn btn-link btn-sm text-primary" #user
+                  (click)="onEdit(row)"><i class="fa fa-pencil-square-o"></i>Edit</a></td>
+            </ng-container>
+            <ng-container matColumnDef="deleteOption">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let row"><a class="btn btn-link btn-sm text-danger" #user
+                  (click)="onEdit(row)"><i class="bi bi-x"></i>Delete</a></td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;  sticky: true;" class="thead-light;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <mat-paginator showFirstLastButtons [length]="resultsLength" [pageSize]="reportParam.pageSize"
+          [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

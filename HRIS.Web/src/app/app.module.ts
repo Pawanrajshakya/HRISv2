@@ -17,6 +17,7 @@ import { HeaderInterceptorService } from './_services/header-interceptor.service
 import { MaterialModule } from './_shared/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     EcardComponent,
     DeveloperComponent,
     HomeComponent,
-    ErrorComponent
+    ErrorComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
