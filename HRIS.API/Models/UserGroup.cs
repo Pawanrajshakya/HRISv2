@@ -7,7 +7,7 @@ namespace HRIS.API
 {
     public class UserGroup
     {
-        public User User { get; set; }
+        public HRISUser User { get; set; }
         public string UserID { get; set; }
         public Group Group { get; set; }
         public int GroupID { get; set; }

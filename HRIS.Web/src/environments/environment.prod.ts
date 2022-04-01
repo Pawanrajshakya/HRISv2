@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: "api/"
+  apiUrl: "https://webd16dssap01/HRISAPI/hris/"
 };

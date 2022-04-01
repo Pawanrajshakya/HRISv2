@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Linq;
 
 namespace HRIS.API
 {
@@ -18,9 +19,6 @@ namespace HRIS.API
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            //bool hasRole = false;
-            //bool hasGroup = false;
-
             var user = _userRepository.GetByLanID(UserSession.LanID);
 
             if (user == null)
@@ -28,20 +26,39 @@ namespace HRIS.API
 
             UserSession.Instance.User = user;
 
-            //if (Helpers.UserSession.Roles.ToList().Contains((Models._Role)Helpers.UserSession.Instance.User.RoleID))
-            //    hasRole = true;
-
-            //foreach (var group in Helpers.UserSession.Instance.User.UserGroups)
-            //{
-            //    if (Helpers.UserSession.Groups.ToList().Contains((Models._Group)group.GroupID))
-            //    {
-            //        hasGroup = true;
-            //        break;
-            //    }
-            //}
-
-            //if (!hasRole || !hasGroup)
-            //    context.Result = new NotFoundResult();
+            SendEmailToDeveloper(context, user);
         }
+
+        public void SendEmailToDeveloper(FilterContext context, UserDto user)
+        {
+            string subject = string.Concat("Information: ", System.DateTime.Now.ToLongDateString(), " ", System.DateTime.Now.ToLongTimeString(), " ", UserSession.LanID);
+            System.Text.StringBuilder body = new System.Text.StringBuilder();
+            body.Append("<code><b>Request Path: </b>" + context.HttpContext.Request.Path + "<br/>");
+            body.Append("<code><b>Request Path: </b>" + context.HttpContext.Request.Path + "<br/>");
+            body.Append("<b>Identity Name: </b>" + context.HttpContext.User.Identity.Name + "<br/>");
+            body.Append("<b>IsAuthenticated: </b>" + context.HttpContext.User.Identity.IsAuthenticated + "<br/>");
+            if (user != null)
+            {
+                body.Append("<b>User EIN: </b>" + user.EIN + "<br/>");
+                body.Append("<b>User LanID: </b>" + user.LanID + "<br/>");
+                body.Append("<b>User Name: </b>" + user.FirstName + " " + user.LastName + "<br/>");
+                body.Append("<b>User IsSuper: </b>" + user.IsSuper.ToString() + "<br/>");
+                body.Append("<b>User RoleID: </b>" + user.RoleID.ToString() + "<br/>");
+                body.Append("<b>User EmailAddress: </b>" + user.EmailAddress + "<br/>");
+                if (user.Role != null)
+                    body.Append("<b>User Role: </b>" + user.Role.Description + "<br/>");
+                if (user.UserGroups != null)
+                    body.Append("<b>Groups: </b>" + string.Concat(user.UserGroups.Select(x => x.Description + ",").ToArray()));
+            }
+            else
+            {
+                body.Append(UserSession.LanID + " user not found.");
+            }
+
+            EmailManager.SendEmail(subject, body.ToString());
+        }
+
     }
+
+
 }

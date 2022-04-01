@@ -13,7 +13,7 @@ namespace HRIS.API
             modelBuilder.Entity<UserGroup>().HasKey(ug => new { ug.UserID, ug.GroupID });
 
             modelBuilder.Entity<UserGroup>()
-                .HasOne<User>(x => x.User)
+                .HasOne<HRISUser>(x => x.User)
                 .WithMany(x => x.UsersGroups)
                 .HasForeignKey(x => x.UserID);
 
@@ -23,8 +23,8 @@ namespace HRIS.API
                 .HasForeignKey(x => x.GroupID);
         }
 
-
-        public DbSet<User> HRISUsers { get; set; }
+        public DbSet<LoginUser> LoginUser { get; set; }
+        public DbSet<HRISUser> HRISUsers { get; set; }
         public DbSet<UserList> UserList { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Group> Groups { get; set; }

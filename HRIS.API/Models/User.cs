@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace HRIS.API
 {
-    public class User
+    public class HRISUser
     {
+        [Key]
         public string UserID { get; set; }
         public string LanID { get; set; }
         public int RoleID { get; set; }
@@ -28,5 +28,21 @@ namespace HRIS.API
         public bool? IsSuper { get; set; }
         public bool IsActive { get; set; }
         public bool IsVisible { get; set; }
+    }
+
+    public class LoginUser
+    {
+        [Key]
+        public string UserID { get; set; }
+        public string LanID { get; set; }
+        public int RoleID { get; set; }
+        public string EIN { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string EmailAddress { get; set; }
+        public DateTime? LastAccess { get; set; }
+        public int IsHRISUser { get; set; }
+        public string Agency { get; set; }
+        public int IsDHSUser { get; set; }
     }
 }

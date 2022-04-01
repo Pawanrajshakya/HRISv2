@@ -5,22 +5,35 @@ namespace HRIS.API
 {
     public static class EmailManager
     {
-        public static void SendEmail(string subject, 
-            string body, string smtpServer, string sendTo, string from, 
-            bool isBodyHtml = true, string bcc = null, string cc = null)
+        public static string SmtpServer { get; set; }
+        public static string SendTo { get; set; }
+        public static string From { get; set; }
+
+        public static void SendEmail(string subject,
+            string body, bool isBodyHtml = true,
+            string bcc = null, string cc = null)
         {
             try
             {
-                if (smtpServer.Length > 0)
-                {
-                    var htmlMessage = new System.Net.Mail.MailMessage();
-                    htmlMessage.From = new System.Net.Mail.MailAddress(from);
+                string[] toList = SendTo.Split(';');
 
-                    string[] toList = sendTo.Split(';');
+                if (toList.Length == 0)
+                    return;
+
+                if (SmtpServer.Length > 0)
+                {
+
+                    var htmlMessage = new System.Net.Mail.MailMessage
+                    {
+                        From = new System.Net.Mail.MailAddress(From),
+                        Subject = subject,
+                        Body = body,
+                        IsBodyHtml = isBodyHtml
+                    };
 
                     foreach (var address in toList)
                     {
-                        htmlMessage.To.Add(address);
+                        htmlMessage.To.Add(address.Trim());
                     }
 
                     if (!string.IsNullOrEmpty(bcc))
@@ -28,7 +41,7 @@ namespace HRIS.API
                         string[] bccList = bcc.Split(';');
                         foreach (var address in bccList)
                         {
-                            htmlMessage.Bcc.Add(address);
+                            htmlMessage.Bcc.Add(address.Trim());
                         }
                     }
 
@@ -37,19 +50,14 @@ namespace HRIS.API
                         string[] ccList = cc.Split(';');
                         foreach (var address in ccList)
                         {
-                            htmlMessage.CC.Add(address);
+                            htmlMessage.CC.Add(address.Trim());
                         }
                     }
 
-                    htmlMessage.Subject = subject;
-
-                    htmlMessage.Body = body;
-
-                    htmlMessage.IsBodyHtml = isBodyHtml;
-
-                    var mySmtpClient = new System.Net.Mail.SmtpClient(smtpServer);
-
-                    mySmtpClient.Credentials = CredentialCache.DefaultNetworkCredentials;
+                    var mySmtpClient = new System.Net.Mail.SmtpClient(SmtpServer)
+                    {
+                        Credentials = CredentialCache.DefaultNetworkCredentials
+                    };
 
                     mySmtpClient.Send(htmlMessage);
                 }

@@ -45,6 +45,26 @@ namespace HRIS.API
 
         public UserDto GetByLanID(string lanID)
         {
+            UserDto userDto = new UserDto();
+
+            var sqlParameters = new Microsoft.Data.SqlClient.SqlParameter[] {
+                new Microsoft.Data.SqlClient.SqlParameter(){
+                    ParameterName= "@LanID", Value= lanID
+                }
+            };
+
+            var user = _context.LoginUser
+                .FromSqlRaw($"EXECUTE dbo.spGetUser @LanID", sqlParameters)
+                .ToList()
+                .Where(x => x.LanID == lanID)
+                .SingleOrDefault();
+
+            if (user == null)
+                return null;
+
+            if (user.RoleID == 6 || user.RoleID == 7)
+                return _mapper.Map<UserDto>(user);
+
             return _context.HRISUsers
                 .Where(x => x.LanID == lanID && x.IsVisible == true && x.IsActive == true)
                 .ProjectTo<UserDto>(_mapper.ConfigurationProvider)

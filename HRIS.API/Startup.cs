@@ -20,6 +20,10 @@ namespace HRIS.API
         public Startup(IConfiguration config)
         {
             _config = config;
+
+            EmailManager.SmtpServer = _config["SMTPServer"];
+            EmailManager.From = _config["LogEmail:Sender"];
+            EmailManager.SendTo = _config["LogEmail:Receiver"];
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -82,11 +86,8 @@ namespace HRIS.API
                     var exceptionHandlerPathFeature =
                         context.Features.Get<IExceptionHandlerPathFeature>();
 
-                    EmailManager.SendEmail(env.ApplicationName + " " + env.EnvironmentName, 
-                        exceptionHandlerPathFeature.Error.Message, 
-                        _config["SMTPServer"],
-                        _config["LogEmail:Sender"],
-                        _config["LogEmail:Receiver"]);
+                    EmailManager.SendEmail("Error catched in " + env.ApplicationName + " " + env.EnvironmentName, 
+                        exceptionHandlerPathFeature.Error.Message);
 
                     var error = new { exceptionHandlerPathFeature.Error.Message};
 
@@ -96,11 +97,7 @@ namespace HRIS.API
 
             app.UseHttpsRedirection();
 
-            app.UseCors(x => x.AllowAnyHeader()
-            .AllowAnyMethod()
-            .WithOrigins("http://localhost:4200",
-            "https://webd16dssap01/HRISv2")
-            .AllowCredentials());
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200","https://webd16dssap01/HRISv2").AllowCredentials());
 
             app.UseRouting();
 
