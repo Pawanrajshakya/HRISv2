@@ -11,23 +11,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    MatTableModule,
-    CdkTableModule,
-    MatProgressSpinnerModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatProgressBarModule,
-    MatToolbarModule,
-    MatSelectModule,
-    MatCardModule
-  ],
   exports: [MatTableModule,
     CdkTableModule,
     MatProgressSpinnerModule,
@@ -38,6 +26,9 @@ import { MatCardModule } from '@angular/material/card';
     MatProgressBarModule,
     MatToolbarModule,
     MatSelectModule,
-    MatCardModule]
+    MatCardModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatAutocompleteModule]
 })
 export class MaterialModule { }

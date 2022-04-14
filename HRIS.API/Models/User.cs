@@ -45,4 +45,11 @@ namespace HRIS.API
         public string Agency { get; set; }
         public int IsDHSUser { get; set; }
     }
+
+    public class SearchUser
+    {
+        [Key]
+        public string EIN { get; set; }
+        public string Name { get; set; }
+    }
 }

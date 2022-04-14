@@ -26,7 +26,7 @@ namespace HRIS.API
 
             UserSession.Instance.User = user;
 
-            SendEmailToDeveloper(context, user);
+            //SendEmailToDeveloper(context, user);
         }
 
         public void SendEmailToDeveloper(FilterContext context, UserDto user)

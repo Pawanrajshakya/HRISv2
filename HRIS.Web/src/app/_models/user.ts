@@ -21,5 +21,8 @@ export interface UserGroup {
   description?: string;
 }
 
-
+export interface SearchUser{
+  ein: string,
+  name: string
+}
 

@@ -26,6 +26,7 @@ namespace HRIS.API
         public DbSet<LoginUser> LoginUser { get; set; }
         public DbSet<HRISUser> HRISUsers { get; set; }
         public DbSet<UserList> UserList { get; set; }
+        public DbSet<SearchUser> SearchUser { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<UserGroup> UsersGroups { get; set; }

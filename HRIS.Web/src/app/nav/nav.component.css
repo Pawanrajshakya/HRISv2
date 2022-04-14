@@ -1,27 +1,10 @@
 .logo {
   background-image: url(src/assets/HRIS_logo.png);
   height: 100px;
-  font-size: 30px;
-  line-height: 50px;
-  font-weight: 500;
-  display: block;
   background-repeat: no-repeat, no-repeat;
   background-position: left, right;
-  background-color: white;
 }
 
-.navbar {
-  position: relative;
-  min-height: 50px;
-  margin-bottom: 20px;
-  border: 1px solid white;
-  padding-bottom: 0px;
-  padding-top: 0px;
-}
-
-.navbar-nav li{
-    padding-left: 10px;
-}
-.navbar-nav li a {
-  text-shadow: 1px 1px 1px rgb(0 0 0 / 20%);
+.example-spacer {
+  flex: 1 1 auto;
 }

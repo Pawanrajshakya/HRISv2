@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
-import { User } from '../_models/user';
+import { SearchUser, User } from '../_models/user';
 import { Subject } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
 import { ReportParam } from '../_models/report-param';
@@ -40,16 +40,24 @@ export class UserService extends BaseService {
   }
 
   user$ = this.httpClient.get<User>(this.url + "User")
-  .pipe(
-    tap(user => {
-      this.currentUser = user;
-    }),
-    catchError(err => this.handleError(err))
-  );
+    .pipe(
+      tap(user => {
+        this.currentUser = user;
+      }),
+      catchError(err => this.handleError(err))
+    );
 
   list$(reportParams?: ReportParam) {
     console.log('reportParams', reportParams);
     return this.httpClient.post<UserList[]>(this.url + 'User/list', reportParams)
+      .pipe(
+        tap((data) => { console.log(data); }),
+        catchError(err => this.handleError(err))
+      );
+  }
+
+  search$(searchBy: string, isSuper: boolean) {
+    return this.httpClient.get<SearchUser[]>(this.url + 'user/search/' + searchBy + '/' + isSuper.toString())
       .pipe(
         tap((data) => { console.log(data); }),
         catchError(err => this.handleError(err))

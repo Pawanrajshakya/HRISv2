@@ -1,4 +1,5 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
@@ -7,6 +8,9 @@ import { ReportParam } from '../_models/report-param';
 import { User } from '../_models/user';
 import { UserList } from '../_models/user-list';
 import { UserService } from '../_services/user.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormControl } from '@angular/forms';
+import { UserAddComponent } from './user-add/user-add.component';
 
 @Component({
   selector: 'app-user',
@@ -17,7 +21,7 @@ export class UserComponent implements AfterViewInit {
 
   errorMessage: string = '';
 
-  displayedColumns: string[] = ['ein', 'firstName', 'role', 'lanid', 'emailAddress','editOption','deleteOption'];
+  displayedColumns: string[] = ['ein', 'firstName', 'role', 'lanid', 'emailAddress', 'editOption', 'deleteOption'];
   data: UserList[] = [];
   resultsLength = 0;
   isLoadingResults = true;
@@ -30,8 +34,9 @@ export class UserComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService, 
-    private route: Router) {
+  constructor(private userService: UserService,
+    private route: Router,
+    public dialog: MatDialog) {
   }
 
 
@@ -90,8 +95,52 @@ export class UserComponent implements AfterViewInit {
     console.log('filterValue', filterValue);
     this.filterSubject.next(filterValue);
   }
-  onEdit(user: User): void {
+
+  onAddNew(): void {
+    const dialogRef = this.dialog.open(UserAddComponent, {
+      disableClose: true,
+      width: '600px',
+      panelClass: ['no-padding']
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
-  
+
+  onEdit(user: User): void {
+    const dialogRef = this.dialog.open(UserEditDialog, {
+      disableClose: true,
+      data: user,
+      panelClass: ['no-padding']
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+}
+
+
+@Component({
+  selector: 'user-edit-dialog',
+  templateUrl: 'user-edit-dialog.html'
+})
+
+export class UserEditDialog {
+  constructor(
+    public dialogRef: MatDialogRef<UserEditDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: User) {
+
+  }
+
+  onSaveClick(): void {
+    this.dialogRef.close(true);
+  }
+
+  onCancelClick(): void {
+    this.dialogRef.close(false);
+  }
 }
 

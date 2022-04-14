@@ -1,71 +1,27 @@
-<div class="logo">
+<div class="logo bg-white d-block mh-100">
 </div>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top row">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/home']" routerLinkActive="active"><i class="bi bi-house-fill"></i> Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/developer']" routerLinkActive="active"><i class="bi bi-person-fill"></i> User</a>
-      </li>
-      <li>
-        <div class="nav-item btn-group" dropdown #dropdown1="bs-dropdown">
-          <button dropdownToggle type="button"
-                  class="btn btn-link dropdown-toggle menu_link">
-            <i class="bi bi-list"></i> Reports <span class="caret"></span>
-          </button>
-          <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu">
-            <li role="menuitem"><a class="dropdown-item" [routerLink]="['/home']" routerLinkActive="active">Home</a></li>
-            <li class="divider dropdown-divider"></li>
-            <li role="menuitem">
-              <a class="dropdown-item" [routerLink]="['/developer']" routerLinkActive="active">Developer</a>
-            </li>
-          </ul>
-        </div>
-      </li>
-      <li>
-        <div class="nav-item btn-group" dropdown>
-          <button dropdownToggle type="button"
-                  class="btn btn-link dropdown-toggle menu_link">
-            <i class="bi bi-tools"></i> Tools <span class="caret"></span>
-          </button>
-          <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu">
-            <li role="menuitem"><a class="dropdown-item" [routerLink]="['/user']" routerLinkActive="active">Manage Admin Users</a></li>
-            <li class="divider dropdown-divider"></li>
-            <li role="menuitem">
-              <a class="dropdown-item" [routerLink]="['/developer']" routerLinkActive="active">Manage Announcement</a>
-            </li>
-          </ul>
-        </div>
-      </li>
-    </ul>
-    <span class="navbar-text">
-      <a class="nav-link" [routerLink]="['/developer']" *ngIf="currentUser$ | async as user"
-         routerLinkActive="active"><i class="bi bi-person"></i> {{user.lastName}} {{user.firstName}} | {{user.role?.description}} | {{user.lanID}}</a>
-    </span>
 
-  </div>
-</nav>
-
-
-<div>{{message}}</div>
-  <!--<div class="btn-group" dropdown>
-  <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-          aria-controls="dropdown-basic">
-    Button dropdown <span class="caret"></span>
-  </button>
-  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-      role="menu" aria-labelledby="button-basic">
-    <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
-    <li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
-    <li role="menuitem"><a class="dropdown-item" href="#">Something else here</a></li>
-    <li class="divider dropdown-divider"></li>
-    <li role="menuitem">
-      <a class="dropdown-item" href="#">Separated link</a>
-    </li>
-  </ul>
-</div>-->
+<mat-toolbar class="bg-primary shadow border-top border-bottom border-white">
+  <a class="btn btn-link text-white text-decoration-none" [routerLink]="['/home']" routerLinkActive="active"><i
+      class="bi bi-house-fill"></i> Home</a>
+  <a class="btn btn-link text-white text-decoration-none" [routerLink]="['/developer']" routerLinkActive="active"><i
+      class="bi bi-person-fill"></i>User</a>
+  <a class="btn btn-link text-white text-decoration-none" [matMenuTriggerFor]="reportMenu"><i class="bi bi-list"></i>
+    Reports <span class="caret"></span></a>
+  <mat-menu #reportMenu="matMenu" yPosition="below">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
+  <a class="btn btn-link text-white text-decoration-none" [matMenuTriggerFor]="toolMenu"><i class="bi bi-tools"></i>
+    Tools <span class="caret"></span></a>
+  <mat-menu #toolMenu="matMenu" yPosition="below">
+    <button [routerLink]="['/user']" routerLinkActive="active" mat-menu-item>Manage Admin Users</button>
+    <button [routerLink]="['/developer']" routerLinkActive="active" mat-menu-item>Manage Announcement</button>
+  </mat-menu>
+  <span class="example-spacer"></span>
+  <span>
+    <a class="btn btn-link text-white text-decoration-none" [routerLink]="['/developer']" *ngIf="currentUser$ | async as user"
+      routerLinkActive="active"><i class="bi bi-person"></i> {{user.lastName}} {{user.firstName}} |
+      {{user.role?.description}} | {{user.lanID}}</a>
+  </span>
+</mat-toolbar>

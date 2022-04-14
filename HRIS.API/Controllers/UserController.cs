@@ -50,6 +50,13 @@ namespace HRIS.API.Controllers
             return Ok(userRepository.Get(parameters));
         }
 
+        [HttpGet]
+        [Route("search/{searchBy}/{isSuper:bool}")]
+        public ActionResult<IEnumerable<SearchUser>> Search(string searchBy, bool isSuper)
+        {
+            return Ok(userRepository.Search(searchBy, isSuper));
+        }
+
         [HttpPost]
         [Route("test")]
         public ActionResult<UserDto> Test()

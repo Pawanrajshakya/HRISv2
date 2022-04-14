@@ -96,5 +96,25 @@ namespace HRIS.API
             }
             return userListDto;
         }
+
+        public IEnumerable<SearchUser> Search(string searchBy, bool isSuper)
+        {
+            List<SearchUser> items = new List<SearchUser>();
+
+            var sqlParameters = new Microsoft.Data.SqlClient.SqlParameter[] {
+                new Microsoft.Data.SqlClient.SqlParameter(){ParameterName= "@SearchBy", Value= searchBy},
+                new Microsoft.Data.SqlClient.SqlParameter(){ParameterName= "@IsSuper", Value= isSuper}
+            };
+
+            var list = _context.SearchUser
+                .FromSqlRaw($"EXECUTE dbo.spGetUserByName @SearchBy, @IsSuper", sqlParameters)
+                .ToList();
+
+            foreach (var user in list)
+            {
+                items.Add(new SearchUser { EIN = user.EIN, Name = user.Name });
+            }
+            return items;
+        }
     }
 }

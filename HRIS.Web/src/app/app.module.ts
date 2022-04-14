@@ -1,6 +1,6 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { NgChartsModule } from 'ng2-charts';
@@ -18,6 +18,8 @@ import { MaterialModule } from './_shared/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { UserComponent } from './user/user.component';
+import { UserEditComponent } from './user/user-edit/user-edit.component';
+import { UserAddComponent } from './user/user-add/user-add.component';
 
 @NgModule({
   declarations: [
@@ -27,13 +29,16 @@ import { UserComponent } from './user/user.component';
     DeveloperComponent,
     HomeComponent,
     ErrorComponent,
-    UserComponent
+    UserComponent,
+    UserEditComponent,
+    UserAddComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     NgChartsModule,
     MaterialModule,

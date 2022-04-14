@@ -73,7 +73,7 @@ th.mat-header-cell {
 
 $primary: #3c8dbc;
 $info: #d9edf7;
-
+$secondary: black;
 
 /*$danger: #dd0000;
 $success: lime;
@@ -84,4 +84,8 @@ $body-bg: #f3f3f0;*/
 @import "~bootstrap/scss/bootstrap";
 
 /*@import "bootstrap";*/
+
+.no-padding .mat-dialog-container {
+  padding: 0 !important;
+}
 

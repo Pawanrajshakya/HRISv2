@@ -9,5 +9,6 @@ namespace HRIS.API
         public IEnumerable<UserDto> Get();
         public IEnumerable<UserDto> Get(int roleID, int groupID);
         public IEnumerable<UserListDto> Get(ReportParameters _reportParameters);
+        public IEnumerable<SearchUser> Search(string searchBy, bool isSuper);
     }
 }
