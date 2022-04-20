@@ -38,6 +38,7 @@ namespace HRIS.API
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IRCRepository, RCRepository>();
+            services.AddScoped<IDPRepository, DPRepository>();
             services.AddScoped<IEcardRepository, EcardRepository>();
             //********Repository DI - end
 

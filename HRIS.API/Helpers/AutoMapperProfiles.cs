@@ -29,6 +29,7 @@ namespace HRIS.API
                 .AfterMap((s, d) => { s.GroupID = d.GroupID; });
 
             CreateMap<RC, RCDto>();
+            CreateMap<DP, DPDto>();
 
             CreateMap<EcardChart, EcardChartDto>();
 

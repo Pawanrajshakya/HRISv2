@@ -57,10 +57,6 @@ export class UserService extends BaseService {
   }
 
   search$(searchBy: string, isSuper: boolean) {
-    return this.httpClient.get<SearchUser[]>(this.url + 'user/search/' + searchBy + '/' + isSuper.toString())
-      .pipe(
-        tap((data) => { console.log(data); }),
-        catchError(err => this.handleError(err))
-      );
+    return this.httpClient.get<SearchUser[]>(this.url + 'user/search/' + searchBy + '/' + isSuper.toString());
   }
 }

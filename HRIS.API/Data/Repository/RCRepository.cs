@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HRIS.API
 {
@@ -19,6 +20,15 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
+        public async Task<IEnumerable<RCDto>> GetAsync()
+        {
+            var param = new SqlParameter("@UserID", UserSession.Instance.User.UserID);
+            var RCs = _context.RC.FromSqlRaw("spGetRCList @UserID", param)
+                .ProjectTo<RCDto>(_mapper.ConfigurationProvider)
+                .ToList();
+            return await Task.Run(() => RCs);
+        }
+
         public IEnumerable<RCDto> Get()
         {
             var param = new SqlParameter("@UserID", UserSession.Instance.User.UserID);
@@ -28,6 +38,5 @@ namespace HRIS.API
             return RCs;
         }
 
-        
     }
 }

@@ -18,8 +18,8 @@ import { MaterialModule } from './_shared/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { UserComponent } from './user/user.component';
-import { UserEditComponent } from './user/user-edit/user-edit.component';
-import { UserAddComponent } from './user/user-add/user-add.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -30,8 +30,6 @@ import { UserAddComponent } from './user/user-add/user-add.component';
     HomeComponent,
     ErrorComponent,
     UserComponent,
-    UserEditComponent,
-    UserAddComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +41,9 @@ import { UserAddComponent } from './user/user-add/user-add.component';
     NgChartsModule,
     MaterialModule,
     LoadingBarHttpClientModule,
-    BsDropdownModule.forRoot()
+    NgSelectModule,
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptorService, multi: true }],

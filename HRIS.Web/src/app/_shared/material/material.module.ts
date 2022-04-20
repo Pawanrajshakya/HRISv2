@@ -11,7 +11,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
@@ -27,7 +26,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatToolbarModule,
     MatSelectModule,
     MatCardModule,
-    MatDialogModule,
     MatMenuModule,
     MatAutocompleteModule]
 })

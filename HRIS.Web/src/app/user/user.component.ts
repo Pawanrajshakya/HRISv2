@@ -1,16 +1,22 @@
-import { Component, AfterViewInit, ViewChild, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, AfterViewInit, ViewChild, Inject, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { catchError, map, merge, startWith, Subject, switchMap, tap, of as observableOf } from 'rxjs';
+import { catchError, map, merge, startWith, Subject, switchMap, tap, of as observableOf, Observable } from 'rxjs';
 import { ReportParam } from '../_models/report-param';
-import { User } from '../_models/user';
+import { SearchUser, User } from '../_models/user';
 import { UserList } from '../_models/user-list';
 import { UserService } from '../_services/user.service';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { FormControl } from '@angular/forms';
-import { UserAddComponent } from './user-add/user-add.component';
+import { NgForm } from '@angular/forms';
+import { Group } from '../_models/group';
+import { Role } from '../_models/role';
+import { IRC } from '../_models/IRC';
+import { IDP } from '../_models/IDP';
+import { GroupService } from '../_services/group.service';
+import { RoleService } from '../_services/role.service';
+import { CodeService } from '../_services/code.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { NgSelectConfig } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-user',
@@ -30,13 +36,42 @@ export class UserComponent implements AfterViewInit {
   reportParam: ReportParam = { pageNumber: 1, pageSize: 10 };
   private filterSubject = new Subject<string>();
   filterAction$ = this.filterSubject.asObservable();
+  users$: any;
+  searchedUser: SearchUser[] = [];
+  searchBy: string = "";
+  isSuper: boolean = false;
+  groups: Group[] = [];
+  roles: Role[] = [];
+  rcs: IRC[] = [];
+  dps: IDP[] = [];
+  selectedGroup: number[] = [];
+  selectedRole: number[] = [];
+  selectedRC: string[] = [];
+  selectedDP: string[] = [];
+  userInput$ = new Subject<string>();
+  user$: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService,
-    private route: Router,
-    public dialog: MatDialog) {
+  modalRef?: BsModalRef;
+
+  config = {
+    backdrop: true,
+    ignoreBackdropClick: true,
+    class: 'modal-lg'
+  };
+
+  constructor(
+    private userService: UserService
+    , private modalService: BsModalService
+    , private route: Router
+    , private groupService: GroupService
+    , private roleService: RoleService
+    , private codeService: CodeService
+    , private ngSelectConfig: NgSelectConfig) {
+    this.ngSelectConfig.appendTo = 'body';
+    this.ngSelectConfig.clearAllText = 'Clear';
   }
 
 
@@ -88,7 +123,33 @@ export class UserComponent implements AfterViewInit {
         if (Array.isArray(data))
           this.data = data;
       });
+
+    this.groupService.groups$.subscribe((data) => {
+      this.groups = data as Group[];
+    });
+
+    this.roleService.roles$.subscribe((data) => {
+      let _data = data as Role[];
+      if (_data.length > 0) {
+        _data.forEach((role) => {
+          if (role.roleID != undefined && role.roleID < 6)
+            this.roles.push(role);
+        });
+      }
+    });
+
+    this.codeService.rcs$.subscribe((data) => {
+      this.rcs = data as IRC[];
+    });
+
+    // this.users$ = this.userService.search$(this.searchBy, this.isSuper);
+
+    this.userInput$.subscribe(data => {
+      this.users$ = this.userService.search$(data, this.isSuper);
+    })
   }
+
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -96,51 +157,39 @@ export class UserComponent implements AfterViewInit {
     this.filterSubject.next(filterValue);
   }
 
-  onAddNew(): void {
-    const dialogRef = this.dialog.open(UserAddComponent, {
-      disableClose: true,
-      width: '600px',
-      panelClass: ['no-padding']
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+  onAddNew(template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, this.config);
   }
 
   onEdit(user: User): void {
-    const dialogRef = this.dialog.open(UserEditDialog, {
-      disableClose: true,
-      data: user,
-      panelClass: ['no-padding']
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
   }
 
-}
-
-
-@Component({
-  selector: 'user-edit-dialog',
-  templateUrl: 'user-edit-dialog.html'
-})
-
-export class UserEditDialog {
-  constructor(
-    public dialogRef: MatDialogRef<UserEditDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: User) {
-
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, this.config);
   }
 
-  onSaveClick(): void {
-    this.dialogRef.close(true);
+  // searchUser(searchBy: string) {
+
+  //   if (searchBy === "")
+  //     return;
+
+  //   this.userService.search$(searchBy, this.isSuper).subscribe(
+  //     (data) => {
+  //       this.searchedUser = data as SearchUser[];
+  //       console.log('searched users', data);
+  //     }
+  //   )
+  // }
+
+  onSubmit(user: NgForm): void {
+    console.log(user);
   }
 
   onCancelClick(): void {
-    this.dialogRef.close(false);
+    this.modalRef?.hide();
+   }
+
+  onUserSelect($event: Event) {
+    console.log($event);
   }
 }
-

@@ -24,7 +24,7 @@ namespace HRIS.API
         public List<EcardChartDto> Get()
         {
             int roleId = UserSession.Instance.User.RoleID;
-            string rc = ConvertToString(_rcRepository.Get().Select(x=>x.Code).ToList());
+            string rc = ConvertToString((_rcRepository.Get()).Select(x=>x.Code).ToList());
             string dp = "";
 
             List<EcardChartDto> ecardChartDtos
