@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HRIS.API.Controllers
 {
@@ -57,11 +58,17 @@ namespace HRIS.API.Controllers
             return Ok(userRepository.Search(searchBy, isSuper));
         }
 
-        [HttpPost]
-        [Route("test")]
-        public ActionResult<UserDto> Test()
+        [HttpGet("{ein}/{isSuper:bool}")]
+        public async Task<ActionResult> GetByEIN(string ein, bool isSuper)
         {
-            return Ok(UserSession.Instance.User);
+            return Ok(await userRepository.GetUserByEINAsync(ein, isSuper));
+        }
+
+        [HttpGet]
+        [Route("IsDeveloper/{lanid}")]
+        public ActionResult Test(string lanid)
+        {
+            return Ok(userRepository.IsDeveloper(lanid));
         }
     }
 }

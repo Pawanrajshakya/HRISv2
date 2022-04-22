@@ -20,18 +20,18 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<RCDto>> GetAsync()
+        public async Task<IEnumerable<RCDto>> GetAsync(string userid)
         {
-            var param = new SqlParameter("@UserID", UserSession.Instance.User.UserID);
+            var param = new SqlParameter("@UserID", userid);
             var RCs = _context.RC.FromSqlRaw("spGetRCList @UserID", param)
                 .ProjectTo<RCDto>(_mapper.ConfigurationProvider)
                 .ToList();
             return await Task.Run(() => RCs);
         }
 
-        public IEnumerable<RCDto> Get()
+        public IEnumerable<RCDto> Get(string userid)
         {
-            var param = new SqlParameter("@UserID", UserSession.Instance.User.UserID);
+            var param = new SqlParameter("@UserID", userid);
             var RCs = _context.RC.FromSqlRaw("spGetRCList @UserID", param)
                 .ProjectTo<RCDto>(_mapper.ConfigurationProvider)
                 .ToList();

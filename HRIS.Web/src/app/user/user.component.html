@@ -89,9 +89,7 @@
             <ng-select [items]="users$ | async" bindLabel="name" [multiple]="false" bindValue="ein"
               [clearSearchOnAdd]="true" [hideSelected]="true" [minTermLength]="2"
               typeToSearchText="Please enter 2 or more characters" [typeahead]="userInput$" [(ngModel)]="searchedUser"
-              [ngModelOptions]="{standalone: true}"
-              placeholder="Search By Name or EIN"
-              (change)="onUserSelect($event)">
+              [ngModelOptions]="{standalone: true}" placeholder="Search By Name or EIN" (change)="onUserSelect($event)">
             </ng-select>
           </div>
         </div>
@@ -124,8 +122,7 @@
           <label for="groups" class="col-sm-2 offset-1 col-form-label col-form-label-sm">Groups</label>
           <div class="col-sm-9">
             <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedGroup" class="" id="groups"
-              name="selectedGroup"
-              placeholder="Select Group">
+              name="selectedGroup" placeholder="Select Group">
               <ng-option *ngFor="let group of groups" [value]="group.groupID">{{group.groupDescription}}</ng-option>
             </ng-select>
           </div>
@@ -134,20 +131,27 @@
           <label for="roles" class="col-sm-2 offset-1 col-form-label col-form-label-sm">User Role</label>
           <div class="col-sm-9">
             <ng-select [multiple]="false" [hideSelected]="true" [(ngModel)]="selectedRole" class="" id="roles"
-              name="selectedRole"
-              placeholder="Select Role">
+              name="selectedRole" placeholder="Select Role">
               <ng-option *ngFor="let role of roles" [value]="role.roleID">{{role.description}}</ng-option>
             </ng-select>
           </div>
-          {{selectedRole}}
         </div>
-        <div class="form-group row">
+        <div class="form-group row" *ngIf="selectedRole == 2 || selectedRole == 3 || selectedRole == 4 || selectedRole == 5">
           <label for="rcs" class="col-sm-2 offset-1 col-form-label col-form-label-sm">RC</label>
           <div class="col-sm-9">
             <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedRC" class="" id="rcs"
-              name="selectedRC"
-              placeholder="Select RC">
+              name="selectedRC" placeholder="Select RC" (change)="onRCSelect($event)">
               <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{rc.description}}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="selectedRole == 5">
+          <label for="rcs" class="col-sm-2 offset-1 col-form-label col-form-label-sm">DP</label>
+          <div class="col-sm-9">
+            <ng-select [items]="filteredDPs" bindLabel="dpName" bindValue="dpCode" groupBy="rcCode" [(ngModel)]="selectedDP" [multiple]="true" [hideSelected]="true" (change)="onDPSelect($event)" placeholder="Select DP" id="dps" name="selectedDP">
+              <ng-template ng-optgroup-tmp let-item="item">
+                {{item.rcCode || 'Unnamed group'}}
+              </ng-template>
             </ng-select>
           </div>
         </div>

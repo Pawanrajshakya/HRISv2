@@ -14,7 +14,7 @@ export class GroupService extends BaseService {
   }
 
   groups$ = this.httpClient.get<Group[]>(this.url + "group").pipe(
-    tap(data => console.log('Groups >> ', JSON.stringify(data))), //debug - display in console
+    //tap(data => console.log('Groups >> ', JSON.stringify(data))), //debug - display in console
     catchError(err => this.handleError(err)) //error handling
   );
 }

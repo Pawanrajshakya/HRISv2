@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HRIS.API
 {
@@ -29,6 +31,46 @@ namespace HRIS.API
             return _context.Groups
                 .ProjectTo<GroupDto>(_mapper.ConfigurationProvider)
                 .ToList();
+        }
+
+        public IEnumerable<GroupDto> Get(string userID)
+        {
+            List<GroupDto> items = new List<GroupDto>();
+
+            var sqlParameters = new Microsoft.Data.SqlClient.SqlParameter[] {
+                new Microsoft.Data.SqlClient.SqlParameter(){ParameterName= "@UserID", Value= userID}
+            };
+
+            var list = _context.Groups
+                .FromSqlRaw($"EXECUTE dbo.spGetUserGroups @UserID", sqlParameters)
+                .ToList();
+
+            foreach (var item in list)
+            {
+                GroupDto groupDto = _mapper.Map<GroupDto>(item);
+                items.Add(groupDto);
+            }
+            return items;
+        }
+
+        public async Task<IEnumerable<GroupDto>> GetAsync(string userID)
+        {
+            List<GroupDto> items = new List<GroupDto>();
+
+            var sqlParameters = new Microsoft.Data.SqlClient.SqlParameter[] {
+                new Microsoft.Data.SqlClient.SqlParameter(){ParameterName= "@UserID", Value= userID}
+            };
+
+            var list = _context.Groups
+                .FromSqlRaw($"EXECUTE dbo.spGetUserGroups @UserID", sqlParameters)
+                .ToList();
+
+            foreach (var item in list)
+            {
+                GroupDto groupDto = _mapper.Map<GroupDto>(item);
+                items.Add(groupDto);
+            }
+            return await Task.Run(() => items);
         }
     }
 }

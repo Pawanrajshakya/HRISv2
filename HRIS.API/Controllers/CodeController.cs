@@ -21,22 +21,27 @@ namespace HRIS.API.Controllers
         }
 
         [HttpGet]
-        [Route("rc")]
-        public async Task<ActionResult> GetRC()
+        [Route("rc/{userid?}")]
+        public async Task<ActionResult> GetRC(string userid = null)
         {
-            return Ok(await _rcRepository.GetAsync());
+            if (userid == null)
+                userid = UserSession.Instance.User.UserID;
+
+            return Ok(await _rcRepository.GetAsync(userid));
         }
 
         [HttpGet]
-        [Route("dp/{rc}")]
-        public async Task<ActionResult> GetDPByRC(string rc)
+        [Route("dp/{userid?}/{rc?}")]
+        public async Task<ActionResult> GetDPByUserIDAndRC(string userid = null, string rc = null)
         {
-            return Ok(await _dpRepository.GetAsync(rc));
+            if (userid == null)
+                userid = UserSession.Instance.User.UserID;
+            return Ok(await _dpRepository.GetByUserIDAsync(userid, rc));
         }
 
         [HttpGet]
         [Route("dp")]
-        public async Task<ActionResult> GetDP()
+        public async Task<ActionResult> GetDPAsync()
         {
             return Ok(await _dpRepository.GetAsync());
         }

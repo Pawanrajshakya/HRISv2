@@ -14,7 +14,7 @@ export class RoleService extends BaseService {
   }
 
   roles$ = this.httpClient.get<Role[]>(this.url + "role").pipe(
-    tap(data => console.log('Roles >> ', JSON.stringify(data))), //debug - display in console
+    //tap(data => console.log('Roles >> ', JSON.stringify(data))), //debug - display in console
     catchError(err => this.handleError(err)) //error handling
   );
 }

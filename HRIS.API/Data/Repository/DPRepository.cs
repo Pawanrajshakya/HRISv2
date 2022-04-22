@@ -2,7 +2,6 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,11 +19,21 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DPDto>> GetAsync(string rc = "")
+        public async Task<IEnumerable<DPDto>> GetAsync()
         {
             var userId = new SqlParameter("@UserID", UserSession.Instance.User.UserID);
+            var rC = new SqlParameter("@RC", "");
+            var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID, @RC", userId, rC)
+                .ProjectTo<DPDto>(_mapper.ConfigurationProvider)
+                .ToList();
+            return await Task.Run(() => DPs);
+        }
+
+        public async Task<IEnumerable<DPDto>> GetByUserIDAsync(string userid, string rc = "")
+        {
             var rC = new SqlParameter("@RC", rc);
-            var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID", userId, rC)
+            var userID = new SqlParameter("@UserID", userid);
+            var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID, @RC", userID, rC)
                 .ProjectTo<DPDto>(_mapper.ConfigurationProvider)
                 .ToList();
             return await Task.Run(() => DPs);

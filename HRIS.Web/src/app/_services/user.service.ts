@@ -51,7 +51,7 @@ export class UserService extends BaseService {
     console.log('reportParams', reportParams);
     return this.httpClient.post<UserList[]>(this.url + 'User/list', reportParams)
       .pipe(
-        tap((data) => { console.log(data); }),
+        //tap((data) => { console.log(data); }),
         catchError(err => this.handleError(err))
       );
   }

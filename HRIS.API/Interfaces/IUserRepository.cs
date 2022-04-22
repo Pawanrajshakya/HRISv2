@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HRIS.API
 {
@@ -10,5 +11,11 @@ namespace HRIS.API
         public IEnumerable<UserDto> Get(int roleID, int groupID);
         public IEnumerable<UserListDto> Get(ReportParameters _reportParameters);
         public IEnumerable<SearchUser> Search(string searchBy, bool isSuper);
+        //public IEnumerable<GetUserByEINDto> GetUserByEIN(string ein, bool isSuper);
+        public Task<IEnumerable<GetUserByEINDto>> GetUserByEINAsync(string ein, bool isSuper);
+        public bool Add(UserDtoToAddAndUpdate user);
+        public bool Update(UserDtoToAddAndUpdate user);
+        public bool Delete(string userID);
+        public bool IsDeveloper(string lanID);
     }
 }

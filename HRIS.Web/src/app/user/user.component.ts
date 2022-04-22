@@ -44,10 +44,12 @@ export class UserComponent implements AfterViewInit {
   roles: Role[] = [];
   rcs: IRC[] = [];
   dps: IDP[] = [];
+  filteredDPs: IDP[] = [];
   selectedGroup: number[] = [];
-  selectedRole: number[] = [];
+  selectedRole?: number;
   selectedRC: string[] = [];
   selectedDP: string[] = [];
+
   userInput$ = new Subject<string>();
   user$: any;
 
@@ -77,8 +79,10 @@ export class UserComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
+    // mat-table
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
+    // mat-table
     merge(this.sort.sortChange, this.paginator.page, this.filterAction$)
       .pipe(
         startWith({}),
@@ -142,7 +146,10 @@ export class UserComponent implements AfterViewInit {
       this.rcs = data as IRC[];
     });
 
-    // this.users$ = this.userService.search$(this.searchBy, this.isSuper);
+    this.codeService.dps$.subscribe((data) => {
+      this.dps = data as IDP[];
+      this.filteredDPs = this.dps;
+    });
 
     this.userInput$.subscribe(data => {
       this.users$ = this.userService.search$(data, this.isSuper);
@@ -150,7 +157,7 @@ export class UserComponent implements AfterViewInit {
   }
 
 
-
+  // mat-table
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     console.log('filterValue', filterValue);
@@ -168,28 +175,54 @@ export class UserComponent implements AfterViewInit {
     this.modalRef = this.modalService.show(template, this.config);
   }
 
-  // searchUser(searchBy: string) {
-
-  //   if (searchBy === "")
-  //     return;
-
-  //   this.userService.search$(searchBy, this.isSuper).subscribe(
-  //     (data) => {
-  //       this.searchedUser = data as SearchUser[];
-  //       console.log('searched users', data);
-  //     }
-  //   )
-  // }
-
   onSubmit(user: NgForm): void {
     console.log(user);
   }
 
   onCancelClick(): void {
     this.modalRef?.hide();
-   }
+  }
 
   onUserSelect($event: Event) {
     console.log($event);
   }
+
+  onRoleSelect($event: Event) {
+    console.log($event);
+  }
+
+  onRCSelect($event: Event) {
+    console.log($event);
+
+
+    let _selectedDP = this.selectedDP;
+    let _selectedRC = this.selectedRC;
+    this.filteredDPs = [];
+    this.selectedDP = []
+
+    if (_selectedRC.length === 0) {
+      this.filteredDPs = this.dps;
+    } else {
+      this.dps.forEach((x) => {
+        if (_selectedRC.indexOf(x.rcCode || "") != -1) {
+          this.filteredDPs.push(x);
+        }
+        else {
+
+          let i = _selectedDP.indexOf(x.dpCode || "");
+
+          if (i != -1) {
+            _selectedDP.splice(i, 1);
+          }
+        }
+      })
+
+      _selectedDP.forEach(dp => this.selectedDP.push(dp));
+    }
+  }
+
+  onDPSelect($event: Event) {
+    console.log($event);
+  }
+
 }

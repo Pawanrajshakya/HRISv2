@@ -11,7 +11,7 @@ export class HeaderInterceptorService implements HttpInterceptor {
   constructor(private userService: UserService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('HttpInterceptor >> ', this.userService.lanID);
+    //console.log('HttpInterceptor >> ', this.userService.lanID);
     if (this.userService.lanID.length > 0) {
       req = req.clone({
         setHeaders: { ["hris_developer_lanid"]: this.userService.lanID }
