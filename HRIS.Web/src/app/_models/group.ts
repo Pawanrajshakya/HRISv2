@@ -1,4 +1,4 @@
-export interface Group {
+export interface IGroup {
   groupID?: number;
   groupDescription?: string
 }

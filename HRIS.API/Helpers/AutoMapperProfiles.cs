@@ -21,7 +21,7 @@ namespace HRIS.API
             CreateMap<UserList, UserListDto>();
 
             CreateMap<GetUserByEIN, GetUserByEINDto>()
-                .ForMember(x=>x.RCs, y=>y.Ignore())
+                .ForMember(x => x.RCs, y => y.Ignore())
                 .ForMember(x => x.DPs, y => y.Ignore());
 
             CreateMap<Role, RoleDto>();

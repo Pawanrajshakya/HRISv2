@@ -25,10 +25,9 @@ export class BaseService {
       this.hrisError.message = `Backend returned code ${err.status}: ${err.message}`;
 
     }
-    console.log(this.hrisError);
     this.hrisError.errorNumber = -100;
 
-    this.hrisError.userMessage = userMessage ?? "Internal Error. Please contact your system admin.";
+    this.hrisError.userMessage = userMessage ?? err.error.Message ?? "Internal Error. Please contact your system admin.";
 
     return throwError(this.hrisError);
   }

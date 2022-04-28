@@ -5,9 +5,8 @@ import { EMPTY, Subject, merge, of as observableOf } from 'rxjs';
 import { catchError, switchMap, tap, startWith, map } from 'rxjs/operators';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { UserList } from '../_models/user-list';
-import { ReportParam } from '../_models/report-param';
-import { User } from '../_models/user';
+import { IReportParam } from '../_models/report-param';
+import { ICurrentUser, IUserList } from '../_models/user';
 import { HRISError } from '../_models/hriserror';
 
 @Component({
@@ -21,12 +20,12 @@ export class DeveloperComponent implements AfterViewInit {
   errorMessage: string = '';
 
   displayedColumns: string[] = ['firstName', 'role', 'groups', 'lanid', 'options'];
-  data: UserList[] = [];
+  data: IUserList[] = [];
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
   pageSizeOptions = [5, 10, 20, 50, 100];
-  reportParam: ReportParam = { pageNumber: 1, pageSize: 10 };
+  reportParam: IReportParam = { pageNumber: 1, pageSize: 10 };
   lanID = "";
   private filterSubject = new Subject<string>();
   filterAction$ = this.filterSubject.asObservable();
@@ -82,7 +81,7 @@ export class DeveloperComponent implements AfterViewInit {
           // Only refresh the result length if there is new data. In case of rate
           // limit errors, we do not want to reset the paginator to zero, as that
           // would prevent users from re-triggering requests.
-          let user: UserList = data[0];
+          let user: IUserList = data[0];
           this.resultsLength = (user) ? user.total ?? 0 : 0;
           return data;
         }),
@@ -99,7 +98,7 @@ export class DeveloperComponent implements AfterViewInit {
     this.filterSubject.next(filterValue);
   }
 
-  onLogin(user: User): void {
+  onLogin(user: ICurrentUser): void {
     this.userService.loginSubject.next(user.lanID ?? "");
     this.userService.user$.subscribe((user) => {
       console.log('onLogin>user>', user);

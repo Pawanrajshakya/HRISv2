@@ -1,4 +1,4 @@
-export interface ReportParam {
+export interface IReportParam {
   pageNumber: number;
   pageSize: number;
   sortColumn?: string;

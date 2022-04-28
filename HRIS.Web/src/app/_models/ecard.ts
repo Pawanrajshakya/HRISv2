@@ -1,13 +1,13 @@
 
 import { ChartConfiguration, ChartData, ChartType, ChartEvent } from 'chart.js';
 
-export interface Ecard {
+export interface IEcard {
   labels?: string;
   data: number;
   date?: string;
 }
 
-export interface EcardChart {
+export interface IEcardChart {
   barChartData: ChartData<'bar'>,
   barChartOptions: ChartConfiguration['options'],
   barChartPlugins: never[],

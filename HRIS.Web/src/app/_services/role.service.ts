@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Role } from '../_models/role';
+import { IRole } from '../_models/role';
 import { tap, catchError } from 'rxjs/operators';
 import { BaseService } from './base.service';
 
@@ -13,7 +13,7 @@ export class RoleService extends BaseService {
     super();
   }
 
-  roles$ = this.httpClient.get<Role[]>(this.url + "role").pipe(
+  roles$ = this.httpClient.get<IRole[]>(this.url + "role").pipe(
     //tap(data => console.log('Roles >> ', JSON.stringify(data))), //debug - display in console
     catchError(err => this.handleError(err)) //error handling
   );

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
-import { SearchUser, User } from '../_models/user';
+import { ISearchUser, ICurrentUser, IUserList, IUser } from '../_models/user';
 import { Subject } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
-import { ReportParam } from '../_models/report-param';
-import { UserList } from '../_models/user-list';
+import { IReportParam } from '../_models/report-param';
 import { HttpClient } from '@angular/common/http';
 import { HRISError, IHRISError } from '../_models/hriserror';
 
@@ -15,7 +14,7 @@ export class UserService extends BaseService {
 
   lanID: string = "";
 
-  currentUser: User = {
+  currentUser: ICurrentUser = {
     lastName: '',
     firstName: '',
     userGroups: []
@@ -24,7 +23,7 @@ export class UserService extends BaseService {
   loginSubject = new Subject<string>();
   loginAction$ = this.loginSubject.asObservable();
 
-  currentUserSubject = new Subject<User>();
+  currentUserSubject = new Subject<ICurrentUser>();
   currentUserAction$ = this.currentUserSubject.asObservable();
 
   constructor(private httpClient: HttpClient) {
@@ -32,14 +31,14 @@ export class UserService extends BaseService {
     this.loginAction$.subscribe((lanID) => {
       console.log('Login step 2: UserService >> constructor >> this.loginAction$.subscribe >> ', lanID);
       this.lanID = lanID;//used in _header Intercepter
-      this.user$.subscribe((user: User | IHRISError) => {
+      this.user$.subscribe((user: ICurrentUser | IHRISError) => {
         console.log('Login step 3: UserService >> constructor >> this.user$.subscribe >> ', user);
         this.currentUserSubject.next(this.currentUser);
       })
     })
   }
 
-  user$ = this.httpClient.get<User>(this.url + "User")
+  user$ = this.httpClient.get<ICurrentUser>(this.url + "User")
     .pipe(
       tap(user => {
         this.currentUser = user;
@@ -47,9 +46,9 @@ export class UserService extends BaseService {
       catchError(err => this.handleError(err))
     );
 
-  list$(reportParams?: ReportParam) {
+  list$(reportParams?: IReportParam) {
     console.log('reportParams', reportParams);
-    return this.httpClient.post<UserList[]>(this.url + 'User/list', reportParams)
+    return this.httpClient.post<IUserList[]>(this.url + 'User/list', reportParams)
       .pipe(
         //tap((data) => { console.log(data); }),
         catchError(err => this.handleError(err))
@@ -57,6 +56,40 @@ export class UserService extends BaseService {
   }
 
   search$(searchBy: string, isSuper: boolean) {
-    return this.httpClient.get<SearchUser[]>(this.url + 'user/search/' + searchBy + '/' + isSuper.toString());
+    return this.httpClient.get<ISearchUser[]>(this.url + 'user/search/' + searchBy + '/' + isSuper.toString()).pipe(
+      //tap((data) => { console.log(data); }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  getByEIN$(ein: string, isSuper: boolean) {
+    return this.httpClient.get<IUser>(this.url + 'user/' + ein + '/' + isSuper.toString()).pipe(
+      //tap((data) => { console.log(data); }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  add$(user: IUser) {
+    console.log(user);
+    return this.httpClient.post(this.url + 'user', user).pipe(
+      tap((data) => { console.log(data); }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  update$(user: IUser) {
+    console.log(user);
+    return this.httpClient.put(this.url + 'user', user).pipe(
+      tap((data) => { console.log(data); }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  delete$(userID: string) {
+    console.log(userID);
+    return this.httpClient.delete(this.url + 'user/' + userID).pipe(
+      tap((data) => { console.log(data); }),
+      catchError(err => this.handleError(err))
+    );
   }
 }

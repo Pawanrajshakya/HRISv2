@@ -14,9 +14,9 @@ namespace HRIS.API
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
         public string UserID { get; set; }
-        public string RCs { get; set; }
-        public string DPs { get; set; }
-        public string UsersGroups { get; set; }
+        public string[] RCs { get; set; }
+        public string[] DPs { get; set; }
+        public int[] UsersGroups { get; set; }
         public bool IsSuper
         {
             get; set;

@@ -21,7 +21,6 @@
   <span class="example-spacer"></span>
   <span>
     <a class="btn btn-link text-white text-decoration-none" [routerLink]="['/developer']" *ngIf="currentUser$ | async as user"
-      routerLinkActive="active"><i class="bi bi-person"></i> {{user.lastName}} {{user.firstName}} |
-      {{user.role?.description}} | {{user.lanID}}</a>
+      routerLinkActive="active"><i class="bi bi-person-fill text-success"></i> {{user.lastName}} {{user.firstName}}</a>
   </span>
 </mat-toolbar>

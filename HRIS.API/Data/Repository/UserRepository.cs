@@ -108,7 +108,7 @@ namespace HRIS.API
             List<SearchUser> items = new List<SearchUser>();
 
             var sqlParameters = new SqlParameter[] {
-                new SqlParameter(){ParameterName= "@SearchBy", Value= searchBy},
+                new SqlParameter(){ParameterName= "@SearchBy", Value= searchBy.Replace(" ","")},
                 new SqlParameter(){ParameterName= "@IsSuper", Value= isSuper}
             };
 
@@ -123,10 +123,8 @@ namespace HRIS.API
             return items;
         }
 
-        public async Task<IEnumerable<GetUserByEINDto>> GetUserByEINAsync(string ein, bool isSuper)
+        public async Task<GetUserByEINDto> GetUserByEINAsync(string ein, bool isSuper)
         {
-            List<GetUserByEINDto> items = new List<GetUserByEINDto>();
-
             var sqlParameters = new SqlParameter[] {
                 new SqlParameter(){ParameterName= "@EIN", Value= ein},
                 new SqlParameter(){ParameterName= "@IsSuper", Value= isSuper}
@@ -140,17 +138,20 @@ namespace HRIS.API
             {
                 GetUserByEINDto getUserByEINDto = _mapper.Map<GetUserByEINDto>(user);
 
-                getUserByEINDto.UsersGroups = (await _groupRepository.GetAsync(ein)).ToList();
+                getUserByEINDto.UsersGroups = (await _groupRepository.GetAsync(ein)).Select(x => x.GroupID).ToList();
 
-                if (user.RCs.Length > 0)
+                if (user.RCs != null && user.RCs.Length > 0)
                     getUserByEINDto.RCs = new List<string>(user.RCs.ToString().Split(','));
 
-                if (user.DPs.Length > 0)
+                if (user.DPs != null && user.DPs.Length > 0)
                     getUserByEINDto.DPs = new List<string>(user.DPs.ToString().Split(','));
 
-                items.Add(getUserByEINDto);
+                if (getUserByEINDto.IsSuper == null)
+                    getUserByEINDto.IsSuper = false;
+
+                return getUserByEINDto;
             }
-            return items;
+            return null;
         }
 
         public bool Add(UserDtoToAddAndUpdate user)
@@ -164,13 +165,13 @@ namespace HRIS.API
                                 new SqlParameter("@LastName", user.LastName){},
                                 new SqlParameter("@EmailAddress", user.EmailAddress){},
                                 new SqlParameter("@CreatedBy", UserSession.Instance.User.UserID){},
-                                new SqlParameter("@RC", user.RCs){},
-                                new SqlParameter("@DP", user.DPs){},
-                                new SqlParameter("@Groups", user.UsersGroups){},
+                                new SqlParameter("@RC", string.Join(",", user.RCs)){},
+                                new SqlParameter("@DP", string.Join(",", user.DPs)){},
+                                new SqlParameter("@Groups", string.Join(",", user.UsersGroups)){},
                                 new SqlParameter("@IsSuper", user.IsSuper){}
             };
 
-            _context.Database.ExecuteSqlRaw($"@result EXECUTE dbo.spCreateUser " +
+            _context.Database.ExecuteSqlRaw($"EXECUTE @result = dbo.spCreateUser " +
                 $"@LanID, @RoleID, @EIN, @FirstName, @LastName, @EmailAddress, " +
                 $"@CreatedBy, @RC, @DP, @Groups, @IsSuper", sqlParameters);
 
@@ -189,12 +190,12 @@ namespace HRIS.API
                                 new SqlParameter("@LastName", user.LastName){},
                                 new SqlParameter("@EmailAddress", user.EmailAddress){},
                                 new SqlParameter("@UpdatedBy", UserSession.Instance.User.UserID){},
-                                new SqlParameter("@RC", user.RCs){},
-                                new SqlParameter("@DP", user.DPs){},
-                                new SqlParameter("@Groups", user.UsersGroups){}
+                                new SqlParameter("@RC", string.Join(",", user.RCs)){},
+                                new SqlParameter("@DP", string.Join(",", user.DPs)){},
+                                new SqlParameter("@Groups", string.Join(",", user.UsersGroups)){}
             };
 
-            _context.Database.ExecuteSqlRaw($"@result EXECUTE dbo.spUpdateUser " +
+            _context.Database.ExecuteSqlRaw($"EXECUTE @result = dbo.spUpdateUser " +
                 $"@UserID, @LanID, @RoleID, @EIN, @FirstName, @LastName, @EmailAddress, " +
                 $"@UpdatedBy, @RC, @DP, @Groups", sqlParameters);
 
@@ -209,7 +210,7 @@ namespace HRIS.API
                                 new SqlParameter("@UpdatedBy", UserSession.Instance.User.UserID){}
             };
 
-            _context.Database.ExecuteSqlRaw($"@result EXECUTE dbo.spDeleteUser " +
+            _context.Database.ExecuteSqlRaw($"EXECUTE @result =  dbo.spDeleteUser " +
                 $"@UserID, @UpdatedBy", sqlParameters);
 
             return (int)sqlParameters[0].Value >= 0;

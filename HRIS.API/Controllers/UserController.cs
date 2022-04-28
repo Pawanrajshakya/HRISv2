@@ -51,8 +51,7 @@ namespace HRIS.API.Controllers
             return Ok(userRepository.Get(parameters));
         }
 
-        [HttpGet]
-        [Route("search/{searchBy}/{isSuper:bool}")]
+        [HttpGet("search/{searchBy}/{isSuper:bool}")]
         public ActionResult<IEnumerable<SearchUser>> Search(string searchBy, bool isSuper)
         {
             return Ok(userRepository.Search(searchBy, isSuper));
@@ -62,6 +61,24 @@ namespace HRIS.API.Controllers
         public async Task<ActionResult> GetByEIN(string ein, bool isSuper)
         {
             return Ok(await userRepository.GetUserByEINAsync(ein, isSuper));
+        }
+
+        [HttpPost]
+        public ActionResult Post([FromBody]UserDtoToAddAndUpdate user)
+        {
+            return Ok(userRepository.Add(user));
+        }
+
+        [HttpPut]
+        public ActionResult Update([FromBody]UserDtoToAddAndUpdate user)
+        {
+            return Ok(userRepository.Update(user));
+        }
+
+        [HttpDelete("{userID}")]
+        public ActionResult Delete(string userID)
+        {
+            return Ok(userRepository.Delete(userID));
         }
 
         [HttpGet]

@@ -4,8 +4,8 @@ import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs/operators';
 import { UserService } from '../_services/user.service';
-import { User } from '../_models/user';
-import { Ecard, EcardChart } from '../_models/ecard';
+import { ICurrentUser } from '../_models/user';
+import { IEcard, IEcardChart } from '../_models/ecard';
 
 @Component({
   selector: 'app-ecard',
@@ -14,8 +14,8 @@ import { Ecard, EcardChart } from '../_models/ecard';
 })
 export class EcardComponent {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-  currentUser: User;
-  ecardChart$ = this.ecardService.eCards$.pipe<EcardChart>(
+  currentUser: ICurrentUser;
+  ecardChart$ = this.ecardService.eCards$.pipe<IEcardChart>(
     map(ecards => {
 
       let data: Array<number> = [];
@@ -38,7 +38,7 @@ export class EcardComponent {
 
       let barChartType: ChartType = 'bar';
 
-      Array.isArray(ecards) ? ecards.forEach((ecard: Ecard) => {
+      Array.isArray(ecards) ? ecards.forEach((ecard: IEcard) => {
         barChartData.labels?.push(ecard.labels);
         data.push(ecard.data);
         console.log(data, '1');
@@ -60,7 +60,7 @@ export class EcardComponent {
         barChartData: barChartData,
         barChartOptions: barChartOptions,
         barChartType: barChartType
-      } as EcardChart;
+      } as IEcardChart;
     }));
 
   constructor(private ecardService: EcardService, private userService: UserService) {

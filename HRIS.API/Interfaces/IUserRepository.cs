@@ -12,7 +12,7 @@ namespace HRIS.API
         public IEnumerable<UserListDto> Get(ReportParameters _reportParameters);
         public IEnumerable<SearchUser> Search(string searchBy, bool isSuper);
         //public IEnumerable<GetUserByEINDto> GetUserByEIN(string ein, bool isSuper);
-        public Task<IEnumerable<GetUserByEINDto>> GetUserByEINAsync(string ein, bool isSuper);
+        public Task<GetUserByEINDto> GetUserByEINAsync(string ein, bool isSuper);
         public bool Add(UserDtoToAddAndUpdate user);
         public bool Update(UserDtoToAddAndUpdate user);
         public bool Delete(string userID);

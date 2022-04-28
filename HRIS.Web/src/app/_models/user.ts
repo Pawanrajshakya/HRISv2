@@ -1,6 +1,6 @@
-import { Role } from './role';
+import { IRole } from './role';
 
-export interface User {
+export interface ICurrentUser {
   userID?: string;
   lanID?: string;
   roleID?: number;
@@ -9,20 +9,52 @@ export interface User {
   lastName: string;
   emailAddress?: string;
   isSuper?: boolean;
-  role?: Role;
+  role?: IRole;
   roleDescription?: string;
-  userGroups: UserGroup[];
+  userGroups: IUserGroup[];
   groupDescription?: string;
 }
 
-export interface UserGroup {
+export interface IUserGroup {
   userID?: string;
   groupID?: number;
   description?: string;
 }
 
-export interface SearchUser{
+export interface ISearchUser{
   ein: string,
   name: string
 }
 
+export interface IUser {
+  userID?: string;
+  lanID?: string;
+  roleID: number;
+  ein?: string;
+  firstName: string;
+  lastName: string;
+  emailAddress?: string;
+  isSuper?: boolean;
+  usersGroups: number[];
+  isHRISUser?: boolean;
+  isHDHSUser?: boolean;
+  lastAccess?: string;
+  rCs:string[];
+  dPs: string[];
+  agency?: string;
+  roleDesc?:string;
+}
+
+export interface IUserList {
+  total?: number;
+  rowNum?: number;
+  lanID?: string;
+  roleID?: number;
+  roleDesc?: string;
+  ein?: string;
+  firstName?: string;
+  lastName?: string;
+  emailAddress?: string;
+  groups?: string;
+  isSuper?: boolean;
+}

@@ -14,7 +14,7 @@ namespace HRIS.API
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
-        public bool IsHRISUser { get; set; }
+        public bool? IsHRISUser { get; set; }
         public DateTime? LastAccess { get; set; }
         public List<string> RCs { get; set; }
         public List<string> DPs { get; set; }
@@ -24,6 +24,6 @@ namespace HRIS.API
         {
             get; set;
         }
-        public virtual IList<GroupDto> UsersGroups { get; set; }
+        public virtual IList<int> UsersGroups { get; set; }
     }
 }

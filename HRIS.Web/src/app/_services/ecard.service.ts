@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
-import { Ecard } from '../_models/ecard';
+import { IEcard } from '../_models/ecard';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { BaseService } from './base.service';
 })
 export class EcardService extends BaseService {
 
-  eCards$ = this.httpClient.post<Ecard[]>(this.url + "Ecard", null).pipe(
+  eCards$ = this.httpClient.post<IEcard[]>(this.url + "Ecard", null).pipe(
     tap(data => console.log('Ecards >> ', JSON.stringify(data))),
     catchError(err => this.handleError(err)) //error handling
   );

@@ -1,15 +1,13 @@
 import { Component, AfterViewInit, ViewChild, Inject, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Router } from '@angular/router';
 import { catchError, map, merge, startWith, Subject, switchMap, tap, of as observableOf, Observable } from 'rxjs';
-import { ReportParam } from '../_models/report-param';
-import { SearchUser, User } from '../_models/user';
-import { UserList } from '../_models/user-list';
+import { IReportParam } from '../_models/report-param';
+import { ISearchUser, IUser, IUserList } from '../_models/user';
 import { UserService } from '../_services/user.service';
 import { NgForm } from '@angular/forms';
-import { Group } from '../_models/group';
-import { Role } from '../_models/role';
+import { IGroup } from '../_models/group';
+import { IRole } from '../_models/role';
 import { IRC } from '../_models/IRC';
 import { IDP } from '../_models/IDP';
 import { GroupService } from '../_services/group.service';
@@ -17,6 +15,11 @@ import { RoleService } from '../_services/role.service';
 import { CodeService } from '../_services/code.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { NgSelectConfig } from '@ng-select/ng-select';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user',
@@ -25,37 +28,27 @@ import { NgSelectConfig } from '@ng-select/ng-select';
 })
 export class UserComponent implements AfterViewInit {
 
-  errorMessage: string = '';
+  /*SnackBar - config*/
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+  /** Table */
   displayedColumns: string[] = ['ein', 'firstName', 'role', 'lanid', 'emailAddress', 'editOption', 'deleteOption'];
-  data: UserList[] = [];
+  data: IUserList[] = [];
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
   pageSizeOptions = [5, 10, 20, 50, 100];
-  reportParam: ReportParam = { pageNumber: 1, pageSize: 10 };
+  reportParam: IReportParam = { pageNumber: 1, pageSize: 10 };
   private filterSubject = new Subject<string>();
   filterAction$ = this.filterSubject.asObservable();
-  users$: any;
-  searchedUser: SearchUser[] = [];
-  searchBy: string = "";
-  isSuper: boolean = false;
-  groups: Group[] = [];
-  roles: Role[] = [];
-  rcs: IRC[] = [];
-  dps: IDP[] = [];
-  filteredDPs: IDP[] = [];
-  selectedGroup: number[] = [];
-  selectedRole?: number;
-  selectedRC: string[] = [];
-  selectedDP: string[] = [];
-
-  userInput$ = new Subject<string>();
-  user$: any;
+  clickedRows = new Set<IUserList>();
+  filterValue: string = "";
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  /** Model */
   modalRef?: BsModalRef;
 
   config = {
@@ -64,18 +57,56 @@ export class UserComponent implements AfterViewInit {
     class: 'modal-lg'
   };
 
+  /* User Form - typeahead*/
+  typeaheadUserInput$ = new Subject<string>();
+  typeaheadSearchedUsers$: any;
+  typeaheadSelectedUser: ISearchUser[] = [];
+
+  /* Dropdown */
+  groups: IGroup[] = [];
+  selectedGroup: number[] = [];
+
+  roles: IRole[] = [];
+
+  rcs: IRC[] = [];
+  selectedRC: string[] = [];
+
+  dps: IDP[] = [];
+  filteredDPs: IDP[] = [];
+  selectedDP: string[] = [];
+
+  /* User Form */
+  user: IUser = {
+    isSuper: false,
+    lanID: "",
+    firstName: "",
+    lastName: "",
+    emailAddress: "",
+    ein: "",
+    roleID: 1,
+    usersGroups: [],
+    rCs: [],
+    dPs: []
+  };
+
+  userForm = {
+    inEditMode: false,
+    message: "",
+    title: "",
+    isBusy: false
+  }
+
   constructor(
     private userService: UserService
     , private modalService: BsModalService
-    , private route: Router
     , private groupService: GroupService
     , private roleService: RoleService
     , private codeService: CodeService
-    , private ngSelectConfig: NgSelectConfig) {
+    , private ngSelectConfig: NgSelectConfig
+    , private _snackBar: MatSnackBar) {
     this.ngSelectConfig.appendTo = 'body';
     this.ngSelectConfig.clearAllText = 'Clear';
   }
-
 
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
@@ -118,7 +149,7 @@ export class UserComponent implements AfterViewInit {
           // Only refresh the result length if there is new data. In case of rate
           // limit errors, we do not want to reset the paginator to zero, as that
           // would prevent users from re-triggering requests.
-          let user: UserList = data[0];
+          let user: IUserList = data[0];
           this.resultsLength = (user) ? user.total ?? 0 : 0;
           return data;
         }),
@@ -129,11 +160,11 @@ export class UserComponent implements AfterViewInit {
       });
 
     this.groupService.groups$.subscribe((data) => {
-      this.groups = data as Group[];
+      this.groups = data as IGroup[];
     });
 
     this.roleService.roles$.subscribe((data) => {
-      let _data = data as Role[];
+      let _data = data as IRole[];
       if (_data.length > 0) {
         _data.forEach((role) => {
           if (role.roleID != undefined && role.roleID < 6)
@@ -151,40 +182,164 @@ export class UserComponent implements AfterViewInit {
       this.filteredDPs = this.dps;
     });
 
-    this.userInput$.subscribe(data => {
-      this.users$ = this.userService.search$(data, this.isSuper);
+    this.typeaheadUserInput$.subscribe(data => {
+      this.typeaheadSearchedUsers$ = this.userService.search$(data, this.user.isSuper || false);
     })
   }
 
-
   // mat-table
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    console.log('filterValue', filterValue);
-    this.filterSubject.next(filterValue);
+    this.filterValue = (event.target as HTMLInputElement).value;
+    console.log('filterValue', this.filterValue);
+    this.filterSubject.next(this.filterValue);
   }
 
   onAddNew(template: TemplateRef<any>): void {
+    this.userForm.message = "";
+    this.userForm.title = "Add User";
+    this.userForm.inEditMode = false;
     this.modalRef = this.modalService.show(template, this.config);
   }
 
-  onEdit(user: User): void {
+  onEdit(template: TemplateRef<any>, user: any): void {
+    this.userForm.message = "";
+    this.userForm.title = "Edit User";
+    this.userForm.inEditMode = true;
+    this.getUser(user.ein, user.isSuper);
+    this.modalRef = this.modalService.show(template, this.config);
   }
 
-  openModal(template: TemplateRef<any>) {
+  private ClearUserForm() {
+    this.user.ein = "";
+    this.user.isSuper = false;
+    this.user.firstName = "";
+    this.user.lastName = "";
+    this.user.lanID = "";
+    this.user.emailAddress = "";
+    this.user.roleID = 1;
+    this.selectedGroup = [];
+    this.selectedRC = [];
+    this.selectedDP = [];
+    this.typeaheadSelectedUser = [];
+    this.userForm.message = "";
+    this.userForm.title = "Add User";
+    this.userForm.inEditMode = false;
+  }
+
+  private getUser(ein: string, isSuper: boolean) {
+    this.userService.getByEIN$(ein, isSuper).subscribe({
+      next: (data) => {
+        const user = data as IUser;
+        this.user.ein = user.ein ?? '';
+        this.user.firstName = user.firstName;
+        this.user.lastName = user.lastName;
+        this.user.lanID = user.lanID ?? '';
+        this.user.emailAddress = user.emailAddress ?? '';
+        this.user.isSuper = user.isSuper ?? false;
+        (user.roleID !== null && (user.roleID ?? 6 <= 5)) ? this.user.roleID = user.roleID : '';
+        (user.usersGroups !== null && user.usersGroups.length > 0) ? this.selectedGroup = user.usersGroups : "";
+        (user.rCs !== null && user.rCs.length > 0) ? this.selectedRC = user.rCs : "";
+        (user.dPs !== null && user.dPs.length > 0) ? this.selectedDP = user.dPs : "";
+        (user.isHRISUser) ? this.userForm.title = "Modify User" : this.userForm.title = "Add User";
+      }, error: (error) => {
+        console.error(error.userMessage);
+        this._snackBar.open(error.userMessage, 'Close', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          duration: 10000,
+        });
+      }
+    });
+  }
+
+  onTypeaheadSelect($event: ISearchUser) {
+    if ($event === null || $event === undefined)
+      return;
+    this.getUser($event.ein, this.user.isSuper || false);
+  }
+
+  onDelete(template: TemplateRef<any>, user: any): void {
+    console.log(user);
+    this.user.ein = user.ein;
+    this.user.firstName = user.firstName;
+    this.user.lastName = user.lastName;
     this.modalRef = this.modalService.show(template, this.config);
+  }
+
+  onDeleteConfirm(userID?: string) {
+    if (userID !== undefined)
+      this.userService.delete$(userID).subscribe((data) => {
+        console.log("delete success", data);
+        this.filterSubject.next(this.filterValue);
+        this.ClearUserForm();
+        this.modalRef?.hide();
+      }, (error) => {
+        console.error(error.userMessage);
+        this._snackBar.open(error.userMessage, 'Close', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          duration: 10000,
+        })
+      });
   }
 
   onSubmit(user: NgForm): void {
-    console.log(user);
+    console.log(user.form);
+
+    this.userForm.isBusy = true;
+    this.userForm.message = "";
+
+    this.user.usersGroups = this.selectedGroup;
+    this.user.rCs = this.selectedRC;
+    this.user.dPs = this.selectedDP;
+    this.user.userID = this.user.ein;
+
+    if (this.userForm.inEditMode) {
+      this.userService.update$(this.user).subscribe({
+        next: (data) => {
+          this.filterSubject.next(this.filterValue);
+          this.modalRef?.hide();
+          this.ClearUserForm();
+        }, error: (error) => {
+          this.userForm.message = " - " + error.userMessage;
+          this._snackBar.open(error.userMessage, 'Close', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+            duration: 10000,
+          })
+        },
+        complete: () => {
+          this.userForm.isBusy = false;
+        }
+      });
+
+    } else {
+      this.userService.add$(this.user).subscribe({
+        next: (data) => {
+          this.filterSubject.next(this.filterValue);
+          this.modalRef?.hide();
+          this.ClearUserForm();
+        }, error: (error) => {
+          this.userForm.message = " - " + error.userMessage;
+          this._snackBar.open(error.userMessage, 'Close', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+            duration: 10000,
+          })
+        },
+        complete: () => {
+          this.userForm.isBusy = false;
+        }
+      });
+    }
   }
 
   onCancelClick(): void {
+    this.ClearUserForm();
     this.modalRef?.hide();
   }
 
-  onUserSelect($event: Event) {
-    console.log($event);
+  onIsSuperClick() {
   }
 
   onRoleSelect($event: Event) {
@@ -192,9 +347,6 @@ export class UserComponent implements AfterViewInit {
   }
 
   onRCSelect($event: Event) {
-    console.log($event);
-
-
     let _selectedDP = this.selectedDP;
     let _selectedRC = this.selectedRC;
     this.filteredDPs = [];
@@ -221,8 +373,46 @@ export class UserComponent implements AfterViewInit {
     }
   }
 
+  onRCSelectAllClick() {
+    if (this.selectedRC.length === 0) {
+      this.selectedRC = [];
+      this.rcs.forEach((x) => {
+        this.selectedRC.push(x.code || "NO DATA")
+      });
+    } else {
+      this.selectedRC = [];
+    }
+  }
+
+  getRCSelectLabel() {
+    return this.selectedRC.length > 0 ? 'Clear' : 'Select All RCs';
+  }
+
+  onDPSelectAllClick() {
+    if (this.selectedDP.length === 0) {
+      this.selectedDP = [];
+      this.filteredDPs.forEach((x) => {
+        this.selectedDP.push(x.dpCode || "NO DATA")
+      });
+    } else {
+      this.selectedDP = [];
+    }
+  }
+
+  getDPSelectLabel() {
+    return this.selectedDP.length > 0 ? 'Clear' : 'Select All DPs';
+  }
+
   onDPSelect($event: Event) {
     console.log($event);
   }
 
+  validateUserForm(): boolean {
+    let isValid = false;
+
+    isValid = (this.user.firstName.length > 0) && (this.user.lastName.length > 0)
+
+    return isValid;
+    // return false;
+  }
 }
