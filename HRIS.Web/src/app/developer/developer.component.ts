@@ -5,7 +5,7 @@ import { EMPTY, Subject, merge, of as observableOf } from 'rxjs';
 import { catchError, switchMap, tap, startWith, map } from 'rxjs/operators';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { IReportParam } from '../_models/report-param';
+import { ITableViewParam } from '../_models/report-param';
 import { ICurrentUser, IUserList } from '../_models/user';
 import { HRISError } from '../_models/hriserror';
 
@@ -25,7 +25,7 @@ export class DeveloperComponent implements AfterViewInit {
   isLoadingResults = true;
   isRateLimitReached = false;
   pageSizeOptions = [5, 10, 20, 50, 100];
-  reportParam: IReportParam = { pageNumber: 1, pageSize: 10 };
+  reportParam: ITableViewParam = { pageNumber: 1, pageSize: 10 };
   lanID = "";
   private filterSubject = new Subject<string>();
   filterAction$ = this.filterSubject.asObservable();

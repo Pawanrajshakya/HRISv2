@@ -24,6 +24,11 @@ namespace HRIS.API
             EmailManager.SmtpServer = _config["SMTPServer"];
             EmailManager.From = _config["LogEmail:Sender"];
             EmailManager.SendTo = _config["LogEmail:Receiver"];
+
+            ReportManager.Url = _config["Report:Url"].ToString().Replace('@', '/');
+            ReportManager.Path = _config["Report:Path"];
+            ReportManager.UserName = _config["Report:UserName"];
+            ReportManager.Password = _config["Report:Password"];
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

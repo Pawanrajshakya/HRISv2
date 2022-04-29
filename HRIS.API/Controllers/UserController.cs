@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace HRIS.API.Controllers
@@ -46,7 +49,7 @@ namespace HRIS.API.Controllers
 
         [HttpPost]
         [Route("list")]
-        public ActionResult<IEnumerable<UserDto>> List(ReportParameters parameters)
+        public ActionResult<IEnumerable<UserDto>> List(TableViewParameters parameters)
         {
             return Ok(userRepository.Get(parameters));
         }
@@ -86,6 +89,30 @@ namespace HRIS.API.Controllers
         public ActionResult Test(string lanid)
         {
             return Ok(userRepository.IsDeveloper(lanid));
+        }
+
+        [HttpGet("report/{userID}")]
+        public ActionResult Report(string userID)
+        {
+            try
+            {
+                //url = url.Replace("\n", "");
+                //WebRequest request = WebRequest.Create(@"https://d2e1cldb16/reportserver/Pages/ReportViewer.aspx?/HRIS/development/UsersReport&UserID=" + userID + "&rs:Format=EXCEL");
+                WebRequest request = WebRequest.Create(@"https://d2e1cldb16/reportserver/Pages/ReportViewer.aspx?/HRIS/development/SearchStaffReport&UserID=" + userID + "&rs:Format=EXCEL");
+
+                NetworkCredential credentials = new NetworkCredential(@"OSRData", "Purple12");
+                request.Credentials = credentials;
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                Stream stream = response.GetResponseStream();
+
+                return File(stream, "application/excel");
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

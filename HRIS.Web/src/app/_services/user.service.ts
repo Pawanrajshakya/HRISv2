@@ -3,7 +3,7 @@ import { BaseService } from './base.service';
 import { ISearchUser, ICurrentUser, IUserList, IUser } from '../_models/user';
 import { Subject } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
-import { IReportParam } from '../_models/report-param';
+import { ITableViewParam } from '../_models/report-param';
 import { HttpClient } from '@angular/common/http';
 import { HRISError, IHRISError } from '../_models/hriserror';
 
@@ -46,9 +46,9 @@ export class UserService extends BaseService {
       catchError(err => this.handleError(err))
     );
 
-  list$(reportParams?: IReportParam) {
-    console.log('reportParams', reportParams);
-    return this.httpClient.post<IUserList[]>(this.url + 'User/list', reportParams)
+  list$(tableViewParam?: ITableViewParam) {
+    console.log('tableViewParam', tableViewParam);
+    return this.httpClient.post<IUserList[]>(this.url + 'User/list', tableViewParam)
       .pipe(
         //tap((data) => { console.log(data); }),
         catchError(err => this.handleError(err))

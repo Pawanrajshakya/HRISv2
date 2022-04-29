@@ -9,7 +9,7 @@ namespace HRIS.API
         public UserDto GetByLanID(string lanID);
         public IEnumerable<UserDto> Get();
         public IEnumerable<UserDto> Get(int roleID, int groupID);
-        public IEnumerable<UserListDto> Get(ReportParameters _reportParameters);
+        public IEnumerable<UserListDto> Get(TableViewParameters _reportParameters);
         public IEnumerable<SearchUser> Search(string searchBy, bool isSuper);
         //public IEnumerable<GetUserByEINDto> GetUserByEIN(string ein, bool isSuper);
         public Task<GetUserByEINDto> GetUserByEINAsync(string ein, bool isSuper);

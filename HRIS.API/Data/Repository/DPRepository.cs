@@ -19,6 +19,16 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
+        public IEnumerable<DPDto> Get(string userid = null)
+        {
+            var _userId = new SqlParameter("@UserID", userid ?? UserSession.Instance.User.UserID);
+            var rC = new SqlParameter("@RC", "");
+            var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID, @RC", _userId, rC)
+                .ProjectTo<DPDto>(_mapper.ConfigurationProvider)
+                .ToList();
+            return DPs;
+        }
+
         public async Task<IEnumerable<DPDto>> GetAsync()
         {
             var userId = new SqlParameter("@UserID", UserSession.Instance.User.UserID);

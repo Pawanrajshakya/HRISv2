@@ -2,7 +2,7 @@ import { Component, AfterViewInit, ViewChild, Inject, TemplateRef } from '@angul
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { catchError, map, merge, startWith, Subject, switchMap, tap, of as observableOf, Observable } from 'rxjs';
-import { IReportParam } from '../_models/report-param';
+import { ITableViewParam } from '../_models/report-param';
 import { ISearchUser, IUser, IUserList } from '../_models/user';
 import { UserService } from '../_services/user.service';
 import { NgForm } from '@angular/forms';
@@ -20,6 +20,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { ReportService } from '../_services/report.service';
 
 @Component({
   selector: 'app-user',
@@ -39,7 +40,7 @@ export class UserComponent implements AfterViewInit {
   isLoadingResults = true;
   isRateLimitReached = false;
   pageSizeOptions = [5, 10, 20, 50, 100];
-  reportParam: IReportParam = { pageNumber: 1, pageSize: 10 };
+  reportParam: ITableViewParam = { pageNumber: 1, pageSize: 10 };
   private filterSubject = new Subject<string>();
   filterAction$ = this.filterSubject.asObservable();
   clickedRows = new Set<IUserList>();
@@ -98,6 +99,7 @@ export class UserComponent implements AfterViewInit {
 
   constructor(
     private userService: UserService
+    , private reportService: ReportService
     , private modalService: BsModalService
     , private groupService: GroupService
     , private roleService: RoleService
@@ -339,7 +341,8 @@ export class UserComponent implements AfterViewInit {
     this.modalRef?.hide();
   }
 
-  onIsSuperClick() {
+  onExport() {
+    this.reportService.staffListReport$().subscribe();
   }
 
   onRoleSelect($event: Event) {

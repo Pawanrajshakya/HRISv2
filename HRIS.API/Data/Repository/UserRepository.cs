@@ -77,7 +77,7 @@ namespace HRIS.API
                 .SingleOrDefault();
         }
 
-        public IEnumerable<UserListDto> Get(ReportParameters _reportParameters)
+        public IEnumerable<UserListDto> Get(TableViewParameters _reportParameters)
         {
             string userID = UserSession.Instance.User.UserID;
 
