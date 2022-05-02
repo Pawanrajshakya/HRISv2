@@ -63,7 +63,7 @@ export class DeveloperComponent implements AfterViewInit {
           this.reportParam.pageSize = this.paginator.pageSize;
           this.reportParam.sortColumn = this.sort.active;
           this.reportParam.sortOrder = this.sort.direction;
-          return this.userService.list$(this.reportParam
+          return this.userService.tableList$(this.reportParam
           )
             .pipe(
               catchError(() => observableOf(null))

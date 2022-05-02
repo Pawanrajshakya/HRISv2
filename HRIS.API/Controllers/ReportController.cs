@@ -19,6 +19,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
+                System.Threading.Thread.Sleep(5000);
                 return File(ReportManager.Get(parameters), parameters.Detail.ContentType);
             }
             catch (Exception ex)

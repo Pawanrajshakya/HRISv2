@@ -21,6 +21,8 @@ import { UserComponent } from './user/user.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxScrollTopModule } from 'ngx-scrolltop';
+import { FileSaverModule } from 'ngx-filesaver';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { NgxScrollTopModule } from 'ngx-scrolltop';
     HomeComponent,
     ErrorComponent,
     UserComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { NgxScrollTopModule } from 'ngx-scrolltop';
     NgSelectModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
-    NgxScrollTopModule
+    NgxScrollTopModule,
+    FileSaverModule 
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptorService, multi: true }],

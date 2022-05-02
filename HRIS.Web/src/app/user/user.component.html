@@ -62,7 +62,7 @@
               [class.demo-row-is-clicked]="clickedRows.has(row)"></tr>
           </table>
         </div>
-        <mat-paginator showFirstLastButtons [length]="resultsLength" [pageSize]="reportParam.pageSize"
+        <mat-paginator showFirstLastButtons [length]="resultsLength" [pageSize]="reportParam.pagination.pageSize"
           [pageSizeOptions]="pageSizeOptions"></mat-paginator>
       </div>
     </div>

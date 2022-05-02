@@ -2,7 +2,7 @@ import { Component, AfterViewInit, ViewChild, Inject, TemplateRef } from '@angul
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { catchError, map, merge, startWith, Subject, switchMap, tap, of as observableOf, Observable } from 'rxjs';
-import { ITableViewParam } from '../_models/report-param';
+import { IReportParam } from '../_models/report-param';
 import { ISearchUser, IUser, IUserList } from '../_models/user';
 import { UserService } from '../_services/user.service';
 import { NgForm } from '@angular/forms';
@@ -13,14 +13,14 @@ import { IDP } from '../_models/IDP';
 import { GroupService } from '../_services/group.service';
 import { RoleService } from '../_services/role.service';
 import { CodeService } from '../_services/code.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { ReportService } from '../_services/report.service';
+import { ReportComponent } from '../report/report.component';
 
 @Component({
   selector: 'app-user',
@@ -40,7 +40,7 @@ export class UserComponent implements AfterViewInit {
   isLoadingResults = true;
   isRateLimitReached = false;
   pageSizeOptions = [5, 10, 20, 50, 100];
-  reportParam: ITableViewParam = { pageNumber: 1, pageSize: 10 };
+  //tableViewParam: ITableViewParam = { pageNumber: 1, pageSize: 10 };
   private filterSubject = new Subject<string>();
   filterAction$ = this.filterSubject.asObservable();
   clickedRows = new Set<IUserList>();
@@ -97,9 +97,24 @@ export class UserComponent implements AfterViewInit {
     isBusy: false
   }
 
+  //Report
+  reportParam: IReportParam = {
+    detail: {
+      reportName: 'UsersReport',
+      format: 'excel'
+    }, pagination: {
+      pageNumber: 1,
+      pageSize: 10
+    }, rcDp: {
+      rCList: [],
+      dPList: []
+    }, code: {
+    }
+  };
+
+
   constructor(
     private userService: UserService
-    , private reportService: ReportService
     , private modalService: BsModalService
     , private groupService: GroupService
     , private roleService: RoleService
@@ -122,19 +137,24 @@ export class UserComponent implements AfterViewInit {
         tap((filter) => {
           //console.log('a', JSON.stringify(a), this.reportParam.searchTerm);
           if ((typeof filter) != "object") {
-            this.reportParam.searchTerm = filter.toString();
+            // this.tableViewParam.searchTerm = filter.toString();
+            this.reportParam.pagination.searchTerm = filter.toString();
             this.paginator.pageIndex = 0;
             this.paginator.pageSize = 10;
           }
         }),
         switchMap(() => {
           this.isLoadingResults = true;
-          this.reportParam.pageNumber = this.paginator.pageIndex + 1;
-          this.reportParam.pageSize = this.paginator.pageSize;
-          this.reportParam.sortColumn = this.sort.active;
-          this.reportParam.sortOrder = this.sort.direction;
-          return this.userService.list$(this.reportParam
-          )
+          // this.tableViewParam.pageNumber = this.paginator.pageIndex + 1;
+          // this.tableViewParam.pageSize = this.paginator.pageSize;
+          // this.tableViewParam.sortColumn = this.sort.active;
+          // this.tableViewParam.sortOrder = this.sort.direction;
+          // return this.userService.list$(this.tableViewParam)
+          this.reportParam.pagination.pageNumber = this.paginator.pageIndex + 1;
+          this.reportParam.pagination.pageSize = this.paginator.pageSize;
+          this.reportParam.pagination.sortColumn = this.sort.active;
+          this.reportParam.pagination.sortOrder = this.sort.direction;
+          return this.userService.list$(this.reportParam)
             .pipe(
               catchError(() => observableOf(null))
             );
@@ -192,7 +212,6 @@ export class UserComponent implements AfterViewInit {
   // mat-table
   applyFilter(event: Event) {
     this.filterValue = (event.target as HTMLInputElement).value;
-    console.log('filterValue', this.filterValue);
     this.filterSubject.next(this.filterValue);
   }
 
@@ -341,8 +360,32 @@ export class UserComponent implements AfterViewInit {
     this.modalRef?.hide();
   }
 
+  // onExport() {
+  //   this.reportService.get$({
+  //     detail: {
+  //       reportName: 'SearchStaffReport',
+  //       format: 'excel'
+  //     }, pagination: {
+  //     }, rcDp: {
+  //       rCList: ['1419'],
+  //       dPList: ['1419|BNP4', '1419|BNP5', '1419|BNP6']
+  //     }, code: {
+  //     }
+  //   }).subscribe((res) => {
+  //     let response = res as HttpResponse<Blob>
+  //     this._fileServer.save(response.body, 'test.xls')
+  //   });
+  // }
+
   onExport() {
-    this.reportService.staffListReport$().subscribe();
+
+    const initialState: ModalOptions = {
+      initialState: {
+        reportParam: this.reportParam
+      }
+    };
+
+    this.modalRef = this.modalService.show(ReportComponent, initialState);
   }
 
   onRoleSelect($event: Event) {
