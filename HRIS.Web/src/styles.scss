@@ -80,7 +80,7 @@ th.mat-header-cell {
 }
 
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
-  background-color: #0071ba!important;
+  background-color: #0071ba !important;
   color: white !important;
 }
 
@@ -91,6 +91,10 @@ th.mat-header-cell {
   font-weight: 600;
 }
 
+input[type="file"] {
+  height: auto;
+}
+
 /*.table-bordered th, .table-bordered td {
   border-color: #d9edf7 !important;
 }*/
@@ -98,7 +102,7 @@ th.mat-header-cell {
 $primary: #1d4288;
 $info: #0071ba;
 $secondary: #00a7e1;
-
+$light: gray;
 /*$danger: #dd0000;
 $success: lime;
 $warning: orange;
@@ -123,3 +127,14 @@ $body-bg: #f3f3f0;*/
 
 // @import "~@ng-select/ng-select/themes/material.theme.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
+
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px solid;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}

@@ -37,6 +37,10 @@ namespace HRIS.API
 
             CreateMap<EcardChart, EcardChartDto>();
 
+            CreateMap<Announcement, AnnouncementDto>();
+            CreateMap<AnnouncementList, AnnouncementListDto>();
+            CreateMap<AnnouncementSummary, AnnouncementSummaryDto>();
+
         }
     }
 }

@@ -45,6 +45,7 @@ namespace HRIS.API
             services.AddScoped<IRCRepository, RCRepository>();
             services.AddScoped<IDPRepository, DPRepository>();
             services.AddScoped<IEcardRepository, EcardRepository>();
+            services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
             //********Repository DI - end
 
             services.AddTransient<UserActionFilter>();

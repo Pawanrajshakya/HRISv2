@@ -1,0 +1,16 @@
+<div class="col-12">
+    <div class="col-4">
+      {{currentUser.lastName}}
+      <div style="display: block" *ngIf="ecardChart$ | async as ecardChart">
+        <canvas baseChart
+                [data]="ecardChart.barChartData"
+                [options]="ecardChart.barChartOptions"
+                [plugins]="ecardChart.barChartPlugins"
+                [type]="ecardChart.barChartType"
+                (chartHover)="chartHovered($event)">
+        </canvas>
+      </div>
+      <!--<button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button>-->
+    </div>
+  </div>
+  

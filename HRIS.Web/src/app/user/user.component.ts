@@ -1,8 +1,5 @@
-import { Component, AfterViewInit, ViewChild, Inject, TemplateRef } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { catchError, map, merge, startWith, Subject, switchMap, tap, of as observableOf, Observable } from 'rxjs';
-import { IReportParam } from '../_models/report-param';
+import { Component, AfterViewInit, TemplateRef } from '@angular/core';
+import { catchError, map, merge, startWith, Subject, switchMap, tap, of as observableOf } from 'rxjs';
 import { ISearchUser, IUser, IUserList } from '../_models/user';
 import { UserService } from '../_services/user.service';
 import { NgForm } from '@angular/forms';
@@ -13,68 +10,25 @@ import { IDP } from '../_models/IDP';
 import { GroupService } from '../_services/group.service';
 import { RoleService } from '../_services/role.service';
 import { CodeService } from '../_services/code.service';
-import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { NgSelectConfig } from '@ng-select/ng-select';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportComponent } from '../report/report.component';
+import { ToolBaseComponent } from '../base/tool-base.component';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements AfterViewInit {
+export class UserComponent extends ToolBaseComponent<IUserList> implements AfterViewInit {
 
-  /*SnackBar - config*/
-  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
-
-  /** Table */
-  displayedColumns: string[] = ['ein', 'firstName', 'role', 'lanid', 'emailAddress', 'editOption', 'deleteOption'];
-  data: IUserList[] = [];
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-  pageSizeOptions = [5, 10, 20, 50, 100];
-  //tableViewParam: ITableViewParam = { pageNumber: 1, pageSize: 10 };
-  private filterSubject = new Subject<string>();
-  filterAction$ = this.filterSubject.asObservable();
-  clickedRows = new Set<IUserList>();
-  filterValue: string = "";
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  /** Model */
-  modalRef?: BsModalRef;
-
-  config = {
-    backdrop: true,
-    ignoreBackdropClick: true,
-    class: 'modal-lg'
-  };
+  /** Table -- check in BaseComponent*/
 
   /* User Form - typeahead*/
   typeaheadUserInput$ = new Subject<string>();
   typeaheadSearchedUsers$: any;
   typeaheadSelectedUser: ISearchUser[] = [];
-
-  /* Dropdown */
-  groups: IGroup[] = [];
-  selectedGroup: number[] = [];
-
-  roles: IRole[] = [];
-
-  rcs: IRC[] = [];
-  selectedRC: string[] = [];
-
-  dps: IDP[] = [];
-  filteredDPs: IDP[] = [];
-  selectedDP: string[] = [];
 
   /* User Form */
   user: IUser = {
@@ -97,32 +51,16 @@ export class UserComponent implements AfterViewInit {
     isBusy: false
   }
 
-  //Report
-  reportParam: IReportParam = {
-    detail: {
-      reportName: 'UsersReport',
-      format: 'excel'
-    }, pagination: {
-      pageNumber: 1,
-      pageSize: 10
-    }, rcDp: {
-      rCList: [],
-      dPList: []
-    }, code: {
-    }
-  };
-
-
-  constructor(
-    private userService: UserService
+  constructor(private userService: UserService
     , private modalService: BsModalService
     , private groupService: GroupService
     , private roleService: RoleService
     , private codeService: CodeService
-    , private ngSelectConfig: NgSelectConfig
-    , private _snackBar: MatSnackBar) {
-    this.ngSelectConfig.appendTo = 'body';
-    this.ngSelectConfig.clearAllText = 'Clear';
+    , private __ngSelectConfig: NgSelectConfig
+    , protected _snackBar: MatSnackBar
+  ) {
+    super(__ngSelectConfig);
+    this.displayedColumns = ['ein', 'firstName', 'role', 'lanid', 'emailAddress', 'editOption', 'deleteOption'];
   }
 
   ngAfterViewInit() {
@@ -135,9 +73,7 @@ export class UserComponent implements AfterViewInit {
       .pipe(
         startWith({}),
         tap((filter) => {
-          //console.log('a', JSON.stringify(a), this.reportParam.searchTerm);
           if ((typeof filter) != "object") {
-            // this.tableViewParam.searchTerm = filter.toString();
             this.reportParam.pagination.searchTerm = filter.toString();
             this.paginator.pageIndex = 0;
             this.paginator.pageSize = 10;
@@ -145,11 +81,6 @@ export class UserComponent implements AfterViewInit {
         }),
         switchMap(() => {
           this.isLoadingResults = true;
-          // this.tableViewParam.pageNumber = this.paginator.pageIndex + 1;
-          // this.tableViewParam.pageSize = this.paginator.pageSize;
-          // this.tableViewParam.sortColumn = this.sort.active;
-          // this.tableViewParam.sortOrder = this.sort.direction;
-          // return this.userService.list$(this.tableViewParam)
           this.reportParam.pagination.pageNumber = this.paginator.pageIndex + 1;
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
@@ -209,17 +140,13 @@ export class UserComponent implements AfterViewInit {
     })
   }
 
-  // mat-table
-  applyFilter(event: Event) {
-    this.filterValue = (event.target as HTMLInputElement).value;
-    this.filterSubject.next(this.filterValue);
-  }
+
 
   onAddNew(template: TemplateRef<any>): void {
     this.userForm.message = "";
     this.userForm.title = "Add User";
     this.userForm.inEditMode = false;
-    this.modalRef = this.modalService.show(template, this.config);
+    this.modalRef = this.modalService.show(template, this.modalConfig);
   }
 
   onEdit(template: TemplateRef<any>, user: any): void {
@@ -227,10 +154,11 @@ export class UserComponent implements AfterViewInit {
     this.userForm.title = "Edit User";
     this.userForm.inEditMode = true;
     this.getUser(user.ein, user.isSuper);
-    this.modalRef = this.modalService.show(template, this.config);
+    this.modalRef = this.modalService.show(template, this.modalConfig);
   }
 
   private ClearUserForm() {
+
     this.user.ein = "";
     this.user.isSuper = false;
     this.user.firstName = "";
@@ -284,23 +212,25 @@ export class UserComponent implements AfterViewInit {
     this.user.ein = user.ein;
     this.user.firstName = user.firstName;
     this.user.lastName = user.lastName;
-    this.modalRef = this.modalService.show(template, this.config);
+    this.modalRef = this.modalService.show(template, this.modalConfig);
   }
 
   onDeleteConfirm(userID?: string) {
     if (userID !== undefined)
-      this.userService.delete$(userID).subscribe((data) => {
-        console.log("delete success", data);
-        this.filterSubject.next(this.filterValue);
-        this.ClearUserForm();
-        this.modalRef?.hide();
-      }, (error) => {
-        console.error(error.userMessage);
-        this._snackBar.open(error.userMessage, 'Close', {
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-          duration: 10000,
-        })
+      this.userService.delete$(userID).subscribe({
+        next: (data) => {
+          console.log("delete success", data);
+          this.filterSubject.next(this.filterValue);
+          this.ClearUserForm();
+          this.modalRef?.hide();
+        }, error: (error) => {
+          console.error(error.userMessage);
+          this._snackBar.open(error.userMessage, 'Close', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+            duration: 10000,
+          })
+        }
       });
   }
 
@@ -360,24 +290,9 @@ export class UserComponent implements AfterViewInit {
     this.modalRef?.hide();
   }
 
-  // onExport() {
-  //   this.reportService.get$({
-  //     detail: {
-  //       reportName: 'SearchStaffReport',
-  //       format: 'excel'
-  //     }, pagination: {
-  //     }, rcDp: {
-  //       rCList: ['1419'],
-  //       dPList: ['1419|BNP4', '1419|BNP5', '1419|BNP6']
-  //     }, code: {
-  //     }
-  //   }).subscribe((res) => {
-  //     let response = res as HttpResponse<Blob>
-  //     this._fileServer.save(response.body, 'test.xls')
-  //   });
-  // }
-
   onExport() {
+
+    this.reportParam.detail.reportName = "UsersReport";
 
     const initialState: ModalOptions = {
       initialState: {

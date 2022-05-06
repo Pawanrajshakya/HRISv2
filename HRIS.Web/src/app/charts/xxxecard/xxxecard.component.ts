@@ -1,16 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
-import { EcardService } from '../_services/ecard.service';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs/operators';
-import { UserService } from '../_services/user.service';
-import { ICurrentUser } from '../_models/user';
-import { IEcard, IEcardChart } from '../_models/ecard';
+import { IEcard, IEcardChart } from 'src/app/_models/ecard';
+import { ICurrentUser } from 'src/app/_models/user';
+import { EcardService } from 'src/app/_services/ecard.service';
+import { UserService } from 'src/app/_services/user.service';
 
 @Component({
-  selector: 'app-ecard',
-  templateUrl: './ecard.component.html',
-  styleUrls: ['./ecard.component.css']
+  selector: 'app-chart-ecard',
+  templateUrl: './chart-ecard.component.html',
+  styleUrls: ['./chart-ecard.component.css']
 })
 export class EcardComponent {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;

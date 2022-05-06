@@ -222,7 +222,7 @@
       </div>
       <div class="card-footer border-top border-primary">
         <button class="btn btn-primary btn-sm col-3 float-right" type="submit"
-          [disabled]="!f.valid || userForm.isBusy || !validateUserForm() || f.untouched" (click)="onSubmit(f)">Save</button>
+          [disabled]="!f.valid || userForm.isBusy || !validateUserForm()" (click)="onSubmit(f)">Save</button>
         <button class="btn btn-secondary btn-sm col-3 float-right mr-2 " (click)="onCancelClick()"
           [disabled]="userForm.isBusy">Cancel</button>
       </div>

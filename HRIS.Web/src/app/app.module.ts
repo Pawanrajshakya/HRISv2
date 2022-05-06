@@ -8,7 +8,6 @@ import { NgChartsModule } from 'ng2-charts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DeveloperComponent } from './developer/developer.component';
-import { EcardComponent } from './ecard/ecard.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { NavComponent } from './nav/nav.component';
@@ -23,17 +22,24 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxScrollTopModule } from 'ngx-scrolltop';
 import { FileSaverModule } from 'ngx-filesaver';
 import { ReportComponent } from './report/report.component';
+import { AnnouncementComponent } from './announcement/announcement.component';
+import { EcardChartComponent } from './charts/ecard-chart/ecard-chart.component';
+import { BaseComponent } from './base/base.component';
+import { ToolBaseComponent } from './base/tool-base.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    EcardComponent,
     DeveloperComponent,
     HomeComponent,
     ErrorComponent,
     UserComponent,
     ReportComponent,
+    AnnouncementComponent,
+    EcardChartComponent,
+    BaseComponent,
+    ToolBaseComponent,
   ],
   imports: [
     BrowserModule,

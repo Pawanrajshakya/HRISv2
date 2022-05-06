@@ -33,6 +33,9 @@ namespace HRIS.API
         public DbSet<UserGroup> UsersGroups { get; set; }
         public DbSet<RC> RC { get; set; }
         public DbSet<DP> DP { get; set; }
+        public DbSet<AnnouncementList> AnnouncementList { get; set; }
+        public DbSet<Announcement> Announcement { get; set; }
+        public DbSet<AnnouncementSummary> AnnouncementSummary { get; set; }
 
     }
 }

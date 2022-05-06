@@ -29,7 +29,12 @@ export class ReportComponent implements AfterViewInit {
       .subscribe({
         next: (res) => {
           let response = res as HttpResponse<Blob>;
-          this.fileServer.save(response.body, this.reportParam?.detail.reportName + '.xls');
+          if (this.reportParam?.detail.format === 'excel')
+            this.reportName = this.reportParam?.detail.reportName + '.xls';
+          else
+            this.reportName = this.reportParam?.detail.reportName + '.pdf';
+
+          this.fileServer.save(response.body, this.reportName);
         }, error: (error) => { }
         , complete: () => {
           this.modalService.hide(this.modalReportRef?.id);

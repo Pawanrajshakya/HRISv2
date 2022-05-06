@@ -51,7 +51,7 @@ namespace HRIS.API.Controllers
         [Route("list")]
         public ActionResult<IEnumerable<UserDto>> List(TableViewParameters parameters)
         {
-            return Ok(userRepository.Get(parameters));
+            return Ok(userRepository.Get(UserSession.Instance.User.UserID, parameters));
         }
 
         [HttpGet("search/{searchBy}/{isSuper:bool}")]
@@ -91,28 +91,28 @@ namespace HRIS.API.Controllers
             return Ok(userRepository.IsDeveloper(lanid));
         }
 
-        [HttpGet("report/{userID}")]
-        public ActionResult Report(string userID)
-        {
-            try
-            {
-                //url = url.Replace("\n", "");
-                //WebRequest request = WebRequest.Create(@"https://d2e1cldb16/reportserver/Pages/ReportViewer.aspx?/HRIS/development/UsersReport&UserID=" + userID + "&rs:Format=EXCEL");
-                WebRequest request = WebRequest.Create(@"https://d2e1cldb16/reportserver/Pages/ReportViewer.aspx?/HRIS/development/SearchStaffReport&UserID=" + userID + "&rs:Format=EXCEL");
+        //[HttpGet("report/{userID}")]
+        //public ActionResult Report(string userID)
+        //{
+        //    try
+        //    {
+        //        //url = url.Replace("\n", "");
+        //        //WebRequest request = WebRequest.Create(@"https://d2e1cldb16/reportserver/Pages/ReportViewer.aspx?/HRIS/development/UsersReport&UserID=" + userID + "&rs:Format=EXCEL");
+        //        WebRequest request = WebRequest.Create(@"https://d2e1cldb16/reportserver/Pages/ReportViewer.aspx?/HRIS/development/SearchStaffReport&UserID=" + userID + "&rs:Format=EXCEL");
 
-                NetworkCredential credentials = new NetworkCredential(@"OSRData", "Purple12");
-                request.Credentials = credentials;
+        //        NetworkCredential credentials = new NetworkCredential(@"OSRData", "Purple12");
+        //        request.Credentials = credentials;
 
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream stream = response.GetResponseStream();
+        //        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        //        Stream stream = response.GetResponseStream();
 
-                return File(stream, "application/excel");
+        //        return File(stream, "application/excel");
 
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }

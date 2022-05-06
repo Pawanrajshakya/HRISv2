@@ -8,25 +8,20 @@ using System.Threading.Tasks;
 
 namespace HRIS.API
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository, IUserRepository
     {
-        private readonly HRISDataContext _context;
-        private readonly IMapper _mapper;
         private readonly IGroupRepository _groupRepository;
 
-        public UserRepository(HRISDataContext context
-            , IMapper mapper
-            , IGroupRepository groupRepository)
+        public UserRepository(HRISDataContext context, IMapper mapper, IGroupRepository groupRepository)
+            : base(context, mapper)
         {
-            _context = context;
-            _mapper = mapper;
             _groupRepository = groupRepository;
         }
 
-        public UserDto Get(string userId)
+        public UserDto Get(string userID)
         {
             return _context.HRISUsers
-                .Where(x => x.UserID == userId && x.IsVisible == true)
+                .Where(x => x.UserID == userID && x.IsVisible == true)
                 .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefault();
         }
@@ -77,11 +72,9 @@ namespace HRIS.API
                 .SingleOrDefault();
         }
 
-        public IEnumerable<UserListDto> Get(TableViewParameters _reportParameters)
+        public IEnumerable<UserListDto> Get(string userID, TableViewParameters _reportParameters)
         {
-            string userID = UserSession.Instance.User.UserID;
-
-            List<UserListDto> userListDto = new List<UserListDto>();
+            List<UserListDto> dto = new List<UserListDto>();
 
             var sqlParameters = new SqlParameter[] {
                 new SqlParameter(){ParameterName= "@UserID", Value= userID},
@@ -92,15 +85,15 @@ namespace HRIS.API
                 new SqlParameter(){ParameterName= "@SearchTerm", Value= _reportParameters.SearchTerm??""}
             };
 
-            var userList = _context.UserList
+            var rows = _context.UserList
                 .FromSqlRaw($"EXECUTE dbo.spGetPagedUsers @UserID, @PageNumber, @PageSize, @SortColumn, @SortOrder, @SearchTerm", sqlParameters)
                 .ToList();
 
-            foreach (var user in userList)
+            foreach (var row in rows)
             {
-                userListDto.Add(_mapper.Map<UserListDto>(user));
+                dto.Add(_mapper.Map<UserListDto>(row));
             }
-            return userListDto;
+            return dto;
         }
 
         public IEnumerable<SearchUser> Search(string searchBy, bool isSuper)
