@@ -32,17 +32,13 @@ export interface IAnnouncement {
     updatedBy: string;
     isActive: boolean;
     isVisible: boolean;
-    roles: string;
+    roles: number[];
 }
 
 export interface IAnnouncementSummary {
-    id: number;
-    title: string;
-    content: string;
-    imageURL: string;
-    link: string;
-    createdBy: string;
-    dateCreated: string;
-    updatedBy: string;
-    dateUpdated: string;
+    id?: number;
+    title?: string;
+    content?: string;
+    imageURL?: string;
+    link?: string;
 }

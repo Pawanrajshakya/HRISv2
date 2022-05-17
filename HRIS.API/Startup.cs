@@ -20,16 +20,10 @@ namespace HRIS.API
         public Startup(IConfiguration config)
         {
             _config = config;
-
-            EmailManager.SmtpServer = _config["SMTPServer"];
-            EmailManager.From = _config["LogEmail:Sender"];
-            EmailManager.SendTo = _config["LogEmail:Receiver"];
-
-            ReportManager.Url = _config["Report:Url"].ToString().Replace('@', '/');
-            ReportManager.Path = _config["Report:Path"];
-            ReportManager.UserName = _config["Report:UserName"];
-            ReportManager.Password = _config["Report:Password"];
+            ShareManager.Prepare(_config);
         }
+
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -93,12 +87,16 @@ namespace HRIS.API
                     var exceptionHandlerPathFeature =
                         context.Features.Get<IExceptionHandlerPathFeature>();
 
-                    EmailManager.SendEmail("Error catched in " + env.ApplicationName + " " + env.EnvironmentName, 
+                    EmailManager.SendEmail(
+                        ShareManager.SmtpServer, 
+                        ShareManager.From, 
+                        ShareManager.SendTo, 
+                        "Error catched in " + env.ApplicationName + " " + env.EnvironmentName, 
                         exceptionHandlerPathFeature.Error.Message);
 
-                    var error = new { exceptionHandlerPathFeature.Error.Message};
+                    var error = new { message = exceptionHandlerPathFeature.Error.Message};
 
-                    await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(error)); //(exceptionHandlerPathFeature.Error.Message);
+                    await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(error, Newtonsoft.Json.Formatting.Indented)); //(exceptionHandlerPathFeature.Error.Message);
                 });
             });
 

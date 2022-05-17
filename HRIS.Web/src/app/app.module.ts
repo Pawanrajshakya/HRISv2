@@ -26,6 +26,9 @@ import { AnnouncementComponent } from './announcement/announcement.component';
 import { EcardChartComponent } from './charts/ecard-chart/ecard-chart.component';
 import { BaseComponent } from './base/base.component';
 import { ToolBaseComponent } from './base/tool-base.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { CarouselComponent } from './announcement/carousel/carousel.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,7 @@ import { ToolBaseComponent } from './base/tool-base.component';
     EcardChartComponent,
     BaseComponent,
     ToolBaseComponent,
+    CarouselComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +59,9 @@ import { ToolBaseComponent } from './base/tool-base.component';
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     NgxScrollTopModule,
-    FileSaverModule 
+    FileSaverModule,
+    BsDatepickerModule.forRoot(),
+    CarouselModule.forRoot()
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptorService, multi: true }],

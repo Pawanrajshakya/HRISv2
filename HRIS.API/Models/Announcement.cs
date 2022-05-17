@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HRIS.API
 {
@@ -41,8 +38,9 @@ namespace HRIS.API
         public int Priority { get; set; }
         public bool EmailSent { get; set; }
         public string CreatedBy { get; set; }
-        public string DateCreated { get; set; }
+        public DateTime? DateCreated { get; set; }
         public string UpdatedBy { get; set; }
+        public DateTime? DateUpdated { get; set; }
         public bool IsActive { get; set; }
         public bool IsVisible { get; set; }
         public string Roles { get; set; }
@@ -55,9 +53,9 @@ namespace HRIS.API
         public string Content { get; set; }
         public string ImageURL { get; set; }
         public string Link { get; set; }
-        public string CreatedBy { get; set; }
-        public string DateCreated { get; set; }
-        public string UpdatedBy { get; set; }
-        public string DateUpdated { get; set; }
+        //public string CreatedBy { get; set; }
+        //public string? DateCreated { get; set; }
+        //public string UpdatedBy { get; set; }
+        //public string? DateUpdated { get; set; }
     }
 }

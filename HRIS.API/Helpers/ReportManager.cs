@@ -6,10 +6,7 @@ namespace HRIS.API
 {
     public static class ReportManager
     {
-        public static string Url { get; set; }
-        public static string Path { get; set; }
-        public static string UserName { get; set; }
-        public static string Password { get; set; }
+
 
         public static Stream Get(ReportParameters parameters)
         {
@@ -36,18 +33,23 @@ namespace HRIS.API
             }
             _parameters.Append("&rs:Format=" + (parameters.Detail.Format ?? ""));
 
-            string _url = string.Format("{0}?{1}{2}{3}", Url, Path, parameters.Detail.ReportName, _parameters.ToString());
-
-            WebRequest request = WebRequest.Create(_url);
-
-            NetworkCredential credentials = new NetworkCredential(UserName, Password);
-            request.Credentials = credentials;
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream stream = response.GetResponseStream();
+            Stream stream = GetStream(parameters, _parameters);
 
             return stream;
         }
 
+        private static Stream GetStream(ReportParameters parameters, StringBuilder _parameters)
+        {
+            string _url = string.Format("{0}?{1}{2}{3}", ShareManager.Url, ShareManager.Path, parameters.Detail.ReportName, _parameters.ToString());
+
+            WebRequest request = WebRequest.Create(_url);
+
+            NetworkCredential credentials = new NetworkCredential(ShareManager.UserName, ShareManager.Password);
+            request.Credentials = credentials;
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            Stream stream = response.GetResponseStream();
+            return stream;
+        }
     }
 }

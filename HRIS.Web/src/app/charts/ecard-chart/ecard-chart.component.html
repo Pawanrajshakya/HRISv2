@@ -1,16 +1,14 @@
-<div class="col-12">
-    <div class="col-4">
-      {{currentUser.lastName}}
-      <div style="display: block" *ngIf="ecardChart$ | async as ecardChart">
-        <canvas baseChart
-                [data]="ecardChart.barChartData"
-                [options]="ecardChart.barChartOptions"
-                [plugins]="ecardChart.barChartPlugins"
-                [type]="ecardChart.barChartType"
-                (chartHover)="chartHovered($event)">
-        </canvas>
-      </div>
-      <!--<button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button>-->
+<div class="card border-info shadow">
+  <div class="card-header text-white bg-info border-info shadow">
+    <i class="bi bi-bar-chart-fill"></i> Cases Pending Disciplinary Action as of Today
+  </div>
+  <div class="card-body pb-0 pt-1">
+    <div style="display: block" *ngIf="ecardChart$ | async as ecardChart">
+      <canvas baseChart [data]="ecardChart.barChartData" [options]="ecardChart.barChartOptions"
+        [plugins]="ecardChart.barChartPlugins" [type]="ecardChart.barChartType" (chartHover)="chartHovered($event)">
+      </canvas>
     </div>
   </div>
-  
+</div>
+
+<!--<button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button>-->

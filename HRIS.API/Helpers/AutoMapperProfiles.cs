@@ -27,7 +27,7 @@ namespace HRIS.API
             CreateMap<Role, RoleDto>();
 
             CreateMap<Group, GroupDto>();
-            
+
             CreateMap<UserGroup, UserGroupDto>()
                 .ForMember(x => x.Description, y => y.MapFrom(z => z.Group.GroupDescription))
                 .AfterMap((s, d) => { s.GroupID = d.GroupID; });
@@ -37,7 +37,8 @@ namespace HRIS.API
 
             CreateMap<EcardChart, EcardChartDto>();
 
-            CreateMap<Announcement, AnnouncementDto>();
+            CreateMap<Announcement, AnnouncementDto>()
+                .ForMember(x => x.Roles, y => y.Ignore());
             CreateMap<AnnouncementList, AnnouncementListDto>();
             CreateMap<AnnouncementSummary, AnnouncementSummaryDto>();
 

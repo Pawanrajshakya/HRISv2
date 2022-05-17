@@ -99,10 +99,11 @@ input[type="file"] {
   border-color: #d9edf7 !important;
 }*/
 
-$primary: #1d4288;
-$info: #0071ba;
-$secondary: #00a7e1;
+$primary: #00468B;
+$info: #4cb5ca;
+$secondary: #128FC8;
 $light: gray;
+$warning: orange;
 /*$danger: #dd0000;
 $success: lime;
 $warning: orange;
@@ -137,4 +138,18 @@ $body-bg: #f3f3f0;*/
   border-top: 4px solid;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
+}
+
+.cdk-overlay-container {
+  position: fixed !important;
+  z-index: 2000 !important;
+}
+
+.carousel {
+  max-height: 210px !important;
+  min-height: 210px !important;
+}
+
+li.ng-star-inserted {
+  background-color: #1d4288;
 }

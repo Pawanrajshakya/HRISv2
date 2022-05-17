@@ -60,7 +60,7 @@ namespace HRIS.API
                 new SqlParameter(){ParameterName= "@UserID", Value= userID}
             };
 
-            var rows = _context.AnnouncementList
+            var rows = _context.AnnouncementSummary
                 .FromSqlRaw($"EXECUTE dbo.spGetAnnouncements @UserID", sqlParameters)
                 .ToList();
 
@@ -80,13 +80,30 @@ namespace HRIS.API
                 new SqlParameter(){ParameterName= "@ID", Value= ID },
             };
 
-            var rows = _context.AnnouncementList
+            var rows = _context.Announcement
                 .FromSqlRaw($"EXECUTE dbo.spGetAnnouncementByID @UserID, @ID", sqlParameters)
                 .ToList();
 
             foreach (var row in rows)
             {
-                dto.Add(_mapper.Map<AnnouncementDto>(row));
+                var announcement = _mapper.Map<AnnouncementDto>(row);
+
+                if (row.Roles != null)
+                {
+                    foreach (var item in row.Roles)
+                    {
+                        int.TryParse(item.ToString(), out int i);
+                        if (i > 0) announcement.Roles.Add(i);
+                    }
+                }
+
+                if (!announcement.DurationRestricted)
+                {
+                    announcement.DisplayAfter = "";
+                    announcement.DisplayUntil = "";
+                }
+
+                dto.Add(announcement);
             }
             return dto;
         }
@@ -129,14 +146,14 @@ namespace HRIS.API
                                 new SqlParameter("@DisplayUntil", announcement.DisplayUntil){},
                                 new SqlParameter("@Priority", announcement.Priority){},
                                 new SqlParameter("@EmailSent", announcement.EmailSent){},
-                                new SqlParameter("@CreatedBy", announcement.CreatedBy){},
-                                new SqlParameter("@Roles", string.Join(",", announcement.Roles)){},
+                                new SqlParameter("@UpdatedBy", announcement.UpdatedBy){},
+                                new SqlParameter("@Roles", string.Join(",", announcement.Roles.ToArray())){},
                                 new SqlParameter("@IsVisible", announcement.IsVisible){}
             };
 
             _context.Database.ExecuteSqlRaw($"EXECUTE @result = dbo.spUpdateAnnouncement " +
-                $"@Title, @Content, @ImageURL, @Link, @DurationRestricted, @DisplayAfter, " +
-                $"@DisplayUntil, @Priority, @EmailSent, @CreatedBy, @Roles, @IsVisible",
+                $"@ID, @Title, @Content, @ImageURL, @Link, @DurationRestricted, @DisplayAfter, " +
+                $"@DisplayUntil, @Priority, @EmailSent, @UpdatedBy, @Roles, @IsVisible",
                 sqlParameters);
 
             return (int)sqlParameters[0].Value >= 0;

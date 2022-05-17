@@ -55,7 +55,12 @@ namespace HRIS.API
                 body.Append(UserSession.LanID + " user not found.");
             }
 
-            EmailManager.SendEmail(subject, body.ToString());
+            EmailManager.SendEmail(
+                ShareManager.SmtpServer, 
+                ShareManager.From, 
+                ShareManager.SendTo, 
+                subject, 
+                body.ToString());
         }
 
     }

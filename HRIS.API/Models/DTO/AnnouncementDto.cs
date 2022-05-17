@@ -28,6 +28,10 @@ namespace HRIS.API
 
     public class AnnouncementDto
     {
+        public AnnouncementDto()
+        {
+            Roles = new List<int>();
+        }
         public int ID { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
@@ -41,9 +45,11 @@ namespace HRIS.API
         public string CreatedBy { get; set; }
         public string DateCreated { get; set; }
         public string UpdatedBy { get; set; }
+        public string DateUpdated { get; set; }
+
         public bool IsActive { get; set; }
         public bool IsVisible { get; set; }
-        public string[] Roles { get; set; }
+        public List<int> Roles { get; set; }
     }
     public class AnnouncementSummaryDto
     {

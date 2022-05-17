@@ -1,13 +1,16 @@
-import { AfterViewInit, Component, OnInit, TemplateRef } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgSelectConfig } from '@ng-select/ng-select';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
-import { BaseComponent } from '../base/base.component';
 import { ToolBaseComponent } from '../base/tool-base.component';
 import { IAnnouncement, IAnnouncementList } from '../_models/announcement';
+import { IRole } from '../_models/role';
 import { AnnouncementService } from '../_services/announcement.service';
+import { RoleService } from '../_services/role.service';
 
 @Component({
   selector: 'app-announcement',
@@ -20,9 +23,13 @@ export class AnnouncementComponent extends ToolBaseComponent<IAnnouncementList> 
   announcementForm = {
     inEditMode: false,
     message: "",
+    fileUploadMessage: "",
+    file: File,
     title: "",
     isBusy: false,
-    defaultImage: false
+    defaultImage: false,
+    bsStartDateValue: new Date(),
+    bsEndDateValue: new Date()
   }
 
   selectedAnnouncement = {
@@ -46,16 +53,33 @@ export class AnnouncementComponent extends ToolBaseComponent<IAnnouncementList> 
     updatedBy: '',
     isActive: true,
     isVisible: true,
-    roles: ''
+    roles: []
 
   };
 
+  bsConfig?: Partial<BsDatepickerConfig>;
+
+  applyTheme() {
+    // create new object on each property change
+    // so Angular can catch object reference change
+    this.bsConfig = Object.assign({}, { containerClass: "theme-blue", isAnimated: true });
+  }
+
+
+
+  // bsInlineRangeValue?: Date;
+
+  @ViewChild("fileUpload", { static: false }) fileUploadElement: ElementRef | undefined;
+
   constructor(private announcementService: AnnouncementService
+    , private roleService: RoleService
     , private modalService: BsModalService
     , private __ngSelectConfig: NgSelectConfig
     , protected _snackBar: MatSnackBar) {
     super(__ngSelectConfig);
     this.displayedColumns = ['id', 'title', 'priority', 'durationRestricted', 'status', 'updatedBy', 'dateUpdated', 'editOption', 'deleteOption'];
+    this.applyTheme();
+    //this.bsInlineRangeValue = []
   }
 
   ngAfterViewInit() {
@@ -106,9 +130,77 @@ export class AnnouncementComponent extends ToolBaseComponent<IAnnouncementList> 
         if (Array.isArray(data))
           this.data = data;
       });
+
+    this.roleService.roles$.subscribe((data) => {
+      let _data = data as IRole[];
+      if (_data.length > 0) {
+        _data.forEach((role) => {
+          //if (role.roleID != undefined && role.roleID < 6)
+          this.roles.push(role);
+        });
+      }
+    });
   }
 
   onSubmit(announcement: NgForm): void {
+
+    this.announcementForm.isBusy = true;
+    this.announcementForm.message = "";
+    
+    console.log(Date.parse(this.announcementForm.bsStartDateValue.toString()));
+
+    if (Date.parse(this.announcementForm.bsStartDateValue.toString()) > 0)
+      this.announcement.displayAfter = 
+      formatDate(this.announcementForm.bsStartDateValue.toString(), "MM/dd/yyyy", 'en-US');
+      
+    if (Date.parse(this.announcementForm.bsEndDateValue.toString()) > 0)
+      this.announcement.displayUntil = 
+      formatDate(this.announcementForm.bsEndDateValue.toString(), "MM/dd/yyyy", 'en-US');
+
+      console.log(this.announcement);
+
+    if (!this.announcementForm.inEditMode) {
+
+      this.announcementService.add$(this.announcement).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.filterSubject.next(this.filterValue);
+          this.modalRef?.hide();
+          this.ClearUserForm();
+        },
+        error: (error) => {
+          this.announcementForm.message = " - " + error.userMessage;
+          this._snackBar.open(error.userMessage, 'Close', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+            duration: 10000,
+          })
+        },
+        complete: () => {
+          this.announcementForm.isBusy = false;
+        }
+      })
+    } else {
+      this.announcementService.update$(this.announcement).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.filterSubject.next(this.filterValue);
+          this.modalRef?.hide();
+          this.ClearUserForm();
+        },
+        error: (error) => {
+          this.announcementForm.message = " - " + error.userMessage;
+          this._snackBar.open(error.userMessage, 'Close', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+            duration: 10000,
+          })
+        },
+        complete: () => {
+          this.announcementForm.isBusy = false;
+        }
+      })
+    }
   }
 
   public onPriorityClick(isUp: boolean, row: IAnnouncementList) {
@@ -137,6 +229,7 @@ export class AnnouncementComponent extends ToolBaseComponent<IAnnouncementList> 
 
   onCancelClick() {
     this.modalRef?.hide();
+    this.ClearUserForm();
   }
 
   onDelete(template: TemplateRef<any>, announcement: any): void {
@@ -172,12 +265,119 @@ export class AnnouncementComponent extends ToolBaseComponent<IAnnouncementList> 
     this.modalRef = this.modalService.show(template, this.modalConfig);
   }
 
-  validateUserForm(): boolean {
+  onEdit(template: TemplateRef<any>, id: number) {
+    console.log(id);
+
+    this.announcementService.get$(id).subscribe({
+      next: (data) => {
+        var _data = (data as IAnnouncement[])[0];
+        console.log(_data, _data.imageURL);
+        this.announcementForm.inEditMode = true;
+
+        this.announcementForm.title = "Edit Announcement";
+
+        this.announcementForm.defaultImage = _data.imageURL !== undefined ? _data.imageURL.toLowerCase().indexOf('default.jpg') > 0 : false;
+
+        this.announcementForm.bsStartDateValue = new Date(_data.displayAfter);
+        this.announcementForm.bsEndDateValue = new Date(_data.displayUntil);
+        this.announcement.durationRestricted = _data.durationRestricted;
+
+        this.announcement.id = _data.id;
+        this.announcement.title = _data.title;
+        this.announcement.content = _data.content;
+        this.announcement.imageURL = _data.imageURL;
+        this.announcement.link = _data.link;
+        this.announcement.priority = _data.priority;
+        this.announcement.roles = _data.roles;
+
+        this.modalRef = this.modalService.show(template, this.modalConfig);
+
+      },
+      error: (error) => {
+        this._snackBar.open(error.userMessage, 'Close', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          duration: 10000,
+        });
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  validateForm(): boolean {
     let isValid = false;
-
-    //isValid = (this.user.firstName.length > 0) && (this.user.lastName.length > 0)
-
+    isValid = !this.announcementForm.defaultImage && (this.announcement.imageURL === "");
     return isValid;
-    // return false;
+  }
+
+  fileChange(e: Event) {
+    this.announcementForm.fileUploadMessage = "";
+
+    const target = e.target as HTMLInputElement;
+    const file = (target.files as FileList)[0];
+
+
+    console.log(file);
+
+    if (file !== undefined) {
+      var isImage = file.name.match(/.(jpg|png|jpeg)$/i);
+      if (isImage === null) {
+        this.announcementForm.fileUploadMessage = "Invalid Image.";
+        return;
+      }
+
+      var formData = new FormData();
+      formData.append("file", file, file.name);
+
+      this.announcementService.upload$(0, formData).subscribe({
+        next: (data) => {
+          this.announcement.imageURL = data as string;
+        },
+        error: (error) => {
+          this.announcementForm.fileUploadMessage = error.userMessage;
+        },
+        complete: () => {
+
+        }
+      });
+
+      console.log(isImage);
+    }
+
+  }
+
+  defaultImageChange() {
+    this.announcementForm.fileUploadMessage = "";
+    this.announcement.imageURL = "";
+  }
+
+  private ClearUserForm() {
+    this.announcementForm.inEditMode = false;
+    this.announcementForm.message = "";
+    this.announcementForm.fileUploadMessage = "";
+    this.announcementForm.title = "Add Announcement";
+    this.announcementForm.isBusy = false;
+    this.announcementForm.defaultImage = false;
+    this.announcementForm.bsStartDateValue = new Date();
+    this.announcementForm.bsEndDateValue = new Date()
+    this.announcement.roles = [];
+    this.announcement.id = 0;
+    this.announcement.title = '';
+    this.announcement.content = '';
+    this.announcement.imageURL = '';
+    this.announcement.link = '';
+    this.announcement.durationRestricted = false;
+    this.announcement.displayAfter = '';
+    this.announcement.displayUntil = '';
+    this.announcement.priority = 0;
+    this.announcement.emailSent = false;
+    this.announcement.createdBy = '';
+    this.announcement.dateCreated = '';
+    this.announcement.updatedBy = '';
+    this.announcement.isActive = true;
+    this.announcement.isVisible = true;
+    this.announcement.roles = [];
   }
 }
