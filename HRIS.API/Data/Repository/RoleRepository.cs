@@ -5,6 +5,12 @@ using System.Linq;
 
 namespace HRIS.API
 {
+    public interface IRoleRepository
+    {
+        public RoleDto Get(int roleID);
+        public IEnumerable<RoleDto> Get();
+    }
+
     public class RoleRepository : IRoleRepository
     {
         private readonly HRISDataContext _context;

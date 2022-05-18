@@ -1,11 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HRIS.API
 {
+    public interface IEcardRepository
+    {
+        public Task<List<EcardChartDto>> GetChartAsync();
+    }
+
     public class EcardRepository : IEcardRepository
     {
         private readonly GDSDataContext _gDSDataContext;
@@ -21,10 +26,10 @@ namespace HRIS.API
             _rcRepository = rcRepository;
         }
 
-        public List<EcardChartDto> Get()
+        public async Task<List<EcardChartDto>> GetChartAsync()
         {
             int roleId = UserSession.Instance.User.RoleID;
-            string rc = ConvertToString((_rcRepository.Get(UserSession.Instance.User.UserID)).Select(x=>x.Code).ToList());
+            string rc = Utility.ConvertToString((_rcRepository.Get(UserSession.Instance.User.UserID)).Select(x=>x.Code).ToList());
             string dp = "";
 
             List<EcardChartDto> ecardChartDtos
@@ -45,27 +50,9 @@ namespace HRIS.API
             {
                 ecardChartDtos.Add(new EcardChartDto { Data = item.Data, Date = item.Date.ToString(), Labels = item.Created });
             }
-            return ecardChartDtos;
+            return await Task.Run(() => ecardChartDtos);
         }
 
-        public static string ConvertToString(object o)
-        {
-            if (o == null)
-            {
-                if (o is DateTime)
-                    return null;
-                return string.Empty;
-            }
-            else if (o.GetType() == typeof(List<string>))
-            {
-                return string.Join(",", (List<string>)o);
-            }
-            else if (o.GetType() == typeof(IEnumerable<string>))
-            {
-                return string.Join(",", (IEnumerable<string>)o);
-            }
-            else
-                return o.ToString();
-        }
+        
     }
 }

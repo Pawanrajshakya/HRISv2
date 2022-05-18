@@ -36,6 +36,7 @@ namespace HRIS.API
         public DbSet<AnnouncementList> AnnouncementList { get; set; }
         public DbSet<Announcement> Announcement { get; set; }
         public DbSet<AnnouncementSummary> AnnouncementSummary { get; set; }
+        public DbSet<AgencyHeadcountChart> AgencyHeadcountChart { get; set; }
 
     }
 }

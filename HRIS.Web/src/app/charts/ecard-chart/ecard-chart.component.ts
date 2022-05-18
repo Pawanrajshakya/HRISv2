@@ -15,7 +15,11 @@ import { UserService } from 'src/app/_services/user.service';
 export class EcardChartComponent {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+
   currentUser: ICurrentUser;
+
+  today = new Date().toLocaleDateString();
+
   ecardChart$ = this.ecardService.eCards$.pipe<IEcardChart>(
     map(ecards => {
 
@@ -45,11 +49,11 @@ export class EcardChartComponent {
         console.log(data, '1');
       }) : "";//handle error;
 
-
+      // , '#037bc0', '#02af57', '#4A235A', '#FC4F4F', '#FC6228', '#B7950B', '#BA4A00', '#5F6A6A', '#8B1A1A'
       barChartData.datasets.push({
         data: data,
         label: '',
-        backgroundColor: ['#f1ab41', '#037bc0', '#02af57', '#4A235A', '#FC4F4F', '#FC6228', '#B7950B', '#BA4A00', '#5F6A6A', '#8B1A1A'],
+        backgroundColor: ['#f1ab41'],
         borderColor: 'white',
         borderWidth: 2,
         hoverBackgroundColor: 'rgba(241,171,65,1)',

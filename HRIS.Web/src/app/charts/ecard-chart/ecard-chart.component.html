@@ -1,14 +1,28 @@
 <div class="card border-info shadow">
   <div class="card-header text-white bg-info border-info shadow">
-    <i class="bi bi-bar-chart-fill"></i> Cases Pending Disciplinary Action as of Today
+    <i class="bi bi-bar-chart-fill"></i> Agency Total # of E-cards Sent. As of {{today}}
   </div>
   <div class="card-body pb-0 pt-1">
     <div style="display: block" *ngIf="ecardChart$ | async as ecardChart">
       <canvas baseChart [data]="ecardChart.barChartData" [options]="ecardChart.barChartOptions"
         [plugins]="ecardChart.barChartPlugins" [type]="ecardChart.barChartType" (chartHover)="chartHovered($event)">
       </canvas>
+      <!-- {{ecardChart.barChartData | json}} -->
+      <div>
+        <table class="table table-sm table-hover">
+          <!-- <caption>List of users</caption> -->
+          <tbody>
+            <tr class="bg-info shadow ">
+              <!-- <td></td> -->
+              <td class="text-center text-white " *ngFor="let item of ecardChart.barChartData.labels">{{item}}</td>
+            </tr>
+            <tr>
+              <!-- <td>Monthly Data</td> -->
+              <td class="text-center" *ngFor="let item of ecardChart.barChartData.datasets[0].data">{{item ?? 0}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
-
-<!--<button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button>-->

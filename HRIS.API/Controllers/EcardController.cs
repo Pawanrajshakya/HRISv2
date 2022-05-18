@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRIS.API.Controllers
@@ -16,10 +17,9 @@ namespace HRIS.API.Controllers
         }
 
         [HttpPost]
-        //[ServiceFilter(typeof(UserActionFilter))]
-        public ActionResult<List<EcardChartDto>> Get()
+        public async Task<ActionResult<List<EcardChartDto>>> GetAsync()
         {
-            return _ecardRepository.Get();
+            return await _ecardRepository.GetChartAsync();
         }
     }
 }
