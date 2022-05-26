@@ -22,6 +22,12 @@ namespace HRIS.API
                     ContentType = "application/excel";
                 }
 
+                if (value.ToUpper() == "EXCELOPENXML")
+                {
+                    format = "ExcelOpenXml";
+                    ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                }
+
                 if (value.ToUpper() == "PDF")
                 {
                     format = "Pdf";
@@ -92,7 +98,7 @@ namespace HRIS.API
                 if (!IsAgencyWise)
                 {
                     return Utility.ConvertToString(
-                        _rCRepository.Get(UserSession.Instance.User.UserID)
+                        _rCRepository.GetAsync(UserSession.Instance.User.UserID).Result
                         .Select(s => s.Code)
                         .ToList()
                         );
@@ -111,7 +117,7 @@ namespace HRIS.API
                 if (!IsAgencyWise)
                 {
                     return Utility.ConvertToString(
-                        _dPRepository.Get()
+                        _dPRepository.GetAsync().Result
                         .Select(s => s.DPCode)
                         .ToList()
                         );

@@ -22,8 +22,11 @@ export class BaseService {
 
     if (err.error instanceof ErrorEvent) {
       this.hrisError.message = `Status: ${err.status} Message: ${err.message} Error Message: ${err.error.message}`;
-    } else {
+    } else if (err.error !== undefined && err.error !== null) {
       this.hrisError.message = `Message: ${err.error.message === undefined ? err.error : err.error.message}`;
+    } else {
+      this.hrisError.message = err.url + " -> "  + err.status + " -> " + err.statusText;
+      this.hrisError.userMessage = err.status + " -> " + err.statusText + ". Internal Error.";
     }
 
     if (userMessage !== undefined && userMessage.length > 0) {

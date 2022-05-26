@@ -6,10 +6,15 @@ export interface ITableViewParam {
   searchTerm?: string;
 }
 
+export interface IReportFormat {
+  mimeType: string,
+  extension: string
+}
+
 export interface IReportParam {
   detail: {
     reportName: string;
-    format: string;
+    format: IReportFormat;
     userID?: string;
   },
   pagination: {

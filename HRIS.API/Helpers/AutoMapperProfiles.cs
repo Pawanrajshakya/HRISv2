@@ -8,15 +8,15 @@ namespace HRIS.API
         {
             CreateMap<LoginUser, UserDto>();
 
-            CreateMap<HRISUser, UserDto>()
-                .ForMember(x => x.UserGroups, y => y.MapFrom(z => z.UsersGroups))
-                .AfterMap((s, d) =>
-                {
-                    foreach (var i in d.UserGroups)
-                    {
-                        i.UserID = s.UserID;
-                    }
-                });
+            CreateMap<HRISUser, UserDto>();
+                //.ForMember(x => x.UserGroups, y => y.MapFrom(z => z.UsersGroups))
+                //.AfterMap((s, d) =>
+                //{
+                //    foreach (var i in d.UserGroups)
+                //    {
+                //        i.UserID = s.UserID;
+                //    }
+                //});
 
             CreateMap<UserList, UserListDto>();
 
@@ -43,6 +43,7 @@ namespace HRIS.API
             CreateMap<AnnouncementSummary, AnnouncementSummaryDto>();
 
             CreateMap<AgencyHeadcountChart, AgencyHeadcountChartDto>();
+            CreateMap<Team_PendingCasesChart, Team_PendingCasesChartDto>();
 
         }
     }

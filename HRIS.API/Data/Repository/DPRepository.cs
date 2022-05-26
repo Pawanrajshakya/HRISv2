@@ -11,7 +11,7 @@ namespace HRIS.API
     public interface IDPRepository
     {
         public Task<IEnumerable<DPDto>> GetAsync();
-        public IEnumerable<DPDto> Get(string userid = null);
+        public Task<IEnumerable<DPDto>> GetAsync(string userid = null);
         public Task<IEnumerable<DPDto>> GetByUserIDAsync(string userid, string rc = "");
     }
     public class DPRepository : IDPRepository
@@ -25,14 +25,14 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public IEnumerable<DPDto> Get(string userid = null)
+        public async Task<IEnumerable<DPDto>> GetAsync(string userid = null)
         {
             var _userId = new SqlParameter("@UserID", userid ?? UserSession.Instance.User.UserID);
             var rC = new SqlParameter("@RC", "");
             var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID, @RC", _userId, rC)
                 .ProjectTo<DPDto>(_mapper.ConfigurationProvider)
                 .ToList();
-            return DPs;
+            return await Task.Run(() => DPs);
         }
 
         public async Task<IEnumerable<DPDto>> GetAsync()

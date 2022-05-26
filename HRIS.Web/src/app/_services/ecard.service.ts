@@ -9,7 +9,7 @@ import { BaseService } from './base.service';
 })
 export class EcardService extends BaseService {
 
-  eCards$ = this.httpClient.post<IEcard[]>(this.url + "Ecard", null).pipe(
+  eCards$ = this.httpClient.post<IEcard[]>(this.url + "Ecard/GetChartAsync", null).pipe(
     tap(data => console.log('Ecards >> ', JSON.stringify(data))),
     catchError(err => this.handleError(err)) //error handling
   );

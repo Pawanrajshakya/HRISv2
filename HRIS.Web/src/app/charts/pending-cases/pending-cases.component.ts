@@ -1,29 +1,29 @@
-import { formatNumber } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
-import { NgSelectConfig } from '@ng-select/ng-select';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { map } from 'rxjs/operators';
-import { IEcard, IChartData } from 'src/app/_models/ecard';
+import { map } from 'rxjs';
+import { IChartData } from 'src/app/_models/ecard';
+import { IPendingCasesChart } from 'src/app/_models/team';
 import { ICurrentUser } from 'src/app/_models/user';
-import { EcardService } from 'src/app/_services/ecard.service';
+import { TeamService } from 'src/app/_services/team.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
-  selector: 'app-ecard-chart',
-  templateUrl: './ecard-chart.component.html',
-  styleUrls: ['./ecard-chart.component.scss']
+  selector: 'app-pending-cases',
+  templateUrl: './pending-cases.component.html',
+  styleUrls: ['./pending-cases.component.scss']
 })
-export class EcardChartComponent {
+export class PendingCasesComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   currentUser: ICurrentUser;
 
-  today = new Date().toLocaleDateString();
+  
+  pendingCases$ = this.teamService.pendingCasesChart$.pipe<IChartData>(
+    map(rows => {
 
-  ecardChart$ = this.ecardService.eCards$.pipe<IChartData>(
-    map(ecards => {
+      console.log('>', rows);
 
       let data: Array<number> = [];
       let barChartData: ChartData<'bar'> = { labels: [], datasets: [] };
@@ -45,9 +45,9 @@ export class EcardChartComponent {
 
       let barChartType: ChartType = 'bar';
 
-      Array.isArray(ecards) ? ecards.forEach((ecard: IEcard) => {
-        barChartData.labels?.push(ecard.labels);
-        data.push(ecard.data);
+      Array.isArray(rows) ? rows.forEach((row: IPendingCasesChart) => {
+        barChartData.labels?.push(row.groupDescription);
+        data.push(row.count);
       }) : "";//handle error;
 
       // , '#037bc0', '#02af57', '#4A235A', '#FC4F4F', '#FC6228', '#B7950B', '#BA4A00', '#5F6A6A', '#8B1A1A'
@@ -69,12 +69,12 @@ export class EcardChartComponent {
       } as IChartData;
     }));
 
-  constructor(private ecardService: EcardService, private userService: UserService, private ngSelect: NgSelectConfig) {
+  constructor(private teamService: TeamService,
+    private userService: UserService) {
     this.currentUser = this.userService.currentUser;
   }
 
-  public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    console.log(event?.type, active ? active[0] : undefined);
+  ngOnInit(): void {
   }
 
 }

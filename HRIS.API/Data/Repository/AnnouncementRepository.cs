@@ -10,7 +10,7 @@ namespace HRIS.API
     public interface IAnnouncementRepository
     {
         public IEnumerable<AnnouncementListDto> GetList(string userID, TableViewParameters _reportParameters);
-        public Task<IEnumerable<AnnouncementSummaryDto>> Get(string userID);
+        public Task<IEnumerable<AnnouncementSummaryDto>> GetAsync(string userID);
         public IEnumerable<AnnouncementDto> Get(string userID, int ID);
         public bool Add(AnnouncementDto announcement);
         public bool Update(AnnouncementDto announcement);
@@ -31,7 +31,7 @@ namespace HRIS.API
                                 new SqlParameter("@Title", announcement.Title){},
                                 new SqlParameter("@Content", announcement.Content){},
                                 new SqlParameter("@ImageURL", announcement.ImageURL){},
-                                new SqlParameter("@Link", announcement.Link){},
+                                new SqlParameter("@Link", announcement.Link ?? ""){},
                                 new SqlParameter("@DurationRestricted", announcement.DurationRestricted){},
                                 new SqlParameter("@DisplayAfter", announcement.DisplayAfter){},
                                 new SqlParameter("@DisplayUntil", announcement.DisplayUntil){},
@@ -63,7 +63,7 @@ namespace HRIS.API
             return (int)sqlParameters[0].Value >= 0;
         }
 
-        public async Task<IEnumerable<AnnouncementSummaryDto>> Get(string userID)
+        public async Task<IEnumerable<AnnouncementSummaryDto>> GetAsync(string userID)
         {
             List<AnnouncementSummaryDto> dto = new List<AnnouncementSummaryDto>();
 
@@ -151,7 +151,7 @@ namespace HRIS.API
                                 new SqlParameter("@Title", announcement.Title){},
                                 new SqlParameter("@Content", announcement.Content){},
                                 new SqlParameter("@ImageURL", announcement.ImageURL){},
-                                new SqlParameter("@Link", announcement.Link){},
+                                new SqlParameter("@Link", announcement.Link ?? ""){},
                                 new SqlParameter("@DurationRestricted", announcement.DurationRestricted){},
                                 new SqlParameter("@DisplayAfter", announcement.DisplayAfter){},
                                 new SqlParameter("@DisplayUntil", announcement.DisplayUntil){},

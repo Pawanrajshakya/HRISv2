@@ -6,8 +6,6 @@ namespace HRIS.API
 {
     public static class ReportManager
     {
-
-
         public static Stream Get(ReportParameters parameters)
         {
             StringBuilder _parameters = new StringBuilder();

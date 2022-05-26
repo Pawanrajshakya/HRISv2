@@ -14,14 +14,14 @@ import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportComponent } from '../report/report.component';
-import { ToolBaseComponent } from '../base/tool-base.component';
+import { ModalBaseComponent } from '../base/tool-base.component';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent extends ToolBaseComponent<IUserList> implements AfterViewInit {
+export class UserComponent extends ModalBaseComponent<IUserList> implements AfterViewInit {
 
   /** Table -- check in BaseComponent*/
 
@@ -56,10 +56,10 @@ export class UserComponent extends ToolBaseComponent<IUserList> implements After
     , private groupService: GroupService
     , private roleService: RoleService
     , private codeService: CodeService
-    , private __ngSelectConfig: NgSelectConfig
+    , private ngSelectConfig: NgSelectConfig
     , protected _snackBar: MatSnackBar
   ) {
-    super(__ngSelectConfig);
+    super();
     this.displayedColumns = ['ein', 'firstName', 'role', 'lanid', 'emailAddress', 'editOption', 'deleteOption'];
   }
 

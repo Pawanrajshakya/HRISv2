@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace HRIS.API.Controllers
 {
@@ -15,15 +16,15 @@ namespace HRIS.API.Controllers
         }
 
         [HttpGet("{roleID}")]
-        public ActionResult Get(int roleID)
+        public async Task<ActionResult> GetAsync(int roleID)
         {
-            return Ok(roleRepository.Get(roleID));
+            return Ok(await roleRepository.GetAsync(roleID));
         }
 
         [HttpGet]
-        public ActionResult Get()
+        public async Task<ActionResult> GetAsync()
         {
-            return Ok(roleRepository.Get());
+            return Ok(await roleRepository.GetAsync());
         }
     }
 }

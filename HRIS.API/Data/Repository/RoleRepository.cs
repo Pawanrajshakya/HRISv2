@@ -2,13 +2,14 @@
 using AutoMapper.QueryableExtensions;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HRIS.API
 {
     public interface IRoleRepository
     {
-        public RoleDto Get(int roleID);
-        public IEnumerable<RoleDto> Get();
+        public Task<RoleDto> GetAsync(int roleID);
+        public Task<IEnumerable<RoleDto>> GetAsync();
     }
 
     public class RoleRepository : IRoleRepository
@@ -22,20 +23,22 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public RoleDto Get(int roleID)
+        public async Task<RoleDto> GetAsync(int roleID)
         {
-            return _context.Roles
+            RoleDto dto = _context.Roles
                 .Where(x => x.RoleID == roleID && x.IsVisible == true)
                 .ProjectTo<RoleDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefault();
+
+            return await Task.Run(() => dto);
         }
 
-        public IEnumerable<RoleDto> Get()
+        public async Task<IEnumerable<RoleDto>> GetAsync()
         {
-            return _context.Roles
+            return await Task.Run(() => _context.Roles
                 .Where(x => x.IsVisible == true)
                 .ProjectTo<RoleDto>(_mapper.ConfigurationProvider)
-                .ToList();
+                .ToList());
         }
     }
 }

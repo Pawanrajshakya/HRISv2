@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HRIS.API
 {
@@ -19,7 +20,7 @@ namespace HRIS.API
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var user = _userRepository.GetByLanID(UserSession.LanID);
+            var user = _userRepository.Get(UserSession.LanID);
 
             if (user == null)
                 context.Result = new UnauthorizedResult();
@@ -45,10 +46,10 @@ namespace HRIS.API
                 body.Append("<b>User IsSuper: </b>" + user.IsSuper.ToString() + "<br/>");
                 body.Append("<b>User RoleID: </b>" + user.RoleID.ToString() + "<br/>");
                 body.Append("<b>User EmailAddress: </b>" + user.EmailAddress + "<br/>");
-                if (user.Role != null)
-                    body.Append("<b>User Role: </b>" + user.Role.Description + "<br/>");
-                if (user.UserGroups != null)
-                    body.Append("<b>Groups: </b>" + string.Concat(user.UserGroups.Select(x => x.Description + ",").ToArray()));
+                //if (user.Role != null)
+                //    body.Append("<b>User Role: </b>" + user.Role.Description + "<br/>");
+                //if (user.UserGroups != null)
+                //    body.Append("<b>Groups: </b>" + string.Concat(user.UserGroups.Select(x => x.Description + ",").ToArray()));
             }
             else
             {

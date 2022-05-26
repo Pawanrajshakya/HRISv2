@@ -21,6 +21,10 @@ namespace HRIS.API
             {
                 return string.Join(",", (IEnumerable<string>)o);
             }
+            else if (o.GetType() == typeof(IEnumerable<string>))
+            {
+                return string.Join(",", (IEnumerable<string>)o);
+            }
             else
                 return o.ToString();
         }

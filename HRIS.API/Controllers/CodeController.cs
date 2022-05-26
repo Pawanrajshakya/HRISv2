@@ -22,7 +22,7 @@ namespace HRIS.API.Controllers
 
         [HttpGet]
         [Route("rc/{userid?}")]
-        public async Task<ActionResult> GetRC(string userid = null)
+        public async Task<ActionResult> GetRCAsync(string userid = null)
         {
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
@@ -32,7 +32,7 @@ namespace HRIS.API.Controllers
 
         [HttpGet]
         [Route("dp/{userid?}/{rc?}")]
-        public async Task<ActionResult> GetDPByUserIDAndRC(string userid = null, string rc = null)
+        public async Task<ActionResult> GetDPByUserIDAndRCAsync(string userid = null, string rc = null)
         {
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;

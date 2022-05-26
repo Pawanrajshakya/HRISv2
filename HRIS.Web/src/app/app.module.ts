@@ -25,10 +25,12 @@ import { ReportComponent } from './report/report.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { EcardChartComponent } from './charts/ecard-chart/ecard-chart.component';
 import { BaseComponent } from './base/base.component';
-import { ToolBaseComponent } from './base/tool-base.component';
+import { ModalBaseComponent } from './base/tool-base.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { CarouselComponent } from './announcement/carousel/carousel.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { HeadcountComponent } from './charts/headcount/headcount.component';
+import { PendingCasesComponent } from './charts/pending-cases/pending-cases.component';
 
 @NgModule({
   declarations: [
@@ -42,8 +44,10 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     AnnouncementComponent,
     EcardChartComponent,
     BaseComponent,
-    ToolBaseComponent,
+    ModalBaseComponent,
     CarouselComponent,
+    HeadcountComponent,
+    PendingCasesComponent
   ],
   imports: [
     BrowserModule,

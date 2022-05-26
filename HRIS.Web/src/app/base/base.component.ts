@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { IGroup } from '../_models/group';
 import { IDP } from '../_models/IDP';
 import { IRC } from '../_models/IRC';
-import { IReportParam } from '../_models/report-param';
+import { IReportFormat, IReportParam } from '../_models/report-param';
 import { IRole } from '../_models/role';
 
 @Component({
@@ -20,7 +20,7 @@ import { IRole } from '../_models/role';
   styles: [
   ]
 })
-export class BaseComponent<T> implements OnInit {
+export class BaseComponent<T> {
 
   /*SnackBar - config*/
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
@@ -57,10 +57,17 @@ export class BaseComponent<T> implements OnInit {
   selectedDP: string[] = [];
 
   //Report
+  reportFormat: IReportFormat[] =
+    [
+      { mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', extension: '.xlsx' },
+      { mimeType: 'application/excel', extension: '.xls' },
+      { mimeType: 'application/pdf', extension: '.pdf' },
+    ];
+
   reportParam: IReportParam = {
     detail: {
       reportName: '',
-      format: 'excel'
+      format: this.reportFormat[0]
     }, pagination: {
       pageNumber: 1,
       pageSize: 10
@@ -71,20 +78,15 @@ export class BaseComponent<T> implements OnInit {
     }
   };
 
-  constructor(private ngSelectConfig: NgSelectConfig) {
-    this.ngSelectConfig.appendTo = 'body';
-    this.ngSelectConfig.clearAllText = 'Clear';
+  constructor() {
+    //this.ngSelectConfig.appendTo = 'body';
+    //this.ngSelectConfig.clearAllText = 'Clear';
   }
 
   // mat-table
   applyFilter(event: Event) {
     this.filterValue = (event.target as HTMLInputElement).value;
     this.filterSubject.next(this.filterValue);
-  }
-
-
-  ngOnInit(): void {
-
   }
 
 }

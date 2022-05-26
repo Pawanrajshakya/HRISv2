@@ -10,81 +10,64 @@ namespace HRIS.API
 {
     public interface IUserRepository
     {
-        public UserDto Get(string userID);
-        public UserDto GetByLanID(string lanID);
-        public IEnumerable<UserDto> Get();
-        public IEnumerable<UserDto> Get(int roleID, int groupID);
+        public Task<UserDto> GetAsync(string lanID);
+        public UserDto Get(string lanID);
+        public Task<GetUserByEINDto> GetAsync(string ein, bool isSuper);
+        //public Task<IEnumerable<UserDto>> Get(int roleID, int groupID);
         public IEnumerable<UserListDto> Get(string userID, TableViewParameters _reportParameters);
-        public IEnumerable<SearchUser> Search(string searchBy, bool isSuper);
-        //public IEnumerable<GetUserByEINDto> GetUserByEIN(string ein, bool isSuper);
-        public Task<GetUserByEINDto> GetUserByEINAsync(string ein, bool isSuper);
+        public Task<IEnumerable<SearchUser>> SearchAsync(string searchBy, bool isSuper);
         public bool Add(UserDtoToAddAndUpdate user);
         public bool Update(UserDtoToAddAndUpdate user);
         public bool Delete(string userID);
-        public bool IsDeveloper(string lanID);
+        public Task<bool> IsDeveloperAsync(string lanID);
     }
     public class UserRepository : Repository, IUserRepository
     {
         private readonly IGroupRepository _groupRepository;
+        private readonly IRoleRepository _roleRepository;
 
-        public UserRepository(HRISDataContext context, IMapper mapper, IGroupRepository groupRepository)
+        public UserRepository(HRISDataContext context
+            , IMapper mapper
+            , IGroupRepository groupRepository
+            , IRoleRepository roleRepository)
             : base(context, mapper)
         {
             _groupRepository = groupRepository;
+            _roleRepository = roleRepository;
         }
 
-        public UserDto Get(string userID)
+        //public IEnumerable<UserDto> Get(int roleID, int groupID)
+        //{
+        //    var query = _context.HRISUsers
+        //        .Where(x => x.IsVisible == true)
+        //        .Where(x => x.RoleID == ((roleID == 0) ? x.RoleID : roleID));
+
+        //    return query.ProjectTo<UserDto>(_mapper.ConfigurationProvider).ToList();
+
+        //}
+
+        public async Task<UserDto> GetAsync(string lanID)
         {
-            return _context.HRISUsers
-                .Where(x => x.UserID == userID && x.IsVisible == true)
-                .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
-                .SingleOrDefault();
-        }
-
-        public IEnumerable<UserDto> Get()
-        {
-            return _context.HRISUsers
-                .Where(x => x.IsVisible == true)
-                .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
-                .ToList();
-        }
-
-        public IEnumerable<UserDto> Get(int roleID, int groupID)
-        {
-            var query = _context.HRISUsers
-                .Where(x => x.IsVisible == true)
-                .Where(x => x.RoleID == ((roleID == 0) ? x.RoleID : roleID));
-
-            return query.ProjectTo<UserDto>(_mapper.ConfigurationProvider).ToList();
-
-        }
-
-        public UserDto GetByLanID(string lanID)
-        {
-            UserDto userDto = new UserDto();
-
             var sqlParameters = new SqlParameter[] {
                 new SqlParameter(){
                     ParameterName= "@LanID", Value= lanID
                 }
             };
 
-            var user = _context.LoginUser
-                .FromSqlRaw($"EXECUTE dbo.spGetUser @LanID", sqlParameters)
-                .ToList()
+            LoginUser user = _context.LoginUser
+                .FromSqlRaw($"EXECUTE dbo.spGetUser @LanID", sqlParameters).ToList()
                 .Where(x => x.LanID == lanID)
                 .SingleOrDefault();
 
             if (user == null)
                 return null;
 
-            if (user.RoleID == 6 || user.RoleID == 7)
-                return _mapper.Map<UserDto>(user);
+            var dto = _mapper.Map<UserDto>(user);
 
-            return _context.HRISUsers
-                .Where(x => x.LanID == lanID && x.IsVisible == true && x.IsActive == true)
-                .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
-                .SingleOrDefault();
+            dto.RoleDescription = (await _roleRepository.GetAsync(dto.RoleID)).Description;
+            dto.Groups = (await _groupRepository.GetAsync(dto.UserID)).Select(x => x.GroupID).ToArray();
+
+            return await Task.Run(() => dto);
         }
 
         public IEnumerable<UserListDto> Get(string userID, TableViewParameters _reportParameters)
@@ -111,7 +94,7 @@ namespace HRIS.API
             return dto;
         }
 
-        public IEnumerable<SearchUser> Search(string searchBy, bool isSuper)
+        public async Task<IEnumerable<SearchUser>> SearchAsync(string searchBy, bool isSuper)
         {
             List<SearchUser> items = new List<SearchUser>();
 
@@ -128,10 +111,10 @@ namespace HRIS.API
             {
                 items.Add(new SearchUser { EIN = user.EIN, Name = user.Name });
             }
-            return items;
+            return await Task.Run(() => items);
         }
 
-        public async Task<GetUserByEINDto> GetUserByEINAsync(string ein, bool isSuper)
+        public async Task<GetUserByEINDto> GetAsync(string ein, bool isSuper)
         {
             var sqlParameters = new SqlParameter[] {
                 new SqlParameter(){ParameterName= "@EIN", Value= ein},
@@ -224,7 +207,7 @@ namespace HRIS.API
             return (int)sqlParameters[0].Value >= 0;
         }
 
-        public bool IsDeveloper(string lanID)
+        public async Task<bool> IsDeveloperAsync(string lanID)
         {
             var sqlParameters = new SqlParameter[] {
                 new SqlParameter("@LanID", lanID),
@@ -233,9 +216,32 @@ namespace HRIS.API
                 }
             };
 
-            _context.Database.ExecuteSqlRaw($"EXECUTE dbo.spIsDeveloper_new @LanID, @IsDeveloper OUTPUT", sqlParameters);
+            await _context.Database.ExecuteSqlRawAsync($"EXECUTE dbo.spIsDeveloper_new @LanID, @IsDeveloper OUTPUT", sqlParameters);
 
-            return (bool)sqlParameters[1].Value;
+            return await Task.Run(() => (bool)sqlParameters[1].Value);
+        }
+
+        public UserDto Get(string lanID)
+        {
+            var sqlParameters = new SqlParameter[] {
+                new SqlParameter(){
+                    ParameterName= "@LanID", Value= lanID
+                }
+            };
+
+            LoginUser user = _context.LoginUser
+                .FromSqlRaw($"EXECUTE dbo.spGetUser @LanID", sqlParameters).ToList()
+                .Where(x => x.LanID == lanID)
+                .SingleOrDefault();
+
+            if (user == null)
+                return null;
+
+            var dto = _mapper.Map<UserDto>(user);
+
+            dto.Groups = _groupRepository.Get(dto.UserID).Select(x => x.GroupID).ToArray();
+
+            return dto;
         }
     }
 }

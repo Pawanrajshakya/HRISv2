@@ -12,7 +12,7 @@ export interface ICurrentUser {
   role?: IRole;
   roleDescription?: string;
   userGroups: IUserGroup[];
-  groupDescription?: string;
+  groups?: number[];
 }
 
 export interface IUserGroup {
@@ -21,7 +21,7 @@ export interface IUserGroup {
   description?: string;
 }
 
-export interface ISearchUser{
+export interface ISearchUser {
   ein: string,
   name: string
 }
@@ -39,10 +39,10 @@ export interface IUser {
   isHRISUser?: boolean;
   isHDHSUser?: boolean;
   lastAccess?: string;
-  rCs:string[];
+  rCs: string[];
   dPs: string[];
   agency?: string;
-  roleDesc?:string;
+  roleDesc?: string;
 }
 
 export interface IUserList {

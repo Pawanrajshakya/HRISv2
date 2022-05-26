@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { NgSelectConfig } from '@ng-select/ng-select';
+import { Component } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BaseComponent } from './base.component';
 
 @Component({
-  selector: 'app-tool-base',
+  selector: 'app-modal-base',
   template: `
     <p>
       base works!
@@ -13,7 +12,7 @@ import { BaseComponent } from './base.component';
   styles: [
   ]
 })
-export class ToolBaseComponent<T> extends BaseComponent<T> {
+export class ModalBaseComponent<T> extends BaseComponent<T> {
 
   /** Model */
   modalRef?: BsModalRef;
@@ -24,8 +23,8 @@ export class ToolBaseComponent<T> extends BaseComponent<T> {
     class: 'modal-lg'
   };
   
-  constructor(private _ngSelectConfig: NgSelectConfig) {
-    super(_ngSelectConfig);
+  constructor() {
+    super();
   }
 
 }

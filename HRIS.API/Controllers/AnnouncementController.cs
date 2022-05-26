@@ -31,9 +31,9 @@ namespace HRIS.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> GetAsync()
         {
-            return Ok(await announcementRepository.Get(UserSession.Instance.User.UserID));
+            return Ok(await announcementRepository.GetAsync(UserSession.Instance.User.UserID));
         }
 
         [HttpGet("{id:int}")]

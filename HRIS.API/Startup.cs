@@ -23,7 +23,7 @@ namespace HRIS.API
             ShareManager.Prepare(_config);
         }
 
-        
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -40,6 +40,9 @@ namespace HRIS.API
             services.AddScoped<IDPRepository, DPRepository>();
             services.AddScoped<IEcardRepository, EcardRepository>();
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+            services.AddScoped<IHeadcountRepository, HeadcountRepository>();
+            services.AddScoped<ITeamRepository, TeamRepository>();
+
             //********Repository DI - end
 
             services.AddTransient<UserActionFilter>();
@@ -67,9 +70,16 @@ namespace HRIS.API
             {
                 options.UseSqlServer(_config.GetConnectionString("GDSConnection"));
             });
+
+            services.AddDbContext<TEAMDataContext>(options =>
+            {
+                options.UseSqlServer(_config.GetConnectionString("TEAMSConnection"));
+            });
             //********Configure_DBContext - end
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddCors();
         }
@@ -88,13 +98,13 @@ namespace HRIS.API
                         context.Features.Get<IExceptionHandlerPathFeature>();
 
                     EmailManager.SendEmail(
-                        ShareManager.SmtpServer, 
-                        ShareManager.From, 
-                        ShareManager.SendTo, 
-                        "Error catched in " + env.ApplicationName + " " + env.EnvironmentName, 
+                        ShareManager.SmtpServer,
+                        ShareManager.From,
+                        ShareManager.SendTo,
+                        "Error catched in " + env.ApplicationName + " " + env.EnvironmentName,
                         exceptionHandlerPathFeature.Error.Message);
 
-                    var error = new { message = exceptionHandlerPathFeature.Error.Message};
+                    var error = new { message = exceptionHandlerPathFeature.Error.Message };
 
                     await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(error, Newtonsoft.Json.Formatting.Indented)); //(exceptionHandlerPathFeature.Error.Message);
                 });
@@ -102,7 +112,7 @@ namespace HRIS.API
 
             app.UseHttpsRedirection();
 
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200","https://webd16dssap01/HRISv2").AllowCredentials());
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://webd16dssap01/HRISv2").AllowCredentials());
 
             app.UseRouting();
 

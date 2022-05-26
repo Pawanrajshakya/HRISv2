@@ -1,0 +1,29 @@
+<div class="card border-info shadow">
+    <div class="card-header text-white bg-info border-info shadow">
+      <i class="bi bi-bar-chart-fill"></i> Cases Pending Disciplinary Action as of Today
+    </div>
+    <div class="card-body pb-0 pt-1">
+      <div style="display: block" *ngIf="pendingCases$ | async as data">
+        <canvas baseChart [data]="data.barChartData" [options]="data.barChartOptions"
+          [plugins]="data.barChartPlugins" [type]="data.barChartType">
+        </canvas>
+        <!-- {{ecardChart.barChartData | json}} --> 
+        <div>
+          <table class="table table-sm table-hover">
+            <!-- <caption>List of users</caption> -->
+            <tbody>
+              <tr class="bg-info shadow ">
+                <td></td>
+                <td class="text-center text-white " *ngFor="let item of data.barChartData.labels"><small>{{item}}</small></td>
+              </tr>
+              <tr>
+                <td><small>Monthly Data</small></td>
+                <td class="text-center" *ngFor="let item of data.barChartData.datasets[0].data"><small>{{item ?? 0 | number}}</small></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

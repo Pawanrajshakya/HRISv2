@@ -1,12 +1,12 @@
 import { formatDate } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
-import { ToolBaseComponent } from '../base/tool-base.component';
+import { ModalBaseComponent } from '../base/tool-base.component';
 import { IAnnouncement, IAnnouncementList } from '../_models/announcement';
 import { IRole } from '../_models/role';
 import { AnnouncementService } from '../_services/announcement.service';
@@ -17,7 +17,7 @@ import { RoleService } from '../_services/role.service';
   templateUrl: './announcement.component.html',
   styleUrls: ['./announcement.component.scss']
 })
-export class AnnouncementComponent extends ToolBaseComponent<IAnnouncementList> implements AfterViewInit {
+export class AnnouncementComponent extends ModalBaseComponent<IAnnouncementList> implements AfterViewInit {
 
 
   announcementForm = {
@@ -74,9 +74,9 @@ export class AnnouncementComponent extends ToolBaseComponent<IAnnouncementList> 
   constructor(private announcementService: AnnouncementService
     , private roleService: RoleService
     , private modalService: BsModalService
-    , private __ngSelectConfig: NgSelectConfig
+    , private ngSelectConfig: NgSelectConfig
     , protected _snackBar: MatSnackBar) {
-    super(__ngSelectConfig);
+    super();
     this.displayedColumns = ['id', 'title', 'priority', 'durationRestricted', 'status', 'updatedBy', 'dateUpdated', 'editOption', 'deleteOption'];
     this.applyTheme();
     //this.bsInlineRangeValue = []

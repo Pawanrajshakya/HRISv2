@@ -15,22 +15,8 @@ namespace HRIS.API
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
-        public bool? IsSuper { get; set; }
-        public RoleDto Role { get; set; }
-        public List<UserGroupDto> UserGroups { get; set; }
+        public bool IsSuper { get; set; }
+        public int[] Groups { get; set; }
+        public string RoleDescription { get; set; }
     }
-
-    //public class InternalUserDto
-    //{
-    //    public string UserID { get; set; }
-    //    public string LanID { get; set; }
-    //    public int RoleID { get; set; }
-    //    public string EIN { get; set; }
-    //    public string FirstName { get; set; }
-    //    public string LastName { get; set; }
-    //    public string EmailAddress { get; set; }
-    //    public bool? IsSuper { get; set; }
-    //    public ICollection<int> UserGroups { get; set; }
-
-    //}
 }

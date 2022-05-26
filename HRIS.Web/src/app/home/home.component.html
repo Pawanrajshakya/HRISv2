@@ -1,53 +1,53 @@
-<div class="row">
-  <div class="col-8">
-    <div class="card border-info shadow">
-      <div class="card-header text-white bg-info border-info shadow">
-        <i class="bi bi-flag"></i> Office of Human Resources Solutions (HRS)
+<div>
+  <div class="row">
+    <div class="col-8">
+      <div class="card border-info shadow">
+        <div class="card-header text-white bg-info border-info shadow">
+          <i class="bi bi-flag"></i> Office of Human Resources Solutions (HRS)
+        </div>
+        <div class="card-body pb-0 pt-2">
+          <ul class="list-unstyled text-primary">
+            <li>
+              <strong>Mission</strong>
+              <p style="text-align: justify;">Our mission is to support the human resources needs of the Department of
+                Social Services, the Human Resources Administration, and the Department of Homeless Services through
+                strategic partnership and collaboration, with the goal of creating an inclusive, motivated, and client
+                centered workforce.</p>
+            </li>
+            <li>
+              <strong>HRS Values</strong>
+              <ul style="margin-left: 20px;">
+                <li><b>P</b>eople-First </li>
+                <li><b>I</b>ntegrity </li>
+                <li><b>E</b>xcellence </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="card-body pb-0 pt-2">
-        <ul class="list-unstyled text-primary">
-          <li>
-            <strong>Mission</strong>
-            <p style="text-align: justify;">Our mission is to support the human resources needs of the Department of
-              Social Services, the Human Resources Administration, and the Department of Homeless Services through
-              strategic partnership and collaboration, with the goal of creating an inclusive, motivated, and client
-              centered workforce.</p>
-          </li>
-          <li>
-            <strong>HRS Values</strong>
-            <ul style="margin-left: 20px;">
-              <li><b>P</b>eople-First </li>
-              <li><b>I</b>ntegrity </li>
-              <li><b>E</b>xcellence </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
 
+    </div>
+    <div class="col-4">
+      <app-carousel></app-carousel>
+    </div>
   </div>
-  <div class="col-4">
-    <app-carousel></app-carousel>
+  <div class="row mt-3">
+    <div class="col-4">
+      <app-ecard-chart></app-ecard-chart>
+    </div>
+    <div class="col-4" *ngIf="!!hasHeadcount">
+      <app-headcount></app-headcount>
+    </div>
+    <div class="col-4">
+      <app-pending-cases></app-pending-cases>
+    </div>
   </div>
-</div>
-<div class="row mt-3">
-  <div class="col-4">
-    <app-ecard-chart></app-ecard-chart>
-  </div>
-  <div class="col-4">
-    <app-ecard-chart></app-ecard-chart>
-  </div>
-  <div class="col-4">
-    <app-ecard-chart></app-ecard-chart>
-  </div>
-</div>
-<div class="row mt-3">
-  <div class="col-4">
-    <app-ecard-chart></app-ecard-chart>
-  </div>
-  <div class="col-4">
-    <app-ecard-chart></app-ecard-chart>
-  </div>
-  <div class="col-4">
+  <div class="row mt-3">
+    <div class="col-4">
+    </div>
+    <div class="col-4">
+    </div>
+    <div class="col-4">
+    </div>
   </div>
 </div>
