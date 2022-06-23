@@ -8,10 +8,10 @@ namespace HRIS.API.Controllers
     [ApiController]
     public class TeamController : BaseController
     {
-        private readonly ITeamRepository _teamRepository;
+        private readonly ITEAMRepository _teamRepository;
         private readonly IRCRepository _rcRepository;
 
-        public TeamController(ITeamRepository teamRepository, IRCRepository rcRepository)
+        public TeamController(ITEAMRepository teamRepository, IRCRepository rcRepository)
             : base()
         {
             _teamRepository = teamRepository;
@@ -27,6 +27,28 @@ namespace HRIS.API.Controllers
                 );
 
             return Ok(await _teamRepository.GetPendingCasesChartAsync(rc));
+        }
+
+        [HttpGet("TopInfractionsChartAsync")]
+        public async Task<ActionResult> TopInfractionsChartAsync()
+        {
+            string rc = Utility.ConvertToString(
+                _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
+                .Select(x => x.Code).ToList()
+                );
+
+            return Ok(await _teamRepository.GetTopInfractionsChartAsync(rc));
+        }
+
+        [HttpGet("CaseCountByYearChartAsync")]
+        public async Task<ActionResult> CaseCountByYearChartAsync()
+        {
+            string rc = Utility.ConvertToString(
+                _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
+                .Select(x => x.Code).ToList()
+                );
+
+            return Ok(await _teamRepository.GetCaseCountByYearChartAsync(rc));
         }
     }
 }

@@ -30,7 +30,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { CarouselComponent } from './announcement/carousel/carousel.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { HeadcountComponent } from './charts/headcount/headcount.component';
-import { PendingCasesComponent } from './charts/pending-cases/pending-cases.component';
+import { PendingCasesComponent } from './charts/team-pending-cases/team-pending-cases.component';
+import { ChartBaseComponent } from './base/chart-base.component';
+import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year/team-cases-count-by-year.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { PendingCasesComponent } from './charts/pending-cases/pending-cases.comp
     ModalBaseComponent,
     CarouselComponent,
     HeadcountComponent,
-    PendingCasesComponent
+    PendingCasesComponent,
+    ChartBaseComponent,
+    TeamCasesCountByYearComponent
   ],
   imports: [
     BrowserModule,

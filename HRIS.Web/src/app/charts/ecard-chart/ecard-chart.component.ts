@@ -4,6 +4,7 @@ import { NgSelectConfig } from '@ng-select/ng-select';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs/operators';
+import { ChartBaseComponent } from 'src/app/base/chart-base.component';
 import { IEcard, IChartData } from 'src/app/_models/ecard';
 import { ICurrentUser } from 'src/app/_models/user';
 import { EcardService } from 'src/app/_services/ecard.service';
@@ -14,7 +15,7 @@ import { UserService } from 'src/app/_services/user.service';
   templateUrl: './ecard-chart.component.html',
   styleUrls: ['./ecard-chart.component.scss']
 })
-export class EcardChartComponent {
+export class EcardChartComponent extends ChartBaseComponent {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
@@ -50,11 +51,10 @@ export class EcardChartComponent {
         data.push(ecard.data);
       }) : "";//handle error;
 
-      // , '#037bc0', '#02af57', '#4A235A', '#FC4F4F', '#FC6228', '#B7950B', '#BA4A00', '#5F6A6A', '#8B1A1A'
       barChartData.datasets.push({
         data: data,
         label: '',
-        backgroundColor: ['orange'],
+        backgroundColor: this.backgroundColor[0],
         borderColor: 'white',
         borderWidth: 2,
         hoverBackgroundColor: 'rgba(241,171,65,1)',
@@ -70,6 +70,7 @@ export class EcardChartComponent {
     }));
 
   constructor(private ecardService: EcardService, private userService: UserService, private ngSelect: NgSelectConfig) {
+    super();
     this.currentUser = this.userService.currentUser;
   }
 

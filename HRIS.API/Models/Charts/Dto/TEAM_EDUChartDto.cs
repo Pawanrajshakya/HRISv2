@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace HRIS.API
 {
-    public class Team_PendingCasesChartDto
+    public class TEAM_EDUChartDto
     {
-        public int Order { get; set; }
-        public string GroupDescription { get; set; }
+        public string Description { get; set; }
         public int Count { get; set; }
+        public int Percentage { get; set; }
+        public string Year { get; set; }
     }
 }

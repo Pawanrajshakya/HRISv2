@@ -1,8 +1,9 @@
 import { formatNumber } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
+import { Component, ViewChild } from '@angular/core';
+import { ChartData, ChartType, ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
+import { ChartBaseComponent } from 'src/app/base/chart-base.component';
 import { IHeadcountChart, IHeadcountChartData } from 'src/app/_models/headcount';
 import { HeadcountService } from 'src/app/_services/headcount.service';
 
@@ -11,7 +12,7 @@ import { HeadcountService } from 'src/app/_services/headcount.service';
   templateUrl: './headcount.component.html',
   styleUrls: ['./headcount.component.scss']
 })
-export class HeadcountComponent implements OnInit {
+export class HeadcountComponent extends ChartBaseComponent {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
@@ -24,7 +25,7 @@ export class HeadcountComponent implements OnInit {
         data: [],
         label: "Vacancy",
         backgroundColor: 'rgba(0,0,0,0)',
-        borderColor:  '#f1ab41',
+        borderColor: '#f1ab41',
         pointBackgroundColor: 'rgba(148,159,177,1)',
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
@@ -36,7 +37,7 @@ export class HeadcountComponent implements OnInit {
         data: [],
         label: "Budgeted Headcount",
         backgroundColor: 'rgba(0,0,0,0)',
-        borderColor:  '#037bc0',
+        borderColor: '#037bc0',
         pointBackgroundColor: 'rgba(148,159,177,1)',
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
@@ -48,7 +49,7 @@ export class HeadcountComponent implements OnInit {
         data: [],
         label: "Active Staff",
         backgroundColor: 'rgba(0,0,0,0)',
-        borderColor:  '#02af57',
+        borderColor: '#02af57',
         pointBackgroundColor: 'rgba(148,159,177,1)',
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
@@ -78,7 +79,7 @@ export class HeadcountComponent implements OnInit {
 
       Array.isArray(_data) ? _data.forEach((headcountChartData: IHeadcountChartData) => {
         chartData.labels?.push(headcountChartData.period);
-        
+
         vacancyDataset.data.push(headcountChartData.vacancy);
         budgetedHeadcountDataset.data.push(headcountChartData.budgetedHeadcount);
         activeStaffDataset.data.push(headcountChartData.activeStaff);
@@ -96,16 +97,15 @@ export class HeadcountComponent implements OnInit {
     }));
 
 
-  constructor(private headcountService: HeadcountService) { }
-
-  ngOnInit(): void {
+  constructor(private headcountService: HeadcountService) {
+    super();
   }
 
   convertToNumberFormat(value: any) {
     if (Number(value) !== NaN)
       return formatNumber(Number(value), 'en-US', '1.0-0')
-    
-      return formatNumber(Number(value.ToString()), 'en-US', '1.0-0')
+
+    return formatNumber(Number(value.ToString()), 'en-US', '1.0-0')
   }
 
   isString(value: any) {

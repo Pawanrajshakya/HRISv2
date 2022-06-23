@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
+import { ChartBaseComponent } from 'src/app/base/chart-base.component';
 import { IChartData } from 'src/app/_models/ecard';
 import { IPendingCasesChart } from 'src/app/_models/team';
 import { ICurrentUser } from 'src/app/_models/user';
@@ -9,17 +10,18 @@ import { TeamService } from 'src/app/_services/team.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
-  selector: 'app-pending-cases',
-  templateUrl: './pending-cases.component.html',
-  styleUrls: ['./pending-cases.component.scss']
+  selector: 'app-team-pending-cases',
+  templateUrl: './team-pending-cases.component.html',
+  styleUrls: ['./team-pending-cases.component.scss']
 })
-export class PendingCasesComponent implements OnInit {
+export class PendingCasesComponent extends ChartBaseComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   currentUser: ICurrentUser;
 
-  
+  tableLabel: string [] = [];
+
   pendingCases$ = this.teamService.pendingCasesChart$.pipe<IChartData>(
     map(rows => {
 
@@ -32,6 +34,7 @@ export class PendingCasesComponent implements OnInit {
         responsive: true,
         scales: {
           x: {
+            display: false
           },
           y: {
           }
@@ -46,18 +49,18 @@ export class PendingCasesComponent implements OnInit {
       let barChartType: ChartType = 'bar';
 
       Array.isArray(rows) ? rows.forEach((row: IPendingCasesChart) => {
+        console.log(row.groupDescription.indexOf('('));
         barChartData.labels?.push(row.groupDescription);
         data.push(row.count);
       }) : "";//handle error;
 
-      // , '#037bc0', '#02af57', '#4A235A', '#FC4F4F', '#FC6228', '#B7950B', '#BA4A00', '#5F6A6A', '#8B1A1A'
       barChartData.datasets.push({
         data: data,
         label: '',
-        backgroundColor: ['orange'],
+        backgroundColor: this.backgroundColor,
         borderColor: 'white',
         borderWidth: 2,
-        hoverBackgroundColor: 'rgba(241,171,65,1)',
+        hoverBackgroundColor: 'white',
         hoverBorderColor: 'black',
         borderRadius: 10
       });
@@ -71,6 +74,7 @@ export class PendingCasesComponent implements OnInit {
 
   constructor(private teamService: TeamService,
     private userService: UserService) {
+      super();
     this.currentUser = this.userService.currentUser;
   }
 

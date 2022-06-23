@@ -18,24 +18,37 @@ export class BaseService {
 
     this.hrisError = new HRISError();
 
-    console.log(err);
-
-    if (err.error instanceof ErrorEvent) {
-      this.hrisError.message = `Status: ${err.status} Message: ${err.message} Error Message: ${err.error.message}`;
-    } else if (err.error !== undefined && err.error !== null) {
-      this.hrisError.message = `Message: ${err.error.message === undefined ? err.error : err.error.message}`;
-    } else {
-      this.hrisError.message = err.url + " -> "  + err.status + " -> " + err.statusText;
-      this.hrisError.userMessage = err.status + " -> " + err.statusText + ". Internal Error.";
-    }
+    console.log('handleError', err, err.status, err);
 
     if (userMessage !== undefined && userMessage.length > 0) {
       this.hrisError.userMessage = userMessage;
+    } else {
+      this.hrisError.userMessage = (err.status ?? "") + " HRIS: " + (err.statusText ?? "") +  " Please try later."
     }
 
-    this.hrisError.errorNumber = err.status;
+    // this.hrisError.userMessage = ". Internal Error.";
 
-    console.log(this.hrisError);
+
+    // if (err.error instanceof ErrorEvent) {
+    //   if (err.status === 0) {
+    //     this.hrisError.message = err.url + " -> " + err.status + " -> " + err.statusText;
+    //     this.hrisError.userMessage = err.status + " -> " + err.statusText + ". Internal Error.";
+    //   } else {
+    //     this.hrisError.message = `Status: ${err.status} Message: ${err.message} Error Message: ${err.error.message}`;
+    //   }
+    // } else if (err.error !== undefined && err.error !== null) {
+    //   this.hrisError.message = `Message: ${err.error.message === undefined ? err.error : err.error.message}`;
+    // } else {
+
+    // }
+
+    // if (userMessage !== undefined && userMessage.length > 0) {
+    //   this.hrisError.userMessage = userMessage;
+    // }
+
+    // this.hrisError.errorNumber = err.status;
+
+    // console.log(this.hrisError);
     return throwError(this.hrisError);
   }
 

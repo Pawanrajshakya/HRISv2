@@ -43,7 +43,9 @@ namespace HRIS.API
             CreateMap<AnnouncementSummary, AnnouncementSummaryDto>();
 
             CreateMap<AgencyHeadcountChart, AgencyHeadcountChartDto>();
-            CreateMap<Team_PendingCasesChart, Team_PendingCasesChartDto>();
+            CreateMap<TEAM_PendingCasesChart, TEAM_PendingCasesChartDto>();
+            CreateMap<TEAM_CaseCountByYearChart, TEAM_CaseCountByYearChartDto>();
+            CreateMap<Team_EDUChart, TEAM_EDUChartDto>();
 
         }
     }

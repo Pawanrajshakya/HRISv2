@@ -16,7 +16,7 @@
               <td></td>
               <td class="text-center text-white " *ngFor="let item of ecardChart.barChartData.labels"><small>{{item}}</small></td>
             </tr>
-            <tr>
+            <tr [ngStyle]="{'color': backgroundColor[0]}">
               <td><small>Monthly Data</small></td>
               <td class="text-center" *ngFor="let item of ecardChart.barChartData.datasets[0].data"><small>{{item ?? 0 | number}}</small></td>
             </tr>
