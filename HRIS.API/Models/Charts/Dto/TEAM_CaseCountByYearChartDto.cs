@@ -1,6 +1,6 @@
 ﻿namespace HRIS.API
 {
-    public class TEAM_CaseCountByYearChartDto
+    public class Team_CaseCountByYearChartDto
     {
         public string Flag { get; set; }
         public int Count { get; set; }
