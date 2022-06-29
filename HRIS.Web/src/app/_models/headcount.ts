@@ -9,9 +9,3 @@ export interface IHeadcountChartData {
     activeStaff: number;
 }
 
-export interface IHeadcountChart {
-    chartData: ChartData<'line'>,
-    chartOptions: ChartConfiguration['options'],
-    chartPlugins: never[],
-    chartType: ChartType
-  }

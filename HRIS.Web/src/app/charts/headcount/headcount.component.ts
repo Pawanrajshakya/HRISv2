@@ -3,8 +3,8 @@ import { Component, ViewChild } from '@angular/core';
 import { ChartData, ChartType, ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
-import { ChartBaseComponent } from 'src/app/base/chart-base.component';
-import { IHeadcountChart, IHeadcountChartData } from 'src/app/_models/headcount';
+import { ChartBaseComponent , ILineChartData} from 'src/app/base/chart-base.component';
+import { IHeadcountChartData } from 'src/app/_models/headcount';
 import { HeadcountService } from 'src/app/_services/headcount.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class HeadcountComponent extends ChartBaseComponent {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
-  headcountChart$ = this.headcountService.headcountChart$.pipe<IHeadcountChart>(
+  headcountChart$ = this.headcountService.headcountChart$.pipe<ILineChartData>(
     map(_data => {
 
       // let dataset: any = [];
@@ -25,11 +25,11 @@ export class HeadcountComponent extends ChartBaseComponent {
         data: [],
         label: "Vacancy",
         backgroundColor: 'rgba(0,0,0,0)',
-        borderColor: '#f1ab41',
-        pointBackgroundColor: 'rgba(148,159,177,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+        borderColor: this.backgroundColor[2],
+        pointBackgroundColor: this.hoverBackgroundColor[2],
+        pointBorderColor: this.hoverBackgroundColor[2],
+        pointHoverBackgroundColor: this.backgroundColor[2],
+        pointHoverBorderColor: this.hoverBackgroundColor[2],
         fill: 'origin'
       };
 
@@ -37,11 +37,11 @@ export class HeadcountComponent extends ChartBaseComponent {
         data: [],
         label: "Budgeted Headcount",
         backgroundColor: 'rgba(0,0,0,0)',
-        borderColor: '#037bc0',
-        pointBackgroundColor: 'rgba(148,159,177,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+        borderColor: this.backgroundColor[0],
+        pointBackgroundColor: this.hoverBackgroundColor[0],
+        pointBorderColor: this.hoverBackgroundColor[0],
+        pointHoverBackgroundColor: this.backgroundColor[0],
+        pointHoverBorderColor: this.hoverBackgroundColor[0],
         fill: 'origin'
       };
 
@@ -49,11 +49,11 @@ export class HeadcountComponent extends ChartBaseComponent {
         data: [],
         label: "Active Staff",
         backgroundColor: 'rgba(0,0,0,0)',
-        borderColor: '#02af57',
-        pointBackgroundColor: 'rgba(148,159,177,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+        borderColor: this.backgroundColor[1],
+        pointBackgroundColor: this.hoverBackgroundColor[1],
+        pointBorderColor: this.hoverBackgroundColor[1],
+        pointHoverBackgroundColor: this.backgroundColor[1],
+        pointHoverBorderColor: this.hoverBackgroundColor[1],
         fill: 'origin'
       };
 
@@ -93,7 +93,7 @@ export class HeadcountComponent extends ChartBaseComponent {
         chartData: chartData,
         chartOptions: chartOptions,
         chartType: chartType
-      } as IHeadcountChart;
+      } as ILineChartData;
     }));
 
 

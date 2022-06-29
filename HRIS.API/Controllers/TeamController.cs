@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,23 +33,37 @@ namespace HRIS.API.Controllers
         [HttpGet("TopInfractionsChartAsync")]
         public async Task<ActionResult> TopInfractionsChartAsync()
         {
-            string rc = Utility.ConvertToString(
+            try
+            {
+                string rc = Utility.ConvertToString(
                 _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
                 .Select(x => x.Code).ToList()
                 );
 
-            return Ok(await _teamRepository.GetTopInfractionsChartAsync(rc));
+                return Ok(await _teamRepository.GetTopInfractionsChartAsync(rc));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("CaseCountByYearChartAsync")]
         public async Task<ActionResult> CaseCountByYearChartAsync()
         {
-            string rc = Utility.ConvertToString(
-                _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
-                .Select(x => x.Code).ToList()
-                );
+            try
+            {
+                string rc = Utility.ConvertToString(
+                    _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
+                    .Select(x => x.Code).ToList()
+                    );
 
-            return Ok(await _teamRepository.GetCaseCountByYearChartAsync(rc));
+                return Ok(await _teamRepository.GetCaseCountByYearChartAsync(rc));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

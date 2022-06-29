@@ -33,6 +33,8 @@ import { HeadcountComponent } from './charts/headcount/headcount.component';
 import { PendingCasesComponent } from './charts/team-pending-cases/team-pending-cases.component';
 import { ChartBaseComponent } from './base/chart-base.component';
 import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year/team-cases-count-by-year.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { TeamTopInfractionComponent } from './charts/team-top-infraction/team-top-infraction.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year
     HeadcountComponent,
     PendingCasesComponent,
     ChartBaseComponent,
-    TeamCasesCountByYearComponent
+    TeamCasesCountByYearComponent,
+    TeamTopInfractionComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +75,8 @@ import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year
     CarouselModule.forRoot()
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptorService, multi: true }],
+    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptorService, multi: true },
+    { provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

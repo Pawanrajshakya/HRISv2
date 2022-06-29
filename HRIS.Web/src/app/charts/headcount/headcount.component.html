@@ -1,37 +1,39 @@
 <div class="card border-info shadow">
   <div class="card-header text-white bg-info border-info shadow">
-    <i class="bi bi-bar-chart-fill"></i> DSS-HRA-DHS Headcount
+    <i class="bi bi-graph-up-arrow"></i> DSS-HRA-DHS Headcount
   </div>
   <div class="card-body pb-0 pt-1">
     <div style="display: block" *ngIf="headcountChart$ | async as headcountChart">
       <canvas baseChart [data]="headcountChart.chartData" [options]="headcountChart.chartOptions"
         [plugins]="headcountChart.chartPlugins" [type]="headcountChart.chartType">
       </canvas>
-      <table class="table table-sm table-hover">
-        <!-- <caption>List of users</caption> -->
-        <tbody>
-          <tr class="bg-info shadow ">
-            <td></td>
-            <td class="text-center text-white" *ngFor="let item of headcountChart.chartData.labels">
-              <small>{{item}}</small></td>
-          </tr>
-          <tr [ngStyle]="{'color': backgroundColor[1]}">
-            <td><small>Budgeted HC</small></td>
-            <td class="text-center" *ngFor="let item of headcountChart.chartData.datasets[0].data; let i = index">
-              <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
-          </tr>
-          <tr [ngStyle]="{'color': backgroundColor[2]}">
-            <td><small>Active Staff</small></td>
-            <td class="text-center" *ngFor="let item of headcountChart.chartData.datasets[1].data">
-              <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
-          </tr>
-          <tr [ngStyle]="{'color': backgroundColor[0]}">
-            <td><small>Vacancy</small></td>
-            <td class="text-center" *ngFor="let item of headcountChart.chartData.datasets[2].data">
-              <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table table-sm table-hover">
+          <!-- <caption>List of users</caption> -->
+          <tbody>
+            <tr class="bg-info">
+              <td></td>
+              <td class="text-center text-white" *ngFor="let item of headcountChart.chartData.labels">
+                <small>{{item}}</small></td>
+            </tr>
+            <tr [ngStyle]="{'color': hoverBackgroundColor[0]}">
+              <td><small>Budgeted HC</small></td>
+              <td class="text-center" *ngFor="let item of headcountChart.chartData.datasets[0].data; let i = index">
+                <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
+            </tr>
+            <tr [ngStyle]="{'color': hoverBackgroundColor[1]}">
+              <td><small>Active Staff</small></td>
+              <td class="text-center" *ngFor="let item of headcountChart.chartData.datasets[1].data">
+                <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
+            </tr>
+            <tr [ngStyle]="{'color': hoverBackgroundColor[2]}">
+              <td><small>Vacancy</small></td>
+              <td class="text-center" *ngFor="let item of headcountChart.chartData.datasets[2].data">
+                <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

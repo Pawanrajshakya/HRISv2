@@ -8,8 +8,8 @@ namespace HRIS.API
 {
     public interface ITEAMRepository
     {
-        public Task<IEnumerable<TEAM_PendingCasesChartDto>> GetPendingCasesChartAsync(string rc);
-        public Task<IEnumerable<TEAM_EDUChartDto>> GetTopInfractionsChartAsync(string rc);
+        public Task<IEnumerable<Team_PendingCasesChartDto>> GetPendingCasesChartAsync(string rc);
+        public Task<IEnumerable<Team_TopInfractionsChartDto>> GetTopInfractionsChartAsync(string rc);
         public Task<IEnumerable<TEAM_CaseCountByYearChartDto>> GetCaseCountByYearChartAsync(string rc);
     }
 
@@ -53,9 +53,9 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<TEAM_PendingCasesChartDto>> GetPendingCasesChartAsync(string rc)
+        public async Task<IEnumerable<Team_PendingCasesChartDto>> GetPendingCasesChartAsync(string rc)
         {
-            List<TEAM_PendingCasesChartDto> dto = new List<TEAM_PendingCasesChartDto>();
+            List<Team_PendingCasesChartDto> dto = new List<Team_PendingCasesChartDto>();
             var param = new Microsoft.Data.SqlClient.SqlParameter[] {
                 new Microsoft.Data.SqlClient.SqlParameter(){ParameterName= "@RCs", Value= rc }
             };
@@ -67,27 +67,27 @@ namespace HRIS.API
 
             foreach (var row in data)
             {
-                dto.Add(_mapper.Map<TEAM_PendingCasesChartDto>(row));
+                dto.Add(_mapper.Map<Team_PendingCasesChartDto>(row));
             }
 
             return await Task.Run(() => dto);
         }
 
-        public async Task<IEnumerable<TEAM_EDUChartDto>> GetTopInfractionsChartAsync(string rc)
+        public async Task<IEnumerable<Team_TopInfractionsChartDto>> GetTopInfractionsChartAsync(string rc)
         {
-            List<TEAM_EDUChartDto> dto = new List<TEAM_EDUChartDto>();
+            List<Team_TopInfractionsChartDto> dto = new List<Team_TopInfractionsChartDto>();
             var param = new Microsoft.Data.SqlClient.SqlParameter[] {
                 new Microsoft.Data.SqlClient.SqlParameter(){ParameterName= "@RCs", Value= rc }
             };
 
-            var data = _context.Team_PendingCasesChart
-                .FromSqlRaw($"EXECUTE dbo.[dbo.spHRISGetEDUCaseCountsByInfractions] @RCs", param)
+            var data = _context.Team_TopInfractionsChart
+                .FromSqlRaw($"EXECUTE dbo.[spHRISGetEDUCaseCountsByInfractions] @RCs", param)
                 .ToList();
 
 
             foreach (var row in data)
             {
-                dto.Add(_mapper.Map<TEAM_EDUChartDto>(row));
+                dto.Add(_mapper.Map<Team_TopInfractionsChartDto>(row));
             }
 
             return await Task.Run(() => dto);

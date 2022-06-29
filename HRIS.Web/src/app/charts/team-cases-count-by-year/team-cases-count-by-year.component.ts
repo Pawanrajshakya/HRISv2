@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { map, tap } from 'rxjs';
-import { ChartBaseComponent } from 'src/app/base/chart-base.component';
-import { IChartData } from 'src/app/_models/ecard';
+import { getFullYear } from 'ngx-bootstrap/chronos';
+import { map } from 'rxjs';
+import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
 import { ICasesCountByYear } from 'src/app/_models/team';
 import { ICurrentUser } from 'src/app/_models/user';
 import { TeamService } from 'src/app/_services/team.service';
@@ -27,7 +27,7 @@ export class TeamCasesCountByYearComponent extends ChartBaseComponent implements
   _chartDataDatasets: any = [];
 
   casesCountByYearChart$ = this.teamService.casesCountByYearChart$
-    .pipe<IChartData>(
+    .pipe<IBarChartData>(
       map(rows => {
 
         console.log('casesCountByYearChart>', rows);
@@ -55,13 +55,14 @@ export class TeamCasesCountByYearComponent extends ChartBaseComponent implements
           _label.forEach((x) => {
             _index += 1;
             this._chartDataDatasets.push({
-              data: [], label: x,
+              data: [], 
+              label: x,
               backgroundColor: this.backgroundColor[_index],
-              borderColor: 'white',
-              borderWidth: 2,
-              hoverBackgroundColor: 'white',
-              hoverBorderColor: 'black',
-              borderRadius: 10
+              hoverBackgroundColor: this.hoverBackgroundColor[_index],
+              hoverBorderColor: this.hoverBackgroundColor[_index],
+              borderRadius: this.borderRadius,
+              borderWidth: this.borderWidth,
+              borderColor: this.borderColor,
             })
           })
 
@@ -74,11 +75,11 @@ export class TeamCasesCountByYearComponent extends ChartBaseComponent implements
 
         console.log('out this._dataset', this._chartDataDatasets, this._chartDataLabel);
 
-        let data: Array<number> = [];
         let barChartData: ChartData<'bar'> = {
           labels: this._chartDataLabel,
           datasets: this._chartDataDatasets
         };
+
         let barChartOptions: ChartConfiguration['options'] =
         {
           responsive: true,
@@ -99,10 +100,10 @@ export class TeamCasesCountByYearComponent extends ChartBaseComponent implements
         let barChartType: ChartType = 'bar';
 
         return {
-          barChartData: barChartData,
-          barChartOptions: barChartOptions,
-          barChartType: barChartType
-        } as IChartData;
+          chartData: barChartData,
+          chartOptions: barChartOptions,
+          chartType: barChartType
+        } as IBarChartData;
       })
     );
 
@@ -113,9 +114,7 @@ export class TeamCasesCountByYearComponent extends ChartBaseComponent implements
   }
 
   ngOnInit(): void {
-    this.title = "Disciplinary Cases Received and Closed Year-to-Date";
-
+    let _date = new Date(getFullYear(new Date),0,1)
+    this.title = "Disciplinary Cases Received and Closed Year-to-Date (" + _date.toLocaleDateString() + " - " + (new Date).toLocaleDateString() + ")";
   }
-
-
 }

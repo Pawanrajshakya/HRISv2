@@ -1,29 +1,42 @@
 <div class="card border-info shadow">
-    <div class="card-header text-white bg-info border-info shadow">
-      <i class="bi bi-bar-chart"></i> {{title}}
-    </div>
-    <div class="card-body pb-0 pt-1">
-      <div style="display: block" *ngIf="casesCountByYearChart$ | async as data">
-        <canvas baseChart [data]="data.barChartData" [options]="data.barChartOptions" [plugins]="data.barChartPlugins"
-          [type]="data.barChartType">
-        </canvas>
-        <!-- {{ecardChart.barChartData | json}} -->
-        <div>
-          <table class="table table-sm table-hover">
-            <!-- <caption>List of users</caption> -->
-            <tbody>
-              <tr *ngFor="let item of data.barChartData.labels;  let i = index">
-                <td class="text-center"><small [ngStyle]="{'color': backgroundColor[i]}">{{item}}</small>
-                </td>
-                <td class="text-center"><small [ngStyle]="{'color': backgroundColor[i]}">{{data.barChartData.datasets[0].data[i] | number}}</small></td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <code class="text-dark">Note: This chart also accounts for cases received in previous years, that were closed in the present year.</code>
-            </tfoot>
-          </table>
-        </div>
+  <div class="card-header text-white bg-info border-info shadow">
+    <i class="bi bi-bar-chart-fill"></i> {{title}}
+  </div>
+  <div class="card-body pb-0 pt-1">
+    <div style="display: block" *ngIf="casesCountByYearChart$ | async as data">
+      <canvas baseChart [data]="data.chartData" [options]="data.chartOptions" [plugins]="data.chartPlugins"
+        [type]="data.chartType">
+      </canvas>
+      <!-- {{ecardChart.barChartData | json}} -->
+      <div class="table-responsive">
+        <table class="table table-sm table-hover">
+          <!-- <caption>List of users</caption> -->
+          <thead>
+            <tr class="bg-info">
+              <td></td>
+              <td class="text-center text-white" *ngFor="let item of data.chartData.labels">
+                <small>{{item}}</small></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data.chartData.datasets;  let i = index">
+              <td class="text-center"><small [ngStyle]="{'color': hoverBackgroundColor[i]}">{{item.label}}</small>
+              </td>
+              <td class="text-center"><small [ngStyle]="{'color': hoverBackgroundColor[i]}">{{item.data[0] | number}}</small>
+              </td>
+              <td class="text-center"><small [ngStyle]="{'color': hoverBackgroundColor[i]}">{{item.data[1] | number}}</small>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">
+                <code class="text-dark">Note: This chart also accounts for cases received in previous years, that were closed in the present year.</code>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
   </div>
-  
+</div>

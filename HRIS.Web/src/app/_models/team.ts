@@ -9,3 +9,9 @@ export interface ICasesCountByYear {
     count: number;
     year: string;
 }
+
+export interface ITopInfractionsChart {
+    groupDescription: string;
+    count: number;
+    percentage: number;
+}

@@ -7,9 +7,4 @@ export interface IEcard {
   date?: string;
 }
 
-export interface IChartData {
-  barChartData: ChartData<'bar'>,
-  barChartOptions: ChartConfiguration['options'],
-  barChartPlugins: never[],
-  barChartType: ChartType
-}
+

@@ -2,7 +2,7 @@
 
 namespace HRIS.API
 {
-    public class TEAM_CaseCountByYearChart
+    public class Team_CaseCountByYearChart
     {
         public string Flag { get; set; }
         public int Count { get; set; }

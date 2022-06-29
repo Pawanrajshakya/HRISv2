@@ -4,21 +4,21 @@
   </div>
   <div class="card-body pb-0 pt-1">
     <div style="display: block" *ngIf="ecardChart$ | async as ecardChart">
-      <canvas baseChart [data]="ecardChart.barChartData" [options]="ecardChart.barChartOptions"
-        [plugins]="ecardChart.barChartPlugins" [type]="ecardChart.barChartType" (chartHover)="chartHovered($event)">
+      <canvas baseChart [data]="ecardChart.chartData" [options]="ecardChart.chartOptions"
+        [plugins]="ecardChart.chartPlugins" [type]="ecardChart.chartType" (chartHover)="chartHovered($event)">
       </canvas>
       <!-- {{ecardChart.barChartData | json}} --> 
-      <div>
+      <div class="table-responsive">
         <table class="table table-sm table-hover">
           <!-- <caption>List of users</caption> -->
           <tbody>
-            <tr class="bg-info shadow ">
+            <tr class="bg-info">
               <td></td>
-              <td class="text-center text-white " *ngFor="let item of ecardChart.barChartData.labels"><small>{{item}}</small></td>
+              <td class="text-center text-white " *ngFor="let item of ecardChart.chartData.labels"><small>{{item}}</small></td>
             </tr>
-            <tr [ngStyle]="{'color': backgroundColor[0]}">
+            <tr [ngStyle]="{'color': hoverBackgroundColor[0]}">
               <td><small>Monthly Data</small></td>
-              <td class="text-center" *ngFor="let item of ecardChart.barChartData.datasets[0].data"><small>{{item ?? 0 | number}}</small></td>
+              <td class="text-center" *ngFor="let item of ecardChart.chartData.datasets[0].data"><small>{{item ?? 0 | number}}</small></td>
             </tr>
           </tbody>
         </table>

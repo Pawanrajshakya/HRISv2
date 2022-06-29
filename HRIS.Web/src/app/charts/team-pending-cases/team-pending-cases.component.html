@@ -4,22 +4,28 @@
   </div>
   <div class="card-body pb-0 pt-1">
     <div style="display: block" *ngIf="pendingCases$ | async as data">
-      <canvas baseChart [data]="data.barChartData" [options]="data.barChartOptions" [plugins]="data.barChartPlugins"
-        [type]="data.barChartType">
+      <canvas baseChart [data]="data.chartData" [options]="data.chartOptions" [plugins]="data.chartPlugins"
+        [type]="data.chartType">
       </canvas>
       <!-- {{ecardChart.barChartData | json}} -->
-      <div>
-        <table class="table table-sm table-hover">
+      <div class="table-responsive">
+        <table class="table table-sm table-hover table-responsive ">
           <!-- <caption>List of users</caption> -->
           <tbody>
-            <tr *ngFor="let item of data.barChartData.labels;  let i = index">
-              <td class="text-center"><small [ngStyle]="{'color': backgroundColor[i]}">{{item}}</small>
+            <tr *ngFor="let item of data.chartData.labels;  let i = index">
+              <td class="text-center"><small [ngStyle]="{'color': hoverBackgroundColor[i]}">{{item}}</small>
               </td>
-              <td class="text-center"><small [ngStyle]="{'color': backgroundColor[i]}">{{data.barChartData.datasets[0].data[i] | number}}</small></td>
+              <td class="text-center"><small
+                  [ngStyle]="{'color': hoverBackgroundColor[i]}">{{data.chartData.datasets[0].data[i] | number}}</small>
+              </td>
             </tr>
           </tbody>
           <tfoot>
-            <code class="text-dark">Note: This chart also accounts for cases received in previous years, but that are still pending.</code>
+            <tr>
+              <td colspan="2">
+                <code class="text-dark">Note: This chart also accounts for cases received in previous years, but that are still pending.</code>
+              </td>
+            </tr>
           </tfoot>
         </table>
       </div>

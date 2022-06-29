@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
-import { ChartBaseComponent } from 'src/app/base/chart-base.component';
-import { IChartData } from 'src/app/_models/ecard';
+import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
 import { IPendingCasesChart } from 'src/app/_models/team';
 import { ICurrentUser } from 'src/app/_models/user';
 import { TeamService } from 'src/app/_services/team.service';
@@ -20,9 +19,9 @@ export class PendingCasesComponent extends ChartBaseComponent implements OnInit 
 
   currentUser: ICurrentUser;
 
-  tableLabel: string [] = [];
+  tableLabel: string[] = [];
 
-  pendingCases$ = this.teamService.pendingCasesChart$.pipe<IChartData>(
+  pendingCases$ = this.teamService.pendingCasesChart$.pipe<IBarChartData>(
     map(rows => {
 
       console.log('>', rows);
@@ -58,23 +57,23 @@ export class PendingCasesComponent extends ChartBaseComponent implements OnInit 
         data: data,
         label: '',
         backgroundColor: this.backgroundColor,
-        borderColor: 'white',
-        borderWidth: 2,
-        hoverBackgroundColor: 'white',
-        hoverBorderColor: 'black',
-        borderRadius: 10
+        hoverBackgroundColor: this.hoverBackgroundColor,
+        borderRadius: this.borderRadius,
+        hoverBorderColor: this.hoverBackgroundColor,
+        borderWidth: this.borderWidth,
+        borderColor: this.borderColor
       });
 
       return {
-        barChartData: barChartData,
-        barChartOptions: barChartOptions,
-        barChartType: barChartType
-      } as IChartData;
+        chartData: barChartData,
+        chartOptions: barChartOptions,
+        chartType: barChartType
+      } as IBarChartData;
     }));
 
   constructor(private teamService: TeamService,
     private userService: UserService) {
-      super();
+    super();
     this.currentUser = this.userService.currentUser;
   }
 

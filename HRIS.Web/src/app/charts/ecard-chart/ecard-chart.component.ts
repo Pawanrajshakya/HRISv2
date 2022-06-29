@@ -1,11 +1,10 @@
-import { formatNumber } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs/operators';
-import { ChartBaseComponent } from 'src/app/base/chart-base.component';
-import { IEcard, IChartData } from 'src/app/_models/ecard';
+import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
+import { IEcard } from 'src/app/_models/ecard';
 import { ICurrentUser } from 'src/app/_models/user';
 import { EcardService } from 'src/app/_services/ecard.service';
 import { UserService } from 'src/app/_services/user.service';
@@ -23,7 +22,7 @@ export class EcardChartComponent extends ChartBaseComponent {
 
   today = new Date().toLocaleDateString();
 
-  ecardChart$ = this.ecardService.eCards$.pipe<IChartData>(
+  ecardChart$ = this.ecardService.eCards$.pipe<IBarChartData>(
     map(ecards => {
 
       let data: Array<number> = [];
@@ -55,18 +54,18 @@ export class EcardChartComponent extends ChartBaseComponent {
         data: data,
         label: '',
         backgroundColor: this.backgroundColor[0],
-        borderColor: 'white',
-        borderWidth: 2,
-        hoverBackgroundColor: 'rgba(241,171,65,1)',
-        hoverBorderColor: 'black',
-        borderRadius: 10
+        hoverBackgroundColor: this.hoverBackgroundColor[0],
+        borderRadius: this.borderRadius,
+        hoverBorderColor: this.hoverBackgroundColor[0],
+        borderWidth: this.borderWidth,
+        borderColor: this.borderColor
       });
 
       return {
-        barChartData: barChartData,
-        barChartOptions: barChartOptions,
-        barChartType: barChartType
-      } as IChartData;
+        chartData: barChartData,
+        chartOptions: barChartOptions,
+        chartType: barChartType
+      } as IBarChartData;
     }));
 
   constructor(private ecardService: EcardService, private userService: UserService, private ngSelect: NgSelectConfig) {

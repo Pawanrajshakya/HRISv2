@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace HRIS.API
 {
-    public class Team_EDUChartDto
+    public class Team_TopInfractionsChartDto
     {
-        public string Description { get; set; }
+        public string GroupDescription { get; set; }
         public int Count { get; set; }
-        public int Percentage { get; set; }
-        public string Year { get; set; }
+        public decimal Percentage { get; set; }
     }
 }
