@@ -10,7 +10,7 @@ namespace HRIS.API
     {
         public Task<IEnumerable<Team_PendingCasesChartDto>> GetPendingCasesChartAsync(string rc);
         public Task<IEnumerable<Team_TopInfractionsChartDto>> GetTopInfractionsChartAsync(string rc);
-        public Task<IEnumerable<Team_CaseCountByYearChartDto>> GetCaseCountByYearChartAsync(string rc);
+        public Task<IEnumerable<TEAM_CaseCountByYearChartDto>> GetCaseCountByYearChartAsync(string rc);
     }
 
     public class TeamRepository : ITEAMRepository
@@ -24,13 +24,13 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Team_CaseCountByYearChartDto>> GetCaseCountByYearChartAsync(string rc)
+        public async Task<IEnumerable<TEAM_CaseCountByYearChartDto>> GetCaseCountByYearChartAsync(string rc)
         {
             try
             {
 
 
-                List<Team_CaseCountByYearChartDto> dto = new List<Team_CaseCountByYearChartDto>();
+                List<TEAM_CaseCountByYearChartDto> dto = new List<TEAM_CaseCountByYearChartDto>();
                 var param = new Microsoft.Data.SqlClient.SqlParameter[] {
                 new Microsoft.Data.SqlClient.SqlParameter(){ParameterName= "@RCs", Value= rc }
             };
@@ -42,7 +42,7 @@ namespace HRIS.API
 
                 foreach (var row in data)
                 {
-                    dto.Add(_mapper.Map<Team_CaseCountByYearChartDto>(row));
+                    dto.Add(_mapper.Map<TEAM_CaseCountByYearChartDto>(row));
                 }
 
                 return await Task.Run(() => dto);
