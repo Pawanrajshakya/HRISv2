@@ -31,7 +31,7 @@ export class BaseComponent<T> {
   data: T[] = [];
   clickedRows = new Set<T>();
 
-  pageSizeOptions = [5, 10, 20, 50, 100];
+  pageSizeOptions = [10, 25, 50, 100];
 
   protected filterSubject = new Subject<string>();
   filterAction$ = this.filterSubject.asObservable();
@@ -57,17 +57,17 @@ export class BaseComponent<T> {
   selectedDP: string[] = [];
 
   //Report
-  reportFormat: IReportFormat[] =
-    [
-      { mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', extension: '.xlsx' },
-      { mimeType: 'application/excel', extension: '.xls' },
-      { mimeType: 'application/pdf', extension: '.pdf' },
-    ];
+  // reportFormat: IReportFormat[] =
+  //   [
+  //     { mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', extension: '.xlsx' },
+  //     { mimeType: 'application/excel', extension: '.xls' },
+  //     { mimeType: 'application/pdf', extension: '.pdf' },
+  //   ];
 
   reportParam: IReportParam = {
     detail: {
       reportName: '',
-      format: this.reportFormat[0]
+      format: 'EXCELOPENXML'
     }, pagination: {
       pageNumber: 1,
       pageSize: 10

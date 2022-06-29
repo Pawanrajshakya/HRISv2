@@ -47,6 +47,7 @@ namespace HRIS.API
             CreateMap<Team_CaseCountByYearChart, Team_CaseCountByYearChartDto>();
             CreateMap<Team_EDUChart, Team_EDUChartDto>();
             CreateMap<Team_TopInfractionsChart, Team_TopInfractionsChartDto>();
+            CreateMap<Location, LocationDto>();
 
         }
     }

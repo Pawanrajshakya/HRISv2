@@ -1,3 +1,4 @@
+using HRIS.API.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -42,6 +43,7 @@ namespace HRIS.API
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
             services.AddScoped<IHeadcountRepository, HeadcountRepository>();
             services.AddScoped<ITEAMRepository, TeamRepository>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
 
             //********Repository DI - end
 
@@ -77,7 +79,7 @@ namespace HRIS.API
             });
             //********Configure_DBContext - end
 
-            services.AddControllers()
+            services.AddControllers(options => options.Filters.Add(new ServiceExceptionInterceptor()))
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 

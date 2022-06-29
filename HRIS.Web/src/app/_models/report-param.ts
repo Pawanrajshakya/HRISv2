@@ -14,7 +14,7 @@ export interface IReportFormat {
 export interface IReportParam {
   detail: {
     reportName: string;
-    format: IReportFormat;
+    format: string, //IReportFormat;
     userID?: string;
   },
   pagination: {
