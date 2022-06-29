@@ -2,7 +2,7 @@
 
 namespace HRIS.API
 {
-    public class TEAM_PendingCasesChart
+    public class Team_PendingCasesChart
     {
         [Key]
         public int Order { get; set; }
