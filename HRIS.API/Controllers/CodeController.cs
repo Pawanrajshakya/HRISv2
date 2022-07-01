@@ -10,21 +10,35 @@ namespace HRIS.API.Controllers
         private readonly IRCRepository _rcRepository;
         private readonly IDPRepository _dpRepository;
         private readonly ILocationRepository _locationRepository;
+        private readonly ITitleRepository _titleRepository;
+        private readonly ICSStatusRepository _cSStatusRepository;
+        private readonly IEmployeeBehaviorRepository _employeeBehaviorRepository;
+        private readonly ILeaveStatusRepository _leaveStatusRepository;
+        private readonly IRetirementResignationFMLARepository _retirementResignationFMLARepository;
 
         public CodeController(
             IRCRepository rcRepository,
             IDPRepository dpRepository,
-            ILocationRepository locationRepository
+            ILocationRepository locationRepository,
+            ITitleRepository titleRepository,
+            ICSStatusRepository cSStatusRepository,
+            IEmployeeBehaviorRepository employeeBehaviorRepository,
+            ILeaveStatusRepository leaveStatusRepository,
+            IRetirementResignationFMLARepository retirementResignationFMLARepository
             )
             : base()
         {
             _rcRepository = rcRepository;
             _dpRepository = dpRepository;
             _locationRepository = locationRepository;
+            _titleRepository = titleRepository;
+            _cSStatusRepository = cSStatusRepository;
+            _employeeBehaviorRepository = employeeBehaviorRepository;
+            _leaveStatusRepository = leaveStatusRepository;
+            _retirementResignationFMLARepository = retirementResignationFMLARepository;
         }
 
-        [HttpGet]
-        [Route("rc/{userid?}")]
+        [HttpGet("rc/{userid?}")]
         public async Task<ActionResult> GetRCAsync(string userid = null)
         {
             if (userid == null)
@@ -33,8 +47,7 @@ namespace HRIS.API.Controllers
             return Ok(await _rcRepository.GetAsync(userid));
         }
 
-        [HttpGet]
-        [Route("dp/{userid?}/{rc?}")]
+        [HttpGet("dp/{userid?}/{rc?}")]
         public async Task<ActionResult> GetDPByUserIDAndRCAsync(string userid = null, string rc = null)
         {
             if (userid == null)
@@ -57,6 +70,51 @@ namespace HRIS.API.Controllers
                 userid = UserSession.Instance.User.UserID;
 
             return Ok(await _locationRepository.GetAsync(userid));
+        }
+
+        [HttpGet("title/{userid?}")]
+        public async Task<ActionResult> GetTitleAsync(string userid = null)
+        {
+            if (userid == null)
+                userid = UserSession.Instance.User.UserID;
+
+            return Ok(await _titleRepository.GetAsync(userid));
+        }
+
+        [HttpGet("csStatus/{userid?}")]
+        public async Task<ActionResult> GetCSStatusAsync(string userid = null)
+        {
+            if (userid == null)
+                userid = UserSession.Instance.User.UserID;
+
+            return Ok(await _titleRepository.GetAsync(userid));
+        }
+
+        [HttpGet("employeeBehavior/{userid?}")]
+        public async Task<ActionResult> GetEmployeeBehaviorAsync(string userid = null)
+        {
+            if (userid == null)
+                userid = UserSession.Instance.User.UserID;
+
+            return Ok(await _employeeBehaviorRepository.GetAsync(userid));
+        }
+
+        [HttpGet("leaveStatus/{userid?}")]
+        public async Task<ActionResult> GetLeaveStatusAsync(string userid = null)
+        {
+            if (userid == null)
+                userid = UserSession.Instance.User.UserID;
+
+            return Ok(await _leaveStatusRepository.GetAsync(userid));
+        }
+
+        [HttpPost("retirementResignationFMLA/{userid?}")]
+        public async Task<ActionResult> GetRetirementResignationFMLAAsync(string userid = null, string rc = null, int months = 0)
+        {
+            if (userid == null)
+                userid = UserSession.Instance.User.UserID;
+
+            return Ok(await _retirementResignationFMLARepository.GetAsync(userid, rc, months));
         }
     }
 }

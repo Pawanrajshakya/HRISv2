@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs';
-import { IAnnouncement, IAnnouncementList, IAnnouncementSummary } from '../_models/announcement';
-import { IReportParam } from '../_models/report-param';
+import { IAnnouncement } from '../_models/IAnnouncement';
+import { IAnnouncementSummary } from "../_models/IAnnouncementSummary";
+import { IAnnouncementList } from "../_models/IAnnouncementList";
+import { IReportParam } from '../_models/IReportParam';
 import { BaseService } from './base.service';
 
 @Injectable({

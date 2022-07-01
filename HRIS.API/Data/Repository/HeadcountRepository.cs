@@ -11,20 +11,18 @@ namespace HRIS.API
         public Task<List<AgencyHeadcountChartDto>> GetChartAsync(string userID, string rc, string dp);
     }
 
-    public class HeadcountRepository : IHeadcountRepository
+    public class HeadcountRepository : Repository, IHeadcountRepository
     {
-        private readonly HRISDataContext context;
-        private readonly IMapper mapper;
-        private readonly IRCRepository rcRepository;
+        private readonly IRCRepository _rcRepository;
 
         public HeadcountRepository(HRISDataContext context
             ,           IMapper mapper
             , IRCRepository rcRepository
             )
         {
-            this.context = context;
-            this.mapper = mapper;
-            this.rcRepository = rcRepository;
+            _context = context;
+            _mapper = mapper;
+            _rcRepository = rcRepository;
         }
         public Task<List<AgencyHeadcountChartDto>> GetChartAsync(string userID, string rc, string dp)
         {
@@ -36,14 +34,14 @@ namespace HRIS.API
                 new Microsoft.Data.SqlClient.SqlParameter(){ParameterName= "@DPs", Value= dp}
             };
 
-            var data = context.AgencyHeadcountChart
+            var data = _context.AgencyHeadcountChart
                 .FromSqlRaw($"EXECUTE dbo.[spGetAgencyHeadcountChart] @UserID, @RCs, @DPs", param)
                 .ToList();
 
 
             foreach (var item in data)
             {
-                var agencyHeadcountChartDto = mapper.Map<AgencyHeadcountChartDto>(item);
+                var agencyHeadcountChartDto = _mapper.Map<AgencyHeadcountChartDto>(item);
                 dtos.Add(agencyHeadcountChartDto);
             }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IRole } from '../_models/role';
+import { IRole } from '../_models/IRole';
 import { tap, catchError } from 'rxjs/operators';
 import { BaseService } from './base.service';
 

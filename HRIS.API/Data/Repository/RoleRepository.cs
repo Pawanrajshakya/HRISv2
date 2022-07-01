@@ -12,11 +12,8 @@ namespace HRIS.API
         public Task<IEnumerable<RoleDto>> GetAsync();
     }
 
-    public class RoleRepository : IRoleRepository
+    public class RoleRepository : Repository, IRoleRepository
     {
-        private readonly HRISDataContext _context;
-        private readonly IMapper _mapper;
-
         public RoleRepository(HRISDataContext context, IMapper mapper)
         {
             _context = context;

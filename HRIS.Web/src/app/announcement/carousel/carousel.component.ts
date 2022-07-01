@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IAnnouncementSummary } from 'src/app/_models/announcement';
+import { IAnnouncementSummary } from "src/app/_models/IAnnouncementSummary";
 import { AnnouncementService } from 'src/app/_services/announcement.service';
 
 @Component({

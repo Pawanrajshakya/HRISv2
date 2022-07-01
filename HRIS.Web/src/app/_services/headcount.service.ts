@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs';
-import { IHeadcountChartData } from '../_models/headcount';
+import { IHeadcountChartData } from '../_models/IHeadcountChartData';
 import { BaseService } from './base.service';
 
 @Injectable({

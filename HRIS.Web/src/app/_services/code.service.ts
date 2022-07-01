@@ -1,8 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs/operators';
+import { ICSStatus } from '../_models/ICSStatus';
 import { IDP } from '../_models/IDP';
+import { IEmployeeBehavior } from '../_models/IEmployeeBehavior';
+import { ILeaveStatus } from '../_models/ILeaveStatus';
+import { ILocation } from '../_models/ILocation';
 import { IRC } from '../_models/IRC';
+import { IRetirementResignationFMLA } from '../_models/IRetirementResignationFMLA';
+import { ITitle } from '../_models/ITitle';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -30,5 +36,35 @@ export class CodeService extends BaseService {
         // tap((data) => { console.log(data); }),
         catchError(err => this.handleError(err))
       );
-  }
+  };
+
+  locations$ = this.httpClient.get<ILocation[]>(this.url + 'code/location').pipe(
+    tap(data => console.log('locations >> ', JSON.stringify(data))), //debug - display in console
+    catchError(err => this.handleError(err)) //error handling
+  );
+
+  titles$ = this.httpClient.get<ITitle[]>(this.url + 'code/title').pipe(
+    tap(data => console.log('title >> ', JSON.stringify(data))), //debug - display in console
+    catchError(err => this.handleError(err)) //error handling
+  );
+
+  csStatuses$ = this.httpClient.get<ICSStatus[]>(this.url + 'code/csStatus').pipe(
+    tap(data => console.log('csStatus >> ', JSON.stringify(data))), //debug - display in console
+    catchError(err => this.handleError(err)) //error handling
+  );
+
+  employeeBehaviors$ = this.httpClient.get<IEmployeeBehavior[]>(this.url + 'code/employeeBehavior').pipe(
+    tap(data => console.log('employeeBehavior >> ', JSON.stringify(data))), //debug - display in console
+    catchError(err => this.handleError(err)) //error handling
+  );
+
+  leaveStatuses$ = this.httpClient.get<ILeaveStatus[]>(this.url + 'code/leaveStatus').pipe(
+    tap(data => console.log('leaveStatus >> ', JSON.stringify(data))), //debug - display in console
+    catchError(err => this.handleError(err)) //error handling
+  );
+
+  // retirementResignationFMLAs$ = this.httpClient.get<IRetirementResignationFMLA[]>(this.url + 'code/retirementResignationFMLA').pipe(
+  //   tap(data => console.log('RetirementResignationFMLA >> ', JSON.stringify(data))), //debug - display in console
+  //   catchError(err => this.handleError(err)) //error handling
+  // );
 }

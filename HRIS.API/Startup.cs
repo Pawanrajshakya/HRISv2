@@ -44,6 +44,13 @@ namespace HRIS.API
             services.AddScoped<IHeadcountRepository, HeadcountRepository>();
             services.AddScoped<ITEAMRepository, TeamRepository>();
             services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<ICSStatusRepository, CSStatusRepository>();
+            services.AddScoped<IEmployeeBehaviorRepository, EmployeeBehaviorRepository>();
+            services.AddScoped<ILeaveStatusRepository, LeaveStatusRepository>();
+            services.AddScoped<ILogRepository, LogRepository>();
+            services.AddScoped<IRetirementResignationFMLARepository, RetirementResignationFMLARepository>();
+            services.AddScoped<ITitleRepository, TitleRepository>();
+            services.AddScoped<IStaffRepository, StaffRepository>();
 
             //********Repository DI - end
 
@@ -78,7 +85,6 @@ namespace HRIS.API
                 options.UseSqlServer(_config.GetConnectionString("TEAMSConnection"));
             });
             //********Configure_DBContext - end
-
             services.AddControllers(options => options.Filters.Add(new ServiceExceptionInterceptor()))
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore);

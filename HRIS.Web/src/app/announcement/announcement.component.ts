@@ -7,8 +7,9 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
 import { ModalBaseComponent } from '../base/tool-base.component';
-import { IAnnouncement, IAnnouncementList } from '../_models/announcement';
-import { IRole } from '../_models/role';
+import { IAnnouncement } from '../_models/IAnnouncement';
+import { IAnnouncementList } from "../_models/IAnnouncementList";
+import { IRole } from '../_models/IRole';
 import { AnnouncementService } from '../_services/announcement.service';
 import { RoleService } from '../_services/role.service';
 

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { Observable } from 'rxjs';
-import { ICurrentUser } from '../_models/user';
+import { ICurrentUser } from "../_models/ICurrentUser";
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 
 @Component({

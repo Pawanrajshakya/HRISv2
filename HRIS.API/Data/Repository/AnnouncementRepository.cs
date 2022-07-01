@@ -20,8 +20,10 @@ namespace HRIS.API
 
     public class AnnouncementRepository : Repository, IAnnouncementRepository
     {
-        public AnnouncementRepository(HRISDataContext context, IMapper mapper) : base(context, mapper)
+        public AnnouncementRepository(HRISDataContext context, IMapper mapper)
         {
+            _context = context;
+            _mapper = mapper;
         }
 
         public bool Add(AnnouncementDto announcement)

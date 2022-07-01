@@ -30,7 +30,6 @@ namespace HRIS.API
             , IMapper mapper
             , IGroupRepository groupRepository
             , IRoleRepository roleRepository)
-            : base(context, mapper)
         {
             _groupRepository = groupRepository;
             _roleRepository = roleRepository;

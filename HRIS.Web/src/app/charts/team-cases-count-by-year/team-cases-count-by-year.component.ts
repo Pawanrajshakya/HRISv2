@@ -4,8 +4,8 @@ import { BaseChartDirective } from 'ng2-charts';
 import { getFullYear } from 'ngx-bootstrap/chronos';
 import { map } from 'rxjs';
 import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
-import { ICasesCountByYear } from 'src/app/_models/team';
-import { ICurrentUser } from 'src/app/_models/user';
+import { ICasesCountByYear } from "src/app/_models/ICasesCountByYear";
+import { ICurrentUser } from "src/app/_models/ICurrentUser";
 import { TeamService } from 'src/app/_services/team.service';
 import { UserService } from 'src/app/_services/user.service';
 

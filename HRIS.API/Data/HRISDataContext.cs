@@ -38,6 +38,13 @@ namespace HRIS.API
         public DbSet<Announcement> Announcement { get; set; }
         public DbSet<AnnouncementSummary> AnnouncementSummary { get; set; }
         public DbSet<AgencyHeadcountChart> AgencyHeadcountChart { get; set; }
+        public DbSet<Title> Titles { get; set; }
+        public DbSet<CSStatus> CSStatuses { get; set; }
+        public DbSet<LeaveStatus> LeaveStatuses{ get; set; }
+        public DbSet<RetirementResignationFMLA> RetirementResignationFMLAs { get; set; }
+        public DbSet<ActiveStaff> ActiveStaffs { get; set; }
+        public DbSet<EmployeeBehavior> EmployeeBehaviors { get; set; }
+
 
     }
 }

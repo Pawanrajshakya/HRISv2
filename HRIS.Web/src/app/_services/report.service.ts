@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs/operators';
-import { IReportParam } from '../_models/report-param';
+import { IReportParam } from '../_models/IReportParam';
 import { BaseService } from './base.service';
 
 @Injectable({

@@ -1,10 +1,12 @@
 import { Component, AfterViewInit, TemplateRef } from '@angular/core';
 import { catchError, map, merge, startWith, Subject, switchMap, tap, of as observableOf } from 'rxjs';
-import { ISearchUser, IUser, IUserList } from '../_models/user';
+import { IUser } from '../_models/IUser';
+import { IUserList } from "../_models/IUserList";
+import { ISearchUser } from "../_models/ISearchUser";
 import { UserService } from '../_services/user.service';
 import { NgForm } from '@angular/forms';
-import { IGroup } from '../_models/group';
-import { IRole } from '../_models/role';
+import { IGroup } from '../_models/IGroup';
+import { IRole } from '../_models/IRole';
 import { IRC } from '../_models/IRC';
 import { IDP } from '../_models/IDP';
 import { GroupService } from '../_services/group.service';

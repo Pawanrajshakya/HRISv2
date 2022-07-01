@@ -14,11 +14,8 @@ namespace HRIS.API
         public GroupDto Get(int groupID);
         public IEnumerable<GroupDto> Get();
     }
-    public class GroupRepository : IGroupRepository
+    public class GroupRepository : Repository, IGroupRepository
     {
-        private readonly HRISDataContext _context;
-        private readonly IMapper _mapper;
-
         public GroupRepository(HRISDataContext context, IMapper mapper)
         {
             _context = context;

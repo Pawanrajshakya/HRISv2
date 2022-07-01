@@ -3,8 +3,8 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
 import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
-import { IPendingCasesChart } from 'src/app/_models/team';
-import { ICurrentUser } from 'src/app/_models/user';
+import { IPendingCasesChart } from "src/app/_models/IPendingCasesChart";
+import { ICurrentUser } from "src/app/_models/ICurrentUser";
 import { TeamService } from 'src/app/_services/team.service';
 import { UserService } from 'src/app/_services/user.service';
 

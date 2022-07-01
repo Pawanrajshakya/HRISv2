@@ -4,7 +4,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
 import { getFullYear } from 'ngx-bootstrap/chronos';
 import { ChartBaseComponent, IPieChartData } from 'src/app/base/chart-base.component';
-import { ITopInfractionsChart } from 'src/app/_models/team';
+import { ITopInfractionsChart } from "src/app/_models/ITopInfractionsChart";
 import { TeamService } from 'src/app/_services/team.service';
 
 @Component({

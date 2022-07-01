@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpErrorResponse } from '@angular/common/http/http';
 import { Observable, throwError } from 'rxjs';
-import { IHRISError, HRISError } from '../_models/hriserror';
+import { IHRISError, HRISError } from '../_models/IHRISError';
 import { isArray } from 'ngx-bootstrap/chronos';
 import { isObject } from 'ngx-bootstrap/chronos/utils/type-checks';
 

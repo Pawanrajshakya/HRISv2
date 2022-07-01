@@ -4,7 +4,7 @@ import { ChartData, ChartType, ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
 import { ChartBaseComponent , ILineChartData} from 'src/app/base/chart-base.component';
-import { IHeadcountChartData } from 'src/app/_models/headcount';
+import { IHeadcountChartData } from 'src/app/_models/IHeadcountChartData';
 import { HeadcountService } from 'src/app/_services/headcount.service';
 
 @Component({

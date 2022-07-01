@@ -5,9 +5,10 @@ import { EMPTY, Subject, merge, of as observableOf } from 'rxjs';
 import { catchError, switchMap, tap, startWith, map } from 'rxjs/operators';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ITableViewParam } from '../_models/report-param';
-import { ICurrentUser, IUserList } from '../_models/user';
-import { HRISError } from '../_models/hriserror';
+import { ITableViewParam } from '../_models/IReportParam';
+import { IUserList } from "../_models/IUserList";
+import { ICurrentUser } from "../_models/ICurrentUser";
+import { HRISError } from '../_models/IHRISError';
 
 @Component({
   selector: 'app-developer',

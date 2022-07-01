@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs';
-import { ICasesCountByYear, IPendingCasesChart, ITopInfractionsChart } from '../_models/team';
+import { ITopInfractionsChart } from "../_models/ITopInfractionsChart";
+import { ICasesCountByYear } from "../_models/ICasesCountByYear";
+import { IPendingCasesChart } from "../_models/IPendingCasesChart";
 import { BaseService } from './base.service';
 
 @Injectable({

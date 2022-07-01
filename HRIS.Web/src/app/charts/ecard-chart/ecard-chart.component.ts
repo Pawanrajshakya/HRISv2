@@ -4,8 +4,8 @@ import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs/operators';
 import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
-import { IEcard } from 'src/app/_models/ecard';
-import { ICurrentUser } from 'src/app/_models/user';
+import { IEcard } from 'src/app/_models/IEcard';
+import { ICurrentUser } from "src/app/_models/ICurrentUser";
 import { EcardService } from 'src/app/_services/ecard.service';
 import { UserService } from 'src/app/_services/user.service';
 

@@ -4,11 +4,11 @@ import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@ang
 import { MatSort } from '@angular/material/sort';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { Subject } from 'rxjs';
-import { IGroup } from '../_models/group';
+import { IGroup } from '../_models/IGroup';
 import { IDP } from '../_models/IDP';
 import { IRC } from '../_models/IRC';
-import { IReportFormat, IReportParam } from '../_models/report-param';
-import { IRole } from '../_models/role';
+import { IReportFormat, IReportParam } from '../_models/IReportParam';
+import { IRole } from '../_models/IRole';
 
 @Component({
   selector: 'app-base',

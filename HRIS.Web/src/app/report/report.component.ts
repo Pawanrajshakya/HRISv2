@@ -2,7 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FileSaverService } from 'ngx-filesaver';
-import { IReportParam } from '../_models/report-param';
+import { IReportParam } from '../_models/IReportParam';
 import { ReportService } from '../_services/report.service';
 
 @Component({

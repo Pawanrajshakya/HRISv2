@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
-import { IEcard } from '../_models/ecard';
+import { IEcard } from '../_models/IEcard';
 import { BaseService } from './base.service';
 
 @Injectable({

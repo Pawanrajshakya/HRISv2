@@ -8,34 +8,40 @@ namespace HRIS.API.Controllers
     [ApiController]
     public class UserController : BaseController
     {
-        private readonly IUserRepository userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(IUserRepository userRepository) : base() => this.userRepository = userRepository;
+        public UserController(IUserRepository userRepository) : base()
+        {
+            _userRepository = userRepository;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<UserDto>> Get() => await userRepository.GetAsync(UserSession.LanID);
+        public async Task<ActionResult<UserDto>> Get()
+        {
+            return await _userRepository.GetAsync(UserSession.LanID);
+        }
 
         [HttpPost]
         [Route("list")]
-        public ActionResult<IEnumerable<UserDto>> ListAsync(TableViewParameters parameters) => Ok(userRepository.Get(UserSession.Instance.User.UserID, parameters));
+        public ActionResult<IEnumerable<UserDto>> ListAsync(TableViewParameters parameters) => Ok(_userRepository.Get(UserSession.Instance.User.UserID, parameters));
 
         [HttpGet("search/{searchBy}/{isSuper:bool}")]
-        public ActionResult<IEnumerable<SearchUser>> Search(string searchBy, bool isSuper) => Ok(userRepository.SearchAsync(searchBy, isSuper));
+        public ActionResult<IEnumerable<SearchUser>> Search(string searchBy, bool isSuper) => Ok(_userRepository.SearchAsync(searchBy, isSuper));
 
         [HttpGet("{ein}/{isSuper:bool}")]
-        public async Task<ActionResult> Get(string ein, bool isSuper) => Ok(await userRepository.GetAsync(ein, isSuper));
+        public async Task<ActionResult> Get(string ein, bool isSuper) => Ok(await _userRepository.GetAsync(ein, isSuper));
 
         [HttpPost]
-        public ActionResult Post([FromBody]UserDtoToAddAndUpdate user) => Ok(userRepository.Add(user));
+        public ActionResult Post([FromBody]UserDtoToAddAndUpdate user) => Ok(_userRepository.Add(user));
 
         [HttpPut]
-        public ActionResult Update([FromBody]UserDtoToAddAndUpdate user) => Ok(userRepository.Update(user));
+        public ActionResult Update([FromBody]UserDtoToAddAndUpdate user) => Ok(_userRepository.Update(user));
 
         [HttpDelete("{userID}")]
-        public ActionResult Delete(string userID) => Ok(userRepository.Delete(userID));
+        public ActionResult Delete(string userID) => Ok(_userRepository.Delete(userID));
 
         [HttpGet]
         [Route("IsDeveloper/{lanid}")]
-        public async Task<ActionResult> IsDeveloper(string lanid) => Ok(await userRepository.IsDeveloperAsync(lanid));
+        public async Task<ActionResult> IsDeveloper(string lanid) => Ok(await _userRepository.IsDeveloperAsync(lanid));
     }
 }

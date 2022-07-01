@@ -11,13 +11,9 @@ namespace HRIS.API
     public interface IRCRepository
     {
         public Task<List<RCDto>> GetAsync(string userid);
-        //public Task<IEnumerable<RCDto>> GetAsync(string userid);
     }
-    public class RCRepository : IRCRepository
+    public class RCRepository : Repository, IRCRepository
     {
-
-        private readonly HRISDataContext _context;
-        private readonly IMapper _mapper;
 
         public RCRepository(HRISDataContext context, IMapper mapper)
         {
@@ -33,15 +29,5 @@ namespace HRIS.API
                 .ToList();
             return await Task.Run(() => RCs);
         }
-
-        //public async Task<IEnumerable<RCDto>> GetAsync(string userid)
-        //{
-        //    var param = new SqlParameter("@UserID", userid);
-        //    var RCs = _context.RC.FromSqlRaw("spGetRCList @UserID", param)
-        //        .ProjectTo<RCDto>(_mapper.ConfigurationProvider)
-        //        .ToList();
-        //    return await Task.Run(() => RCs);
-        //}
-
     }
 }

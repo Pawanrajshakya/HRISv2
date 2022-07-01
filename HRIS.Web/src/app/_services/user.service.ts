@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
-import { ISearchUser, ICurrentUser, IUserList, IUser } from '../_models/user';
+import { IUser } from '../_models/IUser';
+import { IUserList } from "../_models/IUserList";
+import { ISearchUser } from "../_models/ISearchUser";
+import { ICurrentUser } from "../_models/ICurrentUser";
 import { Subject } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
-import { IReportParam, ITableViewParam } from '../_models/report-param';
+import { IReportParam, ITableViewParam } from '../_models/IReportParam';
 import { HttpClient } from '@angular/common/http';
-import { HRISError, IHRISError } from '../_models/hriserror';
+import { HRISError, IHRISError } from '../_models/IHRISError';
 
 @Injectable({
   providedIn: 'root'

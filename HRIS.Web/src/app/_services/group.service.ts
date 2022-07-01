@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { BaseService } from './base.service';
-import { IGroup } from '../_models/group';
+import { IGroup } from '../_models/IGroup';
 
 @Injectable({
   providedIn: 'root'

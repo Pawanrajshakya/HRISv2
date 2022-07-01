@@ -14,11 +14,9 @@ namespace HRIS.API
         public Task<IEnumerable<DPDto>> GetAsync(string userid = null);
         public Task<IEnumerable<DPDto>> GetByUserIDAsync(string userid, string rc = "");
     }
-    public class DPRepository : IDPRepository
-    {
-        private readonly HRISDataContext _context;
-        private readonly IMapper _mapper;
 
+    public class DPRepository : Repository, IDPRepository
+    {
         public DPRepository(HRISDataContext context, IMapper mapper)
         {
             _context = context;

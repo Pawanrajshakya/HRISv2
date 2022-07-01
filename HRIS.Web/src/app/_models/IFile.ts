@@ -1,4 +1,4 @@
-export interface File extends Blob {
+export interface IFile extends Blob {
   readonly lastModified: number;
   readonly name: string;
 }
