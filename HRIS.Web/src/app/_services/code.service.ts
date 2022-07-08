@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs/operators';
+import { IBackupTitle } from '../_models/IBackupTitle';
 import { ICSStatus } from '../_models/ICSStatus';
 import { IDP } from '../_models/IDP';
 import { IEmployeeBehavior } from '../_models/IEmployeeBehavior';
@@ -45,6 +46,11 @@ export class CodeService extends BaseService {
 
   titles$ = this.httpClient.get<ITitle[]>(this.url + 'code/title').pipe(
     tap(data => console.log('title >> ', JSON.stringify(data))), //debug - display in console
+    catchError(err => this.handleError(err)) //error handling
+  );
+
+  bkpTitles$ = this.httpClient.get<IBackupTitle[]>(this.url + 'code/bkpTitle').pipe(
+    tap(data => console.log('bkptitle >> ', JSON.stringify(data))), //debug - display in console
     catchError(err => this.handleError(err)) //error handling
   );
 

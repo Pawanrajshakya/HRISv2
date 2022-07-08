@@ -7,6 +7,9 @@ namespace HRIS.API.Controllers
     [ApiController]
     public class ReportController : BaseController
     {
+        public ReportController(IRCRepository rcRepository, IDPRepository dpRepository) : base(rcRepository, dpRepository)
+        {
+        }
 
         [HttpPost]
         public ActionResult Post(ReportParameters parameters)
@@ -14,7 +17,7 @@ namespace HRIS.API.Controllers
             try
             {
                 //System.Threading.Thread.Sleep(5000);
-                return File(ReportManager.Get(parameters), parameters.Detail.ContentType);
+                return File(ReportManager.Get(parameters), parameters.File.ContentType);
             }
             catch (Exception ex)
             {

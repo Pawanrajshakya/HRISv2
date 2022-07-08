@@ -10,13 +10,12 @@ namespace HRIS.API.Controllers
     public class TeamController : BaseController
     {
         private readonly ITEAMRepository _teamRepository;
-        private readonly IRCRepository _rcRepository;
 
-        public TeamController(ITEAMRepository teamRepository, IRCRepository rcRepository)
-            : base()
+        public TeamController(ITEAMRepository teamRepository
+            , IRCRepository rcRepository
+            , IDPRepository dpRepository) : base(rcRepository, dpRepository)
         {
             _teamRepository = teamRepository;
-            _rcRepository = rcRepository;
         }
 
         [HttpGet("PendingCasesChartAsync")]

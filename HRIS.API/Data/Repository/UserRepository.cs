@@ -14,7 +14,7 @@ namespace HRIS.API
         public UserDto Get(string lanID);
         public Task<GetUserByEINDto> GetAsync(string ein, bool isSuper);
         //public Task<IEnumerable<UserDto>> Get(int roleID, int groupID);
-        public IEnumerable<UserListDto> Get(string userID, TableViewParameters _reportParameters);
+        public IEnumerable<UserListDto> Get(string userID, Pagination _reportParameters);
         public Task<IEnumerable<SearchUser>> SearchAsync(string searchBy, bool isSuper);
         public bool Add(UserDtoToAddAndUpdate user);
         public bool Update(UserDtoToAddAndUpdate user);
@@ -33,6 +33,9 @@ namespace HRIS.API
         {
             _groupRepository = groupRepository;
             _roleRepository = roleRepository;
+            _mapper = mapper;
+            _context = context;
+
         }
 
         //public IEnumerable<UserDto> Get(int roleID, int groupID)
@@ -69,7 +72,7 @@ namespace HRIS.API
             return await Task.Run(() => dto);
         }
 
-        public IEnumerable<UserListDto> Get(string userID, TableViewParameters _reportParameters)
+        public IEnumerable<UserListDto> Get(string userID, Pagination _reportParameters)
         {
             List<UserListDto> dto = new List<UserListDto>();
 
@@ -228,8 +231,10 @@ namespace HRIS.API
                 }
             };
 
-            LoginUser user = _context.LoginUser
-                .FromSqlRaw($"EXECUTE dbo.spGetUser @LanID", sqlParameters).ToList()
+            var users = _context.LoginUser
+                .FromSqlRaw($"EXECUTE dbo.spGetUser @LanID", sqlParameters);
+
+            var user = users.ToList()
                 .Where(x => x.LanID == lanID)
                 .SingleOrDefault();
 

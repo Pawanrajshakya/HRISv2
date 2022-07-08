@@ -12,10 +12,10 @@ export interface IReportFormat {
 }
 
 export interface IReportParam {
-  detail: {
-    reportName: string;
+  reportName: string,
+  userID?: string,
+  file: {
     format: string, //IReportFormat;
-    userID?: string;
   },
   pagination: {
     pageNumber?: number;
@@ -26,8 +26,8 @@ export interface IReportParam {
   },
   rcDp: {
     isAgencyWise?: boolean,
-    rCList?: string[],
-    dPList?: string[],
+    rcs?: string,
+    dps?: string,
   },
   code: {
     backupTitles?: string;

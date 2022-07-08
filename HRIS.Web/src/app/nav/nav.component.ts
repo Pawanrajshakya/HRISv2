@@ -15,6 +15,7 @@ import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 export class NavComponent {
 
   currentUser$: Observable<ICurrentUser>;
+  
   message: any;
   constructor(private userService: UserService) {
     this.currentUser$ = this.userService.currentUserAction$;

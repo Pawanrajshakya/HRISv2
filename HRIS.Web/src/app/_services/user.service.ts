@@ -29,17 +29,6 @@ export class UserService extends BaseService {
   currentUserSubject = new Subject<ICurrentUser>();
   currentUserAction$ = this.currentUserSubject.asObservable();
 
-  constructor(private httpClient: HttpClient) {
-    super();
-    this.loginAction$.subscribe((lanID) => {
-      console.log('Login step 2: UserService >> constructor >> this.loginAction$.subscribe >> ', lanID);
-      this.lanID = lanID;//used in _header Intercepter
-      this.user$.subscribe((user: ICurrentUser | IHRISError) => {
-        console.log('Login step 3: UserService >> constructor >> this.user$.subscribe >> ', user);
-        this.currentUserSubject.next(this.currentUser);
-      })
-    })
-  }
 
   user$ = this.httpClient.get<ICurrentUser>(this.url + "User")
     .pipe(
@@ -48,6 +37,33 @@ export class UserService extends BaseService {
       }),
       catchError(err => this.handleError(err))
     );
+
+  constructor(private httpClient: HttpClient) {
+    super();
+
+    this.loginAction$.subscribe({
+      next: (lanID) => {
+
+        this.user$.subscribe((user: ICurrentUser | IHRISError) => {
+          console.log('Login step 3: UserService >> constructor >> this.user$.subscribe >> ', user, "this.currentUser >> ", this.currentUser);
+          this.currentUserSubject.next(this.currentUser);
+        });
+
+        console.log('Login step 2: UserService >> constructor >> this.loginAction$.subscribe >> ', lanID);
+
+        this.lanID = lanID;//used in _header Intercepter
+
+
+
+      }, error: (error) => {
+        console.log(error);
+      }, complete: () => {
+
+      }
+    })
+  }
+
+
 
   tableList$(tableViewParam?: ITableViewParam) {
     console.log('tableViewParam', tableViewParam);

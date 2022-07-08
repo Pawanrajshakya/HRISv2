@@ -10,14 +10,18 @@ namespace HRIS.API.Controllers
     public class EcardController : BaseController
     {
         private readonly IEcardRepository _ecardRepository;
-        private readonly IDPRepository _dpRepository;
 
-        public EcardController(IEcardRepository ecardRepository, IDPRepository dPRepository)
-            : base()
+        public EcardController(IEcardRepository ecardRepository, IRCRepository rcRepository, IDPRepository dpRepository) : base(rcRepository, dpRepository)
         {
             _ecardRepository = ecardRepository;
-            _dpRepository = dPRepository;
         }
+
+        //public EcardController(IEcardRepository ecardRepository, IDPRepository dPRepository)
+        //    : base()
+        //{
+        //    _ecardRepository = ecardRepository;
+        //    _dpRepository = dPRepository;
+        //}
 
         [HttpPost("GetChartAsync")]
         public async Task<ActionResult<IEnumerable<EcardChartDto>>> GetChartAsync()

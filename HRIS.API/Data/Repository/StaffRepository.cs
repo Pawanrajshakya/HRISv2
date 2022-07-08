@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,17 +10,17 @@ namespace HRIS.API
     {
         public Task<IEnumerable<ActiveStaffDto>> Get(
             string userid,
+            string rcs,
+            string dps,
+            string locations,
+            string titles,
+            string backupTitles,
+            string csStatus,
             int pageNumber = 1,
             int pageSize = 10,
             string sortColumn = "",
             string sortOrder = "",
-            string searchTerm = "",
-            List<string> rcs = null, 
-            List<string> dps = null, 
-            List<string> locations = null, 
-            List<string> payTitles = null, 
-            List<string> backupTitles = null, 
-            List<string> csStatus = null);
+            string searchTerm = "");
     }
 
     public class StaffRepository : Repository, IStaffRepository
@@ -32,10 +31,11 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ActiveStaffDto>> Get(string userid, int pageNumber = 1, int pageSize = 10, 
-            string sortColumn = "", string sortOrder = "", string searchTerm = "", 
-            List<string> rcs = null, List<string> dps = null, List<string> locations = null, 
-            List<string> payTitles = null, List<string> backupTitles = null, List<string> csStatus = null)
+        public async Task<IEnumerable<ActiveStaffDto>> Get(string userid,
+            string rcs, string dps, string locations, string titles,
+            string backupTitles, string csStatus, int pageNumber = 1, 
+            int pageSize = 10, string sortColumn = "", string sortOrder = "", 
+            string searchTerm = "")
         {
             List<ActiveStaffDto> dtos = new List<ActiveStaffDto>();
 
@@ -49,7 +49,7 @@ namespace HRIS.API
                 new SqlParameter("@RCs", rcs){},
                 new SqlParameter("@DPs", dps){},
                 new SqlParameter("@Locations", locations){},
-                new SqlParameter("@PayTitles", payTitles){},
+                new SqlParameter("@PayTitles", titles){},
                 new SqlParameter("@BackupTitles", backupTitles){},
                 new SqlParameter("@CSStatus", csStatus){},
 
@@ -57,7 +57,7 @@ namespace HRIS.API
 
             var rows = _context.ActiveStaffs
                 .FromSqlRaw($"EXECUTE dbo.spGetPagedStaffs @UserID, @PageNumber, @PageSize, " +
-                $"@SortColumn, @SortOrder, @SearchTerm", sqlParameters)
+                $"@SortColumn, @SortOrder, @SearchTerm, @RCs, @DPs, @Locations, @PayTitles, @BackupTitles, @CSStatus", sqlParameters)
                 .ToList();
 
             foreach (var row in rows)

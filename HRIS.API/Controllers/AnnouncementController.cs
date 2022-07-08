@@ -17,15 +17,17 @@ namespace HRIS.API.Controllers
         private readonly IAnnouncementRepository announcementRepository;
         private readonly IHostEnvironment environment;
 
-        public AnnouncementController(IAnnouncementRepository announcementRepository, IHostEnvironment environment)
-            : base()
+        public AnnouncementController(IAnnouncementRepository announcementRepository
+            , IHostEnvironment environment
+            , IRCRepository rcRepository
+            , IDPRepository dpRepository) : base(rcRepository, dpRepository)
         {
             this.announcementRepository = announcementRepository;
             this.environment = environment;
         }
 
         [HttpPost("list")]
-        public ActionResult Get(TableViewParameters parameters)
+        public ActionResult Get(Pagination parameters)
         {
             return Ok(announcementRepository.GetList(UserSession.Instance.User.UserID, parameters));
         }

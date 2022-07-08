@@ -11,7 +11,7 @@ namespace HRIS.API
     {
         public int Total { get; set; }
         [Key]
-        public int RowNum { get; set; }
+        public Int64 RowNum { get; set; }
         public string EIN { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

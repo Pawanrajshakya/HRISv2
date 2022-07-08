@@ -9,8 +9,7 @@ namespace HRIS.API.Controllers
     {
         private readonly IRoleRepository roleRepository;
 
-        public RoleController(IRoleRepository roleRepository)
-            : base()
+        public RoleController(IRoleRepository roleRepository, IRCRepository rcRepository, IDPRepository dpRepository) : base(rcRepository, dpRepository)
         {
             this.roleRepository = roleRepository;
         }

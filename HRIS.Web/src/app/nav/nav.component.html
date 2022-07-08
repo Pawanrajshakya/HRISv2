@@ -7,7 +7,7 @@
   <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="staffMenu"><i class="bi bi-person-lines-fill"></i>
     Staff <span class="caret"></span></a>
   <mat-menu #staffMenu="matMenu" yPosition="below">
-    <button mat-menu-item>Active Staff (DHS & HRA)</button>
+    <button [routerLink]="['/activeStaff']" routerLinkActive="active" mat-menu-item>Active Staff (DHS & HRA)</button>
   </mat-menu>
   <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="reportMenu"><i class="bi bi-list"></i>
     Reports <span class="caret"></span></a>

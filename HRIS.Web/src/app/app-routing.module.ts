@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ActiveStaffComponent } from './active-staff/active-staff.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { DeveloperComponent } from './developer/developer.component';
 import { HomeComponent } from './home/home.component';
@@ -10,6 +11,7 @@ const routes: Routes = [
   { path: 'user', component: UserComponent },
   { path: 'developer', component: DeveloperComponent },
   { path: 'announcement', component: AnnouncementComponent },
+  { path: 'activeStaff', component: ActiveStaffComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

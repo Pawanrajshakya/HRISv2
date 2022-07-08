@@ -16,7 +16,6 @@ export class ReportComponent implements AfterViewInit {
   closeBtnName?: string;
   message: string = "We are preparing your report, please wait...";
   reportParam?: IReportParam;
-  reportName: string = "";
 
   constructor(
     public modalReportRef: BsModalRef,
@@ -29,8 +28,12 @@ export class ReportComponent implements AfterViewInit {
       .subscribe({
         next: (res) => {
           let response = res as HttpResponse<Blob>;
-          this.fileServer.save(response.body, this.reportParam?.detail.reportName);
-        }, error: (error) => { }
+          this.fileServer.save(response.body, this.reportParam?.reportName);
+        }, error: (error) => {
+          console.error(error);
+          this.title = "HRIS"
+          this.message = "Unable to process your request. Please try later. "
+        }
         , complete: () => {
           this.modalService.hide(this.modalReportRef?.id);
           console.log('complete');

@@ -13,8 +13,18 @@ namespace HRIS.API.Filters
             var error = new 
             {
                 context.HttpContext.Response.StatusCode,
-                context.Exception.Message
+                context.Exception.Message,
+                context.Exception.Source,
+                context.Exception.StackTrace,
+                context.Exception.HelpLink,
+                context.Exception.TargetSite
             };
+
+            EmailManager.SendEmail(ShareManager.SmtpServer,
+                ShareManager.From,
+                ShareManager.SendTo,
+                "HRIS v2 Exception",
+                context.Exception.Message);
 
             context.Result = new JsonResult(error);
             return Task.CompletedTask;

@@ -12,12 +12,11 @@ namespace HRIS.API.Controllers
     {
         private readonly IHeadcountRepository _headcountRepository;
 
-        public HeadcountController(IHeadcountRepository headcountRepository)
-            :base()
+        public HeadcountController(IHeadcountRepository headcountRepository, IRCRepository rcRepository, IDPRepository dpRepository) : base(rcRepository, dpRepository)
         {
             _headcountRepository = headcountRepository;
         }
-        
+
         [HttpPost("GetChartAsync")]
         public async Task<ActionResult<List<AgencyHeadcountChartDto>>> GetChartAsync()
         {

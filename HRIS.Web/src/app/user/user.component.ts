@@ -17,6 +17,7 @@ import { NgSelectConfig } from '@ng-select/ng-select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportComponent } from '../report/report.component';
 import { ModalBaseComponent } from '../base/tool-base.component';
+import { Reports } from '../_models/Reports.enum';
 
 @Component({
   selector: 'app-user',
@@ -294,7 +295,7 @@ export class UserComponent extends ModalBaseComponent<IUserList> implements Afte
 
   onExport() {
 
-    this.reportParam.detail.reportName = "UsersReport";
+    this.reportParam.reportName = Reports[1];
 
     const initialState: ModalOptions = {
       initialState: {

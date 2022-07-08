@@ -7,8 +7,6 @@ namespace HRIS.API.Controllers
     [ApiController]
     public class CodeController : BaseController
     {
-        private readonly IRCRepository _rcRepository;
-        private readonly IDPRepository _dpRepository;
         private readonly ILocationRepository _locationRepository;
         private readonly ITitleRepository _titleRepository;
         private readonly ICSStatusRepository _cSStatusRepository;
@@ -24,18 +22,14 @@ namespace HRIS.API.Controllers
             ICSStatusRepository cSStatusRepository,
             IEmployeeBehaviorRepository employeeBehaviorRepository,
             ILeaveStatusRepository leaveStatusRepository,
-            IRetirementResignationFMLARepository retirementResignationFMLARepository
-            )
-            : base()
+            IRetirementResignationFMLARepository retirementResignationFMLARepository) : base(rcRepository, dpRepository)
         {
-            _rcRepository = rcRepository;
-            _dpRepository = dpRepository;
-            _locationRepository = locationRepository;
             _titleRepository = titleRepository;
             _cSStatusRepository = cSStatusRepository;
             _employeeBehaviorRepository = employeeBehaviorRepository;
             _leaveStatusRepository = leaveStatusRepository;
             _retirementResignationFMLARepository = retirementResignationFMLARepository;
+            _locationRepository = locationRepository;
         }
 
         [HttpGet("rc/{userid?}")]
@@ -81,13 +75,22 @@ namespace HRIS.API.Controllers
             return Ok(await _titleRepository.GetAsync(userid));
         }
 
+        [HttpGet("bkptitle/{userid?}")]
+        public async Task<ActionResult> GetBkpTitleAsync(string userid = null)
+        {
+            if (userid == null)
+                userid = UserSession.Instance.User.UserID;
+
+            return Ok(await _titleRepository.GetBackupTitleAsync(userid));
+        }
+
         [HttpGet("csStatus/{userid?}")]
         public async Task<ActionResult> GetCSStatusAsync(string userid = null)
         {
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
 
-            return Ok(await _titleRepository.GetAsync(userid));
+            return Ok(await _cSStatusRepository.GetAsync(userid));
         }
 
         [HttpGet("employeeBehavior/{userid?}")]

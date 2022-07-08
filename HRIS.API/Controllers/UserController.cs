@@ -10,7 +10,8 @@ namespace HRIS.API.Controllers
     {
         private readonly IUserRepository _userRepository;
 
-        public UserController(IUserRepository userRepository) : base()
+        public UserController(IUserRepository userRepository, IRCRepository rcRepository
+            , IDPRepository dpRepository) : base(rcRepository, dpRepository)
         {
             _userRepository = userRepository;
         }
@@ -23,7 +24,7 @@ namespace HRIS.API.Controllers
 
         [HttpPost]
         [Route("list")]
-        public ActionResult<IEnumerable<UserDto>> ListAsync(TableViewParameters parameters) => Ok(_userRepository.Get(UserSession.Instance.User.UserID, parameters));
+        public ActionResult<IEnumerable<UserDto>> ListAsync(Pagination parameters) => Ok(_userRepository.Get(UserSession.Instance.User.UserID, parameters));
 
         [HttpGet("search/{searchBy}/{isSuper:bool}")]
         public ActionResult<IEnumerable<SearchUser>> Search(string searchBy, bool isSuper) => Ok(_userRepository.SearchAsync(searchBy, isSuper));

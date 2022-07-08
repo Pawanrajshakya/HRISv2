@@ -9,8 +9,9 @@ namespace HRIS.API.Controllers
     {
         private readonly IGroupRepository _groupRepository;
 
-        public GroupController(IGroupRepository groupRepository)
-            :base()
+        public GroupController(IGroupRepository groupRepository,
+            IRCRepository rcRepository,
+            IDPRepository dpRepository) : base(rcRepository, dpRepository)
         {
             _groupRepository = groupRepository;
         }

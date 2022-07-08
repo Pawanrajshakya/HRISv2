@@ -3,169 +3,84 @@ using System.Linq;
 
 namespace HRIS.API
 {
-    public class Detail
+    public class File
     {
-        private string format;
-
-        public string ReportName { get; set; }
+        private string _format;
+        public string RDLFileName { get; set; }
         public string Format
         {
             get
             {
-                return format;
+                return _format;
             }
             set
             {
                 if (value.ToUpper() == "EXCEL")
                 {
-                    format = "Excel";
+                    _format = "Excel";
                     ContentType = "application/excel";
                 }
 
                 if (value.ToUpper() == "EXCELOPENXML")
                 {
-                    format = "ExcelOpenXml";
+                    _format = "ExcelOpenXml";
                     ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                 }
 
                 if (value.ToUpper() == "PDF")
                 {
-                    format = "Pdf";
+                    _format = "Pdf";
                     ContentType = "application/pdf";
                 }
 
-                format = value;
+                _format = value;
             }
         }
         public string ContentType { get; private set; }
-        public string UserID { get; set; }
-
     }
 
     public class Pagination
     {
         private int _PageNumber;
         private int _PageSize;
-        public virtual int PageNumber
-        {
-            get { return _PageNumber; }
-            set
-            {
-                _PageNumber = (value == 0) ? 1 : value;
-            }
-        }
-        public virtual int PageSize
-        {
-            get { return _PageSize; }
-            set
-            {
-                _PageSize = (value == 0) ? 10 : value;
-            }
-        }
-        public virtual string SortColumn { get; set; }
-        public virtual string SortOrder { get; set; }
-        public virtual string SearchTerm { get; set; }
+        private string sortColumn = string.Empty;
+        private string sortOrder = string.Empty;
+        private string searchTerm = string.Empty;
+
+        public virtual int PageNumber { get => _PageNumber; set => _PageNumber = (value == 0) ? 1 : value; }
+        public virtual int PageSize { get => _PageSize; set => _PageSize = (value == 0) ? 10 : value; }
+        public virtual string SortColumn { get => sortColumn; set => sortColumn = value ?? string.Empty; }
+        public virtual string SortOrder { get => sortOrder; set => sortOrder = value ?? string.Empty; }
+        public virtual string SearchTerm { get => searchTerm; set => searchTerm = value ?? string.Empty; }
     }
 
     public class RcDp
     {
-        private readonly IRCRepository _rCRepository;
-        private readonly IDPRepository _dPRepository;
-
-        public RcDp(IRCRepository rCRepository, IDPRepository dPRepository)
-        {
-            _rCRepository = rCRepository;
-            _dPRepository = dPRepository;
-        }
-
-        public RcDp()
-        {
-
-        }
-
         public bool IsAgencyWise { get; set; }
-
-        public List<string> RCList { get; set; }
-        public List<string> DPList { get; set; }
-
-        public string RC
-        {
-            get
-            {
-                if (RCList != null && RCList.Count != 0)
-                    return Utility.ConvertToString(RCList);
-
-                if (!IsAgencyWise)
-                {
-                    return Utility.ConvertToString(
-                        _rCRepository.GetAsync(UserSession.Instance.User.UserID).Result
-                        .Select(s => s.Code)
-                        .ToList()
-                        );
-                }
-                return null;
-            }
-        }
-
-        public string DP
-        {
-            get
-            {
-                if (DPList != null && DPList.Count != 0)
-                    return Utility.ConvertToString(DPList);
-
-                if (!IsAgencyWise)
-                {
-                    return Utility.ConvertToString(
-                        _dPRepository.GetAsync().Result
-                        .Select(s => s.DPCode)
-                        .ToList()
-                        );
-                }
-
-                return null;
-            }
-        }
+        public string RCs { get; set; }
+        public string DPs { get; set; }
     }
 
     public class Code
     {
-        public string BackupTitles { get; set; }
-        public string Locations { get; set; }
-        public string CSStatus { get; set; }
-        public string Titles { get; set; }
+        private string backupTitles = string.Empty;
+        private string locations = string.Empty;
+        private string cSStatus = string.Empty;
+        private string titles = string.Empty;
+
+        public string BackupTitles { get => backupTitles; set => backupTitles = value ?? string.Empty; }
+        public string Locations { get => locations; set => locations = string.IsNullOrEmpty(value) ? string.Empty : value; }
+        public string CSStatus { get => cSStatus; set => cSStatus = value ?? string.Empty; }
+        public string Titles { get => titles; set => titles = value ?? string.Empty; }
     }
 
     public class ReportParameters
     {
-        public Detail Detail { get; set; }
+        public string UserID { get; set; }
+        public string ReportName { get; set; }
+        public File File { get; set; }
         public Pagination Pagination { get; set; }
         public RcDp RcDp { get; set; }
         public Code Code { get; set; }
-    }
-
-    public class TableViewParameters
-    {
-        private int _PageNumber;
-        private int _PageSize;
-        public virtual int PageNumber
-        {
-            get { return _PageNumber; }
-            set
-            {
-                _PageNumber = (value == 0) ? 1 : value;
-            }
-        }
-        public virtual int PageSize
-        {
-            get { return _PageSize; }
-            set
-            {
-                _PageSize = (value == 0) ? 10 : value;
-            }
-        }
-        public virtual string SortColumn { get; set; }
-        public virtual string SortOrder { get; set; }
-        public virtual string SearchTerm { get; set; }
     }
 }

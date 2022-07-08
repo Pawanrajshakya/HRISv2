@@ -9,7 +9,7 @@ namespace HRIS.API
 {
     public interface IAnnouncementRepository
     {
-        public IEnumerable<AnnouncementListDto> GetList(string userID, TableViewParameters _reportParameters);
+        public IEnumerable<AnnouncementListDto> GetList(string userID, Pagination _reportParameters);
         public Task<IEnumerable<AnnouncementSummaryDto>> GetAsync(string userID);
         public IEnumerable<AnnouncementDto> Get(string userID, int ID);
         public bool Add(AnnouncementDto announcement);
@@ -121,7 +121,7 @@ namespace HRIS.API
             return dto;
         }
 
-        public IEnumerable<AnnouncementListDto> GetList(string userID, TableViewParameters _reportParameters)
+        public IEnumerable<AnnouncementListDto> GetList(string userID, Pagination _reportParameters)
         {
             List<AnnouncementListDto> dto = new List<AnnouncementListDto>();
 
