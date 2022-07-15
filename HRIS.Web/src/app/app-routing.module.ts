@@ -4,6 +4,7 @@ import { ActiveStaffComponent } from './active-staff/active-staff.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { DeveloperComponent } from './developer/developer.component';
 import { HomeComponent } from './home/home.component';
+import { StaffDetailComponent } from './staff-detail/staff-detail.component';
 import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'developer', component: DeveloperComponent },
   { path: 'announcement', component: AnnouncementComponent },
   { path: 'activeStaff', component: ActiveStaffComponent },
+  { path: 'staffDetail', component: StaffDetailComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

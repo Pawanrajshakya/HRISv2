@@ -34,5 +34,11 @@ namespace HRIS.API.Controllers
                 , parameters.Pagination.SortOrder
                 , parameters.Pagination.SearchTerm));
         }
+
+        [HttpGet("detail/{ein}")]
+        public async Task<ActionResult> DetailAsync(string ein)
+        {
+            return Ok(await _staffRepository.GetDetail(UserSession.Instance.User.UserID, ein));
+        }
     }
 }

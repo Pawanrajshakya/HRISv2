@@ -43,10 +43,10 @@ namespace HRIS.API
             CreateMap<AnnouncementSummary, AnnouncementSummaryDto>();
 
             CreateMap<AgencyHeadcountChart, AgencyHeadcountChartDto>();
-            CreateMap<Team_PendingCasesChart, Team_PendingCasesChartDto>();
-            CreateMap<Team_CaseCountByYearChart, Team_CaseCountByYearChartDto>();
-            CreateMap<Team_EDUChart, Team_EDUChartDto>();
-            CreateMap<Team_TopInfractionsChart, Team_TopInfractionsChartDto>();
+            CreateMap<PendingCasesChart, PendingCasesChartDto>();
+            CreateMap<CaseCountByYearChart, CaseCountByYearChartDto>();
+            CreateMap<EDUChart, EDUChartDto>();
+            CreateMap<TopInfractionsChart, TopInfractionsChartDto>();
             CreateMap<Location, LocationDto>();
             CreateMap<Title, TitleDto>();
             CreateMap<LeaveStatus, LeaveStatusDto>();
@@ -55,7 +55,13 @@ namespace HRIS.API
             CreateMap<EmployeeBehaviorChart, EmployeeBehaviorChartDto>()
                 .ForMember(x => x.Name, y => y.MapFrom(z => z.IssueCodeName))
                 .ForMember(x => x.Count, y => y.MapFrom(z => z.IssueCodeNameCount));
+            
             CreateMap<ActiveStaff, ActiveStaffDto>();
+
+            CreateMap<StaffDetail, StaffDetailDto>();
+            CreateMap<StaffEmergencyContactInfo, StaffEmergencyContactInfoDto>();
+            CreateMap<StaffEDUDetail, StaffEDUDetailDto>();
+            CreateMap<StaffOvertimeSummary, StaffOvertimeSummaryDto>();
 
         }
     }

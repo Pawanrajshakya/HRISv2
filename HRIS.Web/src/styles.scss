@@ -9,6 +9,7 @@
 html,
 body {
   height: 100%;
+  font-size: 14px !important;
 }
 
 body {
@@ -154,8 +155,14 @@ $body-bg: #f3f3f0;*/
 // }
 
 .btn-xs {
-  padding: 1px 5px;
-  font-size: 12px;
-  line-height: 1.5;
+  padding: 4px 4px 4px 4px;
+  font-size: 14px;
+  line-height: 1;
   border-radius: 3px;
+}
+
+.col-form-label-sm,
+.card-header,
+.btn-sm {
+  font-size: 14px !important;
 }

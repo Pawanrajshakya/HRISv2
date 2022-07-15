@@ -19,6 +19,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { AuthInterceptorService } from './_services/auth-interceptor.service';
 import { HeaderInterceptorService } from './_services/header-interceptor.service';
@@ -45,6 +46,7 @@ import { ChartBaseComponent } from './base/chart-base.component';
 import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year/team-cases-count-by-year.component';
 import { TeamTopInfractionComponent } from './charts/team-top-infraction/team-top-infraction.component';
 import { ActiveStaffComponent } from './active-staff/active-staff.component';
+import { StaffDetailComponent } from './staff-detail/staff-detail.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,8 @@ import { ActiveStaffComponent } from './active-staff/active-staff.component';
     ChartBaseComponent,
     TeamCasesCountByYearComponent,
     TeamTopInfractionComponent,
-    ActiveStaffComponent
+    ActiveStaffComponent,
+    StaffDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -78,13 +81,14 @@ import { ActiveStaffComponent } from './active-staff/active-staff.component';
     MaterialModule,
     LoadingBarHttpClientModule,
     NgSelectModule,
-    BsDropdownModule.forRoot(),
-    ModalModule.forRoot(),
     NgxScrollTopModule,
     FileSaverModule,
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     CarouselModule.forRoot(),
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    TabsModule.forRoot()
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptorService, multi: true },

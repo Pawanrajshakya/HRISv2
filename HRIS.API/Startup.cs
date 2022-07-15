@@ -51,6 +51,7 @@ namespace HRIS.API
             services.AddScoped<IRetirementResignationFMLARepository, RetirementResignationFMLARepository>();
             services.AddScoped<ITitleRepository, TitleRepository>();
             services.AddScoped<IStaffRepository, StaffRepository>();
+            services.AddScoped<IOvertimeRepository, OvertimeRepository>();
 
             //********Repository DI - end
 
@@ -83,6 +84,11 @@ namespace HRIS.API
             services.AddDbContext<TEAMDataContext>(options =>
             {
                 options.UseSqlServer(_config.GetConnectionString("TEAMSConnection"));
+            });
+
+            services.AddDbContext<OvertimeDataContext>(options =>
+            {
+                options.UseSqlServer(_config.GetConnectionString("OVERTIMEConnection"));
             });
             //********Configure_DBContext - end
             services.AddControllers(options => options.Filters.Add(new ServiceExceptionInterceptor()))

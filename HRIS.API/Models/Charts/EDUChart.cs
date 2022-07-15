@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HRIS.API
 {
-    public class Team_EDUChart
+    public class EDUChart
     {
         [Key]
         public string Description { get; set; }

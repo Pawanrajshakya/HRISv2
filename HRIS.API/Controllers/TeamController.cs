@@ -64,5 +64,19 @@ namespace HRIS.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        //GetStaffEDUDetail
+        [HttpGet("GetStaffEDUDetail/{ein}")]
+        public async Task<ActionResult> CaseCountByYearChartAsync(string ein)
+        {
+            try
+            {
+                return Ok(await _teamRepository.GetStaffEDUDetail(UserSession.Instance.User.UserID, ein));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

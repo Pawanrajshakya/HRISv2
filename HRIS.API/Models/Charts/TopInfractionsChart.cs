@@ -2,11 +2,11 @@
 
 namespace HRIS.API
 {
-    public class Team_PendingCasesChart
+    public class TopInfractionsChart
     {
         [Key]
-        public int Order { get; set; }
         public string GroupDescription { get; set; }
         public int Count { get; set; }
+        public decimal Percentage { get; set; }
     }
 }

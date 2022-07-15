@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HRIS.API
 {
-    public class Team_TopInfractionsChartDto
+    public class TopInfractionsChartDto
     {
         public string GroupDescription { get; set; }
         public int Count { get; set; }

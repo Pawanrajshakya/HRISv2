@@ -9,13 +9,15 @@ namespace HRIS.API
         {
         }
 
-        public DbSet<Team_PendingCasesChart> Team_PendingCasesChart { get; set; }
-        public DbSet<Team_CaseCountByYearChart> Team_CaseCountByYearChart { get; set; }
-        public DbSet<Team_TopInfractionsChart> Team_TopInfractionsChart { get; set; }
+        public DbSet<PendingCasesChart> PendingCasesChart { get; set; }
+        public DbSet<CaseCountByYearChart> CaseCountByYearChart { get; set; }
+        public DbSet<TopInfractionsChart> TopInfractionsChart { get; set; }
+        public DbSet<StaffEDUDetail> StaffEDUDetails { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Team_CaseCountByYearChart>()
+            modelBuilder.Entity<CaseCountByYearChart>()
                 .HasKey(x => new { x.Flag, x.Year });
         }
     }

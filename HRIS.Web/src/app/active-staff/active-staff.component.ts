@@ -126,7 +126,7 @@ export class ActiveStaffComponent extends ModalBaseComponent<IActiveStaff> imple
         }),
         map(data => {
           // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
+
           this.isRateLimitReached = data === null;
 
           if (data === null || !(Array.isArray(data))) {
@@ -144,6 +144,7 @@ export class ActiveStaffComponent extends ModalBaseComponent<IActiveStaff> imple
       .subscribe(data => {
         if (Array.isArray(data))
           this.data = data;
+        this.isLoadingResults = false;
       });
 
     this.codeService.rcs$.subscribe((rcs) => {

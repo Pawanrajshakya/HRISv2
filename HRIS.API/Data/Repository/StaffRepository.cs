@@ -8,19 +8,13 @@ namespace HRIS.API
 {
     public interface IStaffRepository
     {
-        public Task<IEnumerable<ActiveStaffDto>> Get(
-            string userid,
-            string rcs,
-            string dps,
-            string locations,
-            string titles,
-            string backupTitles,
-            string csStatus,
-            int pageNumber = 1,
-            int pageSize = 10,
-            string sortColumn = "",
-            string sortOrder = "",
-            string searchTerm = "");
+        public Task<IEnumerable<ActiveStaffDto>> Get(string userid, string rcs, string dps, string locations,
+                                                     string titles, string backupTitles, string csStatus,
+                                                     int pageNumber = 1, int pageSize = 10, string sortColumn = "",
+                                                     string sortOrder = "", string searchTerm = ""); //spGetPagedStaffs
+
+        public Task<StaffDetailDto> GetDetail(string userid, string ein); //spGetStaffByEIN
+        public Task<IEnumerable<StaffEmergencyContactInfoDto>> EmergencyContacts(string userid, string ein); //spGetStaffEmergencyContactsByEIN
     }
 
     public class StaffRepository : Repository, IStaffRepository
@@ -31,10 +25,30 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
+        public async Task<IEnumerable<StaffEmergencyContactInfoDto>> EmergencyContacts(string userid, string ein)
+        {
+            List<StaffEmergencyContactInfoDto> dtos = new List<StaffEmergencyContactInfoDto>();
+
+            SqlParameter[] sqlParameters = new SqlParameter[] {
+                new SqlParameter("@UserID", userid){},
+                new SqlParameter("@EIN", ein){}
+            };
+
+            var rows = _context.EmergencyContactInfos
+                .FromSqlRaw($"EXECUTE dbo.[spGetStaffEmergencyContactsByEIN] @UserID, @EIN", sqlParameters)
+                .ToList();
+
+            foreach (var row in rows)
+            {
+                dtos.Add(_mapper.Map<StaffEmergencyContactInfoDto>(row));
+            }
+            return await Task.Run(() => dtos);
+        }
+
         public async Task<IEnumerable<ActiveStaffDto>> Get(string userid,
             string rcs, string dps, string locations, string titles,
-            string backupTitles, string csStatus, int pageNumber = 1, 
-            int pageSize = 10, string sortColumn = "", string sortOrder = "", 
+            string backupTitles, string csStatus, int pageNumber = 1,
+            int pageSize = 10, string sortColumn = "", string sortOrder = "",
             string searchTerm = "")
         {
             List<ActiveStaffDto> dtos = new List<ActiveStaffDto>();
@@ -66,6 +80,26 @@ namespace HRIS.API
             }
             return await Task.Run(() => dtos); ;
 
+        }
+
+        public async Task<StaffDetailDto> GetDetail(string userid, string ein)
+        {
+            List<StaffDetailDto> dtos = new List<StaffDetailDto>();
+
+            SqlParameter[] sqlParameters = new SqlParameter[] {
+                new SqlParameter("@UserID", userid){},
+                new SqlParameter("@EIN", ein){}
+            };
+
+            var rows = _context.StaffDetails
+                .FromSqlRaw($"EXECUTE dbo.[spGetStaffByEIN] @UserID, @EIN", sqlParameters)
+                .ToList();
+
+            foreach (var row in rows)
+            {
+                dtos.Add(_mapper.Map<StaffDetailDto>(row));
+            }
+            return await Task.Run(() => dtos.SingleOrDefault(x => x.EIN == ein));
         }
     }
 }

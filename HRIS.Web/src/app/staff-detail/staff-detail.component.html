@@ -1,0 +1,436 @@
+<div class="card border-secondary">
+  <div class="card-header text-white bg-secondary border-secondary shadow">
+    <i class="bi bi-person-check-fill"></i> Staff Details
+  </div>
+  <div class="card-body">
+    <div class="col-sm-12 row">
+      <div class="col-sm-3 font-weight-bold">First Name</div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-3 font-weight-bold">Last Name</div>
+      <div class="col-sm-3"></div>
+    </div>
+    <br>
+    <div class="col-sm-12 row">
+      <div class="col-sm-3 font-weight-bold">EIN</div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-3 font-weight-bold">RC Name</div>
+      <div class="col-sm-3"></div>
+    </div>
+    <div class="col-sm-12 row mt-2 mb-2">
+      <div class=" col-sm-12">
+        <a class="btn btn-primary btn-xs text-white shadow  pull-right" (click)="onExport()">
+          <i class="bi bi-file-earmark-pdf"></i>&nbsp;Print</a>
+      </div>
+    </div>
+    <tabset [justified]="true">
+      <tab>
+        <ng-template tabHeading>
+          <i class="bi bi-asterisk"></i>&nbsp;PMS Info
+        </ng-template>
+        <div class="card border border-top border-secondary shadow mt-2">
+          <div class="card-body">
+            <div class="col-sm-12 row">
+              <div class=" col-sm-6">
+                <h5 class="card-title text-primary"><i class="bi bi-bookmarks"></i>&nbsp;General</h5>
+              </div>
+              <div class="col-sm-6">
+                <i class="pull-right">*Data is refreshed daily</i>
+              </div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Leave Status</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Pay DP Code</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Leave Date</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Backup DP Code</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Action Reason</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Backup Leave Status</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Budget Code</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Backup Leave Reason</div>
+              <div class="col-sm-3"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card border border-top border-secondary shadow mt-2">
+          <div class="card-body">
+            <div class="col-sm-12 row">
+              <div class=" col-sm-6">
+                <h5 class="card-title text-primary"><i class="bi bi-bookmarks"></i>&nbsp;Title Info</h5>
+              </div>
+              <div class="col-sm-6">
+                <i class="pull-right">*Data is refreshed daily</i>
+              </div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Title Info</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Backup Title</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Pay Title Level</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Backup Title Level</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Pay Title Date</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Backup Title Date</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Pay Status</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Backup Manager Level</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Pay Class</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold"></div>
+              <div class="col-sm-3"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card border border-top border-secondary shadow mt-2">
+          <div class="card-body">
+            <div class="col-sm-12 row">
+              <div class=" col-sm-6">
+                <h5 class="card-title text-primary"><i class="bi bi-bookmarks"></i>&nbsp;Other Info</h5>
+              </div>
+              <div class="col-sm-6">
+                <i class="pull-right">*Data is refreshed daily</i>
+              </div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Veteran Status</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Physical Handicap</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Pension Indicator</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Probationary Indicator</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Pension Tier</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Disbursement</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Schedule Type</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Backup Disbursecode</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Collective Bargain Unit</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Unconverted Leave Status</div>
+              <div class="col-sm-3"></div>
+            </div>
+          </div>
+        </div>
+      </tab>
+      <tab>
+        <ng-template tabHeading>
+          <i class="bi bi-briefcase-fill"></i>&nbsp;Work Info
+        </ng-template>
+        <div class="card border border-top border-secondary shadow mt-2">
+          <div class="card-body">
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-person-badge"></i>&nbsp;Legal Name</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-signpost-2"></i>&nbsp;Street Name</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;City</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;State</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;Zip Code</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-envelope"></i>&nbsp;Outlook</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-telephone"></i>&nbsp;Office Phone</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-person"></i>&nbsp;Supervisor</div>
+              <div class="col-sm-9"></div>
+            </div>
+          </div>
+        </div>
+      </tab>
+      <tab>
+        <ng-template tabHeading>
+          <i class="bi bi-house-fill"></i>&nbsp;Home Info
+        </ng-template>
+        <div class="card border border-top border-secondary shadow mt-2">
+          <div class="card-body">
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-signpost-2"></i>&nbsp;Street Name</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;City</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;State</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;Zip Code</div>
+              <div class="col-sm-9"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-phone"></i>&nbsp;Home Phone</div>
+              <div class="col-sm-9"></div>
+            </div>
+          </div>
+        </div>
+      </tab>
+      <tab>
+        <ng-template tabHeading>
+          <i class="bi bi-people-fill"></i>&nbsp;Emergency Info
+        </ng-template>
+        <div class="card border border-top border-secondary shadow mt-2">
+          <div class="card-body">
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-person-heart"></i>&nbsp;Name</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-link"></i>&nbsp;Relationship</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold"><i class="bi bi-telephone"></i>&nbsp;Primary Phone</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold"></div>
+              <div class="col-sm-3"></div>
+            </div>
+          </div>
+        </div>
+      </tab>
+      <tab>
+        <ng-template tabHeading>
+          <i class="bi bi-hand-index-fill"></i>&nbsp;EDU Info
+        </ng-template>
+        <div class="card border border-top border-secondary shadow mt-2">
+          <div class="card-body">
+            <div class="col-sm-12 row mb-2">
+              <div class=" col-sm-6">
+                <span class="card-title text-primary h5 mr-2"><i class="bi bi-bookmarks"></i>&nbsp;#1 03/03/2018</span>
+                <span class="bg-info mr-2 p-2 rounded-pill text-white">1048628-04</span><span>Case Started By ODA</span>
+              </div>
+              <div class="col-sm-6">
+                <i class="pull-right">*Data is refreshed daily</i>
+              </div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Charges</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold"></div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Location</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Source</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">Infraction Date</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold">Date Received by EDU</div>
+              <div class="col-sm-3"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-3 font-weight-bold">IC Date</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 font-weight-bold"></div>
+              <div class="col-sm-3"></div>
+            </div>
+          </div>
+        </div>
+      </tab>
+      <tab>
+        <ng-template tabHeading>
+          <i class="bi bi-coin"></i>&nbsp;Overtime Info
+        </ng-template>
+        <div class="card border border-top border-secondary shadow mt-2">
+          <div class="card-body">
+            <div class="col-sm-12 row mb-2">
+              <div class=" col-sm-6">
+                <span class="card-title text-primary h5 mr-2"><i class="bi bi-bookmarks"></i>&nbsp;Salary & Overtime
+                  Info</span>
+              </div>
+              <div class="col-sm-6">
+                <i class="pull-right">*Data is refreshed daily</i>
+              </div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold"></div>
+              <div class="col-sm-4 font-weight-bold">Calendar Yr 2022</div>
+              <div class="col-sm-4 font-weight-bold">Fiscal Yr 2023</div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Salary</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">ATG</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Sum Night Diff YTD</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Salary + ATG</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">OT YTD Amt</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">OT YTD Hrs</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Salary + ATG + Night Diff + OT</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">YTD Prem</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Comp YTD</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Earned OT %</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Remaining</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">FLSA</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Non FLSA Comp Time Bal</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">FLSA Comp Time Bal</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Hourly Rate</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Work Week Hours</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">OT Hours Worked This Period</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card border border-top border-secondary shadow mt-2">
+          <div class="card-body">
+            <div class="col-sm-12 row mb-2">
+              <div class=" col-sm-6">
+                <span class="card-title text-primary h5 mr-2"><i class="bi bi-bookmarks"></i>&nbsp;Waiver Info</span>
+              </div>
+              <div class="col-sm-6">
+                <i class="pull-right">*Data is refreshed daily</i>
+              </div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold"></div>
+              <div class="col-sm-4 font-weight-bold">Calendar Yr 2022</div>
+              <div class="col-sm-4 font-weight-bold">Fiscal Yr 2023</div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Waiver Info</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Waiver Pcnt</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Waiver Amount</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Blocked</div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+            <div class="col-sm-12 row mt-2">
+              <div class="col-sm-4 font-weight-bold">Blocked&nbsp;<i class="bi bi-patch-question-fill"></i></div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4"></div>
+            </div>
+          </div>
+        </div>
+      </tab>
+    </tabset>
+  </div>
+</div>
