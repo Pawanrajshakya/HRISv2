@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ActiveStaffComponent } from '../active-staff/active-staff.component';
+import { ActiveStaffComponent } from '../staff/active-staff/active-staff.component';
 import { AnnouncementComponent } from '../announcement/announcement.component';
 import { DeveloperComponent } from '../developer/developer.component';
 import { HomeComponent } from '../home/home.component';
-import { StaffDetailComponent } from '../staff-detail/staff-detail.component';
+import { StaffDetailComponent } from '../staff/staff-detail/staff-detail.component';
 import { UserComponent } from '../user/user.component';
 import { BkpTitleResolverService } from '../_services/_resolvers/bkp-title-resolver.service';
 import { CsStatusResolverService } from '../_services/_resolvers/cs-status-resolver.service';
@@ -13,6 +13,9 @@ import { LocationCodeResolverService } from '../_services/_resolvers/location-co
 import { RcDpCodeResolverService } from '../_services/_resolvers/rc-dp-code-resolver.service';
 import { StaffDetailResolverService } from '../_services/_resolvers/staff-detail-resolver.service';
 import { TitleCodeResolverService } from '../_services/_resolvers/title-code-resolver.service';
+import { StaffLeaveComponent } from '../staff/staff-leave/staff-leave.component';
+import { LeaveStatusResolverService } from '../_services/_resolvers/leave-status-resolver.service';
+import { CeasedStaffComponent } from '../staff/ceased-staff/ceased-staff.component';
 
 const routes: Routes = [
   {
@@ -42,8 +45,28 @@ const routes: Routes = [
   },
   {
     path: 'staffDetail/:ein', component: StaffDetailComponent,
-    resolve: { currentUser: CurrentUserResolver
-      , staffDetail: StaffDetailResolverService }
+    resolve: {
+      currentUser: CurrentUserResolver
+      , staffDetail: StaffDetailResolverService
+    }
+  },
+  {
+    path: 'leaveReport', component: StaffLeaveComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
+      , titles: TitleCodeResolverService
+      , lvStatus: LeaveStatusResolverService
+    }
+  },
+  {
+    path: 'ceasedReport', component: CeasedStaffComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
+      , titles: TitleCodeResolverService
+      , lvStatus: LeaveStatusResolverService
+    }
   },
   {
     path: '', redirectTo: '/home', pathMatch: 'full',

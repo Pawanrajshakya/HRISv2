@@ -12,9 +12,9 @@ import { CodeService } from '../_services/code.service';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ReportComponent } from '../report/report.component';
 import { Reports } from '../_models/Reports.enum';
 import { BaseComponent } from '../base/base.component';
+import { DownloadComponent } from '../download/download.component';
 
 @Component({
   selector: 'app-user',
@@ -299,7 +299,7 @@ export class UserComponent extends BaseComponent<IUserList> implements AfterView
       }
     };
 
-    this.modalRef = this.modalService.show(ReportComponent, initialState);
+    this.modalRef = this.modalService.show(DownloadComponent, initialState);
   }
 
   onRoleSelect($event: Event) {

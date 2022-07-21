@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { BaseComponent } from '../base/base.component';
-import { IActiveStaff } from '../_models/IActiveStaff';
-import { LoginService } from '../_services/login.service';
-import { StaffService } from '../_services/staff.service';
-import { UserService } from '../_services/user.service';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { BaseComponent } from '../../base/base.component';
+import { DownloadComponent } from '../../download/download.component';
+import { IActiveStaff } from '../../_models/IActiveStaff';
+import { Reports } from '../../_models/Reports.enum';
+import { LoginService } from '../../_services/login.service';
+import { StaffService } from '../../_services/staff.service';
 
 @Component({
   selector: 'app-staff-detail',
@@ -23,7 +25,8 @@ export class StaffDetailComponent extends BaseComponent<IActiveStaff> implements
 
   constructor(private route: ActivatedRoute
     , private staffService: StaffService
-    , public loginService: LoginService) {
+    , public loginService: LoginService
+    , public modalService: BsModalService) {
     super();
     this.route.data.subscribe({
       next: (detail) => {
@@ -62,6 +65,16 @@ export class StaffDetailComponent extends BaseComponent<IActiveStaff> implements
 
 
   onExport() {
+    this.reportParam.reportName = Reports[2];
+    this.reportParam.file.format = "PDF";
+    this.reportParam.ein = this.ein;
+    
+    const initialState: ModalOptions = {
+      initialState: {
+        reportParam: this.reportParam
+      }
+    };
 
+    this.modalRef = this.modalService.show(DownloadComponent, initialState);
   }
 }

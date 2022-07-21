@@ -6,11 +6,11 @@ import { IReportParam } from '../_models/IReportParam';
 import { ReportService } from '../_services/report.service';
 
 @Component({
-  selector: 'app-report-popup',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  selector: 'app-download',
+  templateUrl: './download.component.html',
+  styleUrls: ['./download.component.scss']
 })
-export class ReportComponent implements AfterViewInit {
+export class DownloadComponent implements AfterViewInit {
 
   title: string = "HRIS: Initiating file download...";
   closeBtnName?: string;

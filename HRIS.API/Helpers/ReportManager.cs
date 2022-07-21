@@ -30,6 +30,15 @@ namespace HRIS.API
                 _parameters.Append("&BackupTitles=" + (parameters.Code.BackupTitles ?? ""));
                 _parameters.Append("&CSStatus=" + (parameters.Code.CSStatus ?? ""));
             }
+
+            if (parameters.ReportName == "StaffDetails")
+            {
+                parameters.File.RDLFileName = "StaffDetails";
+                _parameters.Append("&UserID=" + (parameters.UserID ?? UserSession.Instance.User.UserID));
+                _parameters.Append("&EIN=" + (parameters.Ein ?? ""));
+                _parameters.Append("&LanID=" + (UserSession.Instance.User.LanID));
+            }
+
             _parameters.Append("&rs:Format=" + (parameters.File.Format ?? ""));
 
             Stream stream = GetStream(parameters, _parameters);

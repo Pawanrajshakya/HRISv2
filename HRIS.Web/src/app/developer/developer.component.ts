@@ -1,14 +1,13 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../_services/user.service';
-import { EMPTY, Subject, merge, of as observableOf } from 'rxjs';
+import { Subject, merge, of as observableOf } from 'rxjs';
 import { catchError, switchMap, tap, startWith, map } from 'rxjs/operators';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ITableViewParam } from '../_models/IReportParam';
 import { IUserList } from "../_models/IUserList";
 import { ICurrentUser } from "../_models/ICurrentUser";
-import { HRISError } from '../_models/IHRISError';
 import { LoginService } from '../_services/login.service';
 
 @Component({
@@ -116,10 +115,11 @@ export class DeveloperComponent implements AfterViewInit {
       return;
     }
     this.loginService.loginSubject.next(this.lanID);
-    this.loginService.user$.subscribe((user) => {
-      this.route.navigate(["home"]);
-    }, (error: HRISError) => {
-      this.errorMessage = error.userMessage ?? "Error";
+
+    this.loginService.user$.subscribe({
+      next: (user) => {
+        this.route.navigate(["home"]);
+      }
     });
   }
 }

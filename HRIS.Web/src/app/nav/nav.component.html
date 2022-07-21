@@ -10,13 +10,20 @@
   <mat-menu #staffMenu="matMenu" yPosition="below">
     <button [routerLink]="['/activeStaff']" routerLinkActive="active" mat-menu-item>Active Staff (DHS & HRA)</button>
   </mat-menu>
-  <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="reportMenu"><i
+
+  <a mat-menu role="menu" class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="reportMenu"><i
       class="bi bi-list"></i>
     Reports <span class="caret"></span></a>
-  <mat-menu #reportMenu="matMenu" yPosition="below">
+  <mat-menu #reportMenu="matMenu">
     <button mat-menu-item>Classification Report</button>
     <button mat-menu-item>Customer Service Complaints Report</button>
+    <button mat-menu-item [matMenuTriggerFor]="staffReport">Staff On Leave / Ceased Report (DSS & HRA)</button>
   </mat-menu>
+  <mat-menu #staffReport="matMenu">
+    <button mat-menu-item>Staff On Leave Report (DSS & HRA)</button>
+    <button mat-menu-item>Ceased Report (DSS & HRA)</button>
+  </mat-menu>
+
   <a class="btn btn-link text-white text-decoration-none btn-sm" [routerLink]="['/home']" routerLinkActive="active"><i
       class="bi bi-eye"></i>
     My Info </a>

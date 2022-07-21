@@ -33,7 +33,7 @@ import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { NavComponent } from './nav/nav.component';
 import { UserComponent } from './user/user.component';
-import { ReportComponent } from './report/report.component';
+
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { EcardChartComponent } from './charts/ecard-chart/ecard-chart.component';
 import { BaseComponent } from './base/base.component';
@@ -43,12 +43,16 @@ import { PendingCasesComponent } from './charts/team-pending-cases/team-pending-
 import { ChartBaseComponent } from './base/chart-base.component';
 import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year/team-cases-count-by-year.component';
 import { TeamTopInfractionComponent } from './charts/team-top-infraction/team-top-infraction.component';
-import { ActiveStaffComponent } from './active-staff/active-staff.component';
-import { StaffDetailComponent } from './staff-detail/staff-detail.component';
+import { ActiveStaffComponent } from './staff/active-staff/active-staff.component';
+import { StaffDetailComponent } from './staff/staff-detail/staff-detail.component';
 import { EmptyValuePipe } from './_filters/empty-value.pipe';
 import { HrisPhonePipe } from './_filters/hris-phone.pipe';
 import { HrisPercentPipe } from './_filters/hris-percent.pipe';
 import { AuthInterceptorService } from './_services/_interceptors/auth-interceptor.service';
+import { StaffLeaveComponent } from './staff/staff-leave/staff-leave.component';
+import { DownloadComponent } from './download/download.component';
+import { CeasedStaffComponent } from './staff/ceased-staff/ceased-staff.component';
+import { MyInfoComponent } from './staff/my-info/my-info.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +62,6 @@ import { AuthInterceptorService } from './_services/_interceptors/auth-intercept
     HomeComponent,
     ErrorComponent,
     UserComponent,
-    ReportComponent,
     AnnouncementComponent,
     EcardChartComponent,
     BaseComponent,
@@ -73,7 +76,11 @@ import { AuthInterceptorService } from './_services/_interceptors/auth-intercept
     ErrorComponent,
     EmptyValuePipe,
     HrisPhonePipe,
-    HrisPercentPipe
+    HrisPercentPipe,
+    StaffLeaveComponent,
+    DownloadComponent,
+    CeasedStaffComponent,
+    MyInfoComponent
   ],
   imports: [
     BrowserModule,

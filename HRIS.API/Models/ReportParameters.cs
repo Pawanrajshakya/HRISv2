@@ -67,11 +67,14 @@ namespace HRIS.API
         private string locations = string.Empty;
         private string cSStatus = string.Empty;
         private string titles = string.Empty;
+        private string lvStatus = string.Empty;
 
         public string BackupTitles { get => backupTitles; set => backupTitles = value ?? string.Empty; }
         public string Locations { get => locations; set => locations = string.IsNullOrEmpty(value) ? string.Empty : value; }
         public string CSStatus { get => cSStatus; set => cSStatus = value ?? string.Empty; }
         public string Titles { get => titles; set => titles = value ?? string.Empty; }
+        public string LvStatus { get => lvStatus; set => lvStatus = value; }
+
     }
 
     public class ReportParameters
@@ -82,5 +85,6 @@ namespace HRIS.API
         public Pagination Pagination { get; set; }
         public RcDp RcDp { get; set; }
         public Code Code { get; set; }
+        public string Ein { get; set; }
     }
 }

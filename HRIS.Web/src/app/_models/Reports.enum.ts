@@ -1,4 +1,5 @@
 export enum Reports {
     ActiveStaffReport,
-    UsersReport
+    UsersReport,
+    StaffDetails
 }

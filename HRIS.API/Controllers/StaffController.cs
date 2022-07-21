@@ -15,8 +15,8 @@ namespace HRIS.API.Controllers
             _staffRepository = staffRepository;
         }
 
-        [HttpPost("list")]
-        public async Task<ActionResult> GetListAsync(ReportParameters parameters)
+        [HttpPost("activeStaffReport")]
+        public async Task<ActionResult> GetActiveStaffReportAsync(ReportParameters parameters)
         {
             string RCs = string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(parameters.RcDp.IsAgencyWise) : parameters.RcDp.RCs;
             string DPs = string.IsNullOrEmpty(parameters.RcDp.DPs) ? GetDP(parameters.RcDp.IsAgencyWise) : parameters.RcDp.DPs;
@@ -28,6 +28,44 @@ namespace HRIS.API.Controllers
                 , parameters.Code.Titles
                 , parameters.Code.BackupTitles
                 , parameters.Code.CSStatus
+                , parameters.Pagination.PageNumber
+                , parameters.Pagination.PageSize
+                , parameters.Pagination.SortColumn
+                , parameters.Pagination.SortOrder
+                , parameters.Pagination.SearchTerm));
+        }
+
+        [HttpPost("leaveReport")]
+        public async Task<ActionResult> GetLeaveReportAsync(ReportParameters parameters)
+        {
+            string RCs = string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(parameters.RcDp.IsAgencyWise) : parameters.RcDp.RCs;
+            string DPs = string.IsNullOrEmpty(parameters.RcDp.DPs) ? GetDP(parameters.RcDp.IsAgencyWise) : parameters.RcDp.DPs;
+
+            return Ok(await _staffRepository.Get(UserSession.Instance.User.UserID
+                , RCs
+                , DPs
+                , parameters.Code.Titles
+                , parameters.Code.LvStatus
+                , "Leave"
+                , parameters.Pagination.PageNumber
+                , parameters.Pagination.PageSize
+                , parameters.Pagination.SortColumn
+                , parameters.Pagination.SortOrder
+                , parameters.Pagination.SearchTerm));
+        }
+
+        [HttpPost("ceasedReport")]
+        public async Task<ActionResult> GetCeasedReportAsync(ReportParameters parameters)
+        {
+            string RCs = string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(parameters.RcDp.IsAgencyWise) : parameters.RcDp.RCs;
+            string DPs = string.IsNullOrEmpty(parameters.RcDp.DPs) ? GetDP(parameters.RcDp.IsAgencyWise) : parameters.RcDp.DPs;
+
+            return Ok(await _staffRepository.Get(UserSession.Instance.User.UserID
+                , RCs
+                , DPs
+                , parameters.Code.Titles
+                , parameters.Code.LvStatus
+                , "Ceased"
                 , parameters.Pagination.PageNumber
                 , parameters.Pagination.PageSize
                 , parameters.Pagination.SortColumn

@@ -17,10 +17,11 @@ export class ErrorComponent implements OnInit {
     this.errorNotificationService.notification.subscribe({
       next: (message) => {
         if (message) {
-          this.snackBar.open(message, 'Close', {
+          this.snackBar.open(message, 'X', {
             horizontalPosition: 'right',
             verticalPosition: 'top',
             duration: 10000,
+            panelClass: 'snackbar'
           });
         }
       }

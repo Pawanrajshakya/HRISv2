@@ -1,20 +1,14 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { NgSelectConfig } from '@ng-select/ng-select';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { catchError, map, merge, startWith, switchMap, tap, of as observableOf, Observable } from 'rxjs';
-import { BaseComponent } from '../base/base.component';
-import { ReportComponent } from '../report/report.component';
-import { IActiveStaff } from '../_models/IActiveStaff';
-import { IBackupTitle } from '../_models/IBackupTitle';
-import { ICSStatus } from '../_models/ICSStatus';
-import { ILocation } from '../_models/ILocation';
-import { IRC, IDP } from '../_models/IRC_DP';
-import { ITitle } from '../_models/ITitle';
-import { Reports } from '../_models/Reports.enum';
-import { StaffService } from '../_services/staff.service';
-import { CodeService } from '../_services/code.service';
-import { ActivatedRoute } from '@angular/router';
-import { LoginService } from '../_services/login.service';
+import { BaseComponent } from '../../base/base.component';
+import { IActiveStaff } from '../../_models/IActiveStaff';
+import { IRC, IDP } from '../../_models/IRC_DP';
+import { Reports } from '../../_models/Reports.enum';
+import { StaffService } from '../../_services/staff.service';
+import { CodeService } from '../../_services/code.service';
+import { LoginService } from '../../_services/login.service';
+import { DownloadComponent } from '../../download/download.component';
 
 @Component({
   selector: 'app-active-staff',
@@ -28,8 +22,7 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaff> implements
   constructor(private codeService: CodeService,
     private staffService: StaffService,
     private modalService: BsModalService,
-    public loginService: LoginService,
-    private route: ActivatedRoute) {
+    public loginService: LoginService) {
     super();
   }
 
@@ -107,7 +100,7 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaff> implements
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          return this.staffService.list$(this.reportParam)
+          return this.staffService.activeStaffReport$(this.reportParam)
             .pipe(
               catchError(() => observableOf(null))
             );
@@ -182,7 +175,7 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaff> implements
       }
     };
 
-    this.modalRef = this.modalService.show(ReportComponent, initialState);
+    this.modalRef = this.modalService.show(DownloadComponent, initialState);
   }
 
 }

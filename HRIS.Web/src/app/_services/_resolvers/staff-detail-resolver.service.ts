@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { IHRISError } from 'src/app/_models/IHRISError';
 import { IStaffDetail } from 'src/app/_models/IStaffDetail';
 import { StaffService } from '../staff.service';
 

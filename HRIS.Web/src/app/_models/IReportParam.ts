@@ -14,6 +14,7 @@ export interface IReportFormat {
 export interface IReportParam {
   reportName: string,
   userID?: string,
+  ein?: string,
   file: {
     format: string, //IReportFormat;
   },

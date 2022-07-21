@@ -17,9 +17,18 @@ export class StaffService extends BaseService {
     super();
   }
 
-  list$(tableViewParam?: IReportParam) {
+  activeStaffReport$(tableViewParam?: IReportParam) {
     console.log('tableViewParam', tableViewParam);
-    return this.httpClient.post<IActiveStaff[]>(this.url + 'staff/list', tableViewParam)
+    return this.httpClient.post<IActiveStaff[]>(this.url + 'staff/activeStaffReport', tableViewParam)
+      .pipe(
+        //tap((data) => { console.log(data); }),
+        catchError(err => this.errorHandlingService.handleError(err))
+      );
+  }
+
+  leaveReport$(tableViewParam?: IReportParam) {
+    console.log('tableViewParam', tableViewParam);
+    return this.httpClient.post<IActiveStaff[]>(this.url + 'staff/leaveReport', tableViewParam)
       .pipe(
         //tap((data) => { console.log(data); }),
         catchError(err => this.errorHandlingService.handleError(err))

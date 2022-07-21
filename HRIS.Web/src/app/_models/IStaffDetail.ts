@@ -1,5 +1,3 @@
-import { IHRISError } from "./IHRISError";
-
 export interface IStaffDetail {
         ein: string;
         firstName: string;
@@ -122,6 +120,5 @@ export interface IStaffDetails {
         staffDetail?: IStaffDetail,
         staffEDUDetail?: IStaffEDUDetail,
         staffEmergencyContactInfo?: IStaffEmergencyContactInfo,
-        staffOvertimeSummary?: IStaffOvertimeSummary,
-        error?: IHRISError
+        staffOvertimeSummary?: IStaffOvertimeSummary
 }

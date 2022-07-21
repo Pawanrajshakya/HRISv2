@@ -46,5 +46,8 @@ namespace HRIS.API
         public DbSet<EmployeeBehavior> EmployeeBehaviors { get; set; }
         public DbSet<StaffDetail> StaffDetails { get; set; }
         public DbSet<StaffEmergencyContactInfo> EmergencyContactInfos { get; set; }
+
+        //spGetPagedStaffsOnLeave
+        public DbSet<StaffLeaveReport> StaffLeaveReports  { get; set; }
     }
 }

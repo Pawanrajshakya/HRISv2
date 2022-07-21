@@ -1,7 +1,5 @@
-import { IHRISError } from './IHRISError';
 import { IRole } from './IRole';
 import { IUserGroup } from "./IUserGroup";
-
 
 export interface ICurrentUser {
   userID?: string;
@@ -27,9 +25,4 @@ export interface ICurrentUser {
   hasCustSvcComplaints?: boolean;
   hasAgencySeparation?: boolean;
   hasVacationRosters?: boolean;
-}
-
-export interface IUser {
-  currentUser: ICurrentUser,
-  error: IHRISError
 }

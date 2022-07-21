@@ -13,6 +13,10 @@ export class ErrorHandlingService {
   public handleError(err: HttpErrorResponse, userMessage?: string): Observable<null> {
     console.log('ErrorHandlingService', err);
     let message = err.message || "HRIS: unknown error";
+
+    if (userMessage)
+      message = userMessage;
+
     this.errorNotificationService.notification.next(message);
     return of(null);
   }

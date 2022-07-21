@@ -8,12 +8,19 @@ namespace HRIS.API
 {
     public interface IStaffRepository
     {
+        //SP Nanme: spGetPagedStaffs
         public Task<IEnumerable<ActiveStaffDto>> Get(string userid, string rcs, string dps, string locations,
                                                      string titles, string backupTitles, string csStatus,
                                                      int pageNumber = 1, int pageSize = 10, string sortColumn = "",
-                                                     string sortOrder = "", string searchTerm = ""); //spGetPagedStaffs
+                                                     string sortOrder = "", string searchTerm = "");
+        //SP Name: spGetPagedStaffsOnLeave
+        //option = leave or ceased
+        public Task<IEnumerable<StaffLeaveReportDto>> Get(string userid, string rcs, string dps, string titles
+            , string lvStatus, string option = "", int pageNumber = 1, int pageSize = 10
+            , string sortColumn = "", string sortOrder = "", string searchTerm = ""); 
 
         public Task<StaffDetailDto> GetDetail(string userid, string ein); //spGetStaffByEIN
+
         public Task<IEnumerable<StaffEmergencyContactInfoDto>> EmergencyContacts(string userid, string ein); //spGetStaffEmergencyContactsByEIN
     }
 
@@ -80,6 +87,40 @@ namespace HRIS.API
             }
             return await Task.Run(() => dtos); ;
 
+        }
+
+        public async Task<IEnumerable<StaffLeaveReportDto>> Get(string userid, string rcs, string dps
+            , string titles, string lvStatus, string option = ""
+            , int pageNumber = 1, int pageSize = 10, string sortColumn = ""
+            , string sortOrder = "", string searchTerm = "")
+        {
+            List<StaffLeaveReportDto> dtos = new List<StaffLeaveReportDto>();
+
+            SqlParameter[] sqlParameters = new SqlParameter[] {
+                new SqlParameter("@UserID", userid){},
+                new SqlParameter("@PageNumber", pageNumber){},
+                new SqlParameter("@PageSize", pageSize){},
+                new SqlParameter("@SortColumn", sortColumn){},
+                new SqlParameter("@SortOrder", sortOrder){},
+                new SqlParameter("@SearchTerm", searchTerm){},
+                new SqlParameter("@RCs", rcs){},
+                new SqlParameter("@DPs", dps){},
+                new SqlParameter("@PayTitles", titles){},
+                new SqlParameter("@LvStatus", lvStatus){},
+                new SqlParameter("@Option", option){},
+
+            };
+
+            var rows = _context.ActiveStaffs
+                .FromSqlRaw($"EXECUTE dbo.spGetPagedStaffsOnLeave @UserID, @PageNumber, @PageSize, " +
+                $"@SortColumn, @SortOrder, @SearchTerm, @RCs, @DPs, @PayTitles, @LvStatus, @Option", sqlParameters)
+                .ToList();
+
+            foreach (var row in rows)
+            {
+                dtos.Add(_mapper.Map<StaffLeaveReportDto>(row));
+            }
+            return await Task.Run(() => dtos); ;
         }
 
         public async Task<StaffDetailDto> GetDetail(string userid, string ein)

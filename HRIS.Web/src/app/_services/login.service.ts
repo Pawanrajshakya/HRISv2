@@ -17,7 +17,6 @@ export class LoginService extends BaseService {
     userGroups: []
   };
 
-
   lanID: string = "";
 
   loginSubject = new Subject<string>();
@@ -39,16 +38,12 @@ export class LoginService extends BaseService {
             this.currentUserSubject.next(this.currentUser);
           }
         });
-
         console.log('Login step 2: UserService >> constructor >> this.loginAction$.subscribe >> ', lanID);
-
       }, error: (error) => {
-        console.log(error);
         this.errorHandlingService.handleError(error);
       }, complete: () => {
       }
     });
-
   }
 
   user$ = this.httpClient.get<ICurrentUser>(this.url + "User")
@@ -81,8 +76,7 @@ export class LoginService extends BaseService {
             this.currentUserSubject.next(this.currentUser);
             resolve(this.currentUser);
           }, error: (error) => {
-            console.error('checkAuthentication', error);
-            //reject(this.handleError(error))
+            this.errorHandlingService.handleError(error)
           }, complete: () => {
           }
         }
@@ -93,24 +87,4 @@ export class LoginService extends BaseService {
       };
     });
   }
-
-
-  // private login() {
-  //   this.loginAction$.subscribe({
-  //     next: (lanID) => {
-
-  //       this.user$.subscribe((user: ICurrentUser | IHRISError) => {
-  //         console.log('Login step 3: UserService >> constructor >> this.user$.subscribe >> ', user, "this.currentUser >> ", this.currentUser);
-  //         this.currentUserSubject.next(this.currentUser);
-  //       });
-
-  //       console.log('Login step 2: UserService >> constructor >> this.loginAction$.subscribe >> ', lanID);
-
-  //       this.lanID = lanID; //used in _header Intercepter
-  //     }, error: (error) => {
-  //       console.log(error);
-  //     }, complete: () => {
-  //     }
-  //   });
-  //}
 }

@@ -21,6 +21,7 @@ export class CodeService extends BaseService {
   titles: ITitle[] = [];
   bkpTitles: IBackupTitle[] = [];
   csStatuses: ICSStatus[] = [];
+  lvStatuses: ILeaveStatus[] = [];
 
   constructor(private httpClient: HttpClient
     , private errorHandlingService: ErrorHandlingService) {
@@ -30,7 +31,7 @@ export class CodeService extends BaseService {
   resolveRCDP(): Promise<IRC_DP> {
     return new Promise((resolve, reject) => {
       console.log('resolveRCDP', this.rc_dp.RC)
-      if (this.rc_dp.RC === undefined || this.rc_dp.RC === null) {
+      if (this.rc_dp.RC === undefined || this.rc_dp.RC === null || this.rc_dp.RC.length === 0) {
 
         this.httpClient.get<IRC[]>(this.url + 'code/rc').subscribe({
           next: data => {
@@ -53,7 +54,6 @@ export class CodeService extends BaseService {
 
   resolveTitle(): Promise<ITitle[]> {
     return new Promise((resolve, reject) => {
-      console.log('resolveLocation', this.locations)
       if (this.titles === undefined || this.titles === null || this.titles.length === 0) {
 
         this.httpClient.get<ITitle[]>(this.url + 'code/title').subscribe({
@@ -65,6 +65,23 @@ export class CodeService extends BaseService {
         });
       } else {
         resolve(this.titles);
+      };
+    });
+  }
+
+  resolveLvStatus(): Promise<ILeaveStatus[]> {
+    return new Promise((resolve, reject) => {
+      console.log('resolveLvStatus', this.lvStatuses)
+      if (this.lvStatuses === undefined || this.lvStatuses === null || this.lvStatuses.length === 0) {
+        this.httpClient.get<ILeaveStatus[]>(this.url + 'code/leaveStatus').subscribe({
+          next: data => {
+            this.lvStatuses = data;
+          }, error: (error) => { }, complete: () => {
+            resolve(this.lvStatuses);
+          }
+        });
+      } else {
+        resolve(this.lvStatuses);
       };
     });
   }
