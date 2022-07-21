@@ -1,3 +1,4 @@
+import { IHRISError } from './IHRISError';
 import { IRole } from './IRole';
 import { IUserGroup } from "./IUserGroup";
 
@@ -15,4 +16,20 @@ export interface ICurrentUser {
   roleDescription?: string;
   userGroups: IUserGroup[];
   groups?: number[];
+  hasAdmin?: boolean;
+  hasTEAMS?: boolean;
+  hasOvertime?: boolean;
+  hasPAR?: boolean;
+  hasHeadcount?: boolean;
+  hasEEO?: boolean;
+  hasECards?: boolean;
+  hasPEAS?: boolean;
+  hasCustSvcComplaints?: boolean;
+  hasAgencySeparation?: boolean;
+  hasVacationRosters?: boolean;
+}
+
+export interface IUser {
+  currentUser: ICurrentUser,
+  error: IHRISError
 }

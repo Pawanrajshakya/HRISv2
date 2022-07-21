@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './_routes/app-routing.module';
 
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
@@ -21,8 +21,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
-import { AuthInterceptorService } from './_services/auth-interceptor.service';
-import { HeaderInterceptorService } from './_services/header-interceptor.service';
+import { HeaderInterceptorService } from './_services/_interceptors/header-interceptor.service';
 
 import { MaterialModule } from './_shared/material/material.module';
 
@@ -38,7 +37,6 @@ import { ReportComponent } from './report/report.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { EcardChartComponent } from './charts/ecard-chart/ecard-chart.component';
 import { BaseComponent } from './base/base.component';
-import { ModalBaseComponent } from './base/tool-base.component';
 import { CarouselComponent } from './announcement/carousel/carousel.component';
 import { HeadcountComponent } from './charts/headcount/headcount.component';
 import { PendingCasesComponent } from './charts/team-pending-cases/team-pending-cases.component';
@@ -47,6 +45,10 @@ import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year
 import { TeamTopInfractionComponent } from './charts/team-top-infraction/team-top-infraction.component';
 import { ActiveStaffComponent } from './active-staff/active-staff.component';
 import { StaffDetailComponent } from './staff-detail/staff-detail.component';
+import { EmptyValuePipe } from './_filters/empty-value.pipe';
+import { HrisPhonePipe } from './_filters/hris-phone.pipe';
+import { HrisPercentPipe } from './_filters/hris-percent.pipe';
+import { AuthInterceptorService } from './_services/_interceptors/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,6 @@ import { StaffDetailComponent } from './staff-detail/staff-detail.component';
     AnnouncementComponent,
     EcardChartComponent,
     BaseComponent,
-    ModalBaseComponent,
     CarouselComponent,
     HeadcountComponent,
     PendingCasesComponent,
@@ -68,7 +69,11 @@ import { StaffDetailComponent } from './staff-detail/staff-detail.component';
     TeamCasesCountByYearComponent,
     TeamTopInfractionComponent,
     ActiveStaffComponent,
-    StaffDetailComponent
+    StaffDetailComponent,
+    ErrorComponent,
+    EmptyValuePipe,
+    HrisPhonePipe,
+    HrisPercentPipe
   ],
   imports: [
     BrowserModule,

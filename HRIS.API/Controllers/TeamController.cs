@@ -66,8 +66,8 @@ namespace HRIS.API.Controllers
         }
 
         //GetStaffEDUDetail
-        [HttpGet("GetStaffEDUDetail/{ein}")]
-        public async Task<ActionResult> CaseCountByYearChartAsync(string ein)
+        [HttpGet("StaffEDUDetail/{ein}")]
+        public async Task<ActionResult> GetStaffEDUDetailAsync(string ein)
         {
             try
             {

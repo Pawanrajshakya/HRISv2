@@ -5,7 +5,7 @@ import { map } from 'rxjs';
 import { getFullYear } from 'ngx-bootstrap/chronos';
 import { ChartBaseComponent, IPieChartData } from 'src/app/base/chart-base.component';
 import { ITopInfractionsChart } from "src/app/_models/ITopInfractionsChart";
-import { TeamService } from 'src/app/_services/team.service';
+import { ChartService } from 'src/app/_services/chart.service';
 
 @Component({
   selector: 'app-team-top-infraction',
@@ -22,7 +22,7 @@ export class TeamTopInfractionComponent extends ChartBaseComponent implements On
 
   title: string = "";
 
-  constructor(private teamService: TeamService) {
+  constructor(private chartService: ChartService) {
     super();
   }
 
@@ -32,7 +32,7 @@ export class TeamTopInfractionComponent extends ChartBaseComponent implements On
     this.title = "Summary of the Top Five Infractions in DSS-HRA-DHS received Year-To-Date (" + _date.toLocaleDateString() + " - " + (new Date).toLocaleDateString() + ")";
   }
 
-  topInfractionChart$ = this.teamService.topInfractionsChart$
+  topInfractionChart$ = this.chartService.topInfractionsChart$
     .pipe<IPieChartData>(
       map(rows => {
         console.log('topInfractionChart', rows);

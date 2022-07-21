@@ -6,8 +6,8 @@ import { map } from 'rxjs/operators';
 import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
 import { IEcard } from 'src/app/_models/IEcard';
 import { ICurrentUser } from "src/app/_models/ICurrentUser";
-import { EcardService } from 'src/app/_services/ecard.service';
-import { UserService } from 'src/app/_services/user.service';
+import { ChartService } from 'src/app/_services/chart.service';
+import { LoginService } from 'src/app/_services/login.service';
 
 @Component({
   selector: 'app-ecard-chart',
@@ -22,7 +22,7 @@ export class EcardChartComponent extends ChartBaseComponent {
 
   today = new Date().toLocaleDateString();
 
-  ecardChart$ = this.ecardService.eCards$.pipe<IBarChartData>(
+  ecardChart$ = this.chartService.eCards$.pipe<IBarChartData>(
     map(ecards => {
 
       let data: Array<number> = [];
@@ -68,9 +68,11 @@ export class EcardChartComponent extends ChartBaseComponent {
       } as IBarChartData;
     }));
 
-  constructor(private ecardService: EcardService, private userService: UserService, private ngSelect: NgSelectConfig) {
+  constructor(private chartService: ChartService
+    , private loginService: LoginService
+    , private ngSelect: NgSelectConfig) {
     super();
-    this.currentUser = this.userService.currentUser;
+    this.currentUser = this.loginService.currentUser;
   }
 
   public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {

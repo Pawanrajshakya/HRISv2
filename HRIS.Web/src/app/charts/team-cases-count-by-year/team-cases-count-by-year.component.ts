@@ -6,7 +6,8 @@ import { map } from 'rxjs';
 import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
 import { ICasesCountByYear } from "src/app/_models/ICasesCountByYear";
 import { ICurrentUser } from "src/app/_models/ICurrentUser";
-import { TeamService } from 'src/app/_services/team.service';
+import { ChartService } from 'src/app/_services/chart.service';
+import { LoginService } from 'src/app/_services/login.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -18,15 +19,13 @@ export class TeamCasesCountByYearComponent extends ChartBaseComponent implements
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
-  currentUser: ICurrentUser;
-
   title: string = "";
 
   _chartDataLabel: string[] = [];
 
   _chartDataDatasets: any = [];
 
-  casesCountByYearChart$ = this.teamService.casesCountByYearChart$
+  casesCountByYearChart$ = this.chartService.casesCountByYearChart$
     .pipe<IBarChartData>(
       map(rows => {
 
@@ -107,10 +106,9 @@ export class TeamCasesCountByYearComponent extends ChartBaseComponent implements
       })
     );
 
-  constructor(private teamService: TeamService,
-    private userService: UserService) {
+  constructor(private chartService: ChartService,
+    private loginService: LoginService) {
     super();
-    this.currentUser = this.userService.currentUser;
   }
 
   ngOnInit(): void {

@@ -6,19 +6,19 @@ import { NgSelectConfig } from '@ng-select/ng-select';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
-import { ModalBaseComponent } from '../base/tool-base.component';
+import { BaseComponent } from '../base/base.component';
 import { IAnnouncement } from '../_models/IAnnouncement';
 import { IAnnouncementList } from "../_models/IAnnouncementList";
 import { IRole } from '../_models/IRole';
 import { AnnouncementService } from '../_services/announcement.service';
-import { RoleService } from '../_services/role.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-announcement',
   templateUrl: './announcement.component.html',
   styleUrls: ['./announcement.component.scss']
 })
-export class AnnouncementComponent extends ModalBaseComponent<IAnnouncementList> implements AfterViewInit {
+export class AnnouncementComponent extends BaseComponent<IAnnouncementList> implements AfterViewInit {
 
 
   announcementForm = {
@@ -73,10 +73,9 @@ export class AnnouncementComponent extends ModalBaseComponent<IAnnouncementList>
   @ViewChild("fileUpload", { static: false }) fileUploadElement: ElementRef | undefined;
 
   constructor(private announcementService: AnnouncementService
-    , private roleService: RoleService
+    , private userService: UserService
     , private modalService: BsModalService
-    , private ngSelectConfig: NgSelectConfig
-    , protected _snackBar: MatSnackBar) {
+    , private ngSelectConfig: NgSelectConfig) {
     super();
     this.displayedColumns = ['id', 'title', 'priority', 'durationRestricted', 'status', 'updatedBy', 'dateUpdated', 'editOption', 'deleteOption'];
     this.applyTheme();
@@ -132,7 +131,7 @@ export class AnnouncementComponent extends ModalBaseComponent<IAnnouncementList>
           this.data = data;
       });
 
-    this.roleService.roles$.subscribe((data) => {
+    this.userService.roles$.subscribe((data) => {
       let _data = data as IRole[];
       if (_data.length > 0) {
         _data.forEach((role) => {
@@ -171,11 +170,11 @@ export class AnnouncementComponent extends ModalBaseComponent<IAnnouncementList>
         },
         error: (error) => {
           this.announcementForm.message = " - " + error.userMessage;
-          this._snackBar.open(error.userMessage, 'Close', {
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-            duration: 10000,
-          })
+          // this._snackBar.open(error.userMessage, 'Close', {
+          //   horizontalPosition: this.horizontalPosition,
+          //   verticalPosition: this.verticalPosition,
+          //   duration: 10000,
+          // })
         },
         complete: () => {
           this.announcementForm.isBusy = false;
@@ -191,11 +190,11 @@ export class AnnouncementComponent extends ModalBaseComponent<IAnnouncementList>
         },
         error: (error) => {
           this.announcementForm.message = " - " + error.userMessage;
-          this._snackBar.open(error.userMessage, 'Close', {
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-            duration: 10000,
-          })
+          // this._snackBar.open(error.userMessage, 'Close', {
+          //   horizontalPosition: this.horizontalPosition,
+          //   verticalPosition: this.verticalPosition,
+          //   duration: 10000,
+          // })
         },
         complete: () => {
           this.announcementForm.isBusy = false;
@@ -246,11 +245,11 @@ export class AnnouncementComponent extends ModalBaseComponent<IAnnouncementList>
           this.filterSubject.next(this.filterValue);
         },
         error: (error) => {
-          this._snackBar.open(error.userMessage, 'Close', {
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-            duration: 10000,
-          })
+          // this._snackBar.open(error.userMessage, 'Close', {
+          //   horizontalPosition: this.horizontalPosition,
+          //   verticalPosition: this.verticalPosition,
+          //   duration: 10000,
+          // })
         },
         complete: () => {
           this.modalRef?.hide();
@@ -271,7 +270,7 @@ export class AnnouncementComponent extends ModalBaseComponent<IAnnouncementList>
 
     this.announcementService.get$(id).subscribe({
       next: (data) => {
-        var _data = (data as IAnnouncement[])[0];
+        var _data = (data as unknown as IAnnouncement[])[0];
         console.log(_data, _data.imageURL);
         this.announcementForm.inEditMode = true;
 
@@ -295,11 +294,11 @@ export class AnnouncementComponent extends ModalBaseComponent<IAnnouncementList>
 
       },
       error: (error) => {
-        this._snackBar.open(error.userMessage, 'Close', {
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-          duration: 10000,
-        });
+        // this._snackBar.open(error.userMessage, 'Close', {
+        //   horizontalPosition: this.horizontalPosition,
+        //   verticalPosition: this.verticalPosition,
+        //   duration: 10000,
+        // });
       },
       complete: () => {
 

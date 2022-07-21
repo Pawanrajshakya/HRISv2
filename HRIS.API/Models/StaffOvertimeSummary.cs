@@ -18,16 +18,16 @@ namespace HRIS.API
         public string WaiverStatus { get; set; }
         public string WaiverPrcnt { get; set; }
         public decimal WaiverAmt { get; set; }
-        public float OTPercentofBaseSalary { get; set; }
-        public float OTPcntRemainingNew { get; set; }
+        public double OTPercentofBaseSalary { get; set; }
+        public double OTPcntRemainingNew { get; set; }
         public string Blocked { get; set; }
         public decimal POSOrNegCap { get; set; }
-        public float Bal_Allowed { get; set; }
+        public double Bal_Allowed { get; set; }
         public string FLSA { get; set; }
         public string NonFLSACompTimeBal { get; set; }
         public string FLSACompTimeBal { get; set; }
         public string HourlyRate { get; set; }
-        public float WorkweekHours { get; set; }
-        public float HrsWrkdThisPeriod { get; set; }
+        public double WorkweekHours { get; set; }
+        public double HrsWrkdThisPeriod { get; set; }
     }
 }

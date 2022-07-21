@@ -12,30 +12,28 @@ export class CarouselComponent implements OnInit {
 
   announcementSummary: IAnnouncementSummary[] = [];
 
-  constructor(private announcementService: AnnouncementService
-    , protected _snackBar: MatSnackBar) {
-
-  }
-
+  constructor(private announcementService: AnnouncementService) { }
 
   ngOnInit(): void {
     this.announcementService.getByUser$().subscribe({
       next: (data) => {
 
-        let announcement = (data as IAnnouncementSummary[]);
+        if (data) {
 
-        announcement.forEach(element => {
-          this.announcementSummary.push(element);
-        });
-        console.log(this.announcementSummary);
+          let announcement = (data as IAnnouncementSummary[]);
 
+          announcement.forEach(element => {
+            this.announcementSummary.push(element);
+          });
+          console.log(this.announcementSummary);
+        }
       },
       error: (error) => {
-        this._snackBar.open(error.userMessage, 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 10000,
-        });
+        // this._snackBar.open(error.userMessage, 'Close', {
+        //   horizontalPosition: 'right',
+        //   verticalPosition: 'top',
+        //   duration: 10000,
+        // });
       },
       complete: () => {
 

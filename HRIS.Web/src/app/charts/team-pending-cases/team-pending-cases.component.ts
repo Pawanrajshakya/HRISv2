@@ -5,8 +5,8 @@ import { map } from 'rxjs';
 import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
 import { IPendingCasesChart } from "src/app/_models/IPendingCasesChart";
 import { ICurrentUser } from "src/app/_models/ICurrentUser";
-import { TeamService } from 'src/app/_services/team.service';
-import { UserService } from 'src/app/_services/user.service';
+import { ChartService } from 'src/app/_services/chart.service';
+import { LoginService } from 'src/app/_services/login.service';
 
 @Component({
   selector: 'app-team-pending-cases',
@@ -21,7 +21,7 @@ export class PendingCasesComponent extends ChartBaseComponent implements OnInit 
 
   tableLabel: string[] = [];
 
-  pendingCases$ = this.teamService.pendingCasesChart$.pipe<IBarChartData>(
+  pendingCases$ = this.chartService.pendingCasesChart$.pipe<IBarChartData>(
     map(rows => {
 
       console.log('>', rows);
@@ -71,10 +71,10 @@ export class PendingCasesComponent extends ChartBaseComponent implements OnInit 
       } as IBarChartData;
     }));
 
-  constructor(private teamService: TeamService,
-    private userService: UserService) {
+  constructor(private chartService: ChartService,
+    private loginService: LoginService) {
     super();
-    this.currentUser = this.userService.currentUser;
+    this.currentUser = this.loginService.currentUser;
   }
 
   ngOnInit(): void {

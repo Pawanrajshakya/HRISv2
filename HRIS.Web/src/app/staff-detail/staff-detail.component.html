@@ -1,20 +1,20 @@
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary shadow">
-    <i class="bi bi-person-check-fill"></i> Staff Details
+    <i class="bi bi-person-check-fill"></i> Staff Detail <span class="pull-right">{{ein}}</span>
   </div>
   <div class="card-body">
     <div class="col-sm-12 row">
-      <div class="col-sm-3 font-weight-bold">First Name</div>
-      <div class="col-sm-3"></div>
-      <div class="col-sm-3 font-weight-bold">Last Name</div>
-      <div class="col-sm-3"></div>
+      <div class="col-sm-2 font-weight-bold">First Name</div>
+      <div class="col-sm-4">{{detail.firstName | emptyValue}}</div>
+      <div class="col-sm-2 font-weight-bold">Last Name</div>
+      <div class="col-sm-4">{{detail.lastName | emptyValue}}</div>
     </div>
     <br>
     <div class="col-sm-12 row">
-      <div class="col-sm-3 font-weight-bold">EIN</div>
-      <div class="col-sm-3"></div>
-      <div class="col-sm-3 font-weight-bold">RC Name</div>
-      <div class="col-sm-3"></div>
+      <div class="col-sm-2 font-weight-bold">EIN</div>
+      <div class="col-sm-4">{{detail.ein | emptyValue}}</div>
+      <div class="col-sm-2 font-weight-bold">RC Name</div>
+      <div class="col-sm-4">{{detail.rcName | emptyValue}}</div>
     </div>
     <div class="col-sm-12 row mt-2 mb-2">
       <div class=" col-sm-12">
@@ -22,6 +22,7 @@
           <i class="bi bi-file-earmark-pdf"></i>&nbsp;Print</a>
       </div>
     </div>
+    <br>
     <tabset [justified]="true">
       <tab>
         <ng-template tabHeading>
@@ -38,28 +39,28 @@
               </div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Leave Status</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Pay DP Code</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Leave Status</div>
+              <div class="col-sm-4">{{detail.leaveStatus | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Pay DP Code</div>
+              <div class="col-sm-4">{{detail.dpCode | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Leave Date</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Backup DP Code</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Leave Date</div>
+              <div class="col-sm-4">{{detail.leaveDate | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Backup DP Code</div>
+              <div class="col-sm-4">{{detail.buDP | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Action Reason</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Backup Leave Status</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Action Reason</div>
+              <div class="col-sm-4">{{detail.actionReason | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Backup Leave Status</div>
+              <div class="col-sm-4">{{detail.buLeaveStatus | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Budget Code</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Backup Leave Reason</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Budget Code</div>
+              <div class="col-sm-4">{{detail.budgetCode | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Backup Leave Reason</div>
+              <div class="col-sm-4">{{detail.buLVReason | emptyValue}}</div>
             </div>
           </div>
         </div>
@@ -74,34 +75,34 @@
               </div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Title Info</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Backup Title</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Title Info</div>
+              <div class="col-sm-4">{{detail.payTitle | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Backup Title</div>
+              <div class="col-sm-4">{{detail.backupTitle | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Pay Title Level</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Backup Title Level</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Pay Title Level</div>
+              <div class="col-sm-4">{{detail.payTitleLevel | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Backup Title Level</div>
+              <div class="col-sm-4">{{detail.backupTitleLevel | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Pay Title Date</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Backup Title Date</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Pay Title Date</div>
+              <div class="col-sm-4">{{detail.titleDate | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Backup Title Date</div>
+              <div class="col-sm-4">{{detail.buTitleDate | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Pay Status</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Backup Manager Level</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Pay Status</div>
+              <div class="col-sm-4">{{detail.csStatus | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Backup Manager Level</div>
+              <div class="col-sm-4">{{detail.buMgrLvl | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Pay Class</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold"></div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Pay Class</div>
+              <div class="col-sm-4">{{detail.payClass | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold"></div>
+              <div class="col-sm-4"></div>
             </div>
           </div>
         </div>
@@ -116,34 +117,34 @@
               </div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Veteran Status</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Physical Handicap</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Veteran Status</div>
+              <div class="col-sm-4">{{detail.vetStatus | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Physical Handicap</div>
+              <div class="col-sm-4">{{detail.physhand | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Pension Indicator</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Probationary Indicator</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Pension Indicator</div>
+              <div class="col-sm-4">{{detail.penind | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Probationary Indicator</div>
+              <div class="col-sm-4">{{detail.probind | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Pension Tier</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Disbursement</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Pension Tier</div>
+              <div class="col-sm-4">{{detail.penTier | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Disbursement</div>
+              <div class="col-sm-4">{{detail.disbName | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Schedule Type</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Backup Disbursecode</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Schedule Type</div>
+              <div class="col-sm-4">{{detail.schdtype | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Backup Disbursecode</div>
+              <div class="col-sm-4">{{detail.buDisbcd | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Collective Bargain Unit</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Unconverted Leave Status</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold">Collective Bargain Unit</div>
+              <div class="col-sm-4">{{detail.collectiveBargain | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold">Unconverted Leave Status</div>
+              <div class="col-sm-4">{{detail.unconvLeaveStatus | emptyValue}}</div>
             </div>
           </div>
         </div>
@@ -155,36 +156,37 @@
         <div class="card border border-top border-secondary shadow mt-2">
           <div class="card-body">
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-person-badge"></i>&nbsp;Legal Name</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-person-badge"></i>&nbsp;Legal Name</div>
+              <div class="col-sm-9">{{detail.legalName | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-signpost-2"></i>&nbsp;Street Name</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-signpost-2"></i>&nbsp;Street Name</div>
+              <div class="col-sm-9">{{detail.workAddress | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;City</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;City</div>
+              <div class="col-sm-9">{{detail.workCity | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;State</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;State</div>
+              <div class="col-sm-9">NY</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;Zip Code</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;Zip Code</div>
+              <div class="col-sm-9">{{detail.workZipCode | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-envelope"></i>&nbsp;Outlook</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold text-primary"><i class="bi bi-envelope"></i>&nbsp;Outlook</div>
+              <div class="col-sm-9"><a href="mailto:{{detail.workEmail}}">{{detail.workEmail | emptyValue}}</a></div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-telephone"></i>&nbsp;Office Phone</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-telephone"></i>&nbsp;Office Phone</div>
+              <div class="col-sm-9">{{detail.workPhone | hrisPhone}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-person"></i>&nbsp;Supervisor</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold text-success"><i class="bi bi-person-fill"></i>&nbsp;Supervisor
+              </div>
+              <div class="col-sm-9">{{detail.supervisor | emptyValue}}</div>
             </div>
           </div>
         </div>
@@ -196,24 +198,24 @@
         <div class="card border border-top border-secondary shadow mt-2">
           <div class="card-body">
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-signpost-2"></i>&nbsp;Street Name</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-signpost-2"></i>&nbsp;Street Name</div>
+              <div class="col-sm-9">{{detail.homeAddress | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;City</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;City</div>
+              <div class="col-sm-9">{{detail.homeCity | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;State</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;State</div>
+              <div class="col-sm-9">{{detail.homeState | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;Zip Code</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-dot"></i>&nbsp;Zip Code</div>
+              <div class="col-sm-9">{{detail.zipCode | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-phone"></i>&nbsp;Home Phone</div>
-              <div class="col-sm-9"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-phone"></i>&nbsp;Home Phone</div>
+              <div class="col-sm-9">{{detail.homePhone | hrisPhone}}</div>
             </div>
           </div>
         </div>
@@ -222,169 +224,182 @@
         <ng-template tabHeading>
           <i class="bi bi-people-fill"></i>&nbsp;Emergency Info
         </ng-template>
-        <div class="card border border-top border-secondary shadow mt-2">
+        <div class="card border border-top border-secondary shadow mt-2" *ngFor="let item of emergencyContactInfo">
           <div class="card-body">
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-person-heart"></i>&nbsp;Name</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-link"></i>&nbsp;Relationship</div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-person-heart text-danger"></i>&nbsp;Name</div>
+              <div class="col-sm-4">{{item.name | emptyValue}}</div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-link"></i>&nbsp;Relationship</div>
+              <div class="col-sm-4">{{item.relationship | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold"><i class="bi bi-telephone"></i>&nbsp;Primary Phone</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold"></div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2 font-weight-bold"><i class="bi bi-telephone"></i>&nbsp;Primary Phone</div>
+              <div class="col-sm-4">{{item.primaryPhone | hrisPhone}}</div>
+              <div class="col-sm-2 font-weight-bold"></div>
+              <div class="col-sm-4"></div>
             </div>
           </div>
         </div>
       </tab>
-      <tab>
+      <tab *ngIf="!!this.loginService.currentUser.hasTEAMS">
         <ng-template tabHeading>
           <i class="bi bi-hand-index-fill"></i>&nbsp;EDU Info
         </ng-template>
-        <div class="card border border-top border-secondary shadow mt-2">
-          <div class="card-body">
-            <div class="col-sm-12 row mb-2">
-              <div class=" col-sm-6">
-                <span class="card-title text-primary h5 mr-2"><i class="bi bi-bookmarks"></i>&nbsp;#1 03/03/2018</span>
-                <span class="bg-info mr-2 p-2 rounded-pill text-white">1048628-04</span><span>Case Started By ODA</span>
+        <div class="card border border-top border-secondary shadow mt-2" *ngIf="staffEDUDetail.length === 0">
+          <h3 class="text-info mt-2 mb-2 ml-2">No records found.</h3>
+        </div>
+        <div *ngIf="!!staffEDUDetail">
+          <div class="card border border-top border-secondary shadow mt-2"
+            *ngFor="let item of staffEDUDetail; let i = index">
+            <div class="card-body">
+              <div class="col-sm-12 row mb-2">
+                <div class=" col-sm-6">
+                  <span class="card-title text-primary h5 mr-2"><i class="bi bi-bookmarks"></i>&nbsp;#{{i+1}}
+                    {{item.dateReceived}}</span>
+                  <span class="bg-info mr-2 p-2 rounded-pill text-white">{{item.trackingNo}}</span><span
+                    class="text-secondary">{{item.currentStatus}}</span>
+                </div>
+                <div class="col-sm-6">
+                  <i class="pull-right">*Data is refreshed daily</i>
+                </div>
               </div>
-              <div class="col-sm-6">
-                <i class="pull-right">*Data is refreshed daily</i>
+              <div class="col-sm-12 row mt-4">
+                <div class="col-sm-2 font-weight-bold">Charges</div>
+                <div class="col-sm-4">{{item.charges | emptyValue}}</div>
+                <div class="col-sm-2 font-weight-bold"></div>
+                <div class="col-sm-4"></div>
               </div>
-            </div>
-            <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Charges</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold"></div>
-              <div class="col-sm-3"></div>
-            </div>
-            <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Location</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Source</div>
-              <div class="col-sm-3"></div>
-            </div>
-            <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">Infraction Date</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold">Date Received by EDU</div>
-              <div class="col-sm-3"></div>
-            </div>
-            <div class="col-sm-12 row mt-2">
-              <div class="col-sm-3 font-weight-bold">IC Date</div>
-              <div class="col-sm-3"></div>
-              <div class="col-sm-3 font-weight-bold"></div>
-              <div class="col-sm-3"></div>
+              <div class="col-sm-12 row mt-2">
+                <div class="col-sm-2 font-weight-bold">Location</div>
+                <div class="col-sm-4">{{item.locationName | emptyValue}}</div>
+                <div class="col-sm-2 font-weight-bold">Source</div>
+                <div class="col-sm-4">{{item.requestSourceDescription | emptyValue}}</div>
+              </div>
+              <div class="col-sm-12 row mt-2">
+                <div class="col-sm-2 font-weight-bold">Infraction Date</div>
+                <div class="col-sm-4">{{item.dateInfraction | date : 'YYYY-MM-dd'}}</div>
+                <div class="col-sm-2 font-weight-bold">Date Received by EDU</div>
+                <div class="col-sm-4">{{item.dateReceived | date : 'YYYY-MM-dd'}}</div>
+              </div>
+              <div class="col-sm-12 row mt-2">
+                <div class="col-sm-2 font-weight-bold">IC Date</div>
+                <div class="col-sm-4">{{item.icDate | date: 'MM/dd/YY h:mm a'}}</div>
+                <div class="col-sm-2 font-weight-bold"></div>
+                <div class="col-sm-4"></div>
+              </div>
             </div>
           </div>
         </div>
       </tab>
-      <tab>
+      <tab *ngIf="!!this.loginService.currentUser.hasOvertime">
         <ng-template tabHeading>
           <i class="bi bi-coin"></i>&nbsp;Overtime Info
         </ng-template>
         <div class="card border border-top border-secondary shadow mt-2">
-          <div class="card-body">
+          <div class="card-body" *ngIf="!staffOTSummaryCalender">
+            <div class="col-sm-12 row mb-2">
+              <h3 class="text-info">No records found.</h3>
+            </div>
+          </div>
+          <div class="card-body" *ngIf="!!staffOTSummaryCalender">
             <div class="col-sm-12 row mb-2">
               <div class=" col-sm-6">
                 <span class="card-title text-primary h5 mr-2"><i class="bi bi-bookmarks"></i>&nbsp;Salary & Overtime
                   Info</span>
               </div>
               <div class="col-sm-6">
-                <i class="pull-right">*Data is refreshed daily</i>
+                <i class="pull-right">*Data is refreshed every paydate</i>
               </div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold"></div>
-              <div class="col-sm-4 font-weight-bold">Calendar Yr 2022</div>
-              <div class="col-sm-4 font-weight-bold">Fiscal Yr 2023</div>
+              <div class="col-sm-4 font-weight-bold">{{staffOTSummaryCalender.calendarORFiscal | emptyValue}}</div>
+              <div class="col-sm-4 font-weight-bold">{{staffOTSummaryFiscal.calendarORFiscal | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Salary</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.salary  | currency}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.salary  | currency}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">ATG</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.adComp  | currency}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.adComp  | currency}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Sum Night Diff YTD</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.sumNightDifferentialYTD  | currency}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.sumNightDifferentialYTD  | currency}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Salary + ATG</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.totBasePay | currency}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.totBasePay | currency}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">OT YTD Amt</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.oT_YTDAmt  | currency}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.oT_YTDAmt  | currency}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">OT YTD Hrs</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.oT_YTDHrs | emptyValue}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.oT_YTDHrs | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Salary + ATG + Night Diff + OT</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.totBasePlusOT  | currency}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.totBasePlusOT  | currency}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">YTD Prem</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.sumNightDifferentialPerm  | currency}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.sumNightDifferentialPerm  | currency}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Comp YTD</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.compYTD | emptyValue}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.compYTD | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Earned OT %</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.otPercentofBaseSalary | emptyValue | hrisPercent}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.otPercentofBaseSalary | emptyValue | hrisPercent}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Remaining</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.otPcntRemainingNew | emptyValue | hrisPercent}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.otPcntRemainingNew | emptyValue | hrisPercent}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">FLSA</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.flsa | emptyValue}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.flsa | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Non FLSA Comp Time Bal</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.nonFLSACompTimeBal | emptyValue}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.nonFLSACompTimeBal | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">FLSA Comp Time Bal</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.flsaCompTimeBal | emptyValue}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.flsaCompTimeBal | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Hourly Rate</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.hourlyRate | currency}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.hourlyRate | currency}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Work Week Hours</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.workweekHours | emptyValue}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.workweekHours | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">OT Hours Worked This Period</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.hrsWrkdThisPeriod | emptyValue}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.hrsWrkdThisPeriod | emptyValue}}</div>
             </div>
           </div>
         </div>
@@ -395,38 +410,38 @@
                 <span class="card-title text-primary h5 mr-2"><i class="bi bi-bookmarks"></i>&nbsp;Waiver Info</span>
               </div>
               <div class="col-sm-6">
-                <i class="pull-right">*Data is refreshed daily</i>
+                <i class="pull-right">*Data is refreshed every paydate</i>
               </div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold"></div>
-              <div class="col-sm-4 font-weight-bold">Calendar Yr 2022</div>
-              <div class="col-sm-4 font-weight-bold">Fiscal Yr 2023</div>
+              <div class="col-sm-4 font-weight-bold">{{staffOTSummaryCalender.calendarORFiscal | emptyValue}}</div>
+              <div class="col-sm-4 font-weight-bold">{{staffOTSummaryFiscal.calendarORFiscal | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Waiver Info</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.waiverStatus | emptyValue}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.waiverStatus | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Waiver Pcnt</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.waiverPrcnt | emptyValue | hrisPercent}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.waiverPrcnt | emptyValue | hrisPercent}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Waiver Amount</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.waiverAmt | currency}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.waiverAmt | currency}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Blocked</div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.blocked | emptyValue}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.blocked | emptyValue}}</div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Blocked&nbsp;<i class="bi bi-patch-question-fill"></i></div>
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4"></div>
+              <div class="col-sm-4">{{staffOTSummaryCalender.bal_Allowed  | currency}}</div>
+              <div class="col-sm-4">{{staffOTSummaryFiscal.bal_Allowed  | currency}}</div>
             </div>
           </div>
         </div>

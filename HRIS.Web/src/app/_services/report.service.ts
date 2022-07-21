@@ -2,29 +2,32 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs/operators';
 import { IReportParam } from '../_models/IReportParam';
-import { BaseService } from './base.service';
+import { ErrorHandlingService } from './error-handling.service';
+import { BaseService } from './_base.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService extends BaseService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+    private errorHandlingService: ErrorHandlingService) {
     super();
   }
 
   get$(reportParam?: IReportParam) {
 
     return this.httpClient.post(
-      this.url + 'report', 
-      reportParam, { 
-        observe: 'response', 
-        responseType: 'blob' })
+      this.url + 'report',
+      reportParam, {
+      observe: 'response',
+      responseType: 'blob'
+    })
       .pipe(
-        tap((data) => { 
-          console.log(data); 
+        tap((data) => {
+          console.log(data);
         }),
-        catchError(err => this.handleError(err))
+        catchError(err => this.errorHandlingService.handleError(err))
       );
   }
 }

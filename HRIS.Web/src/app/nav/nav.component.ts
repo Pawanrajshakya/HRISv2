@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { UserService } from '../_services/user.service';
 import { Observable } from 'rxjs';
 import { ICurrentUser } from "../_models/ICurrentUser";
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
+import { LoginService } from '../_services/login.service';
 
 @Component({
   selector: 'app-nav',
@@ -15,11 +15,10 @@ import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 export class NavComponent {
 
   currentUser$: Observable<ICurrentUser>;
-  
+
   message: any;
-  constructor(private userService: UserService) {
-    this.currentUser$ = this.userService.currentUserAction$;
-    this.message = this.userService.hrisError.message;
+  constructor(public loginService: LoginService) {
+    this.currentUser$ = this.loginService.currentUserAction$;
   }
 
 }

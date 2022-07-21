@@ -5,7 +5,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
 import { ChartBaseComponent , ILineChartData} from 'src/app/base/chart-base.component';
 import { IHeadcountChartData } from 'src/app/_models/IHeadcountChartData';
-import { HeadcountService } from 'src/app/_services/headcount.service';
+import { ChartService } from 'src/app/_services/chart.service';
 
 @Component({
   selector: 'app-headcount',
@@ -16,7 +16,7 @@ export class HeadcountComponent extends ChartBaseComponent {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
-  headcountChart$ = this.headcountService.headcountChart$.pipe<ILineChartData>(
+  headcountChart$ = this.chartService.headcountChart$.pipe<ILineChartData>(
     map(_data => {
 
       // let dataset: any = [];
@@ -97,7 +97,7 @@ export class HeadcountComponent extends ChartBaseComponent {
     }));
 
 
-  constructor(private headcountService: HeadcountService) {
+  constructor(private chartService: ChartService) {
     super();
   }
 

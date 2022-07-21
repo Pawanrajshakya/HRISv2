@@ -16,7 +16,7 @@ namespace HRIS.API.Controllers
             _overtimeRepository = overtimeRepository;
         }
 
-        [HttpGet("GetStaffOvertimeSummary/{ein}/{canlenderType}")]
+        [HttpGet("StaffOvertimeSummary/{ein}/{calenderType}")]
         public async Task<ActionResult> GetStaffOvertimeSummary(string ein, string calenderType)
         {
             if (UserSession.Instance.User.Groups.Contains(3))

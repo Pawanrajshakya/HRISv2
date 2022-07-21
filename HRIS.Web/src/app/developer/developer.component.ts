@@ -9,6 +9,7 @@ import { ITableViewParam } from '../_models/IReportParam';
 import { IUserList } from "../_models/IUserList";
 import { ICurrentUser } from "../_models/ICurrentUser";
 import { HRISError } from '../_models/IHRISError';
+import { LoginService } from '../_services/login.service';
 
 @Component({
   selector: 'app-developer',
@@ -34,8 +35,10 @@ export class DeveloperComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService, private route: Router) {
-    this.userService.loginSubject.next("");
+  constructor(private loginService: LoginService
+    , private route: Router
+    , private userService: UserService) {
+    this.loginService.loginSubject.next("");
   }
 
 
@@ -100,8 +103,8 @@ export class DeveloperComponent implements AfterViewInit {
   }
 
   onLogin(user: ICurrentUser): void {
-    this.userService.loginSubject.next(user.lanID ?? "");
-    this.userService.user$.subscribe((user) => {
+    this.loginService.loginSubject.next(user.lanID ?? "");
+    this.loginService.user$.subscribe((user) => {
       console.log('onLogin>user>', user);
       this.route.navigate(["home"]);
     });
@@ -112,8 +115,8 @@ export class DeveloperComponent implements AfterViewInit {
       this.errorMessage = "Invalid User.";
       return;
     }
-    this.userService.loginSubject.next(this.lanID);
-    this.userService.user$.subscribe((user) => {
+    this.loginService.loginSubject.next(this.lanID);
+    this.loginService.user$.subscribe((user) => {
       this.route.navigate(["home"]);
     }, (error: HRISError) => {
       this.errorMessage = error.userMessage ?? "Error";

@@ -5,14 +5,16 @@ import { IAnnouncement } from '../_models/IAnnouncement';
 import { IAnnouncementSummary } from "../_models/IAnnouncementSummary";
 import { IAnnouncementList } from "../_models/IAnnouncementList";
 import { IReportParam } from '../_models/IReportParam';
-import { BaseService } from './base.service';
+import { BaseService } from './_base.service';
+import { ErrorHandlingService } from './error-handling.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnnouncementService extends BaseService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient
+    , private errorHandlingService: ErrorHandlingService) {
     super();
   }
 
@@ -21,7 +23,7 @@ export class AnnouncementService extends BaseService {
     return this.httpClient.post<IAnnouncementList[]>(this.url + 'announcement/list', tableViewParam?.pagination)
       .pipe(
         tap((data) => { console.log(data); }),
-        catchError(err => this.handleError(err))
+        catchError(err => this.errorHandlingService.handleError(err))
       );
   }
 
@@ -29,7 +31,7 @@ export class AnnouncementService extends BaseService {
     return this.httpClient.get<IAnnouncementSummary[]>(this.url + 'announcement')
       .pipe(
         tap((data) => { console.log(data); }),
-        catchError(err => this.handleError(err))
+        catchError(err => this.errorHandlingService.handleError(err))
       );
   }
 
@@ -37,7 +39,7 @@ export class AnnouncementService extends BaseService {
     return this.httpClient.get<IAnnouncement>(this.url + 'announcement/' + id)
       .pipe(
         tap((data) => { console.log(data); }),
-        catchError(err => this.handleError(err))
+        catchError(err => this.errorHandlingService.handleError(err))
       );
   }
 
@@ -46,7 +48,7 @@ export class AnnouncementService extends BaseService {
     return this.httpClient.post<boolean>(this.url + 'announcement/' + id + '/' + priority, null)
       .pipe(
         tap((data) => { console.log(data); }),
-        catchError(err => this.handleError(err))
+        catchError(err => this.errorHandlingService.handleError(err))
       );
   }
 
@@ -54,14 +56,14 @@ export class AnnouncementService extends BaseService {
     console.log(id);
     return this.httpClient.delete<boolean>(this.url + 'announcement/' + id).pipe(
       tap((data) => { console.log(data); }),
-      catchError(err => this.handleError(err))
+      catchError(err => this.errorHandlingService.handleError(err))
     );
   }
 
   upload$(id: number, formData: FormData) {
     return this.httpClient.post(this.url + 'announcement/upload/' + id, formData, { responseType: 'text' }).pipe(
       tap((data) => { console.log('>', data); }),
-      catchError(err => this.handleError(err, "Unable to upload file at this time. Please try later."))
+      catchError(err => this.errorHandlingService.handleError(err, "Unable to upload file at this time. Please try later."))
     );
   }
 
@@ -69,7 +71,7 @@ export class AnnouncementService extends BaseService {
     console.log(announcement);
     return this.httpClient.post(this.url + 'announcement', announcement).pipe(
       tap((data) => { console.log(data); }),
-      catchError(err => this.handleError(err))
+      catchError(err => this.errorHandlingService.handleError(err))
     );
   }
 
@@ -77,7 +79,7 @@ export class AnnouncementService extends BaseService {
     console.log(announcement);
     return this.httpClient.put(this.url + 'announcement', announcement).pipe(
       tap((data) => { console.log(data); }),
-      catchError(err => this.handleError(err))
+      catchError(err => this.errorHandlingService.handleError(err))
     );
   }
 

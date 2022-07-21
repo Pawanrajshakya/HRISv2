@@ -5,7 +5,6 @@ namespace HRIS.API
 {
     public class StaffEDUDetail
     {
-        [Key]
         public Int64 RowNo { get; set; }
         public string EIN { get; set; }
         public string LastName { get; set; }
@@ -17,6 +16,7 @@ namespace HRIS.API
         public string Charges { get; set; }
         public string RequestSourceDescription { get; set; }
         public DateTime? DateReceived { get; set; }
+        [Key]
         public string TrackingNo { get; set; }
         public DateTime? ICDate { get; set; }
         public string ICPenalty { get; set; }

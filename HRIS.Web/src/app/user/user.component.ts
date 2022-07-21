@@ -7,24 +7,22 @@ import { UserService } from '../_services/user.service';
 import { NgForm } from '@angular/forms';
 import { IGroup } from '../_models/IGroup';
 import { IRole } from '../_models/IRole';
-import { IRC } from '../_models/IRC';
-import { IDP } from '../_models/IDP';
-import { GroupService } from '../_services/group.service';
-import { RoleService } from '../_services/role.service';
+import { IRC, IDP } from '../_models/IRC_DP';
 import { CodeService } from '../_services/code.service';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportComponent } from '../report/report.component';
-import { ModalBaseComponent } from '../base/tool-base.component';
 import { Reports } from '../_models/Reports.enum';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent extends ModalBaseComponent<IUserList> implements AfterViewInit {
+
+export class UserComponent extends BaseComponent<IUserList> implements AfterViewInit {
 
   /** Table -- check in BaseComponent*/
 
@@ -56,8 +54,6 @@ export class UserComponent extends ModalBaseComponent<IUserList> implements Afte
 
   constructor(private userService: UserService
     , private modalService: BsModalService
-    , private groupService: GroupService
-    , private roleService: RoleService
     , private codeService: CodeService
     , private ngSelectConfig: NgSelectConfig
     , protected _snackBar: MatSnackBar
@@ -115,11 +111,11 @@ export class UserComponent extends ModalBaseComponent<IUserList> implements Afte
           this.data = data;
       });
 
-    this.groupService.groups$.subscribe((data) => {
+    this.userService.groups$.subscribe((data) => {
       this.groups = data as IGroup[];
     });
 
-    this.roleService.roles$.subscribe((data) => {
+    this.userService.roles$.subscribe((data) => {
       let _data = data as IRole[];
       if (_data.length > 0) {
         _data.forEach((role) => {

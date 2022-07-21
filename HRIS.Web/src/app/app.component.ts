@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { ICurrentUser } from './_models/ICurrentUser';
-import { UserService } from './_services/user.service';
+import { LoginService } from './_services/login.service';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +8,11 @@ import { UserService } from './_services/user.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private userService: UserService,
-    private router: Router) {
+  constructor(private loginService: LoginService) {
   }
 
   ngOnInit() {
     console.log('Login step 1: AppComponent > ngOnInit > this.userService.loginSubject.next("");');
-    this.userService.loginSubject.next("");
+    this.loginService.loginSubject.next("");
   }
 }

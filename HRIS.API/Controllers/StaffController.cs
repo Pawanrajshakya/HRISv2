@@ -16,7 +16,7 @@ namespace HRIS.API.Controllers
         }
 
         [HttpPost("list")]
-        public async Task<ActionResult> ListAsync(ReportParameters parameters)
+        public async Task<ActionResult> GetListAsync(ReportParameters parameters)
         {
             string RCs = string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(parameters.RcDp.IsAgencyWise) : parameters.RcDp.RCs;
             string DPs = string.IsNullOrEmpty(parameters.RcDp.DPs) ? GetDP(parameters.RcDp.IsAgencyWise) : parameters.RcDp.DPs;
@@ -36,9 +36,17 @@ namespace HRIS.API.Controllers
         }
 
         [HttpGet("detail/{ein}")]
-        public async Task<ActionResult> DetailAsync(string ein)
+        public async Task<ActionResult> GetDetailAsync(string ein)
         {
             return Ok(await _staffRepository.GetDetail(UserSession.Instance.User.UserID, ein));
         }
+
+        [HttpGet("EmergencyContactInfo/{ein}")]
+        public async Task<ActionResult> GetEmergencyContactInfoAsync(string ein)
+        {
+            return Ok(await _staffRepository.EmergencyContacts(UserSession.Instance.User.UserID, ein));
+        }
+
+        
     }
 }

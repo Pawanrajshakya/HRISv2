@@ -5,8 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { Observable, Subject } from 'rxjs';
 import { IGroup } from '../_models/IGroup';
-import { IDP } from '../_models/IDP';
-import { IRC } from '../_models/IRC';
+import { IRC, IDP } from '../_models/IRC_DP';
 import { IReportFormat, IReportParam } from '../_models/IReportParam';
 import { IRole } from '../_models/IRole';
 import { ThemeService } from 'ng2-charts';
@@ -15,6 +14,8 @@ import { ICSStatus } from '../_models/ICSStatus';
 import { ILocation } from '../_models/ILocation';
 import { ITitle } from '../_models/ITitle';
 import { IBackupTitle } from '../_models/IBackupTitle';
+import { UserService } from '../_services/user.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-base',
@@ -28,6 +29,11 @@ import { IBackupTitle } from '../_models/IBackupTitle';
 })
 export class BaseComponent<T> {
 
+  currentUser: ICurrentUser = {
+    lastName: '',
+    firstName: '',
+    userGroups: []
+  };
 
   /*SnackBar - config*/
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
@@ -97,6 +103,15 @@ export class BaseComponent<T> {
     }
   };
 
+    /** Model */
+    modalRef?: BsModalRef;
+
+    modalConfig = {
+      backdrop: true,
+      ignoreBackdropClick: true,
+      class: 'modal-lg'
+    };
+    
   constructor() {
     //this.ngSelectConfig.appendTo = 'body';
     //this.ngSelectConfig.clearAllText = 'Clear';

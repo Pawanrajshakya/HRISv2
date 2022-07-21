@@ -4,12 +4,14 @@
 <mat-toolbar class="bg-primary shadow border-top border-bottom border-white">
   <a class="btn btn-link btn-sm text-white text-decoration-none" [routerLink]="['/home']" routerLinkActive="active"><i
       class="bi bi-house-fill"></i> Home</a>
-  <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="staffMenu"><i class="bi bi-person-lines-fill"></i>
+  <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="staffMenu"><i
+      class="bi bi-person-lines-fill"></i>
     Staff <span class="caret"></span></a>
   <mat-menu #staffMenu="matMenu" yPosition="below">
     <button [routerLink]="['/activeStaff']" routerLinkActive="active" mat-menu-item>Active Staff (DHS & HRA)</button>
   </mat-menu>
-  <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="reportMenu"><i class="bi bi-list"></i>
+  <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="reportMenu"><i
+      class="bi bi-list"></i>
     Reports <span class="caret"></span></a>
   <mat-menu #reportMenu="matMenu" yPosition="below">
     <button mat-menu-item>Classification Report</button>
@@ -18,7 +20,8 @@
   <a class="btn btn-link text-white text-decoration-none btn-sm" [routerLink]="['/home']" routerLinkActive="active"><i
       class="bi bi-eye"></i>
     My Info </a>
-  <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="toolMenu"><i class="bi bi-gear-wide-connected"></i>
+  <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="toolMenu"
+    *ngIf="!!this.loginService.currentUser.hasAdmin"><i class="bi bi-gear-wide-connected"></i>
     Tools <span class="caret"></span></a>
   <mat-menu #toolMenu="matMenu" yPosition="below">
     <button [routerLink]="['/user']" routerLinkActive="active" mat-menu-item>Manage Admin Users</button>
@@ -33,5 +36,4 @@
       *ngIf="currentUser$ | async as user" routerLinkActive="active"><i class="bi bi-person-fill text-success"></i>
       {{user.lastName}} {{user.firstName}}</a>
   </span>
-
 </mat-toolbar>

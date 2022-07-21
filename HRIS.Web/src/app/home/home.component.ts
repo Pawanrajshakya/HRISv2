@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ICurrentUser } from "../_models/ICurrentUser";
+import { LoginService } from '../_services/login.service';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -8,12 +9,8 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  currentUser: ICurrentUser;
-  hasHeadcount: Boolean = false;
 
-  constructor(private userService: UserService) {
-    this.currentUser = this.userService.currentUser;
-    this.hasHeadcount = this.userService.currentUser.groups?.indexOf(5) !== -1;
+  constructor(public loginService: LoginService) {
   }
 
 }

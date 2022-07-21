@@ -3,54 +3,34 @@ import { NgSelectConfig } from '@ng-select/ng-select';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { catchError, map, merge, startWith, switchMap, tap, of as observableOf, Observable } from 'rxjs';
 import { BaseComponent } from '../base/base.component';
-import { ModalBaseComponent } from '../base/tool-base.component';
 import { ReportComponent } from '../report/report.component';
 import { IActiveStaff } from '../_models/IActiveStaff';
 import { IBackupTitle } from '../_models/IBackupTitle';
 import { ICSStatus } from '../_models/ICSStatus';
-import { ICurrentUser } from '../_models/ICurrentUser';
-import { IDP } from '../_models/IDP';
 import { ILocation } from '../_models/ILocation';
-import { IRC } from '../_models/IRC';
+import { IRC, IDP } from '../_models/IRC_DP';
 import { ITitle } from '../_models/ITitle';
 import { Reports } from '../_models/Reports.enum';
-import { ActiveStaffService } from '../_services/active-staff.service';
+import { StaffService } from '../_services/staff.service';
 import { CodeService } from '../_services/code.service';
-import { UserService } from '../_services/user.service';
+import { ActivatedRoute } from '@angular/router';
+import { LoginService } from '../_services/login.service';
 
 @Component({
   selector: 'app-active-staff',
   templateUrl: './active-staff.component.html',
   styleUrls: ['./active-staff.component.scss']
 })
-export class ActiveStaffComponent extends ModalBaseComponent<IActiveStaff> implements AfterViewInit, OnInit {
+export class ActiveStaffComponent extends BaseComponent<IActiveStaff> implements AfterViewInit, OnInit {
 
   isCollapsed = false;
 
-  currentUser: ICurrentUser = {
-    lastName: '',
-    firstName: '',
-    userGroups: []
-  };
-
   constructor(private codeService: CodeService,
-    private userService: UserService,
-    private activeStaffService: ActiveStaffService,
-    private modalService: BsModalService) {
+    private staffService: StaffService,
+    private modalService: BsModalService,
+    public loginService: LoginService,
+    private route: ActivatedRoute) {
     super();
-
-    //check loggedIn user - needed if user refresh the browser
-    if (this.userService.currentUser.lanID === undefined || this.userService.currentUser.lanID === null) {
-      console.log("Current User not found", this.userService.currentUser);
-      this.userService.user$.subscribe((data1) => {
-        this.currentUser = data1 as ICurrentUser;
-        this.prepareColoumns();
-      });
-    } else {
-      console.log("Current User found", this.userService.currentUser);
-      this.currentUser = this.userService.currentUser;
-      this.prepareColoumns();
-    }
   }
 
   private prepareColoumns() {
@@ -93,10 +73,18 @@ export class ActiveStaffComponent extends ModalBaseComponent<IActiveStaff> imple
   }
 
   ngOnInit(): void {
-
+    this.prepareColoumns();
+    this.rcs = this.codeService.rc_dp.RC as IRC[];
+    this.dps = this.codeService.rc_dp.DP as IDP[];
+    this.filteredDPs = this.dps;
+    this.locations = this.codeService.locations;
+    this.titles = this.codeService.titles;
+    this.csStatuses = this.codeService.csStatuses;
+    this.bkpTitles = this.codeService.bkpTitles;
   }
 
   ngAfterViewInit(): void {
+
 
     // reset sort order to the first page
     // mat-table sort order
@@ -119,7 +107,7 @@ export class ActiveStaffComponent extends ModalBaseComponent<IActiveStaff> imple
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          return this.activeStaffService.list$(this.reportParam)
+          return this.staffService.list$(this.reportParam)
             .pipe(
               catchError(() => observableOf(null))
             );
@@ -146,32 +134,6 @@ export class ActiveStaffComponent extends ModalBaseComponent<IActiveStaff> imple
           this.data = data;
         this.isLoadingResults = false;
       });
-
-    this.codeService.rcs$.subscribe((rcs) => {
-      this.rcs = rcs as IRC[];
-    });
-
-    this.codeService.dps$.subscribe((dps) => {
-      this.dps = dps as IDP[];
-      this.filteredDPs = this.dps;
-    });
-
-    this.codeService.locations$.subscribe((locations) => {
-      this.locations = locations as ILocation[];
-    });
-
-    this.codeService.csStatuses$.subscribe((csStatus) => {
-      this.csStatuses = csStatus as ICSStatus[];
-    });
-
-    this.codeService.titles$.subscribe((titles) => {
-      this.titles = titles as ITitle[];
-    });
-
-    this.codeService.bkpTitles$.subscribe((bkpTitles) => {
-      this.bkpTitles = bkpTitles as IBackupTitle[];
-    });
-
   }
 
   onRCSelect($event: Event) {
