@@ -2,6 +2,7 @@
   <div class="card-header text-white bg-secondary border-secondary">
     <i class="bi bi-person-fill"></i> Manage Admin Users
   </div>
+  <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
   <div class="card-body">
     <div class="row">
       <div class="col-3 offset-9 mb-2">

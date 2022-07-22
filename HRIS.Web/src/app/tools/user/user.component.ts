@@ -1,20 +1,20 @@
 import { Component, AfterViewInit, TemplateRef } from '@angular/core';
 import { catchError, map, merge, startWith, Subject, switchMap, tap, of as observableOf } from 'rxjs';
-import { IUser } from '../_models/IUser';
-import { IUserList } from "../_models/IUserList";
-import { ISearchUser } from "../_models/ISearchUser";
-import { UserService } from '../_services/user.service';
+import { IUser } from '../../_models/IUser';
+import { IUserList } from "../../_models/IUserList";
+import { ISearchUser } from "../../_models/ISearchUser";
+import { UserService } from '../../_services/user.service';
 import { NgForm } from '@angular/forms';
-import { IGroup } from '../_models/IGroup';
-import { IRole } from '../_models/IRole';
-import { IRC, IDP } from '../_models/IRC_DP';
-import { CodeService } from '../_services/code.service';
+import { IGroup } from '../../_models/IGroup';
+import { IRole } from '../../_models/IRole';
+import { IRC, IDP } from '../../_models/IRC_DP';
+import { CodeService } from '../../_services/code.service';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Reports } from '../_models/Reports.enum';
-import { BaseComponent } from '../base/base.component';
-import { DownloadComponent } from '../download/download.component';
+import { Reports } from '../../_models/Reports.enum';
+import { BaseComponent } from '../../base/base.component';
+import { DownloadComponent } from '../../download/download.component';
 
 @Component({
   selector: 'app-user',
@@ -106,9 +106,12 @@ export class UserComponent extends BaseComponent<IUserList> implements AfterView
           return data;
         }),
       )
-      .subscribe(data => {
-        if (Array.isArray(data))
-          this.data = data;
+      .subscribe({
+        next: data => {
+          if (Array.isArray(data))
+            this.data = data;
+          this.isLoadingResults = false;
+        }
       });
 
     this.userService.groups$.subscribe((data) => {

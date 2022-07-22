@@ -27,7 +27,7 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaff> implements
   }
 
   private prepareColoumns() {
-    if (this.currentUser.roleID == 1 || this.currentUser.roleID == 4) {
+    if (this.loginService.currentUser.roleID == 1 || this.loginService.currentUser.roleID == 4) {
       this.displayedColumns = [
         'ein',
         'lastName',
@@ -46,7 +46,7 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaff> implements
         'actionReason'
       ];
     }
-    else if (this.currentUser.roleID !== 1 && this.currentUser.roleID !== 4) {
+    else if (this.loginService.currentUser.roleID !== 1 && this.loginService.currentUser.roleID !== 4) {
       this.displayedColumns = [
         'ein',
         'combinedLastName',
@@ -160,7 +160,7 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaff> implements
     this.reportParam.rcDp.rcs = this.selectedRC.join(",");
     this.reportParam.rcDp.dps = this.selectedDP.join(",");
     this.reportParam.code.backupTitles = this.selectedBkpTitle.join(",");
-    this.reportParam.code.cSStatus = this.selectedCsStatus.join(",");
+    this.reportParam.code.cSStatuses = this.selectedCsStatus.join(",");
     this.reportParam.code.locations = this.selectedLocation.join(",");
     this.reportParam.code.titles = this.selectedTitle.join(",");
     this.filterSubject.next(this.filterValue);

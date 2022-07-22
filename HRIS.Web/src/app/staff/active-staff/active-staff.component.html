@@ -92,6 +92,7 @@
     <a class="btn btn-primary btn-xs float-right text-white shadow border-white" (click)="onExport()">
       <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</a>
   </div>
+  <mat-progress-bar mode="query" [hidden]="resultsLength !== 0"></mat-progress-bar>
   <div class="card-body">
     <div class="row">
       <div class="col-12">
@@ -113,27 +114,27 @@
                 <a class="btn btn-link btn-xs" [routerLink]="['/staffDetail', row.ein]">{{row.ein}}</a>
               </td>
             </ng-container>
-            <ng-container matColumnDef="lastName" *ngIf="currentUser.roleID == 1 || currentUser.roleID == 4">
+            <ng-container matColumnDef="lastName" *ngIf="loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 4">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Last Name</th>
               <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.lastName}}</td>
             </ng-container>
-            <ng-container matColumnDef="firstName" *ngIf="currentUser.roleID == 1 || currentUser.roleID == 4">
+            <ng-container matColumnDef="firstName" *ngIf="loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 4">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">First Name</th>
               <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.firstName}}</td>
             </ng-container>
-            <ng-container matColumnDef="preferredLastName" *ngIf="currentUser.roleID == 1 || currentUser.roleID == 4">
+            <ng-container matColumnDef="preferredLastName" *ngIf="loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 4">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Preferred Last Name</th>
               <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.preferredLastName}}</td>
             </ng-container>
-            <ng-container matColumnDef="preferredFirstName" *ngIf="currentUser.roleID == 1 || currentUser.roleID == 4">
+            <ng-container matColumnDef="preferredFirstName" *ngIf="loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 4">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Preferred First Name</th>
               <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.preferredFirstName}}</td>
             </ng-container>
-            <ng-container matColumnDef="combinedLastName" *ngIf="currentUser.roleID !== 1 && currentUser.roleID !== 4">
+            <ng-container matColumnDef="combinedLastName" *ngIf="loginService.currentUser.roleID !== 1 && loginService.currentUser.roleID !== 4">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Last Name</th>
               <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.combinedLastName}}</td>
             </ng-container>
-            <ng-container matColumnDef="combinedFirstName" *ngIf="currentUser.roleID !== 1 && currentUser.roleID !== 4">
+            <ng-container matColumnDef="combinedFirstName" *ngIf="loginService.currentUser.roleID !== 1 && loginService.currentUser.roleID !== 4">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">First Name</th>
               <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.combinedFirstName}}</td>
             </ng-container>

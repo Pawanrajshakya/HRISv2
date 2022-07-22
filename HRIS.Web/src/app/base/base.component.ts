@@ -16,6 +16,7 @@ import { ITitle } from '../_models/ITitle';
 import { IBackupTitle } from '../_models/IBackupTitle';
 import { UserService } from '../_services/user.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ILeaveStatus } from '../_models/ILeaveStatus';
 
 @Component({
   selector: 'app-base',
@@ -28,12 +29,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   ]
 })
 export class BaseComponent<T> {
-
-  currentUser: ICurrentUser = {
-    lastName: '',
-    firstName: '',
-    userGroups: []
-  };
 
   /*SnackBar - config*/
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
@@ -74,6 +69,9 @@ export class BaseComponent<T> {
 
   titles: ITitle[] = [];
   selectedTitle: string[] = [];
+
+  lvStatuses:ILeaveStatus[] = [];
+  selectedLvStatuses: string[] = [];
 
   bkpTitles: IBackupTitle[] = [];
   selectedBkpTitle: string[] = [];
@@ -136,6 +134,9 @@ export class BaseComponent<T> {
     this.selectedTitle = [];
     this.selectedCsStatus = [];
     this.selectedBkpTitle = [];
+    this.selectedLvStatuses = [];
+    this.filterValue = "";
+    this.filterSubject.next("");
   }
 
 }

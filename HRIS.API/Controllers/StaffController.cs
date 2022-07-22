@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRIS.API.Controllers
@@ -18,16 +17,13 @@ namespace HRIS.API.Controllers
         [HttpPost("activeStaffReport")]
         public async Task<ActionResult> GetActiveStaffReportAsync(ReportParameters parameters)
         {
-            string RCs = string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(parameters.RcDp.IsAgencyWise) : parameters.RcDp.RCs;
-            string DPs = string.IsNullOrEmpty(parameters.RcDp.DPs) ? GetDP(parameters.RcDp.IsAgencyWise) : parameters.RcDp.DPs;
-
-            return Ok(await _staffRepository.Get(UserSession.Instance.User.UserID
-                , RCs
-                , DPs
+            return Ok(await _staffRepository.GetActiveStaff(UserSession.Instance.User.UserID
+                , parameters.RcDp.RCs ?? ""
+                , parameters.RcDp.DPs ?? ""
                 , parameters.Code.Locations
                 , parameters.Code.Titles
                 , parameters.Code.BackupTitles
-                , parameters.Code.CSStatus
+                , parameters.Code.CSStatuses
                 , parameters.Pagination.PageNumber
                 , parameters.Pagination.PageSize
                 , parameters.Pagination.SortColumn
@@ -38,14 +34,11 @@ namespace HRIS.API.Controllers
         [HttpPost("leaveReport")]
         public async Task<ActionResult> GetLeaveReportAsync(ReportParameters parameters)
         {
-            string RCs = string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(parameters.RcDp.IsAgencyWise) : parameters.RcDp.RCs;
-            string DPs = string.IsNullOrEmpty(parameters.RcDp.DPs) ? GetDP(parameters.RcDp.IsAgencyWise) : parameters.RcDp.DPs;
-
-            return Ok(await _staffRepository.Get(UserSession.Instance.User.UserID
-                , RCs
-                , DPs
+            return Ok(await _staffRepository.GetStaffLeaveReport(UserSession.Instance.User.UserID
+                , parameters.RcDp.RCs ?? ""
+                , parameters.RcDp.DPs ?? ""
                 , parameters.Code.Titles
-                , parameters.Code.LvStatus
+                , parameters.Code.LvStatuses
                 , "Leave"
                 , parameters.Pagination.PageNumber
                 , parameters.Pagination.PageSize
@@ -57,15 +50,26 @@ namespace HRIS.API.Controllers
         [HttpPost("ceasedReport")]
         public async Task<ActionResult> GetCeasedReportAsync(ReportParameters parameters)
         {
-            string RCs = string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(parameters.RcDp.IsAgencyWise) : parameters.RcDp.RCs;
-            string DPs = string.IsNullOrEmpty(parameters.RcDp.DPs) ? GetDP(parameters.RcDp.IsAgencyWise) : parameters.RcDp.DPs;
-
-            return Ok(await _staffRepository.Get(UserSession.Instance.User.UserID
-                , RCs
-                , DPs
+            return Ok(await _staffRepository.GetStaffLeaveReport(UserSession.Instance.User.UserID
+                , parameters.RcDp.RCs ?? ""
+                , parameters.RcDp.DPs ?? ""
                 , parameters.Code.Titles
-                , parameters.Code.LvStatus
+                , parameters.Code.LvStatuses
                 , "Ceased"
+                , parameters.Pagination.PageNumber
+                , parameters.Pagination.PageSize
+                , parameters.Pagination.SortColumn
+                , parameters.Pagination.SortOrder
+                , parameters.Pagination.SearchTerm));
+        }
+
+        [HttpPost("emergencyContactInfoReport")]
+        public async Task<ActionResult> GetEmergencyContactInfoReportAsync(ReportParameters parameters)
+        {
+            return Ok(await _staffRepository.GetStaffEmergencyContactInfoReport(UserSession.Instance.User.UserID
+                , parameters.RcDp.RCs ?? ""
+                , parameters.RcDp.DPs ?? ""
+                , parameters.Code.Locations
                 , parameters.Pagination.PageNumber
                 , parameters.Pagination.PageSize
                 , parameters.Pagination.SortColumn

@@ -6,12 +6,12 @@ import { NgSelectConfig } from '@ng-select/ng-select';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
-import { BaseComponent } from '../base/base.component';
-import { IAnnouncement } from '../_models/IAnnouncement';
-import { IAnnouncementList } from "../_models/IAnnouncementList";
-import { IRole } from '../_models/IRole';
-import { AnnouncementService } from '../_services/announcement.service';
-import { UserService } from '../_services/user.service';
+import { BaseComponent } from '../../base/base.component';
+import { IAnnouncement } from '../../_models/IAnnouncement';
+import { IAnnouncementList } from "../../_models/IAnnouncementList";
+import { IRole } from '../../_models/IRole';
+import { AnnouncementService } from '../../_services/announcement.service';
+import { UserService } from '../../_services/user.service';
 
 @Component({
   selector: 'app-announcement',
@@ -126,9 +126,12 @@ export class AnnouncementComponent extends BaseComponent<IAnnouncementList> impl
           return data;
         }),
       )
-      .subscribe(data => {
-        if (Array.isArray(data))
-          this.data = data;
+      .subscribe({
+        next: data => {
+          if (Array.isArray(data))
+            this.data = data;
+          this.isLoadingResults = false;
+        }
       });
 
     this.userService.roles$.subscribe((data) => {

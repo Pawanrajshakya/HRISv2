@@ -83,10 +83,10 @@ export interface IStaffEDUDetail {
 }
 
 export interface IStaffEmergencyContactInfo {
-        name: string;
-        relationship: string;
-        primaryPhone: string;
-        sSecondaryPhone: string;
+        name?: string;
+        relationship?: string;
+        primaryPhone?: string;
+        sSecondaryPhone?: string;
 }
 
 export interface IStaffOvertimeSummary {

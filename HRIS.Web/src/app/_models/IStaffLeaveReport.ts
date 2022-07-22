@@ -1,5 +1,5 @@
 
-export class IStaffLeaveReport {
+export interface IStaffLeaveReport {
     total?: number;
     rowNum?: number;
     ein?: string;

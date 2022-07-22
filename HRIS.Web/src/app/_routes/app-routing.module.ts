@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ActiveStaffComponent } from '../staff/active-staff/active-staff.component';
-import { AnnouncementComponent } from '../announcement/announcement.component';
+import { AnnouncementComponent } from '../tools/announcement/announcement.component';
 import { DeveloperComponent } from '../developer/developer.component';
 import { HomeComponent } from '../home/home.component';
-import { StaffDetailComponent } from '../staff/staff-detail/staff-detail.component';
-import { UserComponent } from '../user/user.component';
+import { StaffDetailComponent } from '../reports/staff-detail/staff-detail.component';
+import { UserComponent } from '../tools/user/user.component';
 import { BkpTitleResolverService } from '../_services/_resolvers/bkp-title-resolver.service';
 import { CsStatusResolverService } from '../_services/_resolvers/cs-status-resolver.service';
 import { CurrentUserResolver } from '../_services/_resolvers/current-user-resolver.service';
@@ -13,9 +13,10 @@ import { LocationCodeResolverService } from '../_services/_resolvers/location-co
 import { RcDpCodeResolverService } from '../_services/_resolvers/rc-dp-code-resolver.service';
 import { StaffDetailResolverService } from '../_services/_resolvers/staff-detail-resolver.service';
 import { TitleCodeResolverService } from '../_services/_resolvers/title-code-resolver.service';
-import { StaffLeaveComponent } from '../staff/staff-leave/staff-leave.component';
+import { StaffLeaveComponent } from '../reports/staff-leave/staff-leave.component';
 import { LeaveStatusResolverService } from '../_services/_resolvers/leave-status-resolver.service';
-import { CeasedStaffComponent } from '../staff/ceased-staff/ceased-staff.component';
+import { CeasedStaffComponent } from '../reports/ceased-staff/ceased-staff.component';
+import { StaffEmergencyContactInfoComponent } from '../reports/staff-emergency-contact-info/staff-emergency-contact-info.component';
 
 const routes: Routes = [
   {
@@ -66,6 +67,14 @@ const routes: Routes = [
       , rcdp: RcDpCodeResolverService
       , titles: TitleCodeResolverService
       , lvStatus: LeaveStatusResolverService
+    }
+  },
+  {
+    path: 'emergencyContactInfoReport', component: StaffEmergencyContactInfoComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
+      , location: LocationCodeResolverService
     }
   },
   {

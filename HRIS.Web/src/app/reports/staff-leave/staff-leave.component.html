@@ -1,0 +1,151 @@
+<div class="card border-secondary">
+    <div class="card-header text-white bg-secondary border-secondary shadow">
+      <i class="bi bi-funnel"></i>  Staff Currently on Leave - Displays all staff currently on leave (DHS & HRA)
+      <i [ngClass]="{'bi bi-arrows-expand shadow': isCollapsed}" class="bi bi-arrows-collapse pull-right shadow"
+        (click)="isCollapsed = !isCollapsed"></i>
+    </div>
+    <div class="card-body" [collapse]="isCollapsed" [isAnimated]="true">
+      <div class="col-12">
+        <div class="form-group row"
+          *ngIf="this.loginService.currentUser.roleID == 1 || this.loginService.currentUser.roleID == 2 || this.loginService.currentUser.roleID == 3 || this.loginService.currentUser.roleID == 4">
+          <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm">RC</label>
+          <div class="col-sm-10">
+            <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedRC" id="rcs" name="selectedRC"
+              placeholder="Select RC" (change)="onRCSelect($event)">
+              <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{rc.description}}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group row">
+          <label for="dps" class="col-sm-2 col-form-label col-form-label-sm">DP</label>
+          <div class="col-sm-10">
+            <ng-select [items]="filteredDPs" bindLabel="dpName" bindValue="dpCode" groupBy="rcCode"
+              [(ngModel)]="selectedDP" [multiple]="true" [hideSelected]="true" placeholder="Select DP" id="dps"
+              name="selectedDP">
+              <ng-template ng-optgroup-tmp let-item="item">
+                {{item.rcCode || 'Unnamed group'}}
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group row">
+          <label for="titles" class="col-sm-2 col-form-label col-form-label-sm">Titles</label>
+          <div class="col-sm-10">
+            <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedTitle" id="titles" name="titles"
+              placeholder="Select Title">
+              <ng-option *ngFor="let title of titles" [value]="title.code">{{title.description}}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group row">
+          <label for="bkpTitles" class="col-sm-2 col-form-label col-form-label-sm">Leave Status</label>
+          <div class="col-sm-10">
+            <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedLvStatuses" id="selectedLvStatuses"
+              name="selectedLvStatuses" placeholder="Select Leave Status">
+              <ng-option *ngFor="let lvStatus of lvStatuses" [value]="lvStatus.lvStatus">{{lvStatus.lvStatusDesc}}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="col-sm-10 offset-sm-2">
+          <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()"><i class="bi bi-search"></i>
+            Search</button>
+          <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()"><i class="bi bi-stars"></i>
+            Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+ <div class="card border-secondary">
+    <div class="card-header text-white bg-secondary border-secondary shadow">
+      <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0"> {{resultsLength}}</span>
+      <a class="btn btn-primary btn-xs float-right text-white shadow border-white" (click)="onExport()">
+        <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</a>
+    </div>
+    <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Filter By</span>
+            </div>
+            <input type="text" class="form-control" (keyup)="applyFilter($event)"
+              placeholder="EIN / Full Name / Role / LAN ID" #input>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="table-container table-responsive" [hidden]="resultsLength === 0">
+            <table mat-table [dataSource]="data" matSort matSortActive="ein" matSortDisableClear matSortDirection="asc"
+              matSort class="table table-hover table-bordered">
+              <ng-container matColumnDef="ein">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">EIN</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  <a class="btn btn-link btn-xs" [routerLink]="['/staffDetail', row.ein]">{{row.ein}}</a>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Last Name</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.lastName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">First Name</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.firstName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="preferredLastName" *ngIf="loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 4">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Preferred Last Name</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.preferredLastName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="preferredFirstName" *ngIf="loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 4">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Preferred First Name</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.preferredFirstName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="rcName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">RC</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.rcName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="dpName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">DP</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.dpName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="payTitle">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Title</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.payTitle}}</td>
+              </ng-container>
+              <ng-container matColumnDef="previousDPName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Prior DP</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.previousDPName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="leaveDateObserved">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Leave Date Observed</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.leaveDateObserved}}</td>
+              </ng-container>
+              <ng-container matColumnDef="expectedReturnDt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Expected Return Dt</th>
+                <td mat-cell *matCellDef="let row">{{row.expectedReturnDt}}</td>
+              </ng-container>
+              <ng-container matColumnDef="lvStatusDesc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Leave Status</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.lvStatusDesc}}</td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumns;  sticky: true;" class="thead-light;"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="clickedRows.add(row)"
+                [class.demo-row-is-clicked]="clickedRows.has(row)" (click)="clearClickedRow(row)"></tr>
+            </table>
+          </div>
+          <mat-paginator showFirstLastButtons [length]="resultsLength" [pageSize]="reportParam.pagination.pageSize"
+            [pageSizeOptions]="pageSizeOptions" [hidden]="resultsLength === 0"></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+  

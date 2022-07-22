@@ -33,7 +33,8 @@ export interface IReportParam {
   code: {
     backupTitles?: string;
     locations?: string;
-    cSStatus?: string;
-    titles?: string
+    cSStatuses?: string;
+    titles?: string;
+    lvStatuses?: string;
   }
 }

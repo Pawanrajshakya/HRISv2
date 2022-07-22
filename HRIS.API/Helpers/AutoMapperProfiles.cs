@@ -63,7 +63,7 @@ namespace HRIS.API
             CreateMap<StaffEDUDetail, StaffEDUDetailDto>();
             CreateMap<StaffOvertimeSummary, StaffOvertimeSummaryDto>();
             CreateMap<StaffLeaveReport, StaffLeaveReportDto>();
-
+            CreateMap<StaffEmergencyContactInfoReport, StaffEmergencyContactInfoReportDto>();
         }
     }
 }

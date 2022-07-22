@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace HRIS.API
+﻿namespace HRIS.API
 {
     public class File
     {
@@ -65,15 +62,15 @@ namespace HRIS.API
     {
         private string backupTitles = string.Empty;
         private string locations = string.Empty;
-        private string cSStatus = string.Empty;
+        private string cSStatuses = string.Empty;
         private string titles = string.Empty;
-        private string lvStatus = string.Empty;
+        private string lvStatuses = string.Empty;
 
         public string BackupTitles { get => backupTitles; set => backupTitles = value ?? string.Empty; }
         public string Locations { get => locations; set => locations = string.IsNullOrEmpty(value) ? string.Empty : value; }
-        public string CSStatus { get => cSStatus; set => cSStatus = value ?? string.Empty; }
+        public string CSStatuses { get => cSStatuses; set => cSStatuses = value ?? string.Empty; }
         public string Titles { get => titles; set => titles = value ?? string.Empty; }
-        public string LvStatus { get => lvStatus; set => lvStatus = value; }
+        public string LvStatuses { get => lvStatuses; set => lvStatuses = value; }
 
     }
 

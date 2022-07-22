@@ -1,5 +1,8 @@
 export enum Reports {
     ActiveStaffReport,
     UsersReport,
-    StaffDetails
+    StaffDetails,
+    LeaveReport,
+    CeasedReport,
+    EmergencyContactInfoReport
 }

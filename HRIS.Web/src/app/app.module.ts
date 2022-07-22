@@ -32,27 +32,36 @@ import { DeveloperComponent } from './developer/developer.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { NavComponent } from './nav/nav.component';
-import { UserComponent } from './user/user.component';
+import { UserComponent } from './tools/user/user.component';
 
-import { AnnouncementComponent } from './announcement/announcement.component';
+import { AnnouncementComponent } from './tools/announcement/announcement.component';
 import { EcardChartComponent } from './charts/ecard-chart/ecard-chart.component';
 import { BaseComponent } from './base/base.component';
-import { CarouselComponent } from './announcement/carousel/carousel.component';
+import { CarouselComponent } from './tools/announcement/carousel/carousel.component';
 import { HeadcountComponent } from './charts/headcount/headcount.component';
 import { PendingCasesComponent } from './charts/team-pending-cases/team-pending-cases.component';
 import { ChartBaseComponent } from './base/chart-base.component';
 import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year/team-cases-count-by-year.component';
 import { TeamTopInfractionComponent } from './charts/team-top-infraction/team-top-infraction.component';
 import { ActiveStaffComponent } from './staff/active-staff/active-staff.component';
-import { StaffDetailComponent } from './staff/staff-detail/staff-detail.component';
+import { StaffDetailComponent } from './reports/staff-detail/staff-detail.component';
 import { EmptyValuePipe } from './_filters/empty-value.pipe';
 import { HrisPhonePipe } from './_filters/hris-phone.pipe';
 import { HrisPercentPipe } from './_filters/hris-percent.pipe';
 import { AuthInterceptorService } from './_services/_interceptors/auth-interceptor.service';
-import { StaffLeaveComponent } from './staff/staff-leave/staff-leave.component';
+import { StaffLeaveComponent } from './reports/staff-leave/staff-leave.component';
 import { DownloadComponent } from './download/download.component';
-import { CeasedStaffComponent } from './staff/ceased-staff/ceased-staff.component';
-import { MyInfoComponent } from './staff/my-info/my-info.component';
+import { CeasedStaffComponent } from './reports/ceased-staff/ceased-staff.component';
+import { MyInfoComponent } from './my-info/my-info.component';
+import { StaffEmergencyContactInfoComponent } from './reports/staff-emergency-contact-info/staff-emergency-contact-info.component';
+import { CustomerServiceComplaintsComponent } from './reports/customer-service-complaints/customer-service-complaints.component';
+import { DisciplinaryComponent } from './reports/disciplinary/disciplinary.component';
+import { ECardComponent } from './reports/e-card/e-card.component';
+import { EeoComponent } from './reports/eeo/eeo.component';
+import { OvertimeComponent } from './reports/overtime/overtime.component';
+import { ParComponent } from './reports/par/par.component';
+import { SeparationComponent } from './reports/separation/separation.component';
+import { VacationRosterComponent } from './reports/vacation-roster/vacation-roster.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +89,16 @@ import { MyInfoComponent } from './staff/my-info/my-info.component';
     StaffLeaveComponent,
     DownloadComponent,
     CeasedStaffComponent,
-    MyInfoComponent
+    MyInfoComponent,
+    StaffEmergencyContactInfoComponent,
+    CustomerServiceComplaintsComponent,
+    DisciplinaryComponent,
+    ECardComponent,
+    EeoComponent,
+    OvertimeComponent,
+    ParComponent,
+    SeparationComponent,
+    VacationRosterComponent
   ],
   imports: [
     BrowserModule,
