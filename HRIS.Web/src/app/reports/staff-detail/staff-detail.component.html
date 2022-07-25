@@ -246,7 +246,7 @@
           <i class="bi bi-hand-index-fill"></i>&nbsp;EDU Info
         </ng-template>
         <div class="card border border-top border-secondary shadow mt-2" *ngIf="staffEDUDetail.length === 0">
-          <h3 class="text-info mt-2 mb-2 ml-2">No records found.</h3>
+          <h3 class="text-info mt-2 mb-2 ml-2"><i class="bi bi-info-square-fill"></i>  No records found.</h3>
         </div>
         <div *ngIf="!!staffEDUDetail">
           <div class="card border border-top border-secondary shadow mt-2"
@@ -296,12 +296,15 @@
           <i class="bi bi-coin"></i>&nbsp;Overtime Info
         </ng-template>
         <div class="card border border-top border-secondary shadow mt-2">
-          <div class="card-body" *ngIf="!staffOTSummaryCalender">
+          <div class="card-body" *ngIf="staffOTSummaryCalender.calendarORFiscal === undefined">
             <div class="col-sm-12 row mb-2">
-              <h3 class="text-info">No records found.</h3>
+              <h3 class="text-info"><i class="bi bi-info-square-fill"></i> No records found.</h3>
             </div>
           </div>
-          <div class="card-body" *ngIf="!!staffOTSummaryCalender">
+        </div>
+        <div class="card border border-top border-secondary shadow mt-2"
+          *ngIf="staffOTSummaryCalender.calendarORFiscal !== undefined">
+          <div class="card-body">
             <div class="col-sm-12 row mb-2">
               <div class=" col-sm-6">
                 <span class="card-title text-primary h5 mr-2"><i class="bi bi-bookmarks"></i>&nbsp;Salary & Overtime
@@ -403,7 +406,8 @@
             </div>
           </div>
         </div>
-        <div class="card border border-top border-secondary shadow mt-2">
+        <div class="card border border-top border-secondary shadow mt-2"
+          *ngIf="staffOTSummaryCalender.calendarORFiscal !== undefined">
           <div class="card-body">
             <div class="col-sm-12 row mb-2">
               <div class=" col-sm-6">

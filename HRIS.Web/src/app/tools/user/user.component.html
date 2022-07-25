@@ -1,6 +1,7 @@
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary">
-    <i class="bi bi-person-fill"></i> Manage Admin Users
+    <i class="bi bi-person-fill"></i> Manage Admin Users <span *ngIf="resultsLength > 0; else noDataFound">
+      {{resultsLength}}</span>
   </div>
   <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
   <div class="card-body">
@@ -20,7 +21,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Filter By</span>
           </div>
-          <input type="text" class="form-control" (keyup)="applyFilter($event)"
+          <input type="text" class="form-control" (keyup)="applyFilter($event)" [(ngModel)]="filterValue"
             placeholder="EIN / Full Name / Role / LAN ID" #input>
         </div>
       </div>
@@ -229,5 +230,7 @@
       </div>
     </div>
   </form>
-
+</ng-template>
+<ng-template #noDataFound>
+  &nbsp; <span class="badge badge-warning"> No Result</span>
 </ng-template>

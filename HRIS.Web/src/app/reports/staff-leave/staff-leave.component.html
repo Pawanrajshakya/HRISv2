@@ -66,7 +66,7 @@
   <br>
  <div class="card border-secondary">
     <div class="card-header text-white bg-secondary border-secondary shadow">
-      <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0"> {{resultsLength}}</span>
+      <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0; else noDataFound"> {{resultsLength}}</span>
       <a class="btn btn-primary btn-xs float-right text-white shadow border-white" (click)="onExport()">
         <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</a>
     </div>
@@ -78,7 +78,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Filter By</span>
             </div>
-            <input type="text" class="form-control" (keyup)="applyFilter($event)"
+            <input type="text" class="form-control" (keyup)="applyFilter($event)" [(ngModel)]="filterValue"
               placeholder="EIN / Full Name / Role / LAN ID" #input>
           </div>
         </div>
@@ -148,4 +148,6 @@
       </div>
     </div>
   </div>
-  
+  <ng-template #noDataFound>
+    &nbsp; <span class="badge badge-warning"> No Result</span>
+  </ng-template>

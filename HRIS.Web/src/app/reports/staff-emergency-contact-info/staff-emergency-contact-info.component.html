@@ -56,7 +56,7 @@
 <br>
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary shadow">
-    <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0"> {{resultsLength}}</span>
+    <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0; else noDataFound"> {{resultsLength}}</span>
     <a class="btn btn-primary btn-xs float-right text-white shadow border-white" (click)="onExport()">
       <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</a>
   </div>
@@ -151,16 +151,16 @@
     <div class="card mt-2 mr-2 ml-2 mb-2" *ngFor="let item of emergencyContactInfo">
       <div class="card-body">
         <div class="col-sm-12 row mt-2">
-          <div class="col-sm-2 font-weight-bold"><i class="bi bi-person-heart text-danger"></i>&nbsp;Name</div>
-          <div class="col-sm-4">{{item.name | emptyValue}}</div>
-          <div class="col-sm-2 font-weight-bold"><i class="bi bi-link"></i>&nbsp;Relationship</div>
-          <div class="col-sm-4">{{item.relationship | emptyValue}}</div>
+          <div class="col-sm-3 font-weight-bold"><i class="bi bi-person-heart text-danger"></i>&nbsp;Name</div>
+          <div class="col-sm-3">{{item.name | emptyValue}}</div>
+          <div class="col-sm-3 font-weight-bold"><i class="bi bi-link"></i>&nbsp;Relationship</div>
+          <div class="col-sm-3">{{item.relationship | emptyValue}}</div>
         </div>
         <div class="col-sm-12 row mt-2">
-          <div class="col-sm-2 font-weight-bold"><i class="bi bi-telephone"></i>&nbsp;Primary Phone</div>
-          <div class="col-sm-4">{{item.primaryPhone | hrisPhone}}</div>
-          <div class="col-sm-2 font-weight-bold"></div>
-          <div class="col-sm-4"></div>
+          <div class="col-sm-3 font-weight-bold"><i class="bi bi-telephone"></i>&nbsp;Primary Phone</div>
+          <div class="col-sm-3">{{item.primaryPhone | hrisPhone}}</div>
+          <div class="col-sm-3 font-weight-bold"></div>
+          <div class="col-sm-3"></div>
         </div>
       </div>
     </div>
@@ -168,4 +168,7 @@
   <div class="card-footer border-top border-secondary">
     <button class="btn btn-secondary btn-sm col-1 float-right mr-2 " (click)="onCancelClick()">OK</button>
   </div>
+</ng-template>
+<ng-template #noDataFound>
+  &nbsp; <span class="badge badge-warning"> No Result</span>
 </ng-template>

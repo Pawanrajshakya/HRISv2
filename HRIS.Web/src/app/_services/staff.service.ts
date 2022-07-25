@@ -5,6 +5,7 @@ import { IActiveStaff } from '../_models/IActiveStaff';
 import { IReportParam } from '../_models/IReportParam';
 import { IStaffDetail, IStaffEDUDetail, IStaffEmergencyContactInfo, IStaffOvertimeSummary } from '../_models/IStaffDetail';
 import { IStaffEmergencyContactInfoReport } from '../_models/IStaffEmergencyContactInfoReport';
+import { IVacationRosterReport } from "../_models/IVacationRosterReport";
 import { IStaffLeaveReport } from '../_models/IStaffLeaveReport';
 import { ErrorHandlingService } from './error-handling.service';
 import { BaseService } from './_base.service';
@@ -48,6 +49,14 @@ export class StaffService extends BaseService {
 
   emergencyContactInfoReport$(tableViewParam?: IReportParam) {
     return this.httpClient.post<IStaffEmergencyContactInfoReport>(this.url + 'staff/emergencyContactInfoReport' , tableViewParam)
+      .pipe(
+        //tap((data) => {  console.log('$', data); }),
+        catchError(err => this.errorHandlingService.handleError(err))
+      );
+  }
+
+  vacationRosterReport$(tableViewParam?: IReportParam) {
+    return this.httpClient.post<IVacationRosterReport>(this.url + 'staff/vactionRoasterReport' , tableViewParam)
       .pipe(
         //tap((data) => {  console.log('$', data); }),
         catchError(err => this.errorHandlingService.handleError(err))

@@ -77,6 +77,27 @@ namespace HRIS.API.Controllers
                 , parameters.Pagination.SearchTerm));
         }
 
+        [HttpPost("vactionRoasterReport")]
+        public async Task<ActionResult> GetVacationRosterReportAsync(ReportParameters parameters)
+        {
+            return Ok(await _staffRepository.GetVacationRosterReport(UserSession.Instance.User.UserID
+                , parameters.RcDp.RCs ?? ""
+                , parameters.RcDp.DPs ?? ""
+                , parameters.Code.Locations
+                , parameters.Code.Titles
+                , parameters.Pagination.PageNumber
+                , parameters.Pagination.PageSize
+                , parameters.Pagination.SortColumn
+                , parameters.Pagination.SortOrder
+                , parameters.Pagination.SearchTerm));
+        }
+
+        [HttpPost("agencySeparation")]
+        public async Task<ActionResult> GetagencySeparationAsync(AgencySeparationParameters parameters)
+        {
+
+        }
+
         [HttpGet("detail/{ein}")]
         public async Task<ActionResult> GetDetailAsync(string ein)
         {

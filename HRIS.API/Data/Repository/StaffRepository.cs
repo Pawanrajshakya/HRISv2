@@ -25,6 +25,17 @@ namespace HRIS.API
                                                                          int pageSize = 10, string sortColumn = "",
                                                                          string sortOrder = "", string searchTerm = "");
 
+        public Task<IEnumerable<VacationRosterReportDto>> GetVacationRosterReport(string userid, string rcs, string dps,
+                                                                         string locations, string titles, int pageNumber = 1,
+                                                                         int pageSize = 10, string sortColumn = "",
+                                                                         string sortOrder = "", string searchTerm = "");
+
+        public Task<IEnumerable<SeparationSummaryDto>> GetGetAgencySeparationSummary(string userid, string rcs, string dps,
+                                                                         bool isCalenderYear, int year);
+
+        //public Task<IEnumerable<AgencySeparationChartDto>> GetGetAgencySeparationChart(string userid, string rcs, string dps,
+        //                                                         bool IsCalenderYear, int Year);
+
         public Task<StaffDetailDto> GetDetail(string userid,
                                               string ein); //spGetStaffByEIN
 
@@ -168,7 +179,7 @@ namespace HRIS.API
 
             };
 
-            var rows = _context.staffEmergencyContactInfoReports
+            var rows = _context.StaffEmergencyContactInfoReports
                 .FromSqlRaw($"EXECUTE dbo.spGetPagedEmergencyContactInfo @UserID, @PageNumber, @PageSize, " +
                 $"@SortColumn, @SortOrder, @SearchTerm, @RCs, @DPs, @Locations", sqlParameters)
                 .ToList();
@@ -178,6 +189,64 @@ namespace HRIS.API
                 dtos.Add(_mapper.Map<StaffEmergencyContactInfoReportDto>(row));
             }
             return await Task.Run(() => dtos); ;
+        }
+
+        public async Task<IEnumerable<VacationRosterReportDto>> GetVacationRosterReport(string userid, string rcs, string dps, string locations, string titles, int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "")
+        {
+            List<VacationRosterReportDto> dtos = new List<VacationRosterReportDto>();
+
+            SqlParameter[] sqlParameters = new SqlParameter[] {
+                new SqlParameter("@UserID", userid){},
+                new SqlParameter("@PageNumber", pageNumber){},
+                new SqlParameter("@PageSize", pageSize){},
+                new SqlParameter("@SortColumn", sortColumn){},
+                new SqlParameter("@SortOrder", sortOrder){},
+                new SqlParameter("@SearchTerm", searchTerm){},
+                new SqlParameter("@RCs", rcs){},
+                new SqlParameter("@DPs", dps){},
+                new SqlParameter("@Locations", locations){},
+                new SqlParameter("@PayTitles", titles){}
+
+            };
+
+            var rows = _context.VacationRosterReports
+                .FromSqlRaw($"EXECUTE dbo.spGetPagedVacationRoster @UserID, @PageNumber, @PageSize, " +
+                $"@SortColumn, @SortOrder, @SearchTerm, @RCs, @DPs, @Locations, @PayTitles", sqlParameters)
+                .ToList();
+
+            foreach (var row in rows)
+            {
+                dtos.Add(_mapper.Map<VacationRosterReportDto>(row));
+            }
+            return await Task.Run(() => dtos); ;
+        }
+
+        public async Task<IEnumerable<SeparationSummaryDto>> GetGetAgencySeparationSummary(string userid, string rcs, string dps, bool isCalenderYear, int year)
+        {
+            List<SeparationSummaryDto> dtos = new List<SeparationSummaryDto>();
+
+            SqlParameter[] sqlParameters = new SqlParameter[] {
+                new SqlParameter("@UserID", userid){},
+                new SqlParameter("@RCs", rcs){},
+                new SqlParameter("@DPs", dps){},
+                new SqlParameter("@IsCalenderYear", isCalenderYear){},
+                new SqlParameter("@Year", year){}
+            };
+
+            var rows = _context.VacationRosterReports
+                .FromSqlRaw($"EXECUTE dbo.spGetPagedVacationRoster @UserID, @RCs, @DPs, " +
+                $"@IsCalenderYear, @Year", sqlParameters)
+                .ToList();
+
+            foreach (var row in rows)
+            {
+                dtos.Add(_mapper.Map<SeparationSummaryDto>(row));
+            }
+            return await Task.Run(() => dtos
+            .OrderBy(x => x.Year)
+            .ThenBy(x => x.Month)
+            .ThenBy(x => x.ReasonDesc).ToList()
+            );
         }
     }
 }

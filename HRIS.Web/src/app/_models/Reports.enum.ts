@@ -4,5 +4,6 @@ export enum Reports {
     StaffDetails,
     LeaveReport,
     CeasedReport,
-    EmergencyContactInfoReport
+    EmergencyContactInfoReport,
+    VacationRoasterReport
 }

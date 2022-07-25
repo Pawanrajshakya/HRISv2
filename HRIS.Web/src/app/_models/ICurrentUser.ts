@@ -1,6 +1,16 @@
 import { IRole } from './IRole';
 import { IUserGroup } from "./IUserGroup";
 
+export enum Roles {
+  HRS = 1,
+  Chief = 2,
+  RCHead = 3,
+  HRBP = 4,
+  Director = 5,
+  Supervisor = 6,
+  Staff = 7
+}
+
 export interface ICurrentUser {
   userID?: string;
   lanID?: string;

@@ -1,7 +1,7 @@
 <div class="logo bg-white d-block mh-100">
 </div>
 
-<mat-toolbar class="bg-primary shadow border-top border-bottom border-white">
+<mat-toolbar class="bg-primary shadow border-top border-bottom border-white" style="width: 100%;">
   <a class="btn btn-link btn-sm text-white text-decoration-none" [routerLink]="['/home']" routerLinkActive="active"><i
       class="bi bi-house-fill"></i> Home</a>
   <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="staffMenu"><i
@@ -21,12 +21,12 @@
     <button mat-menu-item>E-Cards Report (DSS & HRA)</button>
     <button mat-menu-item>EEO Report (DSS & HRA)</button>
     <button mat-menu-item [routerLink]="['/emergencyContactInfoReport']" routerLinkActive="active">Emergency Contact
-      Info Report</button>
+      Info Report (DSS & HRA)</button>
     <button mat-menu-item>Headcount Report (DSS & HRA)</button>
     <button mat-menu-item>Overrtime Report (DSS & HRA)</button>
     <button mat-menu-item>PAR Report (DSS & HRA)</button>
     <button mat-menu-item>Seperations Report (DSS & HRA)</button>
-    <button mat-menu-item>Vacation Roster Report (HRA)</button>
+    <button mat-menu-item [routerLink]="['/vacationRoasterReport']" routerLinkActive="active">Vacation Roster Report (HRA)</button>
     <button mat-menu-item [matMenuTriggerFor]="staffReport">Staff On Leave / Ceased Report (DSS & HRA)</button>
   </mat-menu>
   <mat-menu #staffReport="matMenu">
@@ -38,6 +38,7 @@
   <a class="btn btn-link text-white text-decoration-none btn-sm" [routerLink]="['/home']" routerLinkActive="active"><i
       class="bi bi-eye"></i>
     My Info </a>
+
   <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="toolMenu"
     *ngIf="!!this.loginService.currentUser.hasAdmin"><i class="bi bi-gear-wide-connected"></i>
     Tools <span class="caret"></span></a>
@@ -124,7 +125,8 @@
       SolutionsXchange</a>
 
   </mat-menu>
-  <a class="btn btn-link text-white text-decoration-none btn-sm pull-right" [routerLink]="['/developer']"
+  <div class="fill-spacer"></div>
+  <a class="btn btn-link text-white text-decoration-none" [routerLink]="['/developer']"
     *ngIf="currentUser$ | async as user" routerLinkActive="active"><i class="bi bi-person-fill text-success"></i>
     {{user.lastName}} {{user.firstName}}</a>
 </mat-toolbar>

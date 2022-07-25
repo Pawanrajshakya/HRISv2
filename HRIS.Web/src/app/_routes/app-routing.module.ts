@@ -17,6 +17,7 @@ import { StaffLeaveComponent } from '../reports/staff-leave/staff-leave.componen
 import { LeaveStatusResolverService } from '../_services/_resolvers/leave-status-resolver.service';
 import { CeasedStaffComponent } from '../reports/ceased-staff/ceased-staff.component';
 import { StaffEmergencyContactInfoComponent } from '../reports/staff-emergency-contact-info/staff-emergency-contact-info.component';
+import { VacationRosterComponent } from '../reports/vacation-roster/vacation-roster.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,15 @@ const routes: Routes = [
       , rcdp: RcDpCodeResolverService
       , titles: TitleCodeResolverService
       , lvStatus: LeaveStatusResolverService
+    }
+  },
+  {
+    path: 'vacationRoasterReport', component: VacationRosterComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
+      , location: LocationCodeResolverService
+      , title: TitleCodeResolverService
     }
   },
   {

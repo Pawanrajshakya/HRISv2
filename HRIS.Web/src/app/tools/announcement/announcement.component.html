@@ -1,6 +1,6 @@
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary">
-    <i class="bi bi-broadcast-pin"></i> Manage Announcement
+    <i class="bi bi-broadcast-pin"></i> Manage Announcement <span *ngIf="resultsLength > 0; else noDataFound"> {{resultsLength}}</span>
   </div>
   <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
   <div class="card-body">
@@ -16,7 +16,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Filter By</span>
           </div>
-          <input type="text" class="form-control" (keyup)="applyFilter($event)" placeholder="ID / Title" #input>
+          <input type="text" class="form-control" (keyup)="applyFilter($event)" [(ngModel)]="filterValue"
+            placeholder="ID / Title" #input>
         </div>
       </div>
       <div class="col-12">
@@ -62,8 +63,8 @@
             </ng-container>
             <ng-container matColumnDef="editOption">
               <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let row"><a class="btn btn-sm" #announcement (click)="onEdit(addAnnouncement, row.id)"><i
-                    class="fa fa-pencil-square-o"></i>Edit</a></td>
+              <td mat-cell *matCellDef="let row"><a class="btn btn-sm" #announcement
+                  (click)="onEdit(addAnnouncement, row.id)"><i class="fa fa-pencil-square-o"></i>Edit</a></td>
             </ng-container>
             <ng-container matColumnDef="deleteOption">
               <th mat-header-cell *matHeaderCellDef></th>
@@ -124,7 +125,8 @@
             <div class="col-sm-9">
               <input #fileUpload id="fileUpload" type="file" (change)="fileChange($event)"
                 [disabled]="!!announcementForm.defaultImage" class="form-control form-control-sm">
-                <code class="text-danger" *ngIf="announcementForm.fileUploadMessage.length > 0">{{announcementForm.fileUploadMessage}}</code>
+              <code class="text-danger"
+                *ngIf="announcementForm.fileUploadMessage.length > 0">{{announcementForm.fileUploadMessage}}</code>
             </div>
           </div>
           <div class="form-group row">
@@ -139,7 +141,7 @@
             <div class="col-sm-9">
               <input type="text" name="title" class="form-control form-control-sm" id="title" autocomplete="false"
                 required [(ngModel)]="announcement.title" maxlength="100" #title="ngModel">
-                <code class="text-danger" *ngIf="!title.valid && !title.untouched">Valid Tite Required</code>
+              <code class="text-danger" *ngIf="!title.valid && !title.untouched">Valid Tite Required</code>
             </div>
           </div>
           <div class="form-group row">
@@ -147,7 +149,7 @@
             <div class="col-sm-9">
               <textarea name="content" class="form-control form-control-sm" id="content" autocomplete="false" required
                 [(ngModel)]="announcement.content" maxlength="250" #content="ngModel"></textarea>
-                <code class="text-danger" *ngIf="!content.valid && !content.untouched">Valid Content Required</code>
+              <code class="text-danger" *ngIf="!content.valid && !content.untouched">Valid Content Required</code>
             </div>
           </div>
           <div class="form-group row">
@@ -155,7 +157,7 @@
             <div class="col-sm-9">
               <input type="text" name="link" class="form-control form-control-sm" id="link" autocomplete="false"
                 [(ngModel)]="announcement.link" maxlength="200" #link="ngModel">
-                <code class="text-danger" *ngIf="!link.valid && !link.untouched">Valid Link Required</code>
+              <code class="text-danger" *ngIf="!link.valid && !link.untouched">Valid Link Required</code>
             </div>
           </div>
           <div class="form-group row">
@@ -166,8 +168,8 @@
                 <ng-option *ngFor="let role of roles" [value]="role.roleID">{{role.description}}</ng-option>
               </ng-select>
               <code class="text-danger"
-              *ngIf="announcement.roles.length === 0 && (f.controls['selectedRoles'] !== undefined)?!f.controls['selectedRoles'].untouched:false">Role
-              Required</code>
+                *ngIf="announcement.roles.length === 0 && (f.controls['selectedRoles'] !== undefined)?!f.controls['selectedRoles'].untouched:false">Role
+                Required</code>
             </div>
           </div>
           <div class="form-group row">
@@ -195,7 +197,8 @@
 
                 <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon2">
-                    <span (click)="picker.open()"><i class="bi bi-calendar-range-fill" [ngClass]="{'text-info': announcement.durationRestricted}"></i></span>
+                    <span (click)="picker.open()"><i class="bi bi-calendar-range-fill"
+                        [ngClass]="{'text-info': announcement.durationRestricted}"></i></span>
                     <mat-date-range-picker #picker></mat-date-range-picker>
                   </span>
                 </div>
@@ -212,4 +215,7 @@
       </div>
     </div>
   </form>
+</ng-template>
+<ng-template #noDataFound>
+  &nbsp; <span class="badge badge-warning"> No Result</span>
 </ng-template>

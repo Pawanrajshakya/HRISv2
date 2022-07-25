@@ -48,6 +48,8 @@ namespace HRIS.API
         public DbSet<StaffEmergencyContactInfo> EmergencyContactInfos { get; set; }
         //spGetPagedStaffsOnLeave
         public DbSet<StaffLeaveReport> StaffLeaveReports  { get; set; }
-        public DbSet<StaffEmergencyContactInfoReport> staffEmergencyContactInfoReports { get; set; }
+        public DbSet<StaffEmergencyContactInfoReport> StaffEmergencyContactInfoReports { get; set; }
+        public DbSet<VacationRosterReport> VacationRosterReports { get; set; }
+        public DbSet<SeparationSummary> SeparationSummaries { get; set; }
     }
 }

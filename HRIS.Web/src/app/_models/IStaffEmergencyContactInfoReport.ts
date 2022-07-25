@@ -22,3 +22,4 @@ export interface IStaffEmergencyContactInfoReport {
     primaryPhone?: string;
     noOfEContact?: number;
 }
+

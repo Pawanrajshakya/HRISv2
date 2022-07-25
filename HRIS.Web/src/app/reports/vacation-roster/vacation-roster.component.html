@@ -1,1 +1,199 @@
-<p>vacation-roster works!</p>
+<div class="card border-secondary">
+  <div class="card-header text-white bg-secondary border-secondary shadow">
+    <i class="bi bi-funnel"></i> Vacation Roaster Report - Displays all Vacation Roster / ranking of the population
+    selected for vacation purposes.
+    <i [ngClass]="{'bi bi-arrows-expand shadow': isCollapsed}" class="bi bi-arrows-collapse pull-right shadow"
+      (click)="isCollapsed = !isCollapsed"></i>
+  </div>
+  <div class="card-body" [collapse]="isCollapsed" [isAnimated]="true">
+    <div class="col-12">
+      <div class="form-group row"
+        *ngIf="this.loginService.currentUser.roleID == 1 || this.loginService.currentUser.roleID == 2 || this.loginService.currentUser.roleID == 3 || this.loginService.currentUser.roleID == 4">
+        <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm">RC</label>
+        <div class="col-sm-10">
+          <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedRC" id="rcs" name="selectedRC"
+            placeholder="Select RC" (change)="onRCSelect($event)">
+            <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{rc.description}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group row">
+        <label for="dps" class="col-sm-2 col-form-label col-form-label-sm">DP</label>
+        <div class="col-sm-10">
+          <ng-select [items]="filteredDPs" bindLabel="dpName" bindValue="dpCode" groupBy="rcCode"
+            [(ngModel)]="selectedDP" [multiple]="true" [hideSelected]="true" placeholder="Select DP" id="dps"
+            name="selectedDP">
+            <ng-template ng-optgroup-tmp let-item="item">
+              {{item.rcCode || 'Unnamed group'}}
+            </ng-template>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group row">
+        <label for="bkpTitles" class="col-sm-2 col-form-label col-form-label-sm">Location</label>
+        <div class="col-sm-10">
+          <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedLocation" id="selectedLocation"
+            name="selectedLocation" placeholder="Select Locaiton">
+            <ng-option *ngFor="let location of locations" [value]="location.code">{{location.description}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group row">
+        <label for="titles" class="col-sm-2 col-form-label col-form-label-sm">Titles</label>
+        <div class="col-sm-10">
+          <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedTitle" id="titles" name="titles"
+            placeholder="Select Title">
+            <ng-option *ngFor="let title of titles" [value]="title.code">{{title.description}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="col-sm-10 offset-sm-2">
+        <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()"><i class="bi bi-search"></i>
+          Search</button>
+        <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()"><i class="bi bi-stars"></i>
+          Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="card border-secondary">
+  <div class="card-header text-white bg-secondary border-secondary shadow">
+    <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0; else noDataFound"> {{resultsLength}}</span>
+    <a class="btn btn-primary btn-xs float-right text-white shadow border-white" (click)="onExport()">
+      <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</a>
+  </div>
+  <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="input-group input-group-sm mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Filter By</span>
+          </div>
+          <input type="text" class="form-control" (keyup)="applyFilter($event)" [(ngModel)]="filterValue"
+            placeholder="EIN / Full Name / Role / LAN ID" #input>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="table-container table-responsive" [hidden]="resultsLength === 0">
+          <table mat-table [dataSource]="data" matSort matSortActive="ein" matSortDisableClear matSortDirection="asc"
+            matSort class="table table-hover table-bordered">
+
+            <ng-container matColumnDef="rc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">RC</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.rc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="dp">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">DP</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.dp}}</td>
+            </ng-container>
+            <ng-container matColumnDef="dpName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">DP Name</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.dpName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="locationCode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Location Code</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.locationCode}}</td>
+            </ng-container>
+            <ng-container matColumnDef="workAddress">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Work Address</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.workAddress}}</td>
+            </ng-container>
+            <ng-container matColumnDef="ein">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">EIN</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                <a class="btn btn-link btn-xs" [routerLink]="['/staffDetail', row.ein]">{{row.ein}}</a>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Name</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.empName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="leaveStatus">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Leave Status</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.leaveStatus}}</td>
+            </ng-container>
+            <ng-container matColumnDef="titleCode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Title Code</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.titleCode}}</td>
+            </ng-container>
+            <ng-container matColumnDef="titleDescription">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Title Description</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.titleDescription}}</td>
+            </ng-container>
+            <ng-container matColumnDef="titleLevel">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Title Level</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.titleLevel}}</td>
+            </ng-container>
+            <ng-container matColumnDef="csStatus">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">CS Status</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.csStatus}}</td>
+            </ng-container>
+            <ng-container matColumnDef="actionReason">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Action Reason</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.actionReason}}</td>
+            </ng-container>
+            <ng-container matColumnDef="titleDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Title Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.titleDate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="lvEntryDT">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Lvl Entry DT</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.lvlEntryDT}}</td>
+            </ng-container>
+            <ng-container matColumnDef="josConv">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">JOS Conv</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.josConv}}</td>
+            </ng-container>
+            <ng-container matColumnDef="rankBy">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Rank By</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.rankBy}}</td>
+            </ng-container>
+            <ng-container matColumnDef="listNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">List No</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.listNo}}</td>
+            </ng-container>
+            <ng-container matColumnDef="exam">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Exam</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.exam}}</td>
+            </ng-container>
+            <ng-container matColumnDef="examDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Exam Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.examDate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="ss">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">SS</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.ss}}</td>
+            </ng-container>
+            <ng-container matColumnDef="unionName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Union Name</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.unionName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="agy">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">AGY</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.agy}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;  sticky: true;" class="thead-light;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="clickedRows.add(row)"
+              [class.demo-row-is-clicked]="clickedRows.has(row)" (click)="clearClickedRow(row)"></tr>
+          </table>
+        </div>
+        <mat-paginator showFirstLastButtons [length]="resultsLength" [pageSize]="reportParam.pagination.pageSize"
+          [pageSizeOptions]="pageSizeOptions" [hidden]="resultsLength === 0"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noDataFound>
+  &nbsp; <span class="badge badge-warning"> No Result</span>
+</ng-template>

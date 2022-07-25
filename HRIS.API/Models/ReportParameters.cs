@@ -84,4 +84,10 @@
         public Code Code { get; set; }
         public string Ein { get; set; }
     }
+
+    public class AgencySeparationParameters : ReportParameters
+    {
+        public bool IsCalenderYear { get; set; }
+        public int Year { get; set; }
+    }
 }

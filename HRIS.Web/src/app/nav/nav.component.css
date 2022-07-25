@@ -5,10 +5,11 @@
   background-position: left, right;
 }
 
-.example-spacer {
+.fill-spacer {
   flex: 1 1 auto;
 }
 
-.mat-toolbar-row, .mat-toolbar-single-row {
+.mat-toolbar-row,
+.mat-toolbar-single-row {
   height: 48px !important;
 }

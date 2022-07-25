@@ -52,11 +52,22 @@ export class StaffDetailComponent extends BaseComponent<IActiveStaff> implements
         });
 
         this.staffService.staffOTSummary$(this.ein).subscribe(staffOTSummaryCalender => {
-          this.staffOTSummaryCalender = staffOTSummaryCalender;
+
+          console.log('staffOTSummaryCalender', staffOTSummaryCalender);
+          if (staffOTSummaryCalender && staffOTSummaryCalender != null)
+            this.staffOTSummaryCalender = staffOTSummaryCalender;
+          else
+            this.staffOTSummaryCalender = {};
         });
 
         this.staffService.staffOTSummary$(this.ein, "Fiscal").subscribe(staffOTSummaryFiscal => {
-          this.staffOTSummaryFiscal = staffOTSummaryFiscal;
+          console.log('staffOTSummaryFiscal', staffOTSummaryFiscal, '>>');
+
+          if (staffOTSummaryFiscal && staffOTSummaryFiscal != null){
+            console.log('staffOTSummaryFiscal', staffOTSummaryFiscal, '<<');
+            this.staffOTSummaryFiscal = staffOTSummaryFiscal;}
+          else
+            this.staffOTSummaryFiscal = {};
         });
 
       }
@@ -68,7 +79,7 @@ export class StaffDetailComponent extends BaseComponent<IActiveStaff> implements
     this.reportParam.reportName = Reports[2];
     this.reportParam.file.format = "PDF";
     this.reportParam.ein = this.ein;
-    
+
     const initialState: ModalOptions = {
       initialState: {
         reportParam: this.reportParam
