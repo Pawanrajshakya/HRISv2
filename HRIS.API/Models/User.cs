@@ -4,6 +4,38 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HRIS.API
 {
+    public class UserDtoToAddAndUpdate
+    {
+        public string LanID { get; set; }
+        public int RoleID { get; set; }
+        public string EIN { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string EmailAddress { get; set; }
+        public string UserID { get; set; }
+        public string[] RCs { get; set; }
+        public string[] DPs { get; set; }
+        public int[] UsersGroups { get; set; }
+        public bool IsSuper
+        {
+            get; set;
+        }
+    }
+
+    public class UserDto
+    {
+        public string UserID { get; set; }
+        public string LanID { get; set; }
+        public int RoleID { get; set; }
+        public string EIN { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string EmailAddress { get; set; }
+        public bool IsSuper { get; set; }
+        public int[] Groups { get; set; }
+        public string RoleDescription { get; set; }
+    }
+
     public class HRISUser
     {
         [Key]

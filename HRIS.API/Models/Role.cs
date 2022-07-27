@@ -2,6 +2,11 @@
 
 namespace HRIS.API
 {
+    public class RoleDto
+    {
+        public int RoleID { get; set; }
+        public string Description { get; set; }
+    }
     public class Role
     {
         public int RoleID { get; set; }

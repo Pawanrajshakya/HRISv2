@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 namespace HRIS.API
 {
+    public class EmployeeBehaviorDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
     public class EmployeeBehavior
     {
         [System.ComponentModel.DataAnnotations.Key]

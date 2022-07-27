@@ -2,6 +2,11 @@
 
 namespace HRIS.API
 {
+    public class GroupDto
+    {
+        public int GroupID { get; set; }
+        public string GroupDescription { get; set; }
+    }
     public enum _Group
     {
         Admin = 1,
