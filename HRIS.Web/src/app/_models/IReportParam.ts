@@ -38,3 +38,8 @@ export interface IReportParam {
     lvStatuses?: string;
   }
 }
+
+export interface IAgencySeparationParam extends IReportParam {
+  isCalenderYear?: boolean;
+  year?: number;
+}

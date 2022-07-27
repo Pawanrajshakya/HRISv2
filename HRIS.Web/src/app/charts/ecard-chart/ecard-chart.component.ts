@@ -3,18 +3,20 @@ import { NgSelectConfig } from '@ng-select/ng-select';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs/operators';
-import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
+
 import { IEcard } from 'src/app/_models/IEcard';
 import { ICurrentUser } from "src/app/_models/ICurrentUser";
 import { ChartService } from 'src/app/_services/chart.service';
 import { LoginService } from 'src/app/_services/login.service';
+import { BaseComponent } from 'src/app/base/base.component';
+import { IBarChartData } from 'src/app/_models/IChart';
 
 @Component({
   selector: 'app-ecard-chart',
   templateUrl: './ecard-chart.component.html',
   styleUrls: ['./ecard-chart.component.scss']
 })
-export class EcardChartComponent extends ChartBaseComponent {
+export class EcardChartComponent extends BaseComponent<IBarChartData> {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 

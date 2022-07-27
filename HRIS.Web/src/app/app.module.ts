@@ -40,7 +40,6 @@ import { BaseComponent } from './base/base.component';
 import { CarouselComponent } from './tools/announcement/carousel/carousel.component';
 import { HeadcountComponent } from './charts/headcount/headcount.component';
 import { PendingCasesComponent } from './charts/team-pending-cases/team-pending-cases.component';
-import { ChartBaseComponent } from './base/chart-base.component';
 import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year/team-cases-count-by-year.component';
 import { TeamTopInfractionComponent } from './charts/team-top-infraction/team-top-infraction.component';
 import { ActiveStaffComponent } from './staff/active-staff/active-staff.component';
@@ -77,7 +76,6 @@ import { VacationRosterComponent } from './reports/vacation-roster/vacation-rost
     CarouselComponent,
     HeadcountComponent,
     PendingCasesComponent,
-    ChartBaseComponent,
     TeamCasesCountByYearComponent,
     TeamTopInfractionComponent,
     ActiveStaffComponent,

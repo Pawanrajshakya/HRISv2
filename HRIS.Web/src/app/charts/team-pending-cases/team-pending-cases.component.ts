@@ -2,18 +2,19 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
-import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
 import { IPendingCasesChart } from "src/app/_models/IPendingCasesChart";
 import { ICurrentUser } from "src/app/_models/ICurrentUser";
 import { ChartService } from 'src/app/_services/chart.service';
 import { LoginService } from 'src/app/_services/login.service';
+import { BaseComponent } from 'src/app/base/base.component';
+import { IBarChartData } from 'src/app/_models/IChart';
 
 @Component({
   selector: 'app-team-pending-cases',
   templateUrl: './team-pending-cases.component.html',
   styleUrls: ['./team-pending-cases.component.scss']
 })
-export class PendingCasesComponent extends ChartBaseComponent implements OnInit {
+export class PendingCasesComponent extends BaseComponent<IBarChartData> implements OnInit {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 

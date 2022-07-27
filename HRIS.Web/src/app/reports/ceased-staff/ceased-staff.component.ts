@@ -118,6 +118,8 @@ export class CeasedStaffComponent extends BaseComponent<IStaffLeaveReport> imple
         next: data => {
           if (Array.isArray(data))
             this.data = data;
+          console.log('data', this.data);
+
           this.isLoadingResults = false;
         }
       });

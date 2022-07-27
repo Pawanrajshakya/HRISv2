@@ -2,21 +2,18 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
-import { NgSelectConfig } from '@ng-select/ng-select';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { IGroup } from '../_models/IGroup';
 import { IRC, IDP } from '../_models/IRC_DP';
-import { IReportFormat, IReportParam } from '../_models/IReportParam';
+import { IReportParam } from '../_models/IReportParam';
 import { IRole } from '../_models/IRole';
-import { ThemeService } from 'ng2-charts';
-import { ICurrentUser } from '../_models/ICurrentUser';
 import { ICSStatus } from '../_models/ICSStatus';
 import { ILocation } from '../_models/ILocation';
 import { ITitle } from '../_models/ITitle';
 import { IBackupTitle } from '../_models/IBackupTitle';
-import { UserService } from '../_services/user.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ILeaveStatus } from '../_models/ILeaveStatus';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-base',
@@ -110,6 +107,20 @@ export class BaseComponent<T> {
       class: 'modal-lg'
     };
     
+
+    // chart
+    backgroundColor: string[] = ['rgba(247,203,137)', 'rgba(78,162,210)', 'rgba(52,191,120)', 'rgba(110,78,122)', 'rgba(252,114,114)', 'rgba(252,129,82)', 'rgba(197,170,59)', 'rgba(199,110,50)', 'rgba(126,135,135)', 'rgba(162,71,71)'];
+
+  hoverBackgroundColor: string[] = ['#f1ab41', '#037bc0', '#02af57', '#4A235A', '#FC4F4F', '#FC6228', '#B7950B', '#BA4A00', '#5F6A6A', '#8B1A1A'];
+
+  borderRadius: number = 10;
+
+  borderWidth: number = 2;
+
+  borderColor: string = 'white';
+
+  //chart end
+
   constructor() {
     //this.ngSelectConfig.appendTo = 'body';
     //this.ngSelectConfig.clearAllText = 'Clear';

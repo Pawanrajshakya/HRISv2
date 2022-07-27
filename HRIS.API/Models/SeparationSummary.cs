@@ -1,4 +1,6 @@
-﻿namespace HRIS.API
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HRIS.API
 {
     public class SeparationSummaryDto
     {
@@ -12,6 +14,7 @@
 
     public class SeparationSummary
     {
+        [Key]
         public string ReasonDesc { get; set; }
         public int Month { get; set; }
         public string MonthName { get; set; }

@@ -3,16 +3,17 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
 import { getFullYear } from 'ngx-bootstrap/chronos';
-import { ChartBaseComponent, IPieChartData } from 'src/app/base/chart-base.component';
 import { ITopInfractionsChart } from "src/app/_models/ITopInfractionsChart";
 import { ChartService } from 'src/app/_services/chart.service';
+import { BaseComponent } from 'src/app/base/base.component';
+import { IPieChartData } from 'src/app/_models/IChart';
 
 @Component({
   selector: 'app-team-top-infraction',
   templateUrl: './team-top-infraction.component.html',
   styleUrls: ['./team-top-infraction.component.scss']
 })
-export class TeamTopInfractionComponent extends ChartBaseComponent implements OnInit {
+export class TeamTopInfractionComponent extends BaseComponent<IPieChartData> implements OnInit {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 

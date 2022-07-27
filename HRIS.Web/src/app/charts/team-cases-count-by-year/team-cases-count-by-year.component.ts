@@ -3,19 +3,18 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { getFullYear } from 'ngx-bootstrap/chronos';
 import { map } from 'rxjs';
-import { ChartBaseComponent, IBarChartData } from 'src/app/base/chart-base.component';
+import { BaseComponent } from 'src/app/base/base.component';
 import { ICasesCountByYear } from "src/app/_models/ICasesCountByYear";
-import { ICurrentUser } from "src/app/_models/ICurrentUser";
+import { IBarChartData } from 'src/app/_models/IChart';
 import { ChartService } from 'src/app/_services/chart.service';
 import { LoginService } from 'src/app/_services/login.service';
-import { UserService } from 'src/app/_services/user.service';
 
 @Component({
   selector: 'app-team-cases-count-by-year',
   templateUrl: './team-cases-count-by-year.component.html',
   styleUrls: ['./team-cases-count-by-year.component.scss']
 })
-export class TeamCasesCountByYearComponent extends ChartBaseComponent implements OnInit {
+export class TeamCasesCountByYearComponent extends BaseComponent<IBarChartData> implements OnInit {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRIS.API.Controllers
@@ -93,21 +95,51 @@ namespace HRIS.API.Controllers
         }
 
         [HttpPost("agencySeparation")]
-        public async Task<ActionResult> GetagencySeparationAsync(AgencySeparationParameters parameters)
+        public async Task<ActionResult> GetAgencySeparationAsync(AgencySeparationParameters parameters)
         {
+            IEnumerable<SeparationSummaryDto> list = await _staffRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
+                , parameters.RcDp.RCs ?? ""
+                , parameters.RcDp.DPs ?? ""
+                , parameters.IsCalenderYear
+                , parameters.Year);
 
+            return Ok(list
+                .OrderBy(c => c.ReasonDesc)
+                .ToList());
+        }
+
+        [HttpPost("agencySeparationChart")]
+        public async Task<ActionResult> GetAgencySeparationChartAsync(AgencySeparationParameters parameters)
+        {
+            IEnumerable<SeparationSummaryDto> list = await _staffRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
+                , parameters.RcDp.RCs ?? ""
+                , parameters.RcDp.DPs ?? ""
+                , parameters.IsCalenderYear
+                , parameters.Year);
+
+            return Ok(list
+                .GroupBy(x => x.ReasonDesc)
+                .Select(y => new AgencySeparationChart
+                {
+                    Description = y.Key,
+                    Total = y.Sum(x => x.Count)
+                })
+            .OrderBy(c => c.Description)
+            .ToList());
         }
 
         [HttpGet("detail/{ein}")]
         public async Task<ActionResult> GetDetailAsync(string ein)
         {
-            return Ok(await _staffRepository.GetDetail(UserSession.Instance.User.UserID, ein));
+            return Ok(await _staffRepository.GetDetail(UserSession.Instance.User.UserID
+                , ein));
         }
 
         [HttpGet("EmergencyContactInfo/{ein}")]
         public async Task<ActionResult> GetEmergencyContactInfoAsync(string ein)
         {
-            return Ok(await _staffRepository.EmergencyContacts(UserSession.Instance.User.UserID, ein));
+            return Ok(await _staffRepository.EmergencyContacts(UserSession.Instance.User.UserID
+                , ein));
         }
 
         

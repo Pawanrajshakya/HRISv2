@@ -3,7 +3,8 @@ import { Component, ViewChild } from '@angular/core';
 import { ChartData, ChartType, ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
-import { ChartBaseComponent , ILineChartData} from 'src/app/base/chart-base.component';
+import { BaseComponent } from 'src/app/base/base.component';
+import { ILineChartData } from 'src/app/_models/IChart';
 import { IHeadcountChartData } from 'src/app/_models/IHeadcountChartData';
 import { ChartService } from 'src/app/_services/chart.service';
 
@@ -12,7 +13,7 @@ import { ChartService } from 'src/app/_services/chart.service';
   templateUrl: './headcount.component.html',
   styleUrls: ['./headcount.component.scss']
 })
-export class HeadcountComponent extends ChartBaseComponent {
+export class HeadcountComponent extends BaseComponent<ILineChartData> {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 

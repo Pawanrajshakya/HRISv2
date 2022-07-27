@@ -28,7 +28,7 @@
       <div class="col-12">
         <div class="example-container table-responsive">
           <table mat-table [dataSource]="data" matSort matSortActive="created" matSortDisableClear
-            matSortDirection="desc" matSort class="table table-hover">
+            matSortDirection="desc" class="table table-hover">
             <ng-container matColumnDef="firstName">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>
               <td mat-cell *matCellDef="let row">{{row.firstName}} {{row.lastName}}</td>

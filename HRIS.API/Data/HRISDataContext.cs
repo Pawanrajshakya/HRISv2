@@ -12,6 +12,8 @@ namespace HRIS.API
         {
             modelBuilder.Entity<UserGroup>().HasKey(ug => new { ug.UserID, ug.GroupID });
 
+            modelBuilder.Entity<SeparationSummary>().HasKey(c => new { c.ReasonDesc, c.Month });
+
             modelBuilder.Entity<UserGroup>()
                 .HasOne<HRISUser>(x => x.User)
                 .WithMany(x => x.UsersGroups)

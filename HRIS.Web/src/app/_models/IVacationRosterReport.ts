@@ -30,16 +30,3 @@ export interface IVacationRosterReport {
     countCheck?: number;
 }
 
-export interface ISeparationSummary {
-    reasonDesc?: string;
-    month?: number;
-    monthName?: string;
-    year?: number;
-    count?: number;
-    title?: string;
-}
-
-export interface IAgencySeparationChart {
-    description?: string;
-    total?: number;
-}

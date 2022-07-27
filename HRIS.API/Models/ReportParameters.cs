@@ -87,7 +87,7 @@
 
     public class AgencySeparationParameters : ReportParameters
     {
-        public bool IsCalenderYear { get; set; }
+        public bool IsCalenderYear { get; set; } = true;
         public int Year { get; set; }
     }
 }

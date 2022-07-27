@@ -233,8 +233,8 @@ namespace HRIS.API
                 new SqlParameter("@Year", year){}
             };
 
-            var rows = _context.VacationRosterReports
-                .FromSqlRaw($"EXECUTE dbo.spGetPagedVacationRoster @UserID, @RCs, @DPs, " +
+            var rows = _context.SeparationSummaries
+                .FromSqlRaw($"EXECUTE dbo.[spGetAgencySeparationsChart] @UserID, @RCs, @DPs, " +
                 $"@IsCalenderYear, @Year", sqlParameters)
                 .ToList();
 

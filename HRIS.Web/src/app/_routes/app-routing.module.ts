@@ -18,6 +18,7 @@ import { LeaveStatusResolverService } from '../_services/_resolvers/leave-status
 import { CeasedStaffComponent } from '../reports/ceased-staff/ceased-staff.component';
 import { StaffEmergencyContactInfoComponent } from '../reports/staff-emergency-contact-info/staff-emergency-contact-info.component';
 import { VacationRosterComponent } from '../reports/vacation-roster/vacation-roster.component';
+import { SeparationComponent } from '../reports/separation/separation.component';
 
 const routes: Routes = [
   {
@@ -85,6 +86,13 @@ const routes: Routes = [
       currentUser: CurrentUserResolver
       , rcdp: RcDpCodeResolverService
       , location: LocationCodeResolverService
+    }
+  },
+  {
+    path: 'separationReport', component: SeparationComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
     }
   },
   {

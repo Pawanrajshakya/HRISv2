@@ -8,6 +8,8 @@ import { BaseService } from './_base.service';
 import { IEcard } from '../_models/IEcard';
 import { IHeadcountChartData } from '../_models/IHeadcountChartData';
 import { ErrorHandlingService } from './error-handling.service';
+import { IAgencySeparationChart } from '../_models/IAgencySeparationChart';
+import { IAgencySeparationParam } from '../_models/IReportParam';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +46,10 @@ export class ChartService extends BaseService {
     catchError(err => this.errorHandlingService.handleError(err)) //error handling
   );
 
+  agencySeparationChart$(tableViewParam?: IAgencySeparationParam) {
+    return this.httpClient.post<IAgencySeparationChart[]>(this.url + "staff/agencySeparationChart", tableViewParam).pipe(
+      //tap((data) => {  console.log('$', data); }),
+      catchError(err => this.errorHandlingService.handleError(err)));
+  };
 
 }
