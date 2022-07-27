@@ -8,34 +8,9 @@ namespace HRIS.API
 {
     public interface IStaffRepository
     {
-        //SP Nanme: spGetPagedStaffs
-        public Task<IEnumerable<ActiveStaffDto>> GetActiveStaffReport(string userid, string rcs, string dps, string locations,
-                                                     string titles, string backupTitles, string csStatus,
-                                                     int pageNumber = 1, int pageSize = 10, string sortColumn = "",
-                                                     string sortOrder = "", string searchTerm = "");
-        //SP Name: spGetPagedStaffsOnLeave
-        //option = leave or ceased
-        public Task<IEnumerable<StaffLeaveReportDto>> GetStaffLeaveReport(string userid, string rcs, string dps, string titles,
-                                                          string lvStatus, string option = "", int pageNumber = 1,
-                                                          int pageSize = 10, string sortColumn = "",
-                                                          string sortOrder = "", string searchTerm = "");
+        public Task<StaffDetailDto> GetDetail(string userid, string ein); //spGetStaffByEIN
 
-        public Task<IEnumerable<StaffEmergencyContactInfoReportDto>> GetStaffEmergencyContactInfoReport(string userid, string rcs, string dps,
-                                                                         string locations, int pageNumber = 1,
-                                                                         int pageSize = 10, string sortColumn = "",
-                                                                         string sortOrder = "", string searchTerm = "");
-
-        public Task<IEnumerable<VacationRosterReportDto>> GetVacationRosterReport(string userid, string rcs, string dps,
-                                                                         string locations, string titles, int pageNumber = 1,
-                                                                         int pageSize = 10, string sortColumn = "",
-                                                                         string sortOrder = "", string searchTerm = "");
-
-        
-        public Task<StaffDetailDto> GetDetail(string userid,
-                                              string ein); //spGetStaffByEIN
-
-        public Task<IEnumerable<StaffEmergencyContactInfoDto>> EmergencyContacts(string userid,
-                                                                                 string ein); //spGetStaffEmergencyContactsByEIN
+        public Task<IEnumerable<StaffEmergencyContactInfoDto>> EmergencyContacts(string userid, string ein); //spGetStaffEmergencyContactsByEIN
     }
 
     public class StaffRepository : Repository, IStaffRepository
@@ -66,77 +41,6 @@ namespace HRIS.API
             return await Task.Run(() => dtos);
         }
 
-        public async Task<IEnumerable<ActiveStaffDto>> GetActiveStaffReport(string userid,
-            string rcs, string dps, string locations, string titles,
-            string backupTitles, string csStatus, int pageNumber = 1,
-            int pageSize = 10, string sortColumn = "", string sortOrder = "",
-            string searchTerm = "")
-        {
-            List<ActiveStaffDto> dtos = new List<ActiveStaffDto>();
-
-            SqlParameter[] sqlParameters = new SqlParameter[] {
-                new SqlParameter("@UserID", userid){},
-                new SqlParameter("@PageNumber", pageNumber){},
-                new SqlParameter("@PageSize", pageSize){},
-                new SqlParameter("@SortColumn", sortColumn){},
-                new SqlParameter("@SortOrder", sortOrder){},
-                new SqlParameter("@SearchTerm", searchTerm){},
-                new SqlParameter("@RCs", rcs){},
-                new SqlParameter("@DPs", dps){},
-                new SqlParameter("@Locations", locations){},
-                new SqlParameter("@PayTitles", titles){},
-                new SqlParameter("@BackupTitles", backupTitles){},
-                new SqlParameter("@CSStatus", csStatus){},
-
-            };
-
-            var rows = _context.ActiveStaffs
-                .FromSqlRaw($"EXECUTE dbo.spGetPagedStaffs @UserID, @PageNumber, @PageSize, " +
-                $"@SortColumn, @SortOrder, @SearchTerm, @RCs, @DPs, @Locations, @PayTitles, @BackupTitles, @CSStatus", sqlParameters)
-                .ToList();
-
-            foreach (var row in rows)
-            {
-                dtos.Add(_mapper.Map<ActiveStaffDto>(row));
-            }
-            return await Task.Run(() => dtos); ;
-
-        }
-
-        public async Task<IEnumerable<StaffLeaveReportDto>> GetStaffLeaveReport(string userid, string rcs, string dps
-            , string titles, string lvStatus, string option = ""
-            , int pageNumber = 1, int pageSize = 10, string sortColumn = ""
-            , string sortOrder = "", string searchTerm = "")
-        {
-            List<StaffLeaveReportDto> dtos = new List<StaffLeaveReportDto>();
-
-            SqlParameter[] sqlParameters = new SqlParameter[] {
-                new SqlParameter("@UserID", userid){},
-                new SqlParameter("@PageNumber", pageNumber){},
-                new SqlParameter("@PageSize", pageSize){},
-                new SqlParameter("@SortColumn", sortColumn){},
-                new SqlParameter("@SortOrder", sortOrder){},
-                new SqlParameter("@SearchTerm", searchTerm){},
-                new SqlParameter("@RCs", rcs){},
-                new SqlParameter("@DPs", dps){},
-                new SqlParameter("@PayTitles", titles){},
-                new SqlParameter("@LvStatus", lvStatus){},
-                new SqlParameter("@Option", option){},
-
-            };
-
-            var rows = _context.StaffLeaveReports
-                .FromSqlRaw($"EXECUTE dbo.spGetPagedStaffsOnLeave @UserID, @PageNumber, @PageSize, " +
-                $"@SortColumn, @SortOrder, @SearchTerm, @RCs, @DPs, @PayTitles, @LvStatus, @Option", sqlParameters)
-                .ToList();
-
-            foreach (var row in rows)
-            {
-                dtos.Add(_mapper.Map<StaffLeaveReportDto>(row));
-            }
-            return await Task.Run(() => dtos); ;
-        }
-
         public async Task<StaffDetailDto> GetDetail(string userid, string ein)
         {
             List<StaffDetailDto> dtos = new List<StaffDetailDto>();
@@ -156,66 +60,5 @@ namespace HRIS.API
             }
             return await Task.Run(() => dtos.SingleOrDefault(x => x.EIN == ein));
         }
-
-        public async Task<IEnumerable<StaffEmergencyContactInfoReportDto>> GetStaffEmergencyContactInfoReport(string userid, string rcs, string dps, string locations, int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "")
-        {
-            List<StaffEmergencyContactInfoReportDto> dtos = new List<StaffEmergencyContactInfoReportDto>();
-
-            SqlParameter[] sqlParameters = new SqlParameter[] {
-                new SqlParameter("@UserID", userid){},
-                new SqlParameter("@PageNumber", pageNumber){},
-                new SqlParameter("@PageSize", pageSize){},
-                new SqlParameter("@SortColumn", sortColumn){},
-                new SqlParameter("@SortOrder", sortOrder){},
-                new SqlParameter("@SearchTerm", searchTerm){},
-                new SqlParameter("@RCs", rcs){},
-                new SqlParameter("@DPs", dps){},
-                new SqlParameter("@Locations", locations){}
-
-            };
-
-            var rows = _context.StaffEmergencyContactInfoReports
-                .FromSqlRaw($"EXECUTE dbo.spGetPagedEmergencyContactInfo @UserID, @PageNumber, @PageSize, " +
-                $"@SortColumn, @SortOrder, @SearchTerm, @RCs, @DPs, @Locations", sqlParameters)
-                .ToList();
-
-            foreach (var row in rows)
-            {
-                dtos.Add(_mapper.Map<StaffEmergencyContactInfoReportDto>(row));
-            }
-            return await Task.Run(() => dtos); ;
-        }
-
-        public async Task<IEnumerable<VacationRosterReportDto>> GetVacationRosterReport(string userid, string rcs, string dps, string locations, string titles, int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "")
-        {
-            List<VacationRosterReportDto> dtos = new List<VacationRosterReportDto>();
-
-            SqlParameter[] sqlParameters = new SqlParameter[] {
-                new SqlParameter("@UserID", userid){},
-                new SqlParameter("@PageNumber", pageNumber){},
-                new SqlParameter("@PageSize", pageSize){},
-                new SqlParameter("@SortColumn", sortColumn){},
-                new SqlParameter("@SortOrder", sortOrder){},
-                new SqlParameter("@SearchTerm", searchTerm){},
-                new SqlParameter("@RCs", rcs){},
-                new SqlParameter("@DPs", dps){},
-                new SqlParameter("@Locations", locations){},
-                new SqlParameter("@PayTitles", titles){}
-
-            };
-
-            var rows = _context.VacationRosterReports
-                .FromSqlRaw($"EXECUTE dbo.spGetPagedVacationRoster @UserID, @PageNumber, @PageSize, " +
-                $"@SortColumn, @SortOrder, @SearchTerm, @RCs, @DPs, @Locations, @PayTitles", sqlParameters)
-                .ToList();
-
-            foreach (var row in rows)
-            {
-                dtos.Add(_mapper.Map<VacationRosterReportDto>(row));
-            }
-            return await Task.Run(() => dtos); ;
-        }
-
-        
     }
 }

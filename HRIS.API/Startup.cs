@@ -53,7 +53,7 @@ namespace HRIS.API
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IOvertimeRepository, OvertimeRepository>();
             services.AddScoped<IAgencySeparationRepository, AgencySeparationRepository>();
-
+            services.AddScoped<IHRISReportRepository, HRISReportRepository>();
             //********Repository DI - end
 
             services.AddTransient<UserActionFilter>();

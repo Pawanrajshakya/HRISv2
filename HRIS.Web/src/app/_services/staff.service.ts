@@ -23,7 +23,7 @@ export class StaffService extends BaseService {
 
   activeStaffReport$(tableViewParam?: IReportParam) {
     console.log('tableViewParam', tableViewParam);
-    return this.httpClient.post<IActiveStaff[]>(this.url + 'staff/activeStaffReport', tableViewParam)
+    return this.httpClient.post<IActiveStaff[]>(this.url + 'hrisReport/activeStaffReport', tableViewParam)
       .pipe(
         //tap((data) => { console.log(data); }),
         catchError(err => this.errorHandlingService.handleError(err))
@@ -32,7 +32,7 @@ export class StaffService extends BaseService {
 
   leaveReport$(tableViewParam?: IReportParam) {
     console.log('tableViewParam', tableViewParam);
-    return this.httpClient.post<IStaffLeaveReport[]>(this.url + 'staff/leaveReport', tableViewParam)
+    return this.httpClient.post<IStaffLeaveReport[]>(this.url + 'hrisReport/leaveReport', tableViewParam)
       .pipe(
         //tap((data) => { console.log(data); }),
         catchError(err => this.errorHandlingService.handleError(err))
@@ -41,7 +41,7 @@ export class StaffService extends BaseService {
 
   ceasedReport$(tableViewParam?: IReportParam) {
     console.log('tableViewParam', tableViewParam);
-    return this.httpClient.post<IStaffLeaveReport[]>(this.url + 'staff/ceasedReport', tableViewParam)
+    return this.httpClient.post<IStaffLeaveReport[]>(this.url + 'hrisReport/ceasedReport', tableViewParam)
       .pipe(
         //tap((data) => { console.log(data); }),
         catchError(err => this.errorHandlingService.handleError(err))
@@ -49,7 +49,7 @@ export class StaffService extends BaseService {
   }
 
   emergencyContactInfoReport$(tableViewParam?: IReportParam) {
-    return this.httpClient.post<IStaffEmergencyContactInfoReport>(this.url + 'staff/emergencyContactInfoReport', tableViewParam)
+    return this.httpClient.post<IStaffEmergencyContactInfoReport>(this.url + 'hrisReport/emergencyContactInfoReport', tableViewParam)
       .pipe(
         //tap((data) => {  console.log('$', data); }),
         catchError(err => this.errorHandlingService.handleError(err))
@@ -57,7 +57,7 @@ export class StaffService extends BaseService {
   }
 
   vacationRosterReport$(tableViewParam?: IReportParam) {
-    return this.httpClient.post<IVacationRosterReport>(this.url + 'staff/vactionRoasterReport', tableViewParam)
+    return this.httpClient.post<IVacationRosterReport>(this.url + 'hrisReport/vactionRoasterReport', tableViewParam)
       .pipe(
         //tap((data) => {  console.log('$', data); }),
         catchError(err => this.errorHandlingService.handleError(err))
