@@ -65,7 +65,7 @@ export class StaffService extends BaseService {
   }
 
   agencySeparation$(tableViewParam?: IAgencySeparationParam) {
-    return this.httpClient.post<IAgencySeparationSummary>(this.url + 'staff/agencySeparation', tableViewParam)
+    return this.httpClient.post<IAgencySeparationSummary>(this.url + 'agencySeparation/summary', tableViewParam)
       .pipe(
         //tap((data) => {  console.log('$', data); }),
         catchError(err => this.errorHandlingService.handleError(err))

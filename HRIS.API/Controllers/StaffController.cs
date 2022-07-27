@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HRIS.API.Controllers
 {
-    [Route("hris/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StaffController : BaseController
     {
@@ -19,7 +19,7 @@ namespace HRIS.API.Controllers
         [HttpPost("activeStaffReport")]
         public async Task<ActionResult> GetActiveStaffReportAsync(ReportParameters parameters)
         {
-            return Ok(await _staffRepository.GetActiveStaff(UserSession.Instance.User.UserID
+            return Ok(await _staffRepository.GetActiveStaffReport(UserSession.Instance.User.UserID
                 , parameters.RcDp.RCs ?? ""
                 , parameters.RcDp.DPs ?? ""
                 , parameters.Code.Locations
@@ -94,39 +94,7 @@ namespace HRIS.API.Controllers
                 , parameters.Pagination.SearchTerm));
         }
 
-        [HttpPost("agencySeparation")]
-        public async Task<ActionResult> GetAgencySeparationAsync(AgencySeparationParameters parameters)
-        {
-            IEnumerable<SeparationSummaryDto> list = await _staffRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
-                , parameters.RcDp.RCs ?? ""
-                , parameters.RcDp.DPs ?? ""
-                , parameters.IsCalenderYear
-                , parameters.Year);
-
-            return Ok(list
-                .OrderBy(c => c.ReasonDesc)
-                .ToList());
-        }
-
-        [HttpPost("agencySeparationChart")]
-        public async Task<ActionResult> GetAgencySeparationChartAsync(AgencySeparationParameters parameters)
-        {
-            IEnumerable<SeparationSummaryDto> list = await _staffRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
-                , parameters.RcDp.RCs ?? ""
-                , parameters.RcDp.DPs ?? ""
-                , parameters.IsCalenderYear
-                , parameters.Year);
-
-            return Ok(list
-                .GroupBy(x => x.ReasonDesc)
-                .Select(y => new AgencySeparationChart
-                {
-                    Description = y.Key,
-                    Total = y.Sum(x => x.Count)
-                })
-            .OrderBy(c => c.Description)
-            .ToList());
-        }
+        
 
         [HttpGet("detail/{ein}")]
         public async Task<ActionResult> GetDetailAsync(string ein)

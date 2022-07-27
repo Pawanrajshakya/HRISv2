@@ -9,7 +9,7 @@ namespace HRIS.API
     public interface IStaffRepository
     {
         //SP Nanme: spGetPagedStaffs
-        public Task<IEnumerable<ActiveStaffDto>> GetActiveStaff(string userid, string rcs, string dps, string locations,
+        public Task<IEnumerable<ActiveStaffDto>> GetActiveStaffReport(string userid, string rcs, string dps, string locations,
                                                      string titles, string backupTitles, string csStatus,
                                                      int pageNumber = 1, int pageSize = 10, string sortColumn = "",
                                                      string sortOrder = "", string searchTerm = "");
@@ -30,12 +30,7 @@ namespace HRIS.API
                                                                          int pageSize = 10, string sortColumn = "",
                                                                          string sortOrder = "", string searchTerm = "");
 
-        public Task<IEnumerable<SeparationSummaryDto>> GetGetAgencySeparationSummary(string userid, string rcs, string dps,
-                                                                         bool isCalenderYear, int year);
-
-        //public Task<IEnumerable<AgencySeparationChartDto>> GetGetAgencySeparationChart(string userid, string rcs, string dps,
-        //                                                         bool IsCalenderYear, int Year);
-
+        
         public Task<StaffDetailDto> GetDetail(string userid,
                                               string ein); //spGetStaffByEIN
 
@@ -71,7 +66,7 @@ namespace HRIS.API
             return await Task.Run(() => dtos);
         }
 
-        public async Task<IEnumerable<ActiveStaffDto>> GetActiveStaff(string userid,
+        public async Task<IEnumerable<ActiveStaffDto>> GetActiveStaffReport(string userid,
             string rcs, string dps, string locations, string titles,
             string backupTitles, string csStatus, int pageNumber = 1,
             int pageSize = 10, string sortColumn = "", string sortOrder = "",
@@ -221,32 +216,6 @@ namespace HRIS.API
             return await Task.Run(() => dtos); ;
         }
 
-        public async Task<IEnumerable<SeparationSummaryDto>> GetGetAgencySeparationSummary(string userid, string rcs, string dps, bool isCalenderYear, int year)
-        {
-            List<SeparationSummaryDto> dtos = new List<SeparationSummaryDto>();
-
-            SqlParameter[] sqlParameters = new SqlParameter[] {
-                new SqlParameter("@UserID", userid){},
-                new SqlParameter("@RCs", rcs){},
-                new SqlParameter("@DPs", dps){},
-                new SqlParameter("@IsCalenderYear", isCalenderYear){},
-                new SqlParameter("@Year", year){}
-            };
-
-            var rows = _context.SeparationSummaries
-                .FromSqlRaw($"EXECUTE dbo.[spGetAgencySeparationsChart] @UserID, @RCs, @DPs, " +
-                $"@IsCalenderYear, @Year", sqlParameters)
-                .ToList();
-
-            foreach (var row in rows)
-            {
-                dtos.Add(_mapper.Map<SeparationSummaryDto>(row));
-            }
-            return await Task.Run(() => dtos
-            .OrderBy(x => x.Year)
-            .ThenBy(x => x.Month)
-            .ThenBy(x => x.ReasonDesc).ToList()
-            );
-        }
+        
     }
 }

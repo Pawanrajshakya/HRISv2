@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HRIS.API.Controllers
 {
-    [Route("hris/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class ReportController : BaseController
+    public class DownloadController : BaseController
     {
-        public ReportController(IRCRepository rcRepository, IDPRepository dpRepository) : base(rcRepository, dpRepository)
+        public DownloadController(IRCRepository rcRepository, IDPRepository dpRepository) : base(rcRepository, dpRepository)
         {
         }
 

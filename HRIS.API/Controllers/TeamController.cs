@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HRIS.API.Controllers
 {
-    [Route("hris/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class TeamController : BaseController
     {

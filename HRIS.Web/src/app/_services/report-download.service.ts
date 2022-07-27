@@ -8,7 +8,7 @@ import { BaseService } from './_base.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ReportService extends BaseService {
+export class ReportDownloadService extends BaseService {
 
   constructor(private httpClient: HttpClient,
     private errorHandlingService: ErrorHandlingService) {
@@ -18,7 +18,7 @@ export class ReportService extends BaseService {
   get$(reportParam?: IReportParam) {
 
     return this.httpClient.post(
-      this.url + 'report',
+      this.url + 'download',
       reportParam, {
       observe: 'response',
       responseType: 'blob'

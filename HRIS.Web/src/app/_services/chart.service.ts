@@ -47,7 +47,7 @@ export class ChartService extends BaseService {
   );
 
   agencySeparationChart$(tableViewParam?: IAgencySeparationParam) {
-    return this.httpClient.post<IAgencySeparationChart[]>(this.url + "staff/agencySeparationChart", tableViewParam).pipe(
+    return this.httpClient.post<IAgencySeparationChart[]>(this.url + "agencySeparation/chart", tableViewParam).pipe(
       //tap((data) => {  console.log('$', data); }),
       catchError(err => this.errorHandlingService.handleError(err)));
   };

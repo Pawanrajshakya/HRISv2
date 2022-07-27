@@ -3,7 +3,7 @@ import { AfterViewInit, Component } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FileSaverService } from 'ngx-filesaver';
 import { IReportParam } from '../_models/IReportParam';
-import { ReportService } from '../_services/report.service';
+import { ReportDownloadService } from '../_services/report-download.service';
 
 @Component({
   selector: 'app-download',
@@ -19,12 +19,12 @@ export class DownloadComponent implements AfterViewInit {
 
   constructor(
     public modalReportRef: BsModalRef,
-    private reportService: ReportService,
+    private reportDownloadService: ReportDownloadService,
     private modalService: BsModalService,
     private fileServer: FileSaverService) { }
 
   ngAfterViewInit(): void {
-    this.reportService.get$(this.reportParam)
+    this.reportDownloadService.get$(this.reportParam)
       .subscribe({
         next: (res) => {
           let response = res as HttpResponse<Blob>;
