@@ -17,15 +17,21 @@ namespace HRIS.API.Controllers
         [HttpGet("detail/{ein}")]
         public async Task<ActionResult> GetDetailAsync(string ein)
         {
-            return Ok(await _staffRepository.GetDetail(UserSession.Instance.User.UserID
-                , ein));
+            try
+            {
+                return Ok(await _staffRepository.GetDetail(UserSession.Instance.User.UserID, ein));
+            }
+            catch (System.Exception) { throw; }
         }
 
         [HttpGet("EmergencyContactInfo/{ein}")]
         public async Task<ActionResult> GetEmergencyContactInfoAsync(string ein)
         {
-            return Ok(await _staffRepository.EmergencyContacts(UserSession.Instance.User.UserID
-                , ein));
+            try
+            {
+                return Ok(await _staffRepository.EmergencyContacts(UserSession.Instance.User.UserID, ein));
+            }
+            catch (System.Exception) { throw; }
         }
     }
 }

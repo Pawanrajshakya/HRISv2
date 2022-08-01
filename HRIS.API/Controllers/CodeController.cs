@@ -38,7 +38,11 @@ namespace HRIS.API.Controllers
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
 
-            return Ok(await _rcRepository.GetAsync(userid));
+            try
+            {
+                return Ok(await _rcRepository.GetAsync(userid));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet("dp/{userid?}/{rc?}")]
@@ -46,14 +50,22 @@ namespace HRIS.API.Controllers
         {
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
-            return Ok(await _dpRepository.GetByUserIDAsync(userid, rc));
+            try
+            {
+                return Ok(await _dpRepository.GetByUserIDAsync(userid, rc));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet]
         [Route("dp")]
         public async Task<ActionResult> GetDPAsync()
         {
-            return Ok(await _dpRepository.GetAsync());
+            try
+            {
+                return Ok(await _dpRepository.GetAsync());
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet]
@@ -63,7 +75,11 @@ namespace HRIS.API.Controllers
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
 
-            return Ok(await _locationRepository.GetAsync(userid));
+            try
+            {
+                return Ok(await _locationRepository.GetAsync(userid));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet("title/{userid?}")]
@@ -72,7 +88,11 @@ namespace HRIS.API.Controllers
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
 
-            return Ok(await _titleRepository.GetAsync(userid));
+            try
+            {
+                return Ok(await _titleRepository.GetAsync(userid));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet("bkptitle/{userid?}")]
@@ -81,7 +101,11 @@ namespace HRIS.API.Controllers
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
 
-            return Ok(await _titleRepository.GetBackupTitleAsync(userid));
+            try
+            {
+                return Ok(await _titleRepository.GetBackupTitleAsync(userid));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet("csStatus/{userid?}")]
@@ -90,7 +114,11 @@ namespace HRIS.API.Controllers
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
 
-            return Ok(await _cSStatusRepository.GetAsync(userid));
+            try
+            {
+                return Ok(await _cSStatusRepository.GetAsync(userid));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet("employeeBehavior/{userid?}")]
@@ -99,7 +127,11 @@ namespace HRIS.API.Controllers
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
 
-            return Ok(await _employeeBehaviorRepository.GetAsync(userid));
+            try
+            {
+                return Ok(await _employeeBehaviorRepository.GetAsync(userid));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet("leaveStatus/{userid?}")]
@@ -108,7 +140,11 @@ namespace HRIS.API.Controllers
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
 
-            return Ok(await _leaveStatusRepository.GetAsync(userid));
+            try
+            {
+                return Ok(await _leaveStatusRepository.GetAsync(userid));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpPost("retirementResignationFMLA/{userid?}")]
@@ -117,7 +153,11 @@ namespace HRIS.API.Controllers
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
 
-            return Ok(await _retirementResignationFMLARepository.GetAsync(userid, rc, months));
+            try
+            {
+                return Ok(await _retirementResignationFMLARepository.GetAsync(userid, rc, months));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
     }
 }

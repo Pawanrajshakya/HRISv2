@@ -19,6 +19,7 @@ import { CeasedStaffComponent } from '../reports/ceased-staff/ceased-staff.compo
 import { StaffEmergencyContactInfoComponent } from '../reports/staff-emergency-contact-info/staff-emergency-contact-info.component';
 import { VacationRosterComponent } from '../reports/vacation-roster/vacation-roster.component';
 import { SeparationComponent } from '../reports/separation/separation.component';
+import { ParComponent } from '../reports/par/par.component';
 
 const routes: Routes = [
   {
@@ -93,6 +94,15 @@ const routes: Routes = [
     resolve: {
       currentUser: CurrentUserResolver
       , rcdp: RcDpCodeResolverService
+    }
+  },
+  {
+    path: 'parReport', component: ParComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
+      , titles: TitleCodeResolverService
+      , locations: LocationCodeResolverService
     }
   },
   {

@@ -17,13 +17,21 @@ namespace HRIS.API.Controllers
         [HttpGet("{roleID}")]
         public async Task<ActionResult> GetAsync(int roleID)
         {
-            return Ok(await roleRepository.GetAsync(roleID));
+            try
+            {
+                return Ok(await roleRepository.GetAsync(roleID));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet]
         public async Task<ActionResult> GetAsync()
         {
-            return Ok(await roleRepository.GetAsync());
+            try
+            {
+                return Ok(await roleRepository.GetAsync());
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
     }
 }

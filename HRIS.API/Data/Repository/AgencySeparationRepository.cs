@@ -21,7 +21,12 @@ namespace HRIS.API
         }
 
         
-        public async Task<IEnumerable<SeparationSummaryDto>> GetGetAgencySeparationSummary(string userid, string rcs, string dps, bool isCalenderYear, int year)
+        public async Task<IEnumerable<SeparationSummaryDto>> 
+            GetGetAgencySeparationSummary(string userid,
+                                          string rcs,
+                                          string dps,
+                                          bool isCalenderYear,
+                                          int year)
         {
             List<SeparationSummaryDto> dtos = new List<SeparationSummaryDto>();
 

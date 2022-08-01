@@ -1,1 +1,485 @@
-<p>par works!</p>
+<div class="card border-secondary">
+  <div class="card-header text-white bg-secondary border-secondary shadow">
+    <i class="bi bi-funnel"></i> PAR Detail Report - Displays a detailed view of all Personnel Action Requests for all
+    of your staff. (DHS & HRA)
+    <i [ngClass]="{'bi bi-arrows-expand shadow': isCollapsed}" class="bi bi-arrows-collapse pull-right shadow"
+      (click)="isCollapsed = !isCollapsed"></i>
+  </div>
+  <div class="card-body" [collapse]="isCollapsed" [isAnimated]="true">
+    <div class="col-12">
+      <div class="form-group row"
+        *ngIf="this.loginService.currentUser.roleID == 1 || this.loginService.currentUser.roleID == 2 || this.loginService.currentUser.roleID == 3 || this.loginService.currentUser.roleID == 4">
+        <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm">RC</label>
+        <div class="col-sm-10">
+          <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedRC" id="rcs" name="selectedRC"
+            placeholder="Select RC" (change)="onRCSelect($event)">
+            <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{rc.description}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-group row">
+        <label for="dps" class="col-sm-2 col-form-label col-form-label-sm">DP</label>
+        <div class="col-sm-10">
+          <ng-select [items]="filteredDPs" bindLabel="dpName" bindValue="dpCode" groupBy="rcCode"
+            [(ngModel)]="selectedDP" [multiple]="true" [hideSelected]="true" placeholder="Select DP" id="dps"
+            name="selectedDP">
+            <ng-template ng-optgroup-tmp let-item="item">
+              {{item.rcCode || 'Unnamed group'}}
+            </ng-template>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="form-group row">
+        <label for="titles" class="col-sm-2 col-form-label col-form-label-sm">Titles</label>
+        <div class="col-sm-10">
+          <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedTitle" id="titles" name="titles"
+            placeholder="Select Title">
+            <ng-option *ngFor="let title of titles" [value]="title.code">{{title.description}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="form-group row">
+        <label for="Location" class="col-sm-2 col-form-label col-form-label-sm">Location</label>
+        <div class="col-sm-10">
+          <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedLocation" id="Location"
+            name="locations" placeholder="Select Location">
+            <ng-option *ngFor="let location of locations" [value]="location.code">{{location.description}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2 row">
+      <div class="col-sm-2">CPS Status</div>
+      <div class="col-sm-10">
+        <mat-radio-group [(ngModel)]="selectedCPSStatus">
+          <mat-radio-button class="ml-2" *ngFor="let cpsStatus of cpsStatuses" [value]="cpsStatus">
+            {{cpsStatus}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2 row">
+      <div class="col-sm-2">Date Submitted From</div>
+      <div class="col-sm-4">
+        <div class="input-group">
+          <input class="form-control" [matDatepicker]="pickerFrom" [(ngModel)]="dateFrom">
+          <mat-datepicker #pickerFrom></mat-datepicker>
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <span (click)="pickerFrom.open()"><i class="bi bi-calendar-check-fill"></i></span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2">Date Submitted To</div>
+      <div class="col-sm-4">
+        <div class="input-group">
+          <input class="form-control" [matDatepicker]="pickerTo" [(ngModel)]="dateTo">
+          <mat-datepicker #pickerTo></mat-datepicker>
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <span (click)="pickerTo.open()"><i class="bi bi-calendar-check-fill"></i></span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="col-sm-10 offset-sm-2">
+        <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()"><i class="bi bi-search"></i>
+          Search</button>
+        <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()"><i class="bi bi-stars"></i>
+          Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<div class="card border-secondary">
+  <div class="card-header text-white bg-secondary border-secondary shadow">
+    <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0; else noDataFound"> {{resultsLength}}</span>
+    <a class="btn btn-primary btn-xs float-right text-white shadow border-white" (click)="onExport()">
+      <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</a>
+  </div>
+  <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="input-group input-group-sm mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Filter By</span>
+          </div>
+          <input type="text" class="form-control" (keyup)="applyFilter($event)" [(ngModel)]="filterValue"
+            placeholder="CPS# / Attrition Name / nycaps# " #input>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="table-container table-responsive" [hidden]="resultsLength === 0">
+          <table mat-table [dataSource]="data" matSort matSortActive="reqNumber" matSortDisableClear
+            matSortDirection="asc" matSort class="table table-hover table-bordered">
+
+            <!-- 'CPS-Submission-15','Salary-Verification-4','Headcount-Budget-Verification-4', 'Recommendation-to-Review-Committee-4','ARC-Approval-3','OMB-Request-5','Recruitment-Interview-and-Selection-8','OnBoarding-Status-3' -->
+
+            <ng-container matColumnDef="CPS-Submission-15">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="15" class="text-center"> CPS Submission </th>
+            </ng-container>
+            <ng-container matColumnDef="Salary-Verification-4">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="4" class="text-center"> Salary Verification </th>
+            </ng-container>
+            <ng-container matColumnDef="Headcount-Budget-Verification-4">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="4" class="text-center"> Headcount Budget
+                Verification </th>
+            </ng-container>
+            <ng-container matColumnDef="Recommendation-to-Review-Committee-4">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="4" class="text-center"> Recommendation to Review
+                Committee </th>
+            </ng-container>
+            <ng-container matColumnDef="ARC-Approval-3">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="3" class="text-center"> ARC Approval </th>
+            </ng-container>
+            <ng-container matColumnDef="OMB-Request-5">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="5" class="text-center"> OMB Request </th>
+            </ng-container>
+            <ng-container matColumnDef="Recruitment-Interview-and-Selection-8">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="8" class="text-center"> Recruitment Interview and
+                Selection </th>
+            </ng-container>
+            <ng-container matColumnDef="OnBoarding-Status-3">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="3" class="text-center"> OnBoarding Status </th>
+            </ng-container>
+
+            <ng-container matColumnDef="reqNumber">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">CPS#</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.reqNumber}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="reqType">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Request Type</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.reqType}}</td>
+            </ng-container>
+            <ng-container matColumnDef="rC_po_approve_date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Date Submitted</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.rC_po_approve_date}}</td>
+            </ng-container>
+            <ng-container matColumnDef="currentStatus">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Current Status</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.currentStatus}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="history">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">History</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap text-center">
+                <span *ngIf="row.nos === 1">No History</span>
+                <span class="history-link" *ngIf="row.nos > 1" (click)="onShowDetail(historyTemplate, row)"><i
+                    class="bi bi-three-dots"></i> History
+                  ({{row.nos}})</span>
+                {{row.history}}</td>
+            </ng-container>
+            <ng-container matColumnDef="trans_Desc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Transaction Type</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.trans_Desc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="txtDisReplace">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Attrition Name</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.txtDisReplace | uppercase}}</td>
+            </ng-container>
+            <ng-container matColumnDef="attritionEin">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Attrition EIN</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.attritionEin | uppercase}}</td>
+            </ng-container>
+            <ng-container matColumnDef="txtAttdate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Attrition Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.txtAttdate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="attr_Replace_Reason_desc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Attrition Reason</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.attr_Replace_Reason_desc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Requested Title</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.title}}</td>
+            </ng-container>
+            <ng-container matColumnDef="txtFunCTitle">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Functional Title</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.txtFunCTitle}}</td>
+            </ng-container>
+            <ng-container matColumnDef="rC_code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Requested RC Code</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.rC_code}}</td>
+            </ng-container>
+            <ng-container matColumnDef="txtDPCode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Requested DP Code</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.txtDPCode}}</td>
+            </ng-container>
+            <ng-container matColumnDef="txtLoc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Requested Location</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.txtLoc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="sA_analyst_approve_desc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Action</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.sA_analyst_approve_desc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="sA_analyst_remark">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Remark</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.sA_analyst_remark}}</td>
+            </ng-container>
+            <ng-container matColumnDef="sA_analyst_appr_by">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Analyst</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.sA_analyst_appr_by}}</td>
+            </ng-container>
+            <ng-container matColumnDef="sA_analyst_approve_date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.sA_analyst_approve_date}}</td>
+            </ng-container>
+            <ng-container matColumnDef="obA_analyst_approve_desc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Action</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.obA_analyst_approve_desc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="obA_analyst_remark">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Remark</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.obA_analyst_remark}}</td>
+            </ng-container>
+            <ng-container matColumnDef="obA_analyst_appr_by">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Analyst</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.obA_analyst_appr_by}}</td>
+            </ng-container>
+            <ng-container matColumnDef="obA_analyst_approve_date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.obA_analyst_approve_date}}</td>
+            </ng-container>
+            <ng-container matColumnDef="perC_approve_desc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Action</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.perC_approve_desc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="perC_Remark">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Remark</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.perC_Remark}}</td>
+            </ng-container>
+            <ng-container matColumnDef="perC_appr_by">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Analyst</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.perC_appr_by}}</td>
+            </ng-container>
+            <ng-container matColumnDef="perC_approve_date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.perC_approve_date}}</td>
+            </ng-container>
+            <ng-container matColumnDef="commisS_Remark">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Remark</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.commisS_Remark}}</td>
+            </ng-container>
+            <ng-container matColumnDef="commisS_approve_desc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Status</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.commisS_approve_desc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="commisS_approve_date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.commisS_approve_date}}</td>
+            </ng-container>
+            <ng-container matColumnDef="omB_Disposition_desc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">OMB Disposition</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.omB_Disposition_desc}}</td>
+            </ng-container>
+            <ng-container matColumnDef="ombSubmittedDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">OMB Submission Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.ombSubmittedDate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="omBapproval">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">OMB Disposition Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.omBapproval}}</td>
+            </ng-container>
+            <ng-container matColumnDef="daysatOMB">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Days at OMB</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.daysatOMB}}</td>
+            </ng-container>
+            <ng-container matColumnDef="omB_ShelfDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Shelf-Life Expiration Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap" [ngClass]="{'bg-warning': row.shelfOMBDays < 61}">
+                {{row.omB_ShelfDate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="nycaps">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">nycaps/Flyer #</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.nycaps}}</td>
+            </ng-container>
+            <ng-container matColumnDef="recruitmentStatus">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Recruitment Status</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.recruitmentStatus}}</td>
+            </ng-container>
+            <ng-container matColumnDef="dateFlyerPosted">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Date Flyer Posted</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.dateFlyerPosted}}</td>
+            </ng-container>
+            <ng-container matColumnDef="poolDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Civil Service Pool Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.poolDate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="candidateFirstName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Candidate Name</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.candidateFirstName}} {{row.candidateMIName}}
+                {{row.candidateLastName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="preferredFirstName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Preferred Candidate Name</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.preferredFirstName}}
+                {{row.preferredLastName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="cpD_released_to_Candidate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">CPD Submitted to Processing</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.cpD_released_to_Candidate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="cpD_Submitted_to_Processing">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">CPD Submitted to Processing</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.cpD_Submitted_to_Processing}}</td>
+            </ng-container>
+            <ng-container matColumnDef="screeningDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Processing Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.screeningDate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Disposition</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.action}}</td>
+            </ng-container>
+            <ng-container matColumnDef="effDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Start Date</th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.effDate}}</td>
+            </ng-container>
+
+            <tr mat-header-row
+              *matHeaderRowDef="['CPS-Submission-15','Salary-Verification-4','Headcount-Budget-Verification-4', 'Recommendation-to-Review-Committee-4','ARC-Approval-3','OMB-Request-5','Recruitment-Interview-and-Selection-8','OnBoarding-Status-3']">
+            </tr>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;" class="thead-light;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="clickedRows.add(row)"
+              [class.demo-row-is-clicked]="clickedRows.has(row)" (click)="clearClickedRow(row)"></tr>
+
+          </table>
+        </div>
+        <mat-paginator showFirstLastButtons [length]="resultsLength" [pageSize]="reportParam.pagination.pageSize"
+          [pageSizeOptions]="pageSizeOptions" [hidden]="resultsLength === 0"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noDataFound>
+  &nbsp; <span class="badge badge-warning"> No Result</span>
+</ng-template>
+
+<ng-template #historyTemplate>
+  <div class="card border-secondary">
+    <div class="card-header text-warning bg-secondary border-secondary">
+      <i class="bi bi-clock-history"></i> History <i class="bi bi-x-circle float-right" (click)="onCancelClick()"></i>
+    </div>
+    <div class="card mt-2 mr-2 ml-2 mb-2">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-sm table-striped">
+            <thead>
+              <tr>
+                <th>Seq.No</th>
+                <th>CPS#</th>
+                <th class="text-nowrap">Request Type</th>
+                <th class="text-nowrap">Date Submitted</th>
+                <th class="text-nowrap">Transaction Type</th>
+                <th class="text-nowrap">Attrition Name</th>
+                <th class="text-nowrap">Attrition EIN</th>
+                <th class="text-nowrap">Attrition Date</th>
+                <th class="text-nowrap">Attrition Reason</th>
+                <th class="text-nowrap">Requested Title</th>
+                <th class="text-nowrap">Functional Title</th>
+                <th class="text-nowrap">Requested RC Code</th>
+                <th class="text-nowrap">Requested DP Code</th>
+                <th class="text-nowrap">Requested Location</th>
+                <th>Action</th>
+                <th>Remark</th>
+                <th>Analyst</th>
+                <th>Date</th>
+                <th>Action</th>
+                <th>Remark</th>
+                <th>Analyst</th>
+                <th>Date</th>
+                <th>Action</th>
+                <th>Remark</th>
+                <th>Analyst</th>
+                <th>Date</th>
+                <th>Remark</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th class="text-nowrap">OMB Disposition</th>
+                <th class="text-nowrap">OMB Disposition Date</th>
+                <th class="text-nowrap">Shelf-Life Expiration Date</th>
+                <th class="text-nowrap">Recruitment Status</th>
+                <th>Flyer #</th>
+                <th class="text-nowrap">Date Flyer Posted</th>
+                <th class="text-nowrap">Civil Service Pool Date</th>
+                <th>Candidate Name</th>
+                <th class="text-nowrap">CPD Released to Candidate</th>
+                <th class="text-nowrap">CPD Submitted to Processing</th>
+                <th class="text-nowrap">Processing Date</th>
+                <th>Disposition</th>
+                <th class="text-nowrap">Start Date</th>
+              </tr>
+            </thead>
+            <tr *ngFor="let t of parDetails">
+              <td class="text-nowrap">{{t.newRow}}</td>
+              <td class="text-nowrap">{{t.reqNumber}}</td>
+              <td class="text-nowrap">{{t.reqType}}</td>
+              <td class="text-nowrap">{{t.rC_po_approve_date}}</td>
+              <td class="text-nowrap">{{t.trans_Desc}}</td>
+              <td class="text-nowrap">{{t.txtDisReplace | uppercase}}</td>
+              <td class="text-nowrap">{{t.attritionEIN | uppercase}}</td>
+              <td class="text-nowrap">{{t.txtAttdate}}</td>
+              <td class="text-nowrap">{{t.attr_Replace_Reason_desc}}</td>
+              <td class="text-nowrap">{{t.title}}</td>
+              <td class="text-nowrap">{{t.txtFunCTitle}}</td>
+              <td class="text-nowrap">{{t.rC_Code}}</td>
+              <td class="text-nowrap">{{t.txtDPCode}}</td>
+              <td class="text-nowrap">{{t.txtLoc}}</td>
+              <td class="text-nowrap">{{t.sA_analyst_approve_desc}}</td>
+              <td class="text-nowrap">{{t.sA_analyst_remark}}</td>
+              <td class="text-nowrap">{{t.sA_analyst_appr_by}}</td>
+              <td class="text-nowrap">{{t.sA_analyst_approve_date}}</td>
+              <td class="text-nowrap">{{t.obA_analyst_approve_desc}}</td>
+              <td class="text-nowrap">{{t.obA_analyst_remark}}</td>
+              <td class="text-nowrap">{{t.obA_analyst_appr_by}}</td>
+              <td class="text-nowrap">{{t.obA_analyst_approve_date}}</td>
+              <td class="text-nowrap">{{t.perC_approve_desc}}</td>
+              <td class="text-nowrap">{{t.perC_Remark}}</td>
+              <td class="text-nowrap">{{t.perC_appr_by}}</td>
+              <td class="text-nowrap">{{t.perC_approve_date}}</td>
+              <td class="text-nowrap">{{t.commisS_Remark}}</td>
+              <td class="text-nowrap">{{t.commisS_approve_desc}}</td>
+              <td class="text-nowrap">{{t.commisS_approve_date}}</td>
+              <td class="text-nowrap">{{t.omB_Disposition_desc}}</td>
+              <td class="text-nowrap">{{t.omBapproval }}</td>
+              <td class="text-nowrap">{{t.omB_ShelfDate}}</td>
+              <td class="text-nowrap">{{t.recruitmentStatus}}</td>
+              <td class="text-nowrap">{{t.nycaps}}</td>
+              <td class="text-nowrap">{{t.dateFlyerPosted}}</td>
+              <td class="text-nowrap">{{t.poolDate}}</td>
+              <td class="text-nowrap">{{t.candidateFirstName}} {{t.candidateMIName}} {{t.candidateLastName}}</td>
+              <td class="text-nowrap">{{t.cpD_released_to_Candidate}}</td>
+              <td class="text-nowrap">{{t.cpD_Submitted_to_Processing}}</td>
+              <td class="text-nowrap">{{t.screeningDate}}</td>
+              <td class="text-nowrap">{{t.action}}</td>
+              <td class="text-nowrap">{{t.effDate}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer border-top border-secondary">
+    <button class="btn btn-secondary btn-sm col-1 float-right mr-2 " (click)="onCancelClick()">OK</button>
+  </div>
+</ng-template>

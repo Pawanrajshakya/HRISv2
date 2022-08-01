@@ -53,5 +53,7 @@ namespace HRIS.API
         public DbSet<StaffEmergencyContactInfoReport> StaffEmergencyContactInfoReports { get; set; }
         public DbSet<VacationRosterReport> VacationRosterReports { get; set; }
         public DbSet<SeparationSummary> SeparationSummaries { get; set; }
+        public DbSet<PARReport> PARReports { get; set; }
+        public DbSet<PARDetail> PARDetails { get; set; }
     }
 }

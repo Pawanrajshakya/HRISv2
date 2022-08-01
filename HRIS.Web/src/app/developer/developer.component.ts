@@ -75,11 +75,9 @@ export class DeveloperComponent implements AfterViewInit {
         map(data => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
-          this.isRateLimitReached = data === null;
+          this.isRateLimitReached = true;
 
-          if (data === null || !(Array.isArray(data))) {
-            return [];
-          }
+          if (!data) return [];
 
           // Only refresh the result length if there is new data. In case of rate
           // limit errors, we do not want to reset the paginator to zero, as that

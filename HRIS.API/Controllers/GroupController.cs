@@ -19,13 +19,27 @@ namespace HRIS.API.Controllers
         [HttpGet("{groupID}")]
         public ActionResult<GroupDto> Get(int groupID)
         {
-            return _groupRepository.Get(groupID);
+            try
+            {
+                return _groupRepository.Get(groupID);
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<GroupDto>> Get()
         {
-            return Ok(_groupRepository.Get());
+            try
+            {
+                return Ok(_groupRepository.Get());
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

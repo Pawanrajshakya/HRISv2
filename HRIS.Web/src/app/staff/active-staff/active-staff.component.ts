@@ -1,21 +1,20 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { catchError, map, merge, startWith, switchMap, tap, of as observableOf, Observable } from 'rxjs';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
 import { BaseComponent } from '../../base/base.component';
-import { IActiveStaff } from '../../_models/IActiveStaff';
+import { IActiveStaffReport } from '../../_models/IActiveStaffReport';
 import { IRC, IDP } from '../../_models/IRC_DP';
 import { Reports } from '../../_models/Reports.enum';
 import { StaffService } from '../../_services/staff.service';
 import { CodeService } from '../../_services/code.service';
 import { LoginService } from '../../_services/login.service';
-import { DownloadComponent } from '../../download/download.component';
 
 @Component({
   selector: 'app-active-staff',
   templateUrl: './active-staff.component.html',
   styleUrls: ['./active-staff.component.scss']
 })
-export class ActiveStaffComponent extends BaseComponent<IActiveStaff> implements AfterViewInit, OnInit {
+export class ActiveStaffComponent extends BaseComponent<IActiveStaffReport> implements AfterViewInit, OnInit {
 
   isCollapsed = false;
 
@@ -106,20 +105,8 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaff> implements
             );
         }),
         map(data => {
-          // Flip flag to show that loading has finished.
-
-          this.isRateLimitReached = data === null;
-
-          if (data === null || !(Array.isArray(data))) {
-            return [];
-          }
-
-          // Only refresh the result length if there is new data. In case of rate
-          // limit errors, we do not want to reset the paginator to zero, as that
-          // would prevent users from re-triggering requests.
-          let _data: IActiveStaff = data[0];
-          this.resultsLength = (_data) ? _data.total ?? 0 : 0;
-          return data;
+          this.resultsLength = this.getResultLength(data);
+          return this.resultsLength > 0 ? data : [];
         }),
       )
       .subscribe(data => {
@@ -166,16 +153,25 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaff> implements
     this.filterSubject.next(this.filterValue);
   }
 
+  onClear() {
+    this.selectedRC = [];
+    this.selectedDP = [];
+    this.selectedLocation = [];
+    this.selectedTitle = [];
+    this.selectedCsStatus = [];
+    this.selectedBkpTitle = [];
+    this.reportParam.rcDp.rcs = "";
+    this.reportParam.rcDp.dps = "";
+    this.reportParam.code.backupTitles = "";
+    this.reportParam.code.cSStatuses = "";
+    this.reportParam.code.locations = "";
+    this.reportParam.code.titles = "";
+    this.filterValue = "";
+    this.filterSubject.next("");
+  }
+  
   onExport() {
-    this.reportParam.reportName = Reports[0];
-
-    const initialState: ModalOptions = {
-      initialState: {
-        reportParam: this.reportParam
-      }
-    };
-
-    this.modalRef = this.modalService.show(DownloadComponent, initialState);
+    this.download(this.modalService, Reports[0]);
   }
 
 }

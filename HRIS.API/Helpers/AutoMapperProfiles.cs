@@ -66,6 +66,8 @@ namespace HRIS.API
             CreateMap<StaffEmergencyContactInfoReport, StaffEmergencyContactInfoReportDto>();
             CreateMap<VacationRosterReport, VacationRosterReportDto>();
             CreateMap<SeparationSummary, SeparationSummaryDto>();
+            CreateMap<PARReport, PARReportDto>();
+            CreateMap<PARDetail, PARDetailDto>();
         }
     }
 }

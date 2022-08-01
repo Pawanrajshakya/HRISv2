@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { catchError, map, merge, startWith, switchMap, tap, of as observableOf, Observable } from 'rxjs';
+import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
 import { BaseComponent } from '../../base/base.component';
-import { IActiveStaff } from '../../_models/IActiveStaff';
 import { IRC, IDP } from '../../_models/IRC_DP';
 import { Reports } from '../../_models/Reports.enum';
 import { StaffService } from '../../_services/staff.service';
@@ -98,28 +97,16 @@ export class CeasedStaffComponent extends BaseComponent<IStaffLeaveReport> imple
             );
         }),
         map(data => {
-          // Flip flag to show that loading has finished.
-
-          this.isRateLimitReached = data === null;
-
-          if (data === null || !(Array.isArray(data))) {
-            return [];
-          }
-
-          // Only refresh the result length if there is new data. In case of rate
-          // limit errors, we do not want to reset the paginator to zero, as that
-          // would prevent users from re-triggering requests.
-          let _data: IActiveStaff = data[0];
-          this.resultsLength = (_data) ? _data.total ?? 0 : 0;
-          return data;
+          this.resultsLength = this.getResultLength(data);
+          return this.resultsLength > 0 ? data : [];
         }),
       )
       .subscribe({
-        next: data => {
-          if (Array.isArray(data))
-            this.data = data;
-          console.log('data', this.data);
-
+next: data => {
+          if (Array.isArray(data)) this.data = data;
+          this.isLoadingResults = false;
+        }
+        , error: (error) => {
           this.isLoadingResults = false;
         }
       });
@@ -160,16 +147,21 @@ export class CeasedStaffComponent extends BaseComponent<IStaffLeaveReport> imple
     this.filterSubject.next(this.filterValue);
   }
 
-  onExport() {
-    this.reportParam.reportName = Reports[4];
-
-    const initialState: ModalOptions = {
-      initialState: {
-        reportParam: this.reportParam
-      }
-    };
-
-    this.modalRef = this.modalService.show(DownloadComponent, initialState);
+  onClear() {
+    this.selectedRC = [];
+    this.selectedDP = [];
+    this.selectedLvStatuses = [];
+    this.selectedTitle = [];
+    this.reportParam.rcDp.rcs = "";
+    this.reportParam.rcDp.dps = "";
+    this.reportParam.code.titles = "";
+    this.reportParam.code.lvStatuses = "";
+    this.filterValue = "";  
+    this.filterSubject.next("");
   }
+
+  onExport(){
+    this.download(this.modalService, Reports[4])
+  }  
 
 }

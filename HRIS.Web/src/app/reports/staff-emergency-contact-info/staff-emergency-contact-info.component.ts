@@ -1,14 +1,12 @@
 import { AfterViewInit, Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
 import { BaseComponent } from '../../base/base.component';
-import { IActiveStaff } from '../../_models/IActiveStaff';
 import { IRC, IDP } from '../../_models/IRC_DP';
 import { Reports } from '../../_models/Reports.enum';
 import { StaffService } from '../../_services/staff.service';
 import { CodeService } from '../../_services/code.service';
 import { LoginService } from '../../_services/login.service';
-import { DownloadComponent } from '../../download/download.component';
 import { IStaffEmergencyContactInfoReport } from 'src/app/_models/IStaffEmergencyContactInfoReport';
 import { IStaffEmergencyContactInfo } from 'src/app/_models/IStaffDetail';
 
@@ -101,24 +99,16 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
             );
         }),
         map(data => {
-          // Flip flag to show that loading has finished.
-          this.isRateLimitReached = data === null;
-          if (data === null || !(Array.isArray(data))) {
-            return [];
-          }
-
-          // Only refresh the result length if there is new data. In case of rate
-          // limit errors, we do not want to reset the paginator to zero, as that
-          // would prevent users from re-triggering requests.
-          let _data: IActiveStaff = data[0];
-          this.resultsLength = (_data) ? _data.total ?? 0 : 0;
-          return data;
+          this.resultsLength = this.getResultLength(data);
+          return this.resultsLength > 0 ? data : [];
         }),
       )
       .subscribe({
         next: data => {
-          if (Array.isArray(data))
-            this.data = data;
+          if (Array.isArray(data)) this.data = data;
+          this.isLoadingResults = false;
+        }
+        , error: (error) => {
           this.isLoadingResults = false;
         }
       });
@@ -158,16 +148,19 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
     this.filterSubject.next(this.filterValue);
   }
 
+  onClear() {
+    this.selectedRC = [];
+    this.selectedDP = [];
+    this.selectedLocation = [];
+    this.reportParam.rcDp.rcs = "";
+    this.reportParam.rcDp.dps = "";
+    this.reportParam.code.locations = "";
+    this.filterValue = "";
+    this.filterSubject.next("");
+  }
+
   onExport() {
-    this.reportParam.reportName = Reports[5];
-
-    const initialState: ModalOptions = {
-      initialState: {
-        reportParam: this.reportParam
-      }
-    };
-
-    this.modalRef = this.modalService.show(DownloadComponent, initialState);
+    this.download(this.modalService, Reports[5]);
   }
 
   onCancelClick(): void {

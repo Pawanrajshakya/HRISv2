@@ -20,7 +20,12 @@ namespace HRIS.API.Controllers
         [HttpPost("GetChartAsync")]
         public async Task<ActionResult<List<AgencyHeadcountChartDto>>> GetChartAsync()
         {
-            return await _headcountRepository.GetChartAsync(UserSession.Instance.User.UserID, "", "");
+
+            try
+            {
+                return await _headcountRepository.GetChartAsync(UserSession.Instance.User.UserID, "", "");
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
     }
 }

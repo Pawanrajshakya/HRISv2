@@ -21,12 +21,16 @@ namespace HRIS.API.Controllers
         [HttpGet("PendingCasesChartAsync")]
         public async Task<ActionResult> PendingCasesChartAsync()
         {
-            string rc = Utility.ConvertToString(
-                _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
-                .Select(x => x.Code).ToList()
-                );
+            try
+            {
+                string rc = Utility.ConvertToString(
+                        _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
+                        .Select(x => x.Code).ToList()
+                        );
 
-            return Ok(await _teamRepository.GetPendingCasesChartAsync(rc));
+                return Ok(await _teamRepository.GetPendingCasesChartAsync(rc));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet("TopInfractionsChartAsync")]
@@ -43,7 +47,7 @@ namespace HRIS.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
 

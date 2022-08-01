@@ -17,9 +17,12 @@ namespace HRIS.API.Controllers
         }
 
         [HttpPost("summary")]
-        public async Task<ActionResult> GetAgencySeparationAsync(AgencySeparationParameters parameters)
+        public async Task<ActionResult> 
+            GetAgencySeparationAsync(AgencySeparationParameters parameters)
         {
-            IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
+            try
+            {
+                IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
                 , parameters.RcDp.RCs ?? ""
                 , parameters.RcDp.DPs ?? ""
                 , parameters.IsCalenderYear
@@ -28,11 +31,18 @@ namespace HRIS.API.Controllers
             return Ok(list
                 .OrderBy(c => c.ReasonDesc)
                 .ToList());
+            
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPost("chart")]
         public async Task<ActionResult> GetAgencySeparationChartAsync(AgencySeparationParameters parameters)
         {
+            try { 
             IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
                 , parameters.RcDp.RCs ?? ""
                 , parameters.RcDp.DPs ?? ""
@@ -49,5 +59,10 @@ namespace HRIS.API.Controllers
             .OrderBy(c => c.Description)
             .ToList());
         }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+    }
+}
     }
 }

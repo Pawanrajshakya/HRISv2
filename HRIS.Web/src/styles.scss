@@ -167,16 +167,21 @@ $body-bg: #f3f3f0;*/
   font-size: 14px !important;
 }
 
-.snackbar {
-  background-color: #4cb5ca;
+.snackbarInfo {
+  background: #128FC8;
   color: white;
 }
 
-.snackbar button {
-  background-color: #4cb5ca;
-  color: #00468B;
-  border: white;
+.snackbarWarning {
+  background: orange !important;
+  color: black;
 }
+
+.snackbarError {
+  background: #dd0000 !important;
+  color: black;
+}
+
 
 .mat-menu-panel {
   max-width: 380px !important;

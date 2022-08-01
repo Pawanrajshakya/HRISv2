@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs';
-import { IActiveStaff } from '../_models/IActiveStaff';
+import { IActiveStaffReport } from '../_models/IActiveStaffReport';
 import { IAgencySeparationParam, IReportParam } from '../_models/IReportParam';
 import { IStaffDetail, IStaffEDUDetail, IStaffEmergencyContactInfo, IStaffOvertimeSummary } from '../_models/IStaffDetail';
 import { IStaffEmergencyContactInfoReport } from '../_models/IStaffEmergencyContactInfoReport';
@@ -23,7 +23,7 @@ export class StaffService extends BaseService {
 
   activeStaffReport$(tableViewParam?: IReportParam) {
     console.log('tableViewParam', tableViewParam);
-    return this.httpClient.post<IActiveStaff[]>(this.url + 'hrisReport/activeStaffReport', tableViewParam)
+    return this.httpClient.post<IActiveStaffReport[]>(this.url + 'hrisReport/activeStaffReport', tableViewParam)
       .pipe(
         //tap((data) => { console.log(data); }),
         catchError(err => this.errorHandlingService.handleError(err))
@@ -49,7 +49,7 @@ export class StaffService extends BaseService {
   }
 
   emergencyContactInfoReport$(tableViewParam?: IReportParam) {
-    return this.httpClient.post<IStaffEmergencyContactInfoReport>(this.url + 'hrisReport/emergencyContactInfoReport', tableViewParam)
+    return this.httpClient.post<IStaffEmergencyContactInfoReport[]>(this.url + 'hrisReport/emergencyContactInfoReport', tableViewParam)
       .pipe(
         //tap((data) => {  console.log('$', data); }),
         catchError(err => this.errorHandlingService.handleError(err))
@@ -57,7 +57,7 @@ export class StaffService extends BaseService {
   }
 
   vacationRosterReport$(tableViewParam?: IReportParam) {
-    return this.httpClient.post<IVacationRosterReport>(this.url + 'hrisReport/vactionRoasterReport', tableViewParam)
+    return this.httpClient.post<IVacationRosterReport[]>(this.url + 'hrisReport/vactionRoasterReport', tableViewParam)
       .pipe(
         //tap((data) => {  console.log('$', data); }),
         catchError(err => this.errorHandlingService.handleError(err))
@@ -65,7 +65,7 @@ export class StaffService extends BaseService {
   }
 
   agencySeparation$(tableViewParam?: IAgencySeparationParam) {
-    return this.httpClient.post<IAgencySeparationSummary>(this.url + 'agencySeparation/summary', tableViewParam)
+    return this.httpClient.post<IAgencySeparationSummary[]>(this.url + 'agencySeparation/summary', tableViewParam)
       .pipe(
         //tap((data) => {  console.log('$', data); }),
         catchError(err => this.errorHandlingService.handleError(err))

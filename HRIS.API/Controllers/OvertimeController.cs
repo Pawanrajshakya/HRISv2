@@ -19,11 +19,15 @@ namespace HRIS.API.Controllers
         [HttpGet("StaffOvertimeSummary/{ein}/{calenderType}")]
         public async Task<ActionResult> GetStaffOvertimeSummary(string ein, string calenderType)
         {
-            if (UserSession.Instance.User.Groups.Contains(3))
+            try
             {
-                return Ok(await _overtimeRepository.GetStaffOTSummary(UserSession.Instance.User.UserID, ein, calenderType));
+                if (UserSession.Instance.User.Groups.Contains(3))
+                {
+                    return Ok(await _overtimeRepository.GetStaffOTSummary(UserSession.Instance.User.UserID, ein, calenderType));
+                }
+                return Ok();
             }
-            return Ok();
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
     }
 }

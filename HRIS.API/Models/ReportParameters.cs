@@ -1,4 +1,6 @@
-﻿namespace HRIS.API
+﻿using System;
+
+namespace HRIS.API
 {
     public class File
     {
@@ -83,6 +85,9 @@
         public RcDp RcDp { get; set; }
         public Code Code { get; set; }
         public string Ein { get; set; }
+        public string DateFrom { get; set; }
+        public string DateTo { get; set; }
+        public string OpenClose { get; set; }
     }
 
     public class AgencySeparationParameters : ReportParameters
@@ -90,4 +95,5 @@
         public bool IsCalenderYear { get; set; } = true;
         public int Year { get; set; }
     }
+
 }

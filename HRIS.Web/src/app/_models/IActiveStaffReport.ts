@@ -1,5 +1,5 @@
 
-export interface IActiveStaff {
+export interface IActiveStaffReport {
     total?: number;
     rowNum?: number;
     ein?: string;

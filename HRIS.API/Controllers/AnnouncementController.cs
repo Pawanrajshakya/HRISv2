@@ -27,23 +27,35 @@ namespace HRIS.API.Controllers
         [HttpPost("list")]
         public ActionResult Get(Pagination parameters)
         {
-            return Ok(announcementRepository.GetList(UserSession.Instance.User.UserID, parameters));
+            try
+            {
+                return Ok(announcementRepository.GetList(UserSession.Instance.User.UserID, parameters));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet]
         public async Task<ActionResult> GetAsync()
         {
-            return Ok(await announcementRepository.GetAsync(UserSession.Instance.User.UserID));
+            try
+            {
+                return Ok(await announcementRepository.GetAsync(UserSession.Instance.User.UserID));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet("{id:int}")]
         public ActionResult Get(int id)
         {
-            return Ok(announcementRepository.Get(UserSession.Instance.User.UserID, id));
+            try
+            {
+                return Ok(announcementRepository.Get(UserSession.Instance.User.UserID, id));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody]AnnouncementDto dto)
+        public ActionResult Post([FromBody] AnnouncementDto dto)
         {
             if (dto.CreatedBy == null || dto.CreatedBy == "")
                 dto.CreatedBy = UserSession.Instance.User.UserID;
@@ -53,12 +65,15 @@ namespace HRIS.API.Controllers
 
             if (string.IsNullOrEmpty(dto.ImageURL))
                 dto.ImageURL = ShareManager.UploadFolderPath + "Default.jpg";
-
-            return Ok(announcementRepository.Add(dto));
+            try
+            {
+                return Ok(announcementRepository.Add(dto));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpPut]
-        public ActionResult Update([FromBody]AnnouncementDto dto)
+        public ActionResult Update([FromBody] AnnouncementDto dto)
         {
             if (dto.UpdatedBy == null || dto.UpdatedBy == "")
                 dto.UpdatedBy = UserSession.Instance.User.UserID;
@@ -75,13 +90,21 @@ namespace HRIS.API.Controllers
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
-            return Ok(announcementRepository.Delete(UserSession.Instance.User.UserID, id));
+            try
+            {
+                return Ok(announcementRepository.Delete(UserSession.Instance.User.UserID, id));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpPost("{id:int}/{priority:int}")]
         public ActionResult UpdatePriority(int id, int priority)
         {
-            return Ok(announcementRepository.UpdatePriority(UserSession.Instance.User.UserID, id, priority));
+            try
+            {
+                return Ok(announcementRepository.UpdatePriority(UserSession.Instance.User.UserID, id, priority));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpPost("upload/{id:int}")]
@@ -100,7 +123,11 @@ namespace HRIS.API.Controllers
                     {
                         await file.CopyToAsync(stream);
                     }
-                    return Ok(filePath);
+                    try
+                    {
+                        return Ok(filePath);
+                    }
+                    catch (System.Exception ex) { return NotFound(ex.Message); }
                 }
             }
             return BadRequest("Invalid file.");

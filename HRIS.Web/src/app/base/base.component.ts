@@ -11,9 +11,11 @@ import { ICSStatus } from '../_models/ICSStatus';
 import { ILocation } from '../_models/ILocation';
 import { ITitle } from '../_models/ITitle';
 import { IBackupTitle } from '../_models/IBackupTitle';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ILeaveStatus } from '../_models/ILeaveStatus';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
+import { Reports } from '../_models/Reports.enum';
+import { DownloadComponent } from '../download/download.component';
 
 @Component({
   selector: 'app-base',
@@ -26,6 +28,8 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
   ]
 })
 export class BaseComponent<T> {
+
+  header: string = "";
 
   /*SnackBar - config*/
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
@@ -67,7 +71,7 @@ export class BaseComponent<T> {
   titles: ITitle[] = [];
   selectedTitle: string[] = [];
 
-  lvStatuses:ILeaveStatus[] = [];
+  lvStatuses: ILeaveStatus[] = [];
   selectedLvStatuses: string[] = [];
 
   bkpTitles: IBackupTitle[] = [];
@@ -98,18 +102,18 @@ export class BaseComponent<T> {
     }
   };
 
-    /** Model */
-    modalRef?: BsModalRef;
+  /** Model */
+  modalRef?: BsModalRef;
 
-    modalConfig = {
-      backdrop: true,
-      ignoreBackdropClick: true,
-      class: 'modal-lg'
-    };
-    
+  modalConfig = {
+    backdrop: true,
+    ignoreBackdropClick: true,
+    class: 'modal-lg'
+  };
 
-    // chart
-    backgroundColor: string[] = ['rgba(247,203,137)', 'rgba(78,162,210)', 'rgba(52,191,120)', 'rgba(110,78,122)', 'rgba(252,114,114)', 'rgba(252,129,82)', 'rgba(197,170,59)', 'rgba(199,110,50)', 'rgba(126,135,135)', 'rgba(162,71,71)'];
+
+  // chart
+  backgroundColor: string[] = ['rgba(247,203,137)', 'rgba(78,162,210)', 'rgba(52,191,120)', 'rgba(110,78,122)', 'rgba(252,114,114)', 'rgba(252,129,82)', 'rgba(197,170,59)', 'rgba(199,110,50)', 'rgba(126,135,135)', 'rgba(162,71,71)'];
 
   hoverBackgroundColor: string[] = ['#f1ab41', '#037bc0', '#02af57', '#4A235A', '#FC4F4F', '#FC6228', '#B7950B', '#BA4A00', '#5F6A6A', '#8B1A1A'];
 
@@ -138,16 +142,26 @@ export class BaseComponent<T> {
     this.clickedRows.add(row);
   }
 
-  onClear() {
-    this.selectedRC = [];
-    this.selectedDP = [];
-    this.selectedLocation = [];
-    this.selectedTitle = [];
-    this.selectedCsStatus = [];
-    this.selectedBkpTitle = [];
-    this.selectedLvStatuses = [];
-    this.filterValue = "";
-    this.filterSubject.next("");
+  getResultLength(data: any[] | null) {
+    // Flip flag to show that loading has finished.
+    this.isRateLimitReached = true;
+    this.resultsLength = 0;
+    if (!data || data.length === 0) return 0;
+    // Only refresh the result length if there is new data. In case of rate
+    // limit errors, we do not want to reset the paginator to zero, as that
+    // would prevent users from re-triggering requests.
+    return data[0].total ?? 0;
   }
 
+  download(modalService: BsModalService, reportName: string) {
+    this.reportParam.reportName = reportName;
+
+    const initialState: ModalOptions = {
+      initialState: {
+        reportParam: this.reportParam
+      }
+    };
+
+    this.modalRef = modalService.show(DownloadComponent, initialState);
+  }
 }

@@ -17,12 +17,29 @@ namespace HRIS.API.Controllers
             try
             {
                 //System.Threading.Thread.Sleep(5000);
-                return File(ReportManager.Get(parameters), parameters.File.ContentType);
+                ReportManager.ReportParameters = parameters;
+                return File(ReportManager.Get(), parameters.File.ContentType);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        //[HttpPost("PARReport")]
+        //public ActionResult Post(PARParameters parameters)
+        //{
+        //    try
+        //    {
+        //        //System.Threading.Thread.Sleep(5000);
+        //        ReportManager.ReportName = parameters.ReportName;
+        //        ReportManager.ReportParameters = parameters;
+        //        return File(ReportManager.Get(), parameters.File.ContentType);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }

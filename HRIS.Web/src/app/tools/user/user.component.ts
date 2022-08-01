@@ -92,11 +92,9 @@ export class UserComponent extends BaseComponent<IUserList> implements AfterView
         map(data => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
-          this.isRateLimitReached = data === null;
+          this.isRateLimitReached = true;
 
-          if (data === null || !(Array.isArray(data))) {
-            return [];
-          }
+          if (!data) return [];
 
           // Only refresh the result length if there is new data. In case of rate
           // limit errors, we do not want to reset the paginator to zero, as that
@@ -107,9 +105,11 @@ export class UserComponent extends BaseComponent<IUserList> implements AfterView
         }),
       )
       .subscribe({
-        next: data => {
-          if (Array.isArray(data))
-            this.data = data;
+next: data => {
+          if (Array.isArray(data)) this.data = data;
+          this.isLoadingResults = false;
+        }
+        , error: (error) => {
           this.isLoadingResults = false;
         }
       });

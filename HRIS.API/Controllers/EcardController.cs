@@ -32,8 +32,14 @@ namespace HRIS.API.Controllers
             {
                 dp = string.Join(",", _dpRepository.GetByUserIDAsync(UserSession.Instance.User.UserID).Result.ToList().Select(x => x.DPCode));
             }
-
-            return Ok(await _ecardRepository.GetChartAsync(UserSession.Instance.User.RoleID, dp));
+            try
+            {
+                return Ok(await _ecardRepository.GetChartAsync(UserSession.Instance.User.RoleID, dp));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }
