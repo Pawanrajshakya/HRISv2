@@ -40,15 +40,13 @@ export interface IReportParam {
   dateFrom?: string;
   dateTo?: string;
   openClose?: string;
+  isCalendarYear?: boolean;
+  year?: number;
+  isDateEarned?: boolean;
 }
 
 export interface IPARParam extends IReportParam {
   dateFrom?: string;
   dateTo?: string;
   openClose?: string; //Open //Closed
-}
-
-export interface IAgencySeparationParam extends IReportParam {
-  isCalenderYear?: boolean;
-  year?: number;
 }

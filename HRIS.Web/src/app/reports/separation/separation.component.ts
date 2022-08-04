@@ -9,7 +9,7 @@ import {
   ISeparationTable,
 } from 'src/app/_models/IAgencySeparationSummary';
 import { IDP, IRC } from 'src/app/_models/IRC_DP';
-import { IAgencySeparationParam } from 'src/app/_models/IReportParam';
+import { IReportParam } from 'src/app/_models/IReportParam';
 import { ChartService } from 'src/app/_services/chart.service';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
@@ -22,11 +22,12 @@ import { StaffService } from 'src/app/_services/staff.service';
 })
 export class SeparationComponent
   extends BaseComponent<ISeparationTable>
-  implements AfterViewInit, OnInit {
-  selectedCalenderType: string = 'Calender';
-  calenderType: string[] = ['Calender', 'Fiscal'];
+  implements AfterViewInit, OnInit
+{
+  selectedCalendarType: string = 'Calendar';
+  calendarType: string[] = ['Calendar', 'Fiscal'];
 
-  agencySeparationParam: IAgencySeparationParam = {
+  agencySeparationParam: IReportParam = {
     reportName: '',
     file: {
       format: '',
@@ -86,9 +87,6 @@ export class SeparationComponent
   }
 
   ngAfterViewInit(): void {
-    // If the user changes the sort order, reset back to the first page.
-    //this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-
     merge(this.filterAction$)
       .pipe(
         startWith({}),
@@ -104,7 +102,6 @@ export class SeparationComponent
           let getData = this.getData$(_data).subscribe({
             next: (_separationTable) => {
               this.data = _separationTable;
-              
             },
           });
           getData.unsubscribe();
@@ -130,11 +127,11 @@ export class SeparationComponent
           console.log('chardate', _data);
           Array.isArray(_data)
             ? _data.forEach((chart: IAgencySeparationChart) => {
-              if (chart.description !== 'ZZZ') {
-                this.chartData.labels?.push(chart.description);
-                __data.push(chart.total ?? 0);
-              }
-            })
+                if (chart.description !== 'ZZZ') {
+                  this.chartData.labels?.push(chart.description);
+                  __data.push(chart.total ?? 0);
+                }
+              })
             : ''; //handle error;
 
           this.chartData.datasets.push({
@@ -208,30 +205,30 @@ export class SeparationComponent
           _separationTable.filter((obj) => {
             if (obj.reason == row.reasonDesc) {
               row.month === 1
-                ? (obj.jan += (row.count ?? 0))
+                ? (obj.jan += row.count ?? 0)
                 : row.month === 2
-                  ? (obj.feb += row.count ?? 0)
-                  : row.month === 3
-                    ? (obj.mar += row.count ?? 0)
-                    : row.month === 4
-                      ? (obj.apr += row.count ?? 0)
-                      : row.month === 5
-                        ? (obj.may += row.count ?? 0)
-                        : row.month === 6
-                          ? (obj.jun += row.count ?? 0)
-                          : row.month === 7
-                            ? (obj.jul += row.count ?? 0)
-                            : row.month === 8
-                              ? (obj.aug += row.count ?? 0)
-                              : row.month === 9
-                                ? (obj.sep += row.count ?? 0)
-                                : row.month === 10
-                                  ? (obj.oct += row.count ?? 0)
-                                  : row.month === 11
-                                    ? (obj.nov += row.count ?? 0)
-                                    : row.month === 12
-                                      ? (obj.dec += row.count ?? 0)
-                                      : '';
+                ? (obj.feb += row.count ?? 0)
+                : row.month === 3
+                ? (obj.mar += row.count ?? 0)
+                : row.month === 4
+                ? (obj.apr += row.count ?? 0)
+                : row.month === 5
+                ? (obj.may += row.count ?? 0)
+                : row.month === 6
+                ? (obj.jun += row.count ?? 0)
+                : row.month === 7
+                ? (obj.jul += row.count ?? 0)
+                : row.month === 8
+                ? (obj.aug += row.count ?? 0)
+                : row.month === 9
+                ? (obj.sep += row.count ?? 0)
+                : row.month === 10
+                ? (obj.oct += row.count ?? 0)
+                : row.month === 11
+                ? (obj.nov += row.count ?? 0)
+                : row.month === 12
+                ? (obj.dec += row.count ?? 0)
+                : '';
             }
           });
         });
@@ -301,15 +298,15 @@ export class SeparationComponent
   onSearch() {
     this.agencySeparationParam.rcDp.rcs = this.selectedRC.join(',');
     this.agencySeparationParam.rcDp.dps = this.selectedDP.join(',');
-    this.agencySeparationParam.isCalenderYear =
-      this.selectedCalenderType === 'Calender';
+    this.agencySeparationParam.isCalendarYear =
+      this.selectedCalendarType === 'Calendar';
     this.filterSubject.next(this.filterValue);
   }
 
   onClearClick() {
     this.selectedRC = [];
     this.selectedDP = [];
-    this.selectedCalenderType = 'Calender';
+    this.selectedCalendarType = 'Calendar';
     this.onSearch();
   }
 }

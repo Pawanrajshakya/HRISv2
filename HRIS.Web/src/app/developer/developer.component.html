@@ -6,7 +6,7 @@
       </div>
       <input type="text" class="form-control" [(ngModel)]="lanID" placeholder="Lan ID">
       <div class="input-group-append">
-        <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="onLoginClick()">Login</button>
+        <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="onLoginClick()" [disabled]="this.lanID.length === 0">Login</button>
       </div>
     </div>
     <div class="alert alert-warning" role="alert" *ngIf="errorMessage">

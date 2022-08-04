@@ -17,9 +17,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
-  exports: [MatTableModule,
+  exports: [
+    MatTableModule,
     CdkTableModule,
     MatProgressSpinnerModule,
     MatSortModule,
@@ -36,7 +38,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatDatepickerModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    MatRadioModule
-  ]
+    MatRadioModule,
+    MatTooltipModule,
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}

@@ -25,9 +25,94 @@ namespace HRIS.API.Controllers
                 {
                     return Ok(await _overtimeRepository.GetStaffOTSummary(UserSession.Instance.User.UserID, ein, calenderType));
                 }
-                return Ok();
+                return NotFound();
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
+        }
+
+        [HttpGet("actualOT/{rcs}")]
+        public async Task<ActionResult> GetActualOTAsync(string rcs)
+        {
+            try
+            {
+                if (UserSession.Instance.User.Groups.Contains(3))
+                {
+                    if (string.IsNullOrEmpty(rcs) || rcs == "*") rcs = GetRC(false);
+                
+                    return Ok(await _overtimeRepository.GetActualOTs(UserSession.Instance.User.UserID, rcs.Replace(',','|')));
+                }
+                return NotFound();
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
+        }
+
+        [HttpGet("budgetedOT/{rcs}/{year}")]
+        public async Task<ActionResult> GetBudgetedOTAsync(string rcs, string year = "C")
+        {
+            try
+            {
+                if (UserSession.Instance.User.Groups.Contains(3))
+                {
+                    if (string.IsNullOrEmpty(rcs) || rcs == "*") rcs = GetRC(false);
+
+                
+                    return Ok(await _overtimeRepository.GetBudgetedOTs(UserSession.Instance.User.UserID, rcs.Replace(',', '|'), year));
+                }
+                return NotFound();
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
+        }
+
+        [HttpPost("overtimeReport")]
+        public async Task<ActionResult> GetOvertimeReportAsync(OvertimeParameters parameters)
+        {
+            try
+            {
+                if (UserSession.Instance.User.Groups.Contains(3))
+                {
+                    return Ok(await _overtimeRepository.GetOvertimeReport(UserSession.Instance.User.UserID
+                    , rcs: string.IsNullOrEmpty(parameters.RcDp.RCs) ?  GetRC(false) : parameters.RcDp.RCs
+                    , dps: string.IsNullOrEmpty(parameters.RcDp.DPs) ? GetDP(false) : parameters.RcDp.DPs
+                    , isCalender: parameters.IsCalendarYear ? "Calendar" : "Fiscal"
+                    , roleID: UserSession.Instance.User.RoleID
+                    , pageNumber: parameters.Pagination.PageNumber
+                    , pageSize: parameters.Pagination.PageSize
+                    , sortColumn: parameters.Pagination.SortColumn
+                    , sortOrder: parameters.Pagination.SortOrder
+                    , searchTerm: parameters.Pagination.SearchTerm));
+                }
+                return NotFound();
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPost("overtimeEarnedAnalysisReport")]
+        public async Task<ActionResult> GetOvertimeEarnedAnalysisReportAsync(OvertimeParameters parameters)
+        {
+            try
+            {
+                if (UserSession.Instance.User.Groups.Contains(3))
+                {
+                    return Ok(await _overtimeRepository.GetOvertimeEarnedAnalysisReport(
+                    userid: UserSession.Instance.User.UserID
+                    , rcs: string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs
+                    , year: parameters.Year.ToString()
+                    , isDateEarned: parameters.IsDateEarned
+                    , pageNumber: parameters.Pagination.PageNumber
+                    , pageSize: parameters.Pagination.PageSize
+                    , sortColumn: parameters.Pagination.SortColumn
+                    , sortOrder: parameters.Pagination.SortOrder
+                    , searchTerm: parameters.Pagination.SearchTerm));
+                }
+                return NotFound();
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

@@ -1,1 +1,44 @@
-<p>overtime works!</p>
+<div class="card border-secondary">
+  <tabset [justified]="true">
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-bar-chart-line-fill"></i>&nbsp;Overtime Charts
+      </ng-template>
+      <div class="mt-2">
+        <app-overtime-chart></app-overtime-chart>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-clock-history"></i>&nbsp;Overtime Report
+      </ng-template>
+      <div class="mt-2">
+        <app-overtime-report></app-overtime-report>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-hourglass-split"></i>&nbsp;Agency Overtime Analysis
+      </ng-template>
+      <div class="card border border-top border-secondary shadow mt-2">
+        <div class="card-body">
+          <div class="col-sm-12 row">
+            <app-agency-overtime-analysis></app-agency-overtime-analysis>
+          </div>
+        </div>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-calendar-week-fill"></i>&nbsp;Citytime OT Report
+      </ng-template>
+      <div class="card border border-top border-secondary shadow mt-2">
+        <div class="card-body">
+          <div class="col-sm-12 row">
+            <app-citytime-otreport></app-citytime-otreport>
+          </div>
+        </div>
+      </div>
+    </tab>
+  </tabset>
+</div>

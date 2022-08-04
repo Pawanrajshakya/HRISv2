@@ -92,8 +92,13 @@ namespace HRIS.API
 
     public class AgencySeparationParameters : ReportParameters
     {
-        public bool IsCalenderYear { get; set; } = true;
+        public bool IsCalendarYear { get; set; } = true;
         public int Year { get; set; }
+    }
+
+    public class OvertimeParameters : AgencySeparationParameters
+    {
+        public bool IsDateEarned { get; set; }
     }
 
 }

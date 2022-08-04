@@ -8,7 +8,7 @@ export class HrisPercentPipe implements PipeTransform {
   transform(value: any): any {
     if (value === 'No Data') 
       return value;
-    else if (value === undefined && value === null)
+    else if (value === undefined || value === null)
       return '0 %';
     else
       return value + ' %';

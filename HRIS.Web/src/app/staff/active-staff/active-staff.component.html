@@ -1,18 +1,25 @@
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary shadow">
-    <i class="bi bi-funnel"></i> Active Staff - Displays all staff where PMS leave status is ACTIVE ('B'). (DHS & HRA)
-    <i [ngClass]="{'bi bi-arrows-expand shadow': isCollapsed}" class="bi bi-arrows-collapse pull-right shadow"
+    <i class="bi bi-funnel"></i> Active Staff - Displays all staff where PMS
+    leave status is ACTIVE ('B'). (DHS & HRA)
+    <i [ngClass]="{ 'bi bi-arrows-expand shadow': isCollapsed }" class="bi bi-arrows-collapse pull-right shadow"
       (click)="isCollapsed = !isCollapsed"></i>
   </div>
   <div class="card-body" [collapse]="isCollapsed" [isAnimated]="true">
     <div class="col-12">
-      <div class="form-group row"
-        *ngIf="this.loginService.currentUser.roleID == 1 || this.loginService.currentUser.roleID == 2 || this.loginService.currentUser.roleID == 3 || this.loginService.currentUser.roleID == 4">
+      <div class="form-group row" *ngIf="
+          this.loginService.currentUser.roleID == 1 ||
+          this.loginService.currentUser.roleID == 2 ||
+          this.loginService.currentUser.roleID == 3 ||
+          this.loginService.currentUser.roleID == 4
+        ">
         <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm">RC</label>
         <div class="col-sm-10">
           <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedRC" id="rcs" name="selectedRC"
             placeholder="Select RC" (change)="onRCSelect($event)">
-            <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{rc.description}}</ng-option>
+            <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{
+              rc.description
+            }}</ng-option>
           </ng-select>
         </div>
       </div>
@@ -25,7 +32,7 @@
             [(ngModel)]="selectedDP" [multiple]="true" [hideSelected]="true" placeholder="Select DP" id="dps"
             name="selectedDP">
             <ng-template ng-optgroup-tmp let-item="item">
-              {{item.rcCode || 'Unnamed group'}}
+              {{ item.rcCode || "Unnamed group" }}
             </ng-template>
           </ng-select>
         </div>
@@ -37,7 +44,7 @@
         <div class="col-sm-10">
           <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedLocation" id="Location"
             name="locations" placeholder="Select Location">
-            <ng-option *ngFor="let location of locations" [value]="location.code">{{location.description}}</ng-option>
+            <ng-option *ngFor="let location of locations" [value]="location.code">{{ location.description }}</ng-option>
           </ng-select>
         </div>
       </div>
@@ -48,7 +55,9 @@
         <div class="col-sm-10">
           <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedTitle" id="titles" name="titles"
             placeholder="Select Title">
-            <ng-option *ngFor="let title of titles" [value]="title.code">{{title.description}}</ng-option>
+            <ng-option *ngFor="let title of titles" [value]="title.code">{{
+              title.description
+            }}</ng-option>
           </ng-select>
         </div>
       </div>
@@ -59,7 +68,7 @@
         <div class="col-sm-10">
           <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedBkpTitle" id="bkpTitles"
             name="bkpTitles" placeholder="Select Backup Title">
-            <ng-option *ngFor="let bkpTitle of bkpTitles" [value]="bkpTitle.code">{{bkpTitle.description}}</ng-option>
+            <ng-option *ngFor="let bkpTitle of bkpTitles" [value]="bkpTitle.code">{{ bkpTitle.description }}</ng-option>
           </ng-select>
         </div>
       </div>
@@ -70,26 +79,31 @@
         <div class="col-sm-10">
           <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedCsStatus" id="csStatus"
             name="csStatus" placeholder="Select Civil Service Status">
-            <ng-option *ngFor="let csStatus of csStatuses" [value]="csStatus.code">{{csStatus.description}}</ng-option>
+            <ng-option *ngFor="let csStatus of csStatuses" [value]="csStatus.code">{{ csStatus.description }}
+            </ng-option>
           </ng-select>
         </div>
       </div>
     </div>
     <div class="col-12">
       <div class="col-sm-10 offset-sm-2">
-        <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()"><i class="bi bi-search"></i>
-          Search</button>
-        <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()"><i class="bi bi-stars"></i>
-          Clear</button>
+        <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()">
+          <i class="bi bi-search"></i> Search
+        </button>
+        <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()">
+          <i class="bi bi-stars"></i> Clear
+        </button>
       </div>
     </div>
   </div>
 </div>
-<br>
+<br />
 
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary shadow">
-    <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0; else noDataFound"> {{resultsLength}}</span>
+    <i class="bi bi-grid"></i> Result
+    <span *ngIf="resultsLength > 0; else noDataFound">
+      {{ resultsLength }}</span>
     <a class="btn btn-primary btn-xs float-right text-white shadow border-white" (click)="onExport()">
       <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</a>
   </div>
@@ -102,7 +116,7 @@
             <span class="input-group-text">Filter By</span>
           </div>
           <input type="text" class="form-control" (keyup)="applyFilter($event)" [(ngModel)]="filterValue"
-            placeholder="EIN / Full Name / Role / LAN ID" #input>
+            placeholder="EIN / Full Name / Role / LAN ID" #input />
         </div>
       </div>
       <div class="col-12">
@@ -110,84 +124,158 @@
           <table mat-table [dataSource]="data" matSort matSortActive="ein" matSortDisableClear matSortDirection="asc"
             matSort class="table table-hover table-bordered">
             <ng-container matColumnDef="ein">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">EIN</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                EIN
+              </th>
               <td mat-cell *matCellDef="let row" class="text-nowrap">
-                <a class="btn btn-link btn-xs" [routerLink]="['/staffDetail', row.ein]">{{row.ein}}</a>
+                <a class="btn btn-link btn-xs" [routerLink]="['/staffDetail', row.ein]">{{ row.ein }}</a>
               </td>
             </ng-container>
-            <ng-container matColumnDef="lastName"
-              *ngIf="loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 4">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Last Name</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.lastName}}</td>
+            <ng-container matColumnDef="lastName" *ngIf="
+                loginService.currentUser.roleID == 1 ||
+                loginService.currentUser.roleID == 4
+              ">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Last Name
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.lastName }}
+              </td>
             </ng-container>
-            <ng-container matColumnDef="firstName"
-              *ngIf="loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 4">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">First Name</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.firstName}}</td>
+            <ng-container matColumnDef="firstName" *ngIf="
+                loginService.currentUser.roleID == 1 ||
+                loginService.currentUser.roleID == 4
+              ">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                First Name
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.firstName }}
+              </td>
             </ng-container>
-            <ng-container matColumnDef="preferredLastName"
-              *ngIf="loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 4">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Preferred Last Name</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.preferredLastName}}</td>
+            <ng-container matColumnDef="preferredLastName" *ngIf="
+                loginService.currentUser.roleID == 1 ||
+                loginService.currentUser.roleID == 4
+              ">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Preferred Last Name
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.preferredLastName }}
+              </td>
             </ng-container>
-            <ng-container matColumnDef="preferredFirstName"
-              *ngIf="loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 4">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Preferred First Name</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.preferredFirstName}}</td>
+            <ng-container matColumnDef="preferredFirstName" *ngIf="
+                loginService.currentUser.roleID == 1 ||
+                loginService.currentUser.roleID == 4
+              ">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Preferred First Name
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.preferredFirstName }}
+              </td>
             </ng-container>
-            <ng-container matColumnDef="combinedLastName"
-              *ngIf="loginService.currentUser.roleID !== 1 && loginService.currentUser.roleID !== 4">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Last Name</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.combinedLastName}}</td>
+            <ng-container matColumnDef="combinedLastName" *ngIf="
+                loginService.currentUser.roleID !== 1 &&
+                loginService.currentUser.roleID !== 4
+              ">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Last Name
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.combinedLastName }}
+              </td>
             </ng-container>
-            <ng-container matColumnDef="combinedFirstName"
-              *ngIf="loginService.currentUser.roleID !== 1 && loginService.currentUser.roleID !== 4">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">First Name</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.combinedFirstName}}</td>
+            <ng-container matColumnDef="combinedFirstName" *ngIf="
+                loginService.currentUser.roleID !== 1 &&
+                loginService.currentUser.roleID !== 4
+              ">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                First Name
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.combinedFirstName }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="rcName">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">RC</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.rcName}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                RC
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.rcName }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="dpName">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">DP</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.dpName}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                DP
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.dpName }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="csStatus">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">CS Status</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.csStatus}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                CS Status
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.csStatus }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="payTitle">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Title</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.payTitle}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Title
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.payTitle }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="payTitleDate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Title Date</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.payTitleDate}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Title Date
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.payTitleDate }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="backupTitle">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Backup Title</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.backupTitle}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Backup Title
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.backupTitle }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="backupTitleDate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Backup Title Date</th>
-              <td mat-cell *matCellDef="let row">{{row.backupTitleDate}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Backup Title Date
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.backupTitleDate }}</td>
             </ng-container>
             <ng-container matColumnDef="address">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Work Address</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.address}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Work Address
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.address }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="actionDate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Action Date</th>
-              <td mat-cell *matCellDef="let row">{{row.actionDate}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Action Date
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.actionDate }}</td>
             </ng-container>
             <ng-container matColumnDef="actionReason">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Action Reason</th>
-              <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.actionReason}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                Action Reason
+              </th>
+              <td mat-cell *matCellDef="let row" class="text-nowrap">
+                {{ row.actionReason }}
+              </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns;  sticky: true;" class="thead-light;"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="clickedRows.add(row)"
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="thead-light;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="clickedRows.add(row)"
               [class.demo-row-is-clicked]="clickedRows.has(row)" (click)="clearClickedRow(row)"></tr>
           </table>
         </div>

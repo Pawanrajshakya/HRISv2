@@ -1,11 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'emptyValue'
+  name: 'hrisEmptyValue'
 })
-export class EmptyValuePipe implements PipeTransform {
+export class HrisEmptyValuePipe implements PipeTransform {
 
   transform(value?: string): string {
+    
     if (value && value !== undefined && value !== null)
       return value;
     else

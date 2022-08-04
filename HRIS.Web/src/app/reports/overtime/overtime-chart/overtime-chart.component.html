@@ -1,0 +1,103 @@
+<div class="col-sm-12">
+  <div class="card border-secondary">
+    <div class="card-body">
+      <div class="form-group row">
+        <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm"
+          >RC</label
+        >
+        <div class="col-sm-10">
+          <ng-select
+            [multiple]="true"
+            [hideSelected]="true"
+            [(ngModel)]="selectedRC"
+            id="rcs"
+            name="selectedRC"
+            placeholder="Select RC"
+          >
+            <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{
+              rc.description
+            }}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="col-sm-10 offset-sm-2">
+          <button
+            class="btn btn-primary btn-sm float-left shadow"
+            (click)="onSearch()"
+          >
+            <i class="bi bi-search"></i> Search
+          </button>
+          <button
+            class="btn btn-secondary btn-sm float-left ml-2 shadow"
+            (click)="onClear()"
+          >
+            <i class="bi bi-stars"></i> Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div class="col-12 row">
+  <div class="col-sm-6">
+    <div class="card border-secondary">
+      <div
+        class="card-header text-white bg-secondary border-secondary shadow text-center"
+      >
+        FY' 2022 Budgeted OT vs Actual OT Used
+      </div>
+      <mat-progress-bar
+        mode="query"
+        [hidden]="!isLoadingResults"
+      ></mat-progress-bar>
+      <div class="card-body">
+        <div
+          style="display: block"
+          *ngIf="chartDataBOT.labels?.length ?? 0 > 0"
+        >
+          <canvas
+            baseChart
+            [data]="chartDataBOT"
+            [options]="chartOptionsBOT"
+            [plugins]="chartPluginsBOT"
+            [type]="chartTypeBOT"
+            (chartClick)="onBudgetedOTChartClick($event)"
+          >
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card border-secondary">
+      <div
+        class="card-header text-white bg-secondary border-secondary shadow text-center"
+      >
+        Actual OT Used FY 2023 vs FY 2022
+      </div>
+      <mat-progress-bar
+        mode="query"
+        [hidden]="!isLoadingResultsAOT"
+      ></mat-progress-bar>
+      <div class="card-body">
+        <div
+          style="display: block"
+          *ngIf="chartDataAOT.labels?.length ?? 0 > 0"
+        >
+          <canvas
+            baseChart
+            [data]="chartDataAOT"
+            [options]="chartOptionsAOT"
+            [plugins]="chartPluginsAOT"
+            [type]="chartTypeAOT"
+          >
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />

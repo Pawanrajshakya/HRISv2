@@ -55,7 +55,7 @@ namespace HRIS.API
             CreateMap<EmployeeBehaviorChart, EmployeeBehaviorChartDto>()
                 .ForMember(x => x.Name, y => y.MapFrom(z => z.IssueCodeName))
                 .ForMember(x => x.Count, y => y.MapFrom(z => z.IssueCodeNameCount));
-            
+
             CreateMap<ActiveStaff, ActiveStaffDto>();
 
             CreateMap<StaffDetail, StaffDetailDto>();
@@ -66,8 +66,29 @@ namespace HRIS.API
             CreateMap<StaffEmergencyContactInfoReport, StaffEmergencyContactInfoReportDto>();
             CreateMap<VacationRosterReport, VacationRosterReportDto>();
             CreateMap<SeparationSummary, SeparationSummaryDto>();
+
             CreateMap<PARReport, PARReportDto>();
             CreateMap<PARDetail, PARDetailDto>();
+
+            CreateMap<ActualOT, ActualOTDto>();
+            CreateMap<BudgetedOT, BudgetedOTDto>();
+            CreateMap<OvertimeReport, OvertimeReportDto>()
+                .ForMember(x => x.DPCode, y => y.MapFrom(z => z.DP_Code))
+                .ForMember(x => x.RowNum, y => y.MapFrom(z => z.RowNumber));
+
+            CreateMap<OvertimeEarnedAnalysisReport, OvertimeEarnedAnalysisReportDto>()
+                .ForMember(x => x.Description, y => y.MapFrom(z => z.RarcDesc))
+                .ForMember(x => x.Jan, y => y.MapFrom(z => z.January))
+                .ForMember(x => x.Feb, y => y.MapFrom(z => z.February))
+                .ForMember(x => x.Mar, y => y.MapFrom(z => z.March))
+                .ForMember(x => x.Apr, y => y.MapFrom(z => z.April))
+                .ForMember(x => x.Jun, y => y.MapFrom(z => z.June))
+                .ForMember(x => x.Jul, y => y.MapFrom(z => z.July))
+                .ForMember(x => x.Aug, y => y.MapFrom(z => z.August))
+                .ForMember(x => x.Sep, y => y.MapFrom(z => z.September))
+                .ForMember(x => x.Oct, y => y.MapFrom(z => z.October))
+                .ForMember(x => x.Nov, y => y.MapFrom(z => z.November))
+                .ForMember(x => x.Dec, y => y.MapFrom(z => z.December));
         }
     }
 }

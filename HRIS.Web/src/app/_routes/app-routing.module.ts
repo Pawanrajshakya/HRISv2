@@ -20,6 +20,7 @@ import { StaffEmergencyContactInfoComponent } from '../reports/staff-emergency-c
 import { VacationRosterComponent } from '../reports/vacation-roster/vacation-roster.component';
 import { SeparationComponent } from '../reports/separation/separation.component';
 import { ParComponent } from '../reports/par/par.component';
+import { OvertimeComponent } from '../reports/overtime/overtime.component';
 
 const routes: Routes = [
   {
@@ -103,6 +104,13 @@ const routes: Routes = [
       , rcdp: RcDpCodeResolverService
       , titles: TitleCodeResolverService
       , locations: LocationCodeResolverService
+    }
+  },
+  {
+    path: 'overtimeReport', component: OvertimeComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
     }
   },
   {

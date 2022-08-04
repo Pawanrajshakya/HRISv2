@@ -25,7 +25,7 @@ namespace HRIS.API.Controllers
                 IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
                 , parameters.RcDp.RCs ?? ""
                 , parameters.RcDp.DPs ?? ""
-                , parameters.IsCalenderYear
+                , parameters.IsCalendarYear
                 , parameters.Year);
 
             return Ok(list
@@ -46,7 +46,7 @@ namespace HRIS.API.Controllers
             IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
                 , parameters.RcDp.RCs ?? ""
                 , parameters.RcDp.DPs ?? ""
-                , parameters.IsCalenderYear
+                , parameters.IsCalendarYear
                 , parameters.Year);
 
             return Ok(list

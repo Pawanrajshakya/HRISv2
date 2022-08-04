@@ -164,4 +164,31 @@ export class BaseComponent<T> {
 
     this.modalRef = modalService.show(DownloadComponent, initialState);
   }
+
+  onRCSelectBase($event: Event) {
+    let _selectedDP = this.selectedDP;
+    let _selectedRC = this.selectedRC;
+    this.filteredDPs = [];
+    this.selectedDP = []
+
+    if (_selectedRC.length === 0) {
+      this.filteredDPs = this.dps;
+    } else {
+      this.dps.forEach((x) => {
+        if (_selectedRC.indexOf(x.rcCode || "") != -1) {
+          this.filteredDPs.push(x);
+        }
+        else {
+
+          let i = _selectedDP.indexOf(x.dpCode || "");
+
+          if (i != -1) {
+            _selectedDP.splice(i, 1);
+          }
+        }
+      })
+
+      _selectedDP.forEach(dp => this.selectedDP.push(dp));
+    }
+  }
 }

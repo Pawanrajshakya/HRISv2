@@ -19,7 +19,7 @@ export class StaffDetailComponent extends BaseComponent<IStaffDetail> implements
   detail: any = [];
   emergencyContactInfo: any = [];
   staffEDUDetail: any = [];
-  staffOTSummaryCalender: any = [];
+  staffOTSummaryCalendar: any = [];
   staffOTSummaryFiscal: any = [];
 
 
@@ -51,13 +51,13 @@ export class StaffDetailComponent extends BaseComponent<IStaffDetail> implements
           this.staffEDUDetail = staffEDUDetail;
         });
 
-        this.staffService.staffOTSummary$(this.ein).subscribe(staffOTSummaryCalender => {
+        this.staffService.staffOTSummary$(this.ein).subscribe(staffOTSummaryCalendar => {
 
-          console.log('staffOTSummaryCalender', staffOTSummaryCalender);
-          if (staffOTSummaryCalender && staffOTSummaryCalender != null)
-            this.staffOTSummaryCalender = staffOTSummaryCalender;
+          console.log('staffOTSummaryCalendar', staffOTSummaryCalendar);
+          if (staffOTSummaryCalendar && staffOTSummaryCalendar != null)
+            this.staffOTSummaryCalendar = staffOTSummaryCalendar;
           else
-            this.staffOTSummaryCalender = {};
+            this.staffOTSummaryCalendar = {};
         });
 
         this.staffService.staffOTSummary$(this.ein, "Fiscal").subscribe(staffOTSummaryFiscal => {
