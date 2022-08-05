@@ -41,7 +41,7 @@ export interface IReportParam {
   dateTo?: string;
   openClose?: string;
   isCalendarYear?: boolean;
-  year?: number;
+  year?: string;
   isDateEarned?: boolean;
 }
 

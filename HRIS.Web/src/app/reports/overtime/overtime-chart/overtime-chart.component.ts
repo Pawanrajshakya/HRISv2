@@ -214,7 +214,7 @@ export class OvertimeChartComponent
 
   onClear() {
     this.year = 'P';
-    this.selectedRC = [];
+    this.clear();
     this.filterSubject.next(this.filterValue);
   }
 }

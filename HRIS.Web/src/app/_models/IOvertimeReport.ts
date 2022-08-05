@@ -25,7 +25,7 @@ export interface IOvertimeEarnedAnalysisReport {
   rowNum?: number;
   total?: number;
   rarc?: string;
-  description?: number;
+  description?: string;
   jul?: number;
   aug?: number;
   sep?: number;

@@ -67,8 +67,8 @@
  <div class="card border-secondary">
     <div class="card-header text-white bg-secondary border-secondary shadow">
       <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0; else noDataFound"> {{resultsLength}}</span>
-      <a class="btn btn-primary btn-xs float-right text-white shadow border-white" (click)="onExport()">
-        <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</a>
+      <button class="btn btn-primary btn-xs float-right text-white shadow border-white" [disabled]="!(resultsLength > 0)" (click)="onExport()">
+        <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</button>
     </div>
     <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
     <div class="card-body">

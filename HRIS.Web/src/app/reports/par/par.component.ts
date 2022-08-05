@@ -146,30 +146,30 @@ export class ParComponent
       });
   }
 
-  onRCSelect($event: Event) {
-    let _selectedDP = this.selectedDP;
-    let _selectedRC = this.selectedRC;
-    this.filteredDPs = [];
-    this.selectedDP = [];
+  // onRCSelect($event: Event) {
+  //   let _selectedDP = this.selectedDP;
+  //   let _selectedRC = this.selectedRC;
+  //   this.filteredDPs = [];
+  //   this.selectedDP = [];
 
-    if (_selectedRC.length === 0) {
-      this.filteredDPs = this.dps;
-    } else {
-      this.dps.forEach((x) => {
-        if (_selectedRC.indexOf(x.rcCode || '') != -1) {
-          this.filteredDPs.push(x);
-        } else {
-          let i = _selectedDP.indexOf(x.dpCode || '');
+  //   if (_selectedRC.length === 0) {
+  //     this.filteredDPs = this.dps;
+  //   } else {
+  //     this.dps.forEach((x) => {
+  //       if (_selectedRC.indexOf(x.rcCode || '') != -1) {
+  //         this.filteredDPs.push(x);
+  //       } else {
+  //         let i = _selectedDP.indexOf(x.dpCode || '');
 
-          if (i != -1) {
-            _selectedDP.splice(i, 1);
-          }
-        }
-      });
+  //         if (i != -1) {
+  //           _selectedDP.splice(i, 1);
+  //         }
+  //       }
+  //     });
 
-      _selectedDP.forEach((dp) => this.selectedDP.push(dp));
-    }
-  }
+  //     _selectedDP.forEach((dp) => this.selectedDP.push(dp));
+  //   }
+  // }
 
   onSearch() {
     this.reportParam.rcDp.rcs = this.selectedRC.join(',');
@@ -184,24 +184,11 @@ export class ParComponent
   }
 
   onClear() {
-    this.selectedRC = [];
-    this.selectedDP = [];
-    this.selectedTitle = [];
-    this.selectedLocation = [];
+    
     this.selectedCPSStatus = 'Open Request';
-    this.dateFrom = '';
-    this.dateTo = '';
-
-    this.reportParam.rcDp.rcs = '';
-    this.reportParam.rcDp.dps = '';
-    this.reportParam.code.titles = '';
-    this.reportParam.code.locations = '';
     this.reportParam.openClose = 'Open';
-    this.reportParam.dateFrom = '';
-    this.reportParam.dateTo = '';
-
-    this.filterValue = '';
-    this.filterSubject.next('');
+    this.clear();
+    this.filterSubject.next(this.filterValue);
   }
 
   onExport() {

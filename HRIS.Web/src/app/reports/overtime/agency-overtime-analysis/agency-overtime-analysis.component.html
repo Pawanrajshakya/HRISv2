@@ -1,1 +1,280 @@
-<p>agency-overtime-analysis works!</p>
+<div class="col-sm-12">
+  <div class="card border-secondary">
+    <div class="card-body">
+      <div>
+        <p>
+          Displays PMS OT data by RC for current and previous fiscal years.
+          Months 1-13.
+        </p>
+      </div>
+      <hr />
+      <div class="col-12 mb-2">
+        <div class="form-group row">
+          <div class="col-sm-2">Fiscal Year</div>
+          <div class="col-sm-4">
+            <ng-select [hideSelected]="true" [(ngModel)]="selectedYear" id="years" name="selectedYear"
+              placeholder="Select Year">
+              <ng-option *ngFor="let year of years" [value]="year">{{year}}</ng-option>
+            </ng-select>
+          </div>
+          <div class="col-sm-6"></div>
+        </div>
+      </div>
+      <div class="col-12 mb-2 row">
+        <div class="col-sm-2">Type</div>
+        <div class="col-sm-10">
+          <mat-radio-group [(ngModel)]="selectedType">
+            <mat-radio-button class="ml-2" *ngFor="let type of types" [value]="type">
+              {{ type }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group row">
+          <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm">RC</label>
+          <div class="col-sm-10">
+            <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedRC" id="rcs" name="selectedRC"
+              placeholder="Select RC" (change)="onRCSelect($event)">
+              <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{
+                                rc.description
+                                }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="col-sm-10 offset-sm-2">
+          <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()">
+            <i class="bi bi-search"></i> Search
+          </button>
+          <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()">
+            <i class="bi bi-stars"></i> Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div class="col-12">
+  <div class="card border-secondary">
+    <div class="card-header text-white bg-secondary border-secondary shadow">
+      <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0; else noDataFound"> {{resultsLength}}</span>
+      <button class="btn btn-primary btn-xs float-right text-white shadow border-white" [disabled]="!(resultsLength > 0)" (click)="onExport()">
+        <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</button>
+    </div>
+    <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Filter By</span>
+            </div>
+            <input type="text" class="form-control" (keyup)="applyFilter($event)" [(ngModel)]="filterValue"
+              placeholder="RARC / Description" #input />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="table-container table-responsive" [hidden]="resultsLength === 0">
+            <table mat-table [dataSource]="data" matSort matSortActive="rarc" matSortDisableClear matSortDirection="asc"
+              matSort class="table table-hover table-bordered">
+              <ng-container matColumnDef="rarc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  RARC
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.rarc }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Description
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.description }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="july">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Jul
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.jul < 0}">
+                  {{ row.jul | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="august">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Aug
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.aug < 0}">
+                  {{ row.aug | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="september">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Sep
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.sep < 0}">
+                  {{ row.sep | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="october">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Oct
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.oct < 0}">
+                  {{ row.oct | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="november">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Nov
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.nov < 0}">
+                  {{ row.nov | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="december">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Dec
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.dec < 0}">
+                  {{ row.dec | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="january">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Jan
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.jan < 0}">
+                  {{ row.jan | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="february">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Feb
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.feb < 0}">
+                  {{ row.feb | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="march">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Mar
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.mar < 0}">
+                  {{ row.mar | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="april">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Apr
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.apr < 0}">
+                  {{ row.apr | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="may">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  May
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.may < 0}">
+                  {{ row.may | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="june">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Jun
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.jun < 0}">
+                  {{ row.jun | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="monthly_Alloc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Monthly Alloc
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.monthly_Alloc < 0}">{{ row.monthly_Alloc | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="fY_Alloc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  FY Alloc
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right" [ngClass]="{'bg-warning':row.fY_Alloc <
+                  0}">{{ row.fY_Alloc | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="fytD_Earned">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  FYTD Earned
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.fytD_Earned < 0}">{{ row.fytD_Earned | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="fytD_Bal">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  FY Allow
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right" [ngClass]="{'bg-warning':row.fytD_Bal <
+                  0}">{{ row.fytD_Bal | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="project_Earned">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Project Earned
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.project_Earned < 0}">
+                  {{ row.project_Earned | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="project_Percent">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Project Percent
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.project_Percent < 0}">{{ row.project_Percent | hrisEmptyValue:'NA' }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="project_Diff">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Project Diff
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
+                  [ngClass]="{'bg-warning':row.project_Diff < 0}">
+                  {{ row.project_Diff | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="thead-light;"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="clickedRows.add(row)"
+                [class.demo-row-is-clicked]="clickedRows.has(row)" (click)="clearClickedRow(row)"></tr>
+            </table>
+          </div>
+          <mat-paginator showFirstLastButtons [length]="resultsLength" [pageSize]="reportParam.pagination.pageSize"
+            [pageSizeOptions]="pageSizeOptions" [hidden]="resultsLength === 0"></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noDataFound>
+  &nbsp; <span class="badge badge-warning"> No Result</span>
+</ng-template>

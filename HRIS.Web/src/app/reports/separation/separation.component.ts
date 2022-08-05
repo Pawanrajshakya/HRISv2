@@ -270,30 +270,30 @@ export class SeparationComponent
     return _result;
   }
 
-  onRCSelect($event: Event) {
-    let _selectedDP = this.selectedDP;
-    let _selectedRC = this.selectedRC;
-    this.filteredDPs = [];
-    this.selectedDP = [];
+  // onRCSelect($event: Event) {
+  //   let _selectedDP = this.selectedDP;
+  //   let _selectedRC = this.selectedRC;
+  //   this.filteredDPs = [];
+  //   this.selectedDP = [];
 
-    if (_selectedRC.length === 0) {
-      this.filteredDPs = this.dps;
-    } else {
-      this.dps.forEach((x) => {
-        if (_selectedRC.indexOf(x.rcCode || '') != -1) {
-          this.filteredDPs.push(x);
-        } else {
-          let i = _selectedDP.indexOf(x.dpCode || '');
+  //   if (_selectedRC.length === 0) {
+  //     this.filteredDPs = this.dps;
+  //   } else {
+  //     this.dps.forEach((x) => {
+  //       if (_selectedRC.indexOf(x.rcCode || '') != -1) {
+  //         this.filteredDPs.push(x);
+  //       } else {
+  //         let i = _selectedDP.indexOf(x.dpCode || '');
 
-          if (i != -1) {
-            _selectedDP.splice(i, 1);
-          }
-        }
-      });
+  //         if (i != -1) {
+  //           _selectedDP.splice(i, 1);
+  //         }
+  //       }
+  //     });
 
-      _selectedDP.forEach((dp) => this.selectedDP.push(dp));
-    }
-  }
+  //     _selectedDP.forEach((dp) => this.selectedDP.push(dp));
+  //   }
+  // }
 
   onSearch() {
     this.agencySeparationParam.rcDp.rcs = this.selectedRC.join(',');
@@ -303,10 +303,9 @@ export class SeparationComponent
     this.filterSubject.next(this.filterValue);
   }
 
-  onClearClick() {
-    this.selectedRC = [];
-    this.selectedDP = [];
+  onClear() {
     this.selectedCalendarType = 'Calendar';
-    this.onSearch();
+    this.clear();
+    this.filterSubject.next(this.filterValue);
   }
 }

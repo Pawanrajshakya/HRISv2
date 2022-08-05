@@ -7,5 +7,6 @@ export enum Reports {
     EmergencyContactInfoReport,
     VacationRoasterReport,
     PARReport,
-    OvertimeReport
+    OvertimeReport,
+    OvertimeEarnedAnalysisReport
 }

@@ -18,8 +18,8 @@
     </div>
     <div class="col-sm-12 row mt-2 mb-2">
       <div class=" col-sm-12">
-        <a class="btn btn-primary btn-xs text-white shadow  pull-right" (click)="onExport()">
-          <i class="bi bi-file-earmark-pdf"></i>&nbsp;Print</a>
+        <button class="btn btn-primary btn-xs text-white shadow  pull-right" [disabled]="!(resultsLength > 0)" (click)="onExport()">
+          <i class="bi bi-file-earmark-pdf"></i>&nbsp;Print</button>
       </div>
     </div>
     <br>

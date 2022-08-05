@@ -11,7 +11,7 @@
           <i class="fa fa-plus-circle fa-fw text-warning"></i>Add New
         </button>
         &nbsp;
-        <button type="button" class="btn btn-primary btn-sm" (click)="onExport()">
+        <button type="button" class="btn btn-primary btn-sm" [disabled]="!(resultsLength > 0)" (click)="onExport()">
           <i class="fa fa-download fa-fw text-warning"></i>Export
         </button>
       </div>

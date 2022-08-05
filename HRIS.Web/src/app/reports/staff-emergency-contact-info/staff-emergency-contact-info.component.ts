@@ -114,32 +114,32 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
       });
   }
 
-  onRCSelect($event: Event) {
-    let _selectedDP = this.selectedDP;
-    let _selectedRC = this.selectedRC;
-    this.filteredDPs = [];
-    this.selectedDP = []
+  // onRCSelect($event: Event) {
+  //   let _selectedDP = this.selectedDP;
+  //   let _selectedRC = this.selectedRC;
+  //   this.filteredDPs = [];
+  //   this.selectedDP = []
 
-    if (_selectedRC.length === 0) {
-      this.filteredDPs = this.dps;
-    } else {
-      this.dps.forEach((x) => {
-        if (_selectedRC.indexOf(x.rcCode || "") != -1) {
-          this.filteredDPs.push(x);
-        }
-        else {
+  //   if (_selectedRC.length === 0) {
+  //     this.filteredDPs = this.dps;
+  //   } else {
+  //     this.dps.forEach((x) => {
+  //       if (_selectedRC.indexOf(x.rcCode || "") != -1) {
+  //         this.filteredDPs.push(x);
+  //       }
+  //       else {
 
-          let i = _selectedDP.indexOf(x.dpCode || "");
+  //         let i = _selectedDP.indexOf(x.dpCode || "");
 
-          if (i != -1) {
-            _selectedDP.splice(i, 1);
-          }
-        }
-      })
+  //         if (i != -1) {
+  //           _selectedDP.splice(i, 1);
+  //         }
+  //       }
+  //     })
 
-      _selectedDP.forEach(dp => this.selectedDP.push(dp));
-    }
-  }
+  //     _selectedDP.forEach(dp => this.selectedDP.push(dp));
+  //   }
+  // }
 
   onSearch() {
     this.reportParam.rcDp.rcs = this.selectedRC.join(",");
@@ -149,14 +149,8 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
   }
 
   onClear() {
-    this.selectedRC = [];
-    this.selectedDP = [];
-    this.selectedLocation = [];
-    this.reportParam.rcDp.rcs = "";
-    this.reportParam.rcDp.dps = "";
-    this.reportParam.code.locations = "";
-    this.filterValue = "";
-    this.filterSubject.next("");
+    this.clear();
+    this.filterSubject.next(this.filterValue);
   }
 
   onExport() {

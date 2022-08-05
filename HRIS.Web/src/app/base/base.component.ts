@@ -1,6 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import {
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 import { IGroup } from '../_models/IGroup';
@@ -19,17 +22,11 @@ import { DownloadComponent } from '../download/download.component';
 
 @Component({
   selector: 'app-base',
-  template: `
-    <p>
-      base works!
-    </p>
-  `,
-  styles: [
-  ]
+  template: ` <p>base works!</p> `,
+  styles: [],
 })
 export class BaseComponent<T> {
-
-  header: string = "";
+  header: string = '';
 
   /*SnackBar - config*/
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
@@ -44,7 +41,7 @@ export class BaseComponent<T> {
 
   protected filterSubject = new Subject<string>();
   filterAction$ = this.filterSubject.asObservable();
-  filterValue: string = "";
+  filterValue: string = '';
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
@@ -91,15 +88,17 @@ export class BaseComponent<T> {
   reportParam: IReportParam = {
     reportName: '',
     file: {
-      format: 'EXCELOPENXML'
-    }, pagination: {
+      format: 'EXCELOPENXML',
+    },
+    pagination: {
       pageNumber: 1,
-      pageSize: 10
-    }, rcDp: {
+      pageSize: 10,
+    },
+    rcDp: {
       rcs: '',
-      dps: ''
-    }, code: {
-    }
+      dps: '',
+    },
+    code: {},
   };
 
   /** Model */
@@ -108,14 +107,35 @@ export class BaseComponent<T> {
   modalConfig = {
     backdrop: true,
     ignoreBackdropClick: true,
-    class: 'modal-lg'
+    class: 'modal-lg',
   };
 
-
   // chart
-  backgroundColor: string[] = ['rgba(247,203,137)', 'rgba(78,162,210)', 'rgba(52,191,120)', 'rgba(110,78,122)', 'rgba(252,114,114)', 'rgba(252,129,82)', 'rgba(197,170,59)', 'rgba(199,110,50)', 'rgba(126,135,135)', 'rgba(162,71,71)'];
+  backgroundColor: string[] = [
+    'rgba(247,203,137)',
+    'rgba(78,162,210)',
+    'rgba(52,191,120)',
+    'rgba(110,78,122)',
+    'rgba(252,114,114)',
+    'rgba(252,129,82)',
+    'rgba(197,170,59)',
+    'rgba(199,110,50)',
+    'rgba(126,135,135)',
+    'rgba(162,71,71)',
+  ];
 
-  hoverBackgroundColor: string[] = ['#f1ab41', '#037bc0', '#02af57', '#4A235A', '#FC4F4F', '#FC6228', '#B7950B', '#BA4A00', '#5F6A6A', '#8B1A1A'];
+  hoverBackgroundColor: string[] = [
+    '#f1ab41',
+    '#037bc0',
+    '#02af57',
+    '#4A235A',
+    '#FC4F4F',
+    '#FC6228',
+    '#B7950B',
+    '#BA4A00',
+    '#5F6A6A',
+    '#8B1A1A',
+  ];
 
   borderRadius: number = 10;
 
@@ -137,8 +157,7 @@ export class BaseComponent<T> {
   }
 
   clearClickedRow(row: T) {
-    if (this.clickedRows.size > 1)
-      this.clickedRows.clear();
+    if (this.clickedRows.size > 1) this.clickedRows.clear();
     this.clickedRows.add(row);
   }
 
@@ -158,37 +177,68 @@ export class BaseComponent<T> {
 
     const initialState: ModalOptions = {
       initialState: {
-        reportParam: this.reportParam
-      }
+        reportParam: this.reportParam,
+      },
     };
 
     this.modalRef = modalService.show(DownloadComponent, initialState);
   }
 
-  onRCSelectBase($event: Event) {
+  onRCSelect($event: Event) {
     let _selectedDP = this.selectedDP;
     let _selectedRC = this.selectedRC;
     this.filteredDPs = [];
-    this.selectedDP = []
+    this.selectedDP = [];
 
     if (_selectedRC.length === 0) {
       this.filteredDPs = this.dps;
     } else {
       this.dps.forEach((x) => {
-        if (_selectedRC.indexOf(x.rcCode || "") != -1) {
+        if (_selectedRC.indexOf(x.rcCode || '') != -1) {
           this.filteredDPs.push(x);
-        }
-        else {
-
-          let i = _selectedDP.indexOf(x.dpCode || "");
+        } else {
+          let i = _selectedDP.indexOf(x.dpCode || '');
 
           if (i != -1) {
             _selectedDP.splice(i, 1);
           }
         }
-      })
+      });
 
-      _selectedDP.forEach(dp => this.selectedDP.push(dp));
+      _selectedDP.forEach((dp) => this.selectedDP.push(dp));
     }
+  }
+
+  clear() {
+    this.selectedGroup = [];
+    this.selectedRC = [];
+    this.selectedDP = [];
+    this.selectedLocation = [];
+    this.selectedTitle = [];
+    this.selectedLvStatuses = [];
+    this.selectedBkpTitle = [];
+    this.selectedCsStatus = [];
+    this.filteredDPs = this.dps;
+    this.reportParam.userID = "";
+    this.reportParam.ein = "";
+    this.reportParam.pagination.pageNumber = 1;
+    this.reportParam.pagination.pageSize = 10;
+    this.reportParam.pagination.sortColumn = '';
+    this.reportParam.pagination.sortOrder = '';
+    this.reportParam.pagination.searchTerm = '';
+    this.reportParam.rcDp.isAgencyWise = false;
+    this.reportParam.rcDp.rcs = '';
+    this.reportParam.rcDp.dps = '';
+    this.reportParam.code.backupTitles ='';
+    this.reportParam.code.locations ='';
+    this.reportParam.code.cSStatuses ='';
+    this.reportParam.code.titles ='';
+    this.reportParam.code.lvStatuses ='';
+    this.reportParam.dateFrom ='';
+    this.reportParam.dateTo ='';
+    this.reportParam.openClose ='';
+
+    this.filterValue = '';
+    this.filterSubject.next('');
   }
 }

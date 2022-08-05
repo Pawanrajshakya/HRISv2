@@ -137,11 +137,9 @@ export class OvertimeReportComponent
   }
 
   onClear() {
-    this.selectedRC = [];
-    this.selectedDP = [];
     this.selectedCalendar = this.calendars[0];
-    this.filterValue = '';
-    this.filterSubject.next('');
+    this.clear();
+    this.filterSubject.next(this.filterValue);
   }
 
   onExport() {

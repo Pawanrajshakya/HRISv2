@@ -44,9 +44,9 @@ import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year
 import { TeamTopInfractionComponent } from './charts/team-top-infraction/team-top-infraction.component';
 import { ActiveStaffComponent } from './staff/active-staff/active-staff.component';
 import { StaffDetailComponent } from './reports/staff-detail/staff-detail.component';
-import { HrisEmptyValuePipe } from './_filters/hris-empty-value.pipe';
-import { HrisPhonePipe } from './_filters/hris-phone.pipe';
-import { HrisPercentPipe } from './_filters/hris-percent.pipe';
+import { HrisEmptyValuePipe } from './_pipes/hris-empty-value.pipe';
+import { HrisPhonePipe } from './_pipes/hris-phone.pipe';
+import { HrisPercentPipe } from './_pipes/hris-percent.pipe';
 import { AuthInterceptorService } from './_services/_interceptors/auth-interceptor.service';
 import { StaffLeaveComponent } from './reports/staff-leave/staff-leave.component';
 import { DownloadComponent } from './download/download.component';
@@ -65,6 +65,7 @@ import { OvertimeChartComponent } from './reports/overtime/overtime-chart/overti
 import { OvertimeReportComponent } from './reports/overtime/overtime-report/overtime-report.component';
 import { AgencyOvertimeAnalysisComponent } from './reports/overtime/agency-overtime-analysis/agency-overtime-analysis.component';
 import { CitytimeOTReportComponent } from './reports/overtime/citytime-ot-report/citytime-ot-report.component';
+import { HrisParenthesesPipe } from './_pipes/hris-parentheses.pipe';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { CitytimeOTReportComponent } from './reports/overtime/citytime-ot-report
     HrisEmptyValuePipe,
     HrisPhonePipe,
     HrisPercentPipe,
+    HrisParenthesesPipe,
     StaffLeaveComponent,
     DownloadComponent,
     CeasedStaffComponent,
