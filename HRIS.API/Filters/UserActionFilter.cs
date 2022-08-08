@@ -20,14 +20,20 @@ namespace HRIS.API
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var user = _userRepository.Get(UserSession.LanID);
+            try
+            {
+                var user = _userRepository.Get(UserSession.LanID);
 
-            if (user == null)
-                context.Result = new UnauthorizedResult();
+                if (user == null)
+                    context.Result = new UnauthorizedResult();
 
-            UserSession.Instance.User = user;
-
-            //SendEmailToDeveloper(context, user);
+                UserSession.Instance.User = user;
+            }
+            catch (System.Exception ex)
+            {
+                ShareManager.AddMessage(ex.Message);
+                context.Result = new ObjectResult(ex.Message);
+            }
         }
 
         public void SendEmailToDeveloper(FilterContext context, UserDto user)
@@ -57,10 +63,10 @@ namespace HRIS.API
             }
 
             EmailManager.SendEmail(
-                ShareManager.SmtpServer, 
-                ShareManager.From, 
-                ShareManager.SendTo, 
-                subject, 
+                ShareManager.SmtpServer,
+                ShareManager.From,
+                ShareManager.SendTo,
+                subject,
                 body.ToString());
         }
 

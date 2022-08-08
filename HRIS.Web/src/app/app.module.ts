@@ -66,6 +66,7 @@ import { OvertimeReportComponent } from './reports/overtime/overtime-report/over
 import { AgencyOvertimeAnalysisComponent } from './reports/overtime/agency-overtime-analysis/agency-overtime-analysis.component';
 import { CitytimeOTReportComponent } from './reports/overtime/citytime-ot-report/citytime-ot-report.component';
 import { HrisParenthesesPipe } from './_pipes/hris-parentheses.pipe';
+import { HrisNumberToTimePipe } from './_pipes/hrisNumberToTime.pipe';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { HrisParenthesesPipe } from './_pipes/hris-parentheses.pipe';
     HrisPhonePipe,
     HrisPercentPipe,
     HrisParenthesesPipe,
+    HrisNumberToTimePipe,
     StaffLeaveComponent,
     DownloadComponent,
     CeasedStaffComponent,

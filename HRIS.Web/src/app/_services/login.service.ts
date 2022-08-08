@@ -7,17 +7,16 @@ import { ErrorHandlingService } from './error-handling.service';
 import { BaseService } from './_base.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService extends BaseService {
-
   currentUser: ICurrentUser = {
     lastName: '',
     firstName: '',
-    userGroups: []
+    userGroups: [],
   };
 
-  lanID: string = "";
+  lanID: string = '';
 
   loginSubject = new Subject<string>();
   loginAction$ = this.loginSubject.asObservable();
@@ -25,7 +24,10 @@ export class LoginService extends BaseService {
   currentUserSubject = new Subject<ICurrentUser>();
   currentUserAction$ = this.currentUserSubject.asObservable();
 
-  constructor(private httpClient: HttpClient, private errorHandlingService: ErrorHandlingService) {
+  constructor(
+    private httpClient: HttpClient,
+    private errorHandlingService: ErrorHandlingService
+  ) {
     super();
 
     this.loginAction$.subscribe({
@@ -34,21 +36,31 @@ export class LoginService extends BaseService {
 
         this.user$.subscribe({
           next: (user: ICurrentUser | null) => {
-            console.log('Login step 3: UserService >> constructor >> this.user$.subscribe >> ', user, "this.currentUser >> ", this.currentUser);
+            console.log(
+              'Login step 3: UserService >> constructor >> this.user$.subscribe >> ',
+              user,
+              'this.currentUser >> ',
+              this.currentUser
+            );
             this.currentUserSubject.next(this.currentUser);
-          }
+          },
         });
-        console.log('Login step 2: UserService >> constructor >> this.loginAction$.subscribe >> ', lanID);
-      }, error: (error) => {
+        console.log(
+          'Login step 2: UserService >> constructor >> this.loginAction$.subscribe >> ',
+          lanID
+        );
+      },
+      error: (error) => {
         this.errorHandlingService.handleError(error);
-      }, complete: () => {
-      }
+      },
+      complete: () => {},
     });
   }
 
-  user$ = this.httpClient.get<ICurrentUser>(this.url + "User")
-    .pipe(
-      tap(user => {
+  user$ = this.httpClient.get<ICurrentUser>(this.url + 'User').pipe(
+    tap((user) => {
+      if (user) {
+        console.log('user',user);
         this.currentUser = user;
         this.currentUser.hasAdmin = user.groups?.indexOf(1) !== -1;
         this.currentUser.hasTEAMS = user.groups?.indexOf(2) !== -1;
@@ -61,30 +73,33 @@ export class LoginService extends BaseService {
         this.currentUser.hasCustSvcComplaints = user.groups?.indexOf(9) !== -1;
         this.currentUser.hasAgencySeparation = user.groups?.indexOf(10) !== -1;
         this.currentUser.hasVacationRosters = user.groups?.indexOf(11) !== -1;
-      }),
-      catchError(error => this.errorHandlingService.handleError(error))
-    );
+      }
+    }),
+    catchError((error) => this.errorHandlingService.handleError(error))
+  );
 
   checkAuthentication(): Promise<ICurrentUser> {
     return new Promise((resolve, reject) => {
-
-      if (this.currentUser.lanID === undefined || this.currentUser.lanID === null) {
-        console.log("Current User not found", this.currentUser);
+      if ((!this.currentUser) ||
+        this.currentUser.lanID === undefined ||
+        this.currentUser.lanID === null
+      ) {
+        console.log('Current User not found', this.currentUser);
         this.user$.subscribe({
           next: (currentUser) => {
             this.currentUser = currentUser as ICurrentUser;
             this.currentUserSubject.next(this.currentUser);
             resolve(this.currentUser);
-          }, error: (error) => {
-            this.errorHandlingService.handleError(error)
-          }, complete: () => {
-          }
-        }
-        );
+          },
+          error: (error) => {
+            this.errorHandlingService.handleError(error);
+          },
+          complete: () => {},
+        });
       } else {
-        console.log("Current User found", this.currentUser);
+        console.log('Current User found', this.currentUser);
         resolve(this.currentUser);
-      };
+      }
     });
   }
 }

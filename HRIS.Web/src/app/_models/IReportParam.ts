@@ -43,6 +43,8 @@ export interface IReportParam {
   isCalendarYear?: boolean;
   year?: string;
   isDateEarned?: boolean;
+  minDate?: number;
+  maxDate?: number;
 }
 
 export interface IPARParam extends IReportParam {

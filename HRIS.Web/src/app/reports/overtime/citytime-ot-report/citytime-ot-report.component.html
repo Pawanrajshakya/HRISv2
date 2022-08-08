@@ -1,1 +1,119 @@
-<p>citytime-otreport works!</p>
+<div class="col-sm-12">
+  <div class="card border-secondary">
+    <div class="card-body">
+      <div>
+        <p>Displays the Citytime Overtime Report By Month.</p>
+      </div>
+      <hr>
+      <div class="col-12">
+        <div class="form-group row" *ngIf="
+            this.loginService.currentUser.roleID == 1 ||
+            this.loginService.currentUser.roleID == 2 ||
+            this.loginService.currentUser.roleID == 3 ||
+            this.loginService.currentUser.roleID == 4
+          ">
+          <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm">RC</label>
+          <div class="col-sm-10">
+            <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedRC" id="rcs" name="selectedRC"
+              placeholder="Select RC" (change)="onRCSelect($event)">
+              <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{
+                rc.description
+              }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group row">
+          <label for="dps" class="col-sm-2 col-form-label col-form-label-sm">DP</label>
+          <div class="col-sm-10">
+            <ng-select [items]="filteredDPs" bindLabel="dpName" bindValue="dpCode" groupBy="rcCode"
+              [(ngModel)]="selectedDP" [multiple]="true" [hideSelected]="true" placeholder="Select DP" id="dps"
+              name="selectedDP">
+              <ng-template ng-optgroup-tmp let-item="item">
+                {{ item.rcCode || "Unnamed group" }}
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group row">
+          <div class="col-sm-2">Date From</div>
+          <div class="col-sm-4">
+            <ng-select [hideSelected]="true" [(ngModel)]="selectedDateFrom" id="selectedDateFrom" name="selectedDateFrom"
+              placeholder="Select Date From">
+              <ng-option *ngFor="let item of date" [value]="item.value">{{item.text}}</ng-option>
+            </ng-select>
+          </div>
+          <div class="col-sm-2">Date To</div>
+          <div class="col-sm-4">
+            <ng-select [hideSelected]="true" [(ngModel)]="selectedDateTo" id="selectedDateTo" name="selectedDateTo"
+              placeholder="Select Date To">
+              <ng-option *ngFor="let item of date" [value]="item.value">{{item.text}}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="col-sm-10 offset-sm-2">
+          <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()">
+            <i class="bi bi-search"></i> Search
+          </button>
+          <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()">
+            <i class="bi bi-stars"></i> Clear
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<br />
+<div class="col-sm-12">
+  <div class="card border-secondary">
+    <div class="card-header text-white bg-secondary border-secondary shadow">
+      <i class="bi bi-grid"></i> Result
+      <button class="btn btn-primary btn-xs float-right text-white shadow border-white" [disabled]="!!isLoadingResults"
+        (click)="onExport()">
+        <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</button>
+    </div>
+    <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <canvas baseChart [data]="chartDataOT" [options]="chartOptionsOT" [plugins]="chartPluginsOT"
+            [type]="chartTypeOT">
+          </canvas>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="table-container table-responsive">
+            <table class="table table-sm table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-nowrap" *ngFor="let item of chartDataOT.labels">
+                    {{item}}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr [ngStyle]="{'background-color': transparentBackgroundColor[0]}">
+                  <td class="text-nowrap" *ngFor="let item of chartDataOT.datasets[0]?.data">
+                    {{item | hrisNumberToTime}}
+                  </td>
+                </tr>
+                <tr [ngStyle]="{'background-color': transparentBackgroundColor[1]}">
+                  <td class="text-nowrap" *ngFor="let item of chartDataOT.datasets[1]?.data">
+                    {{item | hrisNumberToTime}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

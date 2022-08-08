@@ -99,6 +99,8 @@ namespace HRIS.API
     public class OvertimeParameters : AgencySeparationParameters
     {
         public bool IsDateEarned { get; set; }
+        public int MinDate { get; set; }
+        public int MaxDate { get; set; }
     }
 
 }

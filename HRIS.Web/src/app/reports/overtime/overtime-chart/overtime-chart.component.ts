@@ -156,10 +156,14 @@ export class OvertimeChartComponent
           Array.isArray(_data)
             ? _data.forEach((chart: IBudgetedOT) => {
                 if (
-                  this.chartDataAOT.labels?.indexOf(chart.dbDescription.substring(0,3)) === -1
+                  this.chartDataAOT.labels?.indexOf(
+                    chart.dbDescription.substring(0, 3)
+                  ) === -1
                 ) {
                   _budgetedOTData.push(chart.dbValue);
-                  this.chartDataAOT.labels?.push(chart.dbDescription.substring(0,3));
+                  this.chartDataAOT.labels?.push(
+                    chart.dbDescription.substring(0, 3)
+                  );
                   _budgetedOTDataLabel = chart.type;
                 } else {
                   _actualOTData.push(chart.dbValue);

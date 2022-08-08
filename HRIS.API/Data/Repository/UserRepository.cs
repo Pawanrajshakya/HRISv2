@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -225,27 +226,34 @@ namespace HRIS.API
 
         public UserDto Get(string lanID)
         {
-            var sqlParameters = new SqlParameter[] {
+            try
+            {
+                var sqlParameters = new SqlParameter[] {
                 new SqlParameter(){
                     ParameterName= "@LanID", Value= lanID
                 }
             };
 
-            var users = _context.LoginUser
-                .FromSqlRaw($"EXECUTE dbo.spGetUser @LanID", sqlParameters);
+                var users = _context.LoginUser
+                    .FromSqlRaw($"EXECUTE dbo.spGetUser @LanID", sqlParameters);
 
-            var user = users.ToList()
-                .Where(x => x.LanID == lanID)
-                .SingleOrDefault();
+                var user = users.ToList()
+                    .Where(x => x.LanID == lanID)
+                    .SingleOrDefault();
 
-            if (user == null)
-                return null;
+                if (user == null)
+                    return null;
 
-            var dto = _mapper.Map<UserDto>(user);
+                var dto = _mapper.Map<UserDto>(user);
 
-            dto.Groups = _groupRepository.Get(dto.UserID).Select(x => x.GroupID).ToArray();
+                dto.Groups = _groupRepository.Get(dto.UserID).Select(x => x.GroupID).ToArray();
 
-            return dto;
+                return dto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

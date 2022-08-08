@@ -8,16 +8,21 @@ namespace HRIS.API
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if (context.HttpContext.User.Identity.Name == null)
-                context.Result = new UnauthorizedResult();
+            try
+            {
+                if (context.HttpContext.User.Identity.Name == null)
+                    context.Result = new UnauthorizedResult();
 
-            var developerID = context.HttpContext.Request.Headers["hris_developer_lanid"].ToString() ?? "";
+                var developerID = context.HttpContext.Request.Headers["hris_developer_lanid"].ToString() ?? "";
 
-            UserSession.LanID = (developerID.Length > 0) ? developerID : context.HttpContext.User.Identity.Name;
+                UserSession.LanID = (developerID.Length > 0) ? developerID : context.HttpContext.User.Identity.Name;
 
-            //new JsonResult(new { a = "error" });
-            //new UnauthorizedResult(); 
-            //new StatusCodeResult(StatusCodes.Status401Unauthorized);
+            }
+            catch (Exception ex)
+            {
+                ShareManager.AddMessage(ex.Message);
+                throw;
+            }
         }
     }
 }

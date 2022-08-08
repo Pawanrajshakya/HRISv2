@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
+import { IOvertimeCitytimeReport } from '../_models/IOvertimeCitytimeReport';
 import {
   IOvertimeEarnedAnalysisReport,
   IOvertimeReport,
@@ -59,6 +60,20 @@ export class ReportService extends BaseService {
     return this.httpClient
       .post<IOvertimeEarnedAnalysisReport[]>(
         this.url + 'overtime/overtimeEarnedAnalysisReport',
+        tableViewParam
+      )
+      .pipe(
+        //tap((data) => {  console.log('$', data); }),
+        catchError((err) => this.errorHandlingService.handleError(err))
+      );
+  }
+
+  overtimeCitytimeReport$(
+    tableViewParam?: IReportParam
+  ): Observable<IOvertimeCitytimeReport[] | null> {
+    return this.httpClient
+      .post<IOvertimeCitytimeReport[]>(
+        this.url + 'hrisReport/overtimeCitytimeReport',
         tableViewParam
       )
       .pipe(

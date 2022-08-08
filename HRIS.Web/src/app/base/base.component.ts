@@ -124,6 +124,19 @@ export class BaseComponent<T> {
     'rgba(162,71,71)',
   ];
 
+  transparentBackgroundColor: string[] = [
+    'rgba(247,203,137,0.4)',
+    'rgba(78,162,210,0.4)',
+    'rgba(52,191,120,0.4)',
+    'rgba(110,78,122,0.4)',
+    'rgba(252,114,114,0.4)',
+    'rgba(252,129,82,0.4)',
+    'rgba(197,170,59,0.4)',
+    'rgba(199,110,50,0.4)',
+    'rgba(126,135,135,0.4)',
+    'rgba(162,71,71,0.4)',
+  ];
+
   hoverBackgroundColor: string[] = [
     '#f1ab41',
     '#037bc0',
@@ -219,8 +232,8 @@ export class BaseComponent<T> {
     this.selectedBkpTitle = [];
     this.selectedCsStatus = [];
     this.filteredDPs = this.dps;
-    this.reportParam.userID = "";
-    this.reportParam.ein = "";
+    this.reportParam.userID = '';
+    this.reportParam.ein = '';
     this.reportParam.pagination.pageNumber = 1;
     this.reportParam.pagination.pageSize = 10;
     this.reportParam.pagination.sortColumn = '';
@@ -229,14 +242,14 @@ export class BaseComponent<T> {
     this.reportParam.rcDp.isAgencyWise = false;
     this.reportParam.rcDp.rcs = '';
     this.reportParam.rcDp.dps = '';
-    this.reportParam.code.backupTitles ='';
-    this.reportParam.code.locations ='';
-    this.reportParam.code.cSStatuses ='';
-    this.reportParam.code.titles ='';
-    this.reportParam.code.lvStatuses ='';
-    this.reportParam.dateFrom ='';
-    this.reportParam.dateTo ='';
-    this.reportParam.openClose ='';
+    this.reportParam.code.backupTitles = '';
+    this.reportParam.code.locations = '';
+    this.reportParam.code.cSStatuses = '';
+    this.reportParam.code.titles = '';
+    this.reportParam.code.lvStatuses = '';
+    this.reportParam.dateFrom = '';
+    this.reportParam.dateTo = '';
+    this.reportParam.openClose = '';
 
     this.filterValue = '';
     this.filterSubject.next('');

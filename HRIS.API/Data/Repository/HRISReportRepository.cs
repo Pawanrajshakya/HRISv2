@@ -12,6 +12,7 @@ namespace HRIS.API
         Task<IEnumerable<StaffEmergencyContactInfoReportDto>> GetStaffEmergencyContactInfoReport(string userid, string rcs, string dps, string locations, int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "");
         Task<IEnumerable<StaffLeaveReportDto>> GetStaffLeaveReport(string userid, string rcs, string dps, string titles, string lvStatus, string option = "", int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "");
         Task<IEnumerable<VacationRosterReportDto>> GetVacationRosterReport(string userid, string rcs, string dps, string locations, string titles, int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "");
+        Task<IEnumerable<OvertimeCitytimeReportDto>> GetOvertimeCitytimeReport(string userid, string rcs, string dps, int minDate, int maxDate, bool totalOnly = true);
     }
 
     public class HRISReportRepository : Repository, IHRISReportRepository
@@ -149,6 +150,30 @@ namespace HRIS.API
             foreach (var row in rows)
             {
                 dtos.Add(_mapper.Map<VacationRosterReportDto>(row));
+            }
+            return await Task.Run(() => dtos); ;
+        }
+
+        public async Task<IEnumerable<OvertimeCitytimeReportDto>> GetOvertimeCitytimeReport(string userid, string rcs, string dps, int minDate, int maxDate, bool totalOnly = true) 
+        {
+            List<OvertimeCitytimeReportDto> dtos = new List<OvertimeCitytimeReportDto>();
+
+            SqlParameter[] sqlParameters = new SqlParameter[] {
+                new SqlParameter("@UserID", userid){},
+                new SqlParameter("@RCs", rcs){},
+                new SqlParameter("@DPs", dps){},
+                new SqlParameter("@MinDate", minDate){},
+                new SqlParameter("@MaxDate", maxDate){},
+                new SqlParameter("@TotalOnly", totalOnly){}
+            };
+
+            var rows = _context.overtimeCitytimeReports
+                .FromSqlRaw($"EXECUTE dbo.spCitytimeOTReportByMonth @UserID, @RCs, @DPs, @MinDate, @MaxDate, @TotalOnly", sqlParameters)
+                .ToList();
+
+            foreach (var row in rows)
+            {
+                dtos.Add(_mapper.Map<OvertimeCitytimeReportDto>(row));
             }
             return await Task.Run(() => dtos); ;
         }

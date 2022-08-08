@@ -55,5 +55,6 @@ namespace HRIS.API
         public DbSet<SeparationSummary> SeparationSummaries { get; set; }
         public DbSet<PARReport> PARReports { get; set; }
         public DbSet<PARDetail> PARDetails { get; set; }
+        public DbSet<OvertimeCitytimeReport> overtimeCitytimeReports { get; set; }
     }
 }

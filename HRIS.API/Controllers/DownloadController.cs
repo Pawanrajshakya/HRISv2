@@ -12,34 +12,18 @@ namespace HRIS.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(ReportParameters parameters)
+        public ActionResult Post(OvertimeParameters parameters)
         {
             try
             {
                 //System.Threading.Thread.Sleep(5000);
-                ReportManager.ReportParameters = parameters;
-                return File(ReportManager.Get(), parameters.File.ContentType);
+                string url = GetUrl(parameters);
+                return File(ReportManager.Get(url), parameters.File.ContentType);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
-        //[HttpPost("PARReport")]
-        //public ActionResult Post(PARParameters parameters)
-        //{
-        //    try
-        //    {
-        //        //System.Threading.Thread.Sleep(5000);
-        //        ReportManager.ReportName = parameters.ReportName;
-        //        ReportManager.ReportParameters = parameters;
-        //        return File(ReportManager.Get(), parameters.File.ContentType);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
     }
 }

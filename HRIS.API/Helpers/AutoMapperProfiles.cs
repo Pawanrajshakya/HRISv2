@@ -89,6 +89,8 @@ namespace HRIS.API
                 .ForMember(x => x.Oct, y => y.MapFrom(z => z.October))
                 .ForMember(x => x.Nov, y => y.MapFrom(z => z.November))
                 .ForMember(x => x.Dec, y => y.MapFrom(z => z.December));
+
+            CreateMap<OvertimeCitytimeReport, OvertimeCitytimeReportDto>();
         }
     }
 }

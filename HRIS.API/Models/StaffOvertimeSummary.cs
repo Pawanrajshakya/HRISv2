@@ -200,4 +200,21 @@ namespace HRIS.API
         public decimal Project_Percent { get; set; }
         public decimal Project_Diff { get; set; }
     }
+
+    public class OvertimeCitytimeReport
+    {
+        [Key]
+        public Int64 RowNum { get; set; }
+        public string Date { get; set; }
+        public double Voluntary { get; set; }
+        public double Involuntary { get; set; }
+    }
+
+    public class OvertimeCitytimeReportDto
+    {
+        public Int64 RowNum { get; set; }
+        public string Date { get; set; }
+        public double Voluntary { get; set; }
+        public double Involuntary { get; set; }
+    }
 }

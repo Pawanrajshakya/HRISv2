@@ -26,30 +26,33 @@
         </div>
       </div>
     </div>
-    <div class="col-4" *ngIf="!!loginService.currentUser.lanID">
+    <div class="col-4" *ngIf="loginService.currentUser && !!loginService.currentUser.lanID">
       <app-carousel></app-carousel>
     </div>
   </div>
-  <div class="row mt-3" *ngIf="!!loginService.currentUser.lanID">
+  <div class="row mt-3" *ngIf="loginService.currentUser && !!loginService.currentUser.lanID">
     <div class="col-4">
       <app-ecard-chart></app-ecard-chart>
     </div>
-    <div class="col-4" *ngIf="!!loginService.currentUser.hasHeadcount">
+    <div class="col-4" *ngIf="loginService.currentUser && !!loginService.currentUser.hasHeadcount">
       <app-headcount></app-headcount>
     </div>
-    <div class="col-4" *ngIf="!(loginService.currentUser.roleID === 5) && !!loginService.currentUser.hasTEAMS">
+    <div class="col-4"
+      *ngIf="loginService.currentUser && !(loginService.currentUser.roleID === 5) && !!loginService.currentUser.hasTEAMS">
       <app-team-pending-cases></app-team-pending-cases>
     </div>
-    <div class="col-4" *ngIf="!(loginService.currentUser.roleID === 5) && !!loginService.currentUser.hasTEAMS">
+    <div class="col-4"
+      *ngIf="loginService.currentUser && !(loginService.currentUser.roleID === 5) && !!loginService.currentUser.hasTEAMS">
       <app-team-cases-count-by-year></app-team-cases-count-by-year>
     </div>
-    <div class="col-4" *ngIf="!(loginService.currentUser.roleID === 5) && !!loginService.currentUser.hasTEAMS">
+    <div class="col-4"
+      *ngIf="loginService.currentUser && !(loginService.currentUser.roleID === 5) && !!loginService.currentUser.hasTEAMS">
       <app-team-top-infraction></app-team-top-infraction>
     </div>
     <div class="col-4">
     </div>
   </div>
-  <div class="row mt-3" *ngIf="!!loginService.currentUser.lanID">
+  <div class="row mt-3" *ngIf="loginService.currentUser && !!loginService.currentUser.lanID">
     <div class="col-12">
       <div class="card border-info shadow">
         <div class="card-body text-info">

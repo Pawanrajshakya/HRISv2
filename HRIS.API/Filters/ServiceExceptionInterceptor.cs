@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HRIS.API.Filters
@@ -10,23 +11,35 @@ namespace HRIS.API.Filters
 
         public Task OnExceptionAsync(ExceptionContext context)
         {
-            var error = new 
+            
+            try
             {
-                context.HttpContext.Response.StatusCode,
-                context.Exception.Message,
-                context.Exception.Source,
-                context.Exception.StackTrace,
-                context.Exception.HelpLink,
-                context.Exception.TargetSite
-            };
+                ShareManager.AddMessage(context.Exception.Message);
 
-            EmailManager.SendEmail(ShareManager.SmtpServer,
-                ShareManager.From,
-                ShareManager.SendTo,
-                "HRIS v2 Exception",
-                context.Exception.Message);
+                var error = new
+                {
+                    context.HttpContext.Response.StatusCode,
+                    context.Exception.Message,
+                    context.Exception.Source,
+                    context.Exception.StackTrace,
+                    context.Exception.HelpLink,
+                    context.Exception.TargetSite
+                };
 
-            context.Result = new JsonResult(error);
+                EmailManager.SendEmail(ShareManager.SmtpServer,
+                    ShareManager.From,
+                    ShareManager.SendTo,
+                    "HRIS v2 Exception",
+                    context.Exception.Message);
+
+                context.Result = new JsonResult(error);
+                
+            }
+            catch (System.Exception ex)
+            {
+                ShareManager.AddMessage(ex.Message);
+                context.Result = new JsonResult(ShareManager.GetMessage()) ;
+            }
             return Task.CompletedTask;
         }
     }

@@ -111,5 +111,19 @@ namespace HRIS.API.Controllers
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }
+
+        [HttpPost("overtimeCitytimeReport")]
+        public async Task<ActionResult> GetOvertimeCitytimeReportAsync(OvertimeParameters parameters)
+        {
+            try
+            {
+                return Ok(await _reportRepository.GetOvertimeCitytimeReport(UserSession.Instance.User.UserID
+                , parameters.RcDp.RCs ?? ""
+                , parameters.RcDp.DPs ?? ""
+                , parameters.MinDate
+                , parameters.MaxDate));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
+        }
     }
 }

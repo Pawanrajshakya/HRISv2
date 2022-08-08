@@ -13,6 +13,21 @@ namespace HRIS.API
         public static string UserName { get; private set; }
         public static string Password { get; private set; }
 
+        private static string _message;
+        public static void AddMessage(string message)
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+            _message += " " + message;
+        }
+
+        public static string GetMessage()
+        {
+            return !string.IsNullOrEmpty(_message) ? _message : string.Empty;
+        }
+
         public static void Prepare(IConfiguration _config)
         {
             UploadFolderPath = _config["UploadFolderPath"];

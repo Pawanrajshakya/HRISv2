@@ -8,5 +8,6 @@ export enum Reports {
     VacationRoasterReport,
     PARReport,
     OvertimeReport,
-    OvertimeEarnedAnalysisReport
+    OvertimeEarnedAnalysisReport,
+    CitytimeOTReportByMonth
 }
