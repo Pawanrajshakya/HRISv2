@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, TemplateRef } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import {
   catchError,
@@ -15,7 +15,7 @@ import { IDP, IRC } from 'src/app/_models/IRC_DP';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
-import { ReportService } from 'src/app/_services/report.service';
+import { OvertimeService } from 'src/app/_services/overtime.service';
 
 @Component({
   selector: 'app-overtime-report',
@@ -32,7 +32,7 @@ export class OvertimeReportComponent
 
   constructor(
     private codeService: CodeService,
-    private reportService: ReportService,
+    private overtimeService: OvertimeService,
     private modalService: BsModalService,
     public loginService: LoginService
   ) {
@@ -60,7 +60,7 @@ export class OvertimeReportComponent
         'compYTD',
         'waiverPrcnt',
         'otPercentofBaseSalary',
-        'otPcntRemaining'
+        'otPcntRemaining',
       ];
     } else if (
       this.loginService.currentUser.roleID !== 1 &&
@@ -114,7 +114,7 @@ export class OvertimeReportComponent
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          return this.reportService
+          return this.overtimeService
             .overtimeReport$(this.reportParam)
             .pipe(catchError(() => observableOf(null)));
         }),
@@ -132,7 +132,8 @@ export class OvertimeReportComponent
   onSearch() {
     this.reportParam.rcDp.rcs = this.selectedRC.join(',');
     this.reportParam.rcDp.dps = this.selectedDP.join(',');
-    this.reportParam.isCalendarYear = this.selectedCalendar == this.calendars[0];
+    this.reportParam.isCalendarYear =
+      this.selectedCalendar == this.calendars[0];
     this.filterSubject.next(this.filterValue);
   }
 

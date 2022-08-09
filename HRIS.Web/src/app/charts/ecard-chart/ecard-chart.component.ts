@@ -5,52 +5,49 @@ import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs/operators';
 
 import { IEcard } from 'src/app/_models/IEcard';
-import { ICurrentUser } from "src/app/_models/ICurrentUser";
-import { ChartService } from 'src/app/_services/chart.service';
+import { ICurrentUser } from 'src/app/_models/ICurrentUser';
 import { LoginService } from 'src/app/_services/login.service';
 import { BaseComponent } from 'src/app/base/base.component';
 import { IBarChartData } from 'src/app/_models/IChart';
+import { EcardService } from 'src/app/_services/ecard.service';
 
 @Component({
   selector: 'app-ecard-chart',
   templateUrl: './ecard-chart.component.html',
-  styleUrls: ['./ecard-chart.component.scss']
+  styleUrls: ['./ecard-chart.component.scss'],
 })
 export class EcardChartComponent extends BaseComponent<IBarChartData> {
-
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   currentUser: ICurrentUser;
 
   today = new Date().toLocaleDateString();
 
-  ecardChart$ = this.chartService.eCards$.pipe<IBarChartData>(
-    map(ecards => {
-
+  ecardChart$ = this.ecardService.eCards$.pipe<IBarChartData>(
+    map((ecards) => {
       let data: Array<number> = [];
       let barChartData: ChartData<'bar'> = { labels: [], datasets: [] };
-      let barChartOptions: ChartConfiguration['options'] =
-      {
+      let barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
         scales: {
-          x: {
-          },
-          y: {
-          }
+          x: {},
+          y: {},
         },
         plugins: {
           legend: {
             display: false,
-          }
-        }
+          },
+        },
       };
 
       let barChartType: ChartType = 'bar';
 
-      Array.isArray(ecards) ? ecards.forEach((ecard: IEcard) => {
-        barChartData.labels?.push(ecard.labels);
-        data.push(ecard.data);
-      }) : "";//handle error;
+      Array.isArray(ecards)
+        ? ecards.forEach((ecard: IEcard) => {
+            barChartData.labels?.push(ecard.labels);
+            data.push(ecard.data);
+          })
+        : ''; //handle error;
 
       barChartData.datasets.push({
         data: data,
@@ -60,25 +57,33 @@ export class EcardChartComponent extends BaseComponent<IBarChartData> {
         borderRadius: this.borderRadius,
         hoverBorderColor: this.hoverBackgroundColor[0],
         borderWidth: this.borderWidth,
-        borderColor: this.borderColor
+        borderColor: this.borderColor,
       });
 
       return {
         chartData: barChartData,
         chartOptions: barChartOptions,
-        chartType: barChartType
+        chartType: barChartType,
       } as IBarChartData;
-    }));
+    })
+  );
 
-  constructor(private chartService: ChartService
-    , private loginService: LoginService
-    , private ngSelect: NgSelectConfig) {
+  constructor(
+    private ecardService: EcardService,
+    private loginService: LoginService,
+    private ngSelect: NgSelectConfig
+  ) {
     super();
     this.currentUser = this.loginService.currentUser;
   }
 
-  public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
+  public chartHovered({
+    event,
+    active,
+  }: {
+    event?: ChartEvent;
+    active?: {}[];
+  }): void {
     console.log(event?.type, active ? active[0] : undefined);
   }
-
 }

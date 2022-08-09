@@ -60,7 +60,7 @@ export class LoginService extends BaseService {
   user$ = this.httpClient.get<ICurrentUser>(this.url + 'User').pipe(
     tap((user) => {
       if (user) {
-        console.log('user',user);
+        console.log('user', user);
         this.currentUser = user;
         this.currentUser.hasAdmin = user.groups?.indexOf(1) !== -1;
         this.currentUser.hasTEAMS = user.groups?.indexOf(2) !== -1;
@@ -80,7 +80,8 @@ export class LoginService extends BaseService {
 
   checkAuthentication(): Promise<ICurrentUser> {
     return new Promise((resolve, reject) => {
-      if ((!this.currentUser) ||
+      if (
+        !this.currentUser ||
         this.currentUser.lanID === undefined ||
         this.currentUser.lanID === null
       ) {

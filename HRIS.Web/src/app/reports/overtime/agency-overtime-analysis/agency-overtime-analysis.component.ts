@@ -15,7 +15,7 @@ import { IRC } from 'src/app/_models/IRC_DP';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
-import { ReportService } from 'src/app/_services/report.service';
+import { OvertimeService } from 'src/app/_services/overtime.service';
 
 @Component({
   selector: 'app-agency-overtime-analysis',
@@ -35,7 +35,7 @@ export class AgencyOvertimeAnalysisComponent
 
   constructor(
     private codeService: CodeService,
-    private reportService: ReportService,
+    private overtimeService: OvertimeService,
     private modalService: BsModalService,
     public loginService: LoginService
   ) {
@@ -94,7 +94,7 @@ export class AgencyOvertimeAnalysisComponent
           this.reportParam.pagination.sortOrder = this.sort.direction;
           this.reportParam.year = this.selectedYear;
           this.reportParam.isDateEarned = this.selectedType == this.types[0];
-          return this.reportService
+          return this.overtimeService
             .overtimeEarnedAnalysisReport$(this.reportParam)
             .pipe(catchError(() => observableOf(null)));
         }),

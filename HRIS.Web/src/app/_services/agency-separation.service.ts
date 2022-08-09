@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs';
+import { IAgencySeparationChart } from '../_models/IAgencySeparationChart';
 import { IReportParam } from '../_models/IReportParam';
 import { ErrorHandlingService } from './error-handling.service';
 import { BaseService } from './_base.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class ReportDownloadService extends BaseService {
+export class AgencySeparationService extends BaseService {
   constructor(
     private httpClient: HttpClient,
     private errorHandlingService: ErrorHandlingService
@@ -16,16 +17,14 @@ export class ReportDownloadService extends BaseService {
     super();
   }
 
-  get$(reportParam?: IReportParam) {
+  agencySeparationChart$(tableViewParam?: IReportParam) {
     return this.httpClient
-      .post(this.url + 'download', reportParam, {
-        observe: 'response',
-        responseType: 'blob',
-      })
+      .post<IAgencySeparationChart[]>(
+        this.url + 'agencySeparation/chart',
+        tableViewParam
+      )
       .pipe(
-        tap((data) => {
-          console.log(data);
-        }),
+        //tap((data) => {  console.log('$', data); }),
         catchError((err) => this.errorHandlingService.handleError(err))
       );
   }

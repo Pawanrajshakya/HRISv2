@@ -4,10 +4,10 @@ import { BaseChartDirective } from 'ng2-charts';
 import { BaseComponent } from 'src/app/base/base.component';
 import { IBudgetedOT } from 'src/app/_models/IBudgetedOT';
 import { IRC } from 'src/app/_models/IRC_DP';
-import { ChartService } from 'src/app/_services/chart.service';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
 import { merge, startWith, switchMap, Observable } from 'rxjs';
+import { OvertimeService } from 'src/app/_services/overtime.service';
 
 @Component({
   selector: 'app-overtime-chart',
@@ -58,7 +58,7 @@ export class OvertimeChartComponent
   constructor(
     private codeService: CodeService,
     public loginService: LoginService,
-    private chartService: ChartService
+    private overtimeService: OvertimeService
   ) {
     super();
   }
@@ -75,7 +75,7 @@ export class OvertimeChartComponent
           console.log(this.selectedRC.join(','));
           //this.separationChart$.subscribe();
           this.isLoadingResults = true;
-          return this.chartService.budgetedOTChart$(
+          return this.overtimeService.budgetedOTChart$(
             this.selectedRC.join('|') ?? '',
             this.year
           );
@@ -138,7 +138,7 @@ export class OvertimeChartComponent
         startWith({}),
         switchMap(() => {
           this.isLoadingResultsAOT = true;
-          return this.chartService.actualOTChart$(
+          return this.overtimeService.actualOTChart$(
             this.selectedRC.join('|') ?? ''
           );
         })

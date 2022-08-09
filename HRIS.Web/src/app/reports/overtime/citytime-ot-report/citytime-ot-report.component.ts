@@ -2,14 +2,14 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { merge, startWith, switchMap, Observable } from 'rxjs';
+import { merge, startWith, switchMap } from 'rxjs';
 import { BaseComponent } from 'src/app/base/base.component';
 import { IOvertimeCitytimeReport } from 'src/app/_models/IOvertimeCitytimeReport';
 import { IDP, IRC } from 'src/app/_models/IRC_DP';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
-import { ReportService } from 'src/app/_services/report.service';
+import { OvertimeService } from 'src/app/_services/overtime.service';
 
 @Component({
   selector: 'app-citytime-otreport',
@@ -69,7 +69,7 @@ export class CitytimeOTReportComponent
   constructor(
     public loginService: LoginService,
     private codeService: CodeService,
-    private reportService: ReportService,
+    private overtimeService: OvertimeService,
     private modalService: BsModalService
   ) {
     super();
@@ -86,7 +86,7 @@ export class CitytimeOTReportComponent
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.reportService.overtimeCitytimeReport$(this.reportParam);
+          return this.overtimeService.overtimeCitytimeReport$(this.reportParam);
         })
       )
       .subscribe({

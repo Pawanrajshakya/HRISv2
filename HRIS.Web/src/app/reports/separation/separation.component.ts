@@ -10,7 +10,7 @@ import {
 } from 'src/app/_models/IAgencySeparationSummary';
 import { IDP, IRC } from 'src/app/_models/IRC_DP';
 import { IReportParam } from 'src/app/_models/IReportParam';
-import { ChartService } from 'src/app/_services/chart.service';
+import { AgencySeparationService } from 'src/app/_services/agency-separation.service';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
 import { StaffService } from 'src/app/_services/staff.service';
@@ -74,7 +74,7 @@ export class SeparationComponent
   constructor(
     private codeService: CodeService,
     public loginService: LoginService,
-    private chartService: ChartService,
+    private agencySeparationService: AgencySeparationService,
     private staffService: StaffService
   ) {
     super();
@@ -113,7 +113,7 @@ export class SeparationComponent
         startWith({}),
         switchMap(() => {
           //this.separationChart$.subscribe();
-          return this.chartService.agencySeparationChart$(
+          return this.agencySeparationService.agencySeparationChart$(
             this.agencySeparationParam
           );
         })

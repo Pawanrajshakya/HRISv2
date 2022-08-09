@@ -67,6 +67,12 @@ import { AgencyOvertimeAnalysisComponent } from './reports/overtime/agency-overt
 import { CitytimeOTReportComponent } from './reports/overtime/citytime-ot-report/citytime-ot-report.component';
 import { HrisParenthesesPipe } from './_pipes/hris-parentheses.pipe';
 import { HrisNumberToTimePipe } from './_pipes/hrisNumberToTime.pipe';
+import { ChartReportComponent } from './reports/headcount/chart-report/chart-report.component';
+import { DetailReportComponent } from './reports/headcount/detail-report/detail-report.component';
+import { TitleSummaryReportComponent } from './reports/headcount/title-summary-report/title-summary-report.component';
+import { ReconciliationReportComponent } from './reports/headcount/reconciliation-report/reconciliation-report.component';
+import { BudgetSummaryReportComponent } from './reports/headcount/budget-summary-report/budget-summary-report.component';
+import { EmployeeDetailReportComponent } from './reports/headcount/employee-detail-report/employee-detail-report.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +114,13 @@ import { HrisNumberToTimePipe } from './_pipes/hrisNumberToTime.pipe';
     OvertimeChartComponent,
     OvertimeReportComponent,
     AgencyOvertimeAnalysisComponent,
-    CitytimeOTReportComponent
+    CitytimeOTReportComponent,
+    ChartReportComponent,
+    DetailReportComponent,
+    TitleSummaryReportComponent,
+    ReconciliationReportComponent,
+    BudgetSummaryReportComponent,
+    EmployeeDetailReportComponent
   ],
   imports: [
     BrowserModule,

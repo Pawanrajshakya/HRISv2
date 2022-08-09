@@ -4,9 +4,9 @@ import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs';
 import { getFullYear } from 'ngx-bootstrap/chronos';
 import { ITopInfractionsChart } from "src/app/_models/ITopInfractionsChart";
-import { ChartService } from 'src/app/_services/chart.service';
 import { BaseComponent } from 'src/app/base/base.component';
 import { IPieChartData } from 'src/app/_models/IChart';
+import { TeamService } from 'src/app/_services/team.service';
 
 @Component({
   selector: 'app-team-top-infraction',
@@ -23,7 +23,7 @@ export class TeamTopInfractionComponent extends BaseComponent<IPieChartData> imp
 
   title: string = "";
 
-  constructor(private chartService: ChartService) {
+  constructor(private teamService: TeamService) {
     super();
   }
 
@@ -33,7 +33,7 @@ export class TeamTopInfractionComponent extends BaseComponent<IPieChartData> imp
     this.title = "Summary of the Top Five Infractions in DSS-HRA-DHS received Year-To-Date (" + _date.toLocaleDateString() + " - " + (new Date).toLocaleDateString() + ")";
   }
 
-  topInfractionChart$ = this.chartService.topInfractionsChart$
+  topInfractionChart$ = this.teamService.topInfractionsChart$
     .pipe<IPieChartData>(
       map(rows => {
         console.log('topInfractionChart', rows);

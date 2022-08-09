@@ -1,20 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
+import { IBudgetedOT } from '../_models/IBudgetedOT';
 import { IOvertimeCitytimeReport } from '../_models/IOvertimeCitytimeReport';
 import {
   IOvertimeEarnedAnalysisReport,
   IOvertimeReport,
 } from '../_models/IOvertimeReport';
-import { IPARDetail, IPARReport } from '../_models/IPARReport';
-import { IPARParam, IReportParam } from '../_models/IReportParam';
+import { IReportParam } from '../_models/IReportParam';
 import { ErrorHandlingService } from './error-handling.service';
 import { BaseService } from './_base.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ReportService extends BaseService {
+export class OvertimeService extends BaseService {
   constructor(
     private httpClient: HttpClient,
     private errorHandlingService: ErrorHandlingService
@@ -22,18 +22,24 @@ export class ReportService extends BaseService {
     super();
   }
 
-  parReport$(tableViewParam?: IPARParam): Observable<IPARReport[] | null> {
+  budgetedOTChart$(rcs: string, year: string) {
+    if (!rcs || rcs.length === 0) rcs = '*';
+
     return this.httpClient
-      .post<IPARReport[]>(this.url + 'par/report', tableViewParam)
+      .get<IBudgetedOT[]>(
+        this.url + 'overtime/budgetedOT/' + rcs + '/' + year ?? 'P'
+      )
       .pipe(
         //tap((data) => {  console.log('$', data); }),
         catchError((err) => this.errorHandlingService.handleError(err))
       );
   }
 
-  parDetail$(reqNumber: string): Observable<IPARDetail[] | null> {
+  actualOTChart$(rcs: string) {
+    if (!rcs || rcs.length === 0) rcs = '*';
+
     return this.httpClient
-      .get<IPARDetail[]>(this.url + 'par/detail/' + reqNumber)
+      .get<IBudgetedOT[]>(this.url + 'overtime/actualOT/' + rcs ?? '')
       .pipe(
         //tap((data) => {  console.log('$', data); }),
         catchError((err) => this.errorHandlingService.handleError(err))
