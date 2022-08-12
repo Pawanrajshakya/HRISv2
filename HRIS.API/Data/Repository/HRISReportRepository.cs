@@ -167,7 +167,7 @@ namespace HRIS.API
                 new SqlParameter("@TotalOnly", totalOnly){}
             };
 
-            var rows = _context.overtimeCitytimeReports
+            var rows = _context.OvertimeCitytimeReports
                 .FromSqlRaw($"EXECUTE dbo.spCitytimeOTReportByMonth @UserID, @RCs, @DPs, @MinDate, @MaxDate, @TotalOnly", sqlParameters)
                 .ToList();
 

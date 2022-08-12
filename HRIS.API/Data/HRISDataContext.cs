@@ -55,6 +55,12 @@ namespace HRIS.API
         public DbSet<SeparationSummary> SeparationSummaries { get; set; }
         public DbSet<PARReport> PARReports { get; set; }
         public DbSet<PARDetail> PARDetails { get; set; }
-        public DbSet<OvertimeCitytimeReport> overtimeCitytimeReports { get; set; }
+        public DbSet<OvertimeCitytimeReport> OvertimeCitytimeReports { get; set; }
+
+        public DbSet<HeadcountReport> HeadcountReports { get; set; }
+        public DbSet<HeadCountTitleSummaryReport> HeadCountTitleSummaryReports { get; set; }
+        public DbSet<HeadcountTitleAndBudgetReconciliationSummaryReport> HeadCountTitleAndBudgetReconciliationSummaryReports { get; set; }
+        public DbSet<HeadcountTitleAndBudgetSummaryReport> HeadCountTitleAndBudgetSummaryReports { get; set; }
+        public DbSet<HeadcountPMSEmployeeDetailReport> HeadcountPMSEmployeeDetailReports { get; set; }
     }
 }

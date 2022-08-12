@@ -10,64 +10,69 @@ import {
   of as observableOf,
 } from 'rxjs';
 import { BaseComponent } from 'src/app/base/base.component';
-import { IOvertimeReport } from 'src/app/_models/IOvertimeReport';
-import { IRc } from 'src/app/_models/IRcDp';
+import { IHeadcountReport } from 'src/app/_models/IHeadcountReport';
+
+import { IDpGroup, IRc } from 'src/app/_models/IRcDp';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
+import { HeadcountService } from 'src/app/_services/headcount.service';
 import { LoginService } from 'src/app/_services/login.service';
-import { OvertimeService } from 'src/app/_services/overtime.service';
 
 @Component({
-  selector: 'app-agency-overtime-analysis',
-  templateUrl: './agency-overtime-analysis.component.html',
-  styleUrls: ['./agency-overtime-analysis.component.scss'],
+  selector: 'app-headcount-report-detail',
+  templateUrl: './headcount-report-detail.component.html',
+  styleUrls: ['./headcount-report-detail.component.scss'],
 })
-export class AgencyOvertimeAnalysisComponent
-  extends BaseComponent<IOvertimeReport>
+export class HeadcountReportDetailComponent
+  extends BaseComponent<IHeadcountReport>
   implements AfterViewInit, OnInit
 {
-  overtimeEarnedAnalysisReport: any = [];
-  selectedType: string = 'Earned';
-  types: string[] = ['Earned', 'Paid'];
-
-  selectedYear: string = '2022';
-  years: string[] = ['2022', '2021', '2020', '2019'];
-
   constructor(
     private codeService: CodeService,
-    private overtimeService: OvertimeService,
     private modalService: BsModalService,
-    public loginService: LoginService
+    public loginService: LoginService,
+    public headcountService: HeadcountService
   ) {
     super();
   }
 
   ngOnInit(): void {
     this.displayedColumns = [
-      'rarc',
-      'description',
-      'july',
-      'august',
-      'september',
-      'october',
-      'november',
-      'december',
-      'january',
-      'february',
-      'march',
-      'april',
-      'may',
-      'june',
-      'monthly_Alloc',
-      'fY_Alloc',
-      'fytD_Earned',
-      'fytD_Bal',
-      'project_Earned',
-      'project_Percent',
-      'project_Diff',
+      'divisionUnit',
+      'rc',
+      'dp',
+      'dpName',
+      'title',
+      'titleDescription',
+      'ctlBudgetHc',
+      'ctlOnBoard',
+      'ctlHcVacancies',
+      'ctlBdgBaseSalary',
+      'ctlTotalBaseSalary',
+      'ctlVacancySalary',
+      'ctlNewHireTickets',
+      'ctlOtNewHireTickets',
+      'ctlIncrementCost',
+      'ctlAvail',
+      'budgetHc',
+      'staffOnBoard',
+      'hcVacancies',
+      'bdgBaseSalary',
+      'totalBaseSalary',
+      'vacancySalary',
+      'newHireTickets',
+      'otNewHireTickets',
+      'incrementCost',
+      'avail',
+      'totalAvailVacancies',
+      'totalAvail',
+      'comments',
     ];
+
     this.rcs = this.codeService.rc_dp.RC as IRc[];
-    this.filteredDPs = this.dps;
+    //this.dps = this.codeService.rc_dp.DP as IDp[];
+    this.groupDPs = this.codeService.rc_dp.IDpGroup as IDpGroup[];
+    this.filteredGroupDPs = this.groupDPs;
   }
 
   ngAfterViewInit(): void {
@@ -92,10 +97,8 @@ export class AgencyOvertimeAnalysisComponent
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          this.reportParam.year = this.selectedYear;
-          this.reportParam.isDateEarned = this.selectedType == this.types[0];
-          return this.overtimeService
-            .overtimeEarnedAnalysisReport$(this.reportParam)
+          return this.headcountService
+            .report$(this.reportParam)
             .pipe(catchError(() => observableOf(null)));
         }),
         map((data) => {
@@ -111,17 +114,18 @@ export class AgencyOvertimeAnalysisComponent
 
   onSearch() {
     this.reportParam.rcDp.rcs = this.selectedRC.join(',');
-    this.reportParam.isDateEarned = this.selectedType == this.types[0];
+    this.reportParam.rcDp.dps = this.selectedGroupDP.join(',');
     this.filterSubject.next(this.filterValue);
   }
 
   onClear() {
     this.clear();
-    this.selectedType = this.types[0];
-    this.selectedYear = this.years[0];
+    this.reportParam.pagination.sortColumn = 'rc';
+    this.reportParam.pagination.sortOrder = 'asc';
+    this.filterSubject.next(this.filterValue);
   }
 
   onExport() {
-    this.download(this.modalService, Reports[9]);
+    this.download(this.modalService, Reports[11]);
   }
 }

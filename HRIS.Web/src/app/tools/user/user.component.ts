@@ -7,7 +7,6 @@ import { UserService } from '../../_services/user.service';
 import { NgForm } from '@angular/forms';
 import { IGroup } from '../../_models/IGroup';
 import { IRole } from '../../_models/IRole';
-import { IRC, IDP } from '../../_models/IRC_DP';
 import { CodeService } from '../../_services/code.service';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { NgSelectConfig } from '@ng-select/ng-select';
@@ -15,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Reports } from '../../_models/Reports.enum';
 import { BaseComponent } from '../../base/base.component';
 import { DownloadComponent } from '../../download/download.component';
+import { IDp, IRc } from 'src/app/_models/IRcDp';
 
 @Component({
   selector: 'app-user',
@@ -129,11 +129,11 @@ next: data => {
     });
 
     this.codeService.rcs$.subscribe((data) => {
-      this.rcs = data as IRC[];
+      this.rcs = data as IRc[];
     });
 
     this.codeService.dps$.subscribe((data) => {
-      this.dps = data as IDP[];
+      this.dps = data as IDp[];
       this.filteredDPs = this.dps;
     });
 

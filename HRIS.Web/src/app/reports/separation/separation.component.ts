@@ -8,8 +8,7 @@ import {
   IAgencySeparationSummary,
   ISeparationTable,
 } from 'src/app/_models/IAgencySeparationSummary';
-import { IDP, IRC } from 'src/app/_models/IRC_DP';
-import { IReportParam } from 'src/app/_models/IReportParam';
+import { IDp, IRc } from 'src/app/_models/IRcDp';
 import { AgencySeparationService } from 'src/app/_services/agency-separation.service';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
@@ -27,31 +26,31 @@ export class SeparationComponent
   selectedCalendarType: string = 'Calendar';
   calendarType: string[] = ['Calendar', 'Fiscal'];
 
-  agencySeparationParam: IReportParam = {
-    reportName: '',
-    file: {
-      format: '',
-    },
-    pagination: {
-      pageNumber: undefined,
-      pageSize: undefined,
-      sortColumn: undefined,
-      sortOrder: undefined,
-      searchTerm: undefined,
-    },
-    rcDp: {
-      isAgencyWise: undefined,
-      rcs: undefined,
-      dps: undefined,
-    },
-    code: {
-      backupTitles: undefined,
-      locations: undefined,
-      cSStatuses: undefined,
-      titles: undefined,
-      lvStatuses: undefined,
-    },
-  };
+  // agencySeparationParam: IReportParam = {
+  //   reportName: '',
+  //   file: {
+  //     format: '',
+  //   },
+  //   pagination: {
+  //     pageNumber: undefined,
+  //     pageSize: undefined,
+  //     sortColumn: undefined,
+  //     sortOrder: undefined,
+  //     searchTerm: undefined,
+  //   },
+  //   rcDp: {
+  //     isAgencyWise: undefined,
+  //     rcs: undefined,
+  //     dps: undefined,
+  //   },
+  //   code: {
+  //     backupTitles: undefined,
+  //     locations: undefined,
+  //     cSStatuses: undefined,
+  //     titles: undefined,
+  //     lvStatuses: undefined,
+  //   },
+  // };
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
@@ -81,8 +80,8 @@ export class SeparationComponent
   }
 
   ngOnInit(): void {
-    this.rcs = this.codeService.rc_dp.RC as IRC[];
-    this.dps = this.codeService.rc_dp.DP as IDP[];
+    this.rcs = this.codeService.rc_dp.RC as IRc[];
+    this.dps = this.codeService.rc_dp.DP as IDp[];
     this.filteredDPs = this.dps;
   }
 
@@ -93,7 +92,7 @@ export class SeparationComponent
         switchMap(() => {
           //this.separationChart$.subscribe();
           return this.staffService.agencySeparation$(
-            this.agencySeparationParam
+            this.reportParam
           );
         })
       )
@@ -102,7 +101,7 @@ export class SeparationComponent
           let getData = this.getData$(_data).subscribe({
             next: (_separationTable) => {
               this.data = _separationTable;
-            },
+            }
           });
           getData.unsubscribe();
         },
@@ -114,13 +113,13 @@ export class SeparationComponent
         switchMap(() => {
           //this.separationChart$.subscribe();
           return this.agencySeparationService.agencySeparationChart$(
-            this.agencySeparationParam
+            this.reportParam
           );
         })
       )
       .subscribe({
         next: (_data) => {
-          let __data: number[] = [];
+          let chartDatasetData: number[] = [];
           this.chartData.labels = [];
           this.chartData.datasets = [];
 
@@ -129,13 +128,13 @@ export class SeparationComponent
             ? _data.forEach((chart: IAgencySeparationChart) => {
                 if (chart.description !== 'ZZZ') {
                   this.chartData.labels?.push(chart.description);
-                  __data.push(chart.total ?? 0);
+                  chartDatasetData.push(chart.total ?? 0);
                 }
               })
             : ''; //handle error;
 
           this.chartData.datasets.push({
-            data: __data,
+            data: chartDatasetData,
             label: '',
             backgroundColor: this.backgroundColor[0],
             hoverBackgroundColor: this.hoverBackgroundColor[0],
@@ -146,7 +145,7 @@ export class SeparationComponent
           });
 
           this.chart?.update();
-        },
+        }
       });
   }
 
@@ -262,7 +261,7 @@ export class SeparationComponent
 
   find(_separationTable: any[], search?: string): boolean {
     let _result: boolean = false;
-    _separationTable.filter((obj) => {
+    _separationTable.forEach((obj) => {
       if (!_result && search && obj.reason == search) {
         _result = true;
       }
@@ -270,35 +269,10 @@ export class SeparationComponent
     return _result;
   }
 
-  // onRCSelect($event: Event) {
-  //   let _selectedDP = this.selectedDP;
-  //   let _selectedRC = this.selectedRC;
-  //   this.filteredDPs = [];
-  //   this.selectedDP = [];
-
-  //   if (_selectedRC.length === 0) {
-  //     this.filteredDPs = this.dps;
-  //   } else {
-  //     this.dps.forEach((x) => {
-  //       if (_selectedRC.indexOf(x.rcCode || '') != -1) {
-  //         this.filteredDPs.push(x);
-  //       } else {
-  //         let i = _selectedDP.indexOf(x.dpCode || '');
-
-  //         if (i != -1) {
-  //           _selectedDP.splice(i, 1);
-  //         }
-  //       }
-  //     });
-
-  //     _selectedDP.forEach((dp) => this.selectedDP.push(dp));
-  //   }
-  // }
-
   onSearch() {
-    this.agencySeparationParam.rcDp.rcs = this.selectedRC.join(',');
-    this.agencySeparationParam.rcDp.dps = this.selectedDP.join(',');
-    this.agencySeparationParam.isCalendarYear =
+    this.reportParam.rcDp.rcs = this.selectedRC.join(',');
+    this.reportParam.rcDp.dps = this.selectedDP.join(',');
+    this.reportParam.isCalendarYear =
       this.selectedCalendarType === 'Calendar';
     this.filterSubject.next(this.filterValue);
   }

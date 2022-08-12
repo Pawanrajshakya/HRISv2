@@ -38,7 +38,7 @@ import { AnnouncementComponent } from './tools/announcement/announcement.compone
 import { EcardChartComponent } from './charts/ecard-chart/ecard-chart.component';
 import { BaseComponent } from './base/base.component';
 import { CarouselComponent } from './tools/announcement/carousel/carousel.component';
-import { HeadcountComponent } from './charts/headcount/headcount.component';
+import { HeadcountChartComponent } from './charts/headcount/headcount-chart.component';
 import { PendingCasesComponent } from './charts/team-pending-cases/team-pending-cases.component';
 import { TeamCasesCountByYearComponent } from './charts/team-cases-count-by-year/team-cases-count-by-year.component';
 import { TeamTopInfractionComponent } from './charts/team-top-infraction/team-top-infraction.component';
@@ -67,12 +67,13 @@ import { AgencyOvertimeAnalysisComponent } from './reports/overtime/agency-overt
 import { CitytimeOTReportComponent } from './reports/overtime/citytime-ot-report/citytime-ot-report.component';
 import { HrisParenthesesPipe } from './_pipes/hris-parentheses.pipe';
 import { HrisNumberToTimePipe } from './_pipes/hrisNumberToTime.pipe';
-import { ChartReportComponent } from './reports/headcount/chart-report/chart-report.component';
-import { DetailReportComponent } from './reports/headcount/detail-report/detail-report.component';
-import { TitleSummaryReportComponent } from './reports/headcount/title-summary-report/title-summary-report.component';
-import { ReconciliationReportComponent } from './reports/headcount/reconciliation-report/reconciliation-report.component';
-import { BudgetSummaryReportComponent } from './reports/headcount/budget-summary-report/budget-summary-report.component';
-import { EmployeeDetailReportComponent } from './reports/headcount/employee-detail-report/employee-detail-report.component';
+import { HeadcountReportChartComponent } from './reports/headcount/headcount-report-chart/headcount-report-chart.component';
+import { HeadcountReportDetailComponent } from './reports/headcount/headcount-report-detail/headcount-report-detail.component';
+import { HeadcountReportTitleSummaryComponent } from './reports/headcount/headcount-report-title-summary/headcount-report-title-summary.component';
+import { HeadcountReportReconciliationSummaryComponent } from './reports/headcount/headcount-report-reconciliation-summary/headcount-report-reconciliation-summary.component';
+import { HeadcountReportBudgetSummaryComponent } from './reports/headcount/headcount-report-budget-summary/headcount-report-budget-summary.component';
+import { HeadcountReportEmployeeDetailComponent } from './reports/headcount/headcount-report-employee-detail/headcount-report-employee-detail.component';
+import { HeadcountComponent } from './reports/headcount/headcount.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,7 @@ import { EmployeeDetailReportComponent } from './reports/headcount/employee-deta
     EcardChartComponent,
     BaseComponent,
     CarouselComponent,
-    HeadcountComponent,
+    HeadcountChartComponent,
     PendingCasesComponent,
     TeamCasesCountByYearComponent,
     TeamTopInfractionComponent,
@@ -115,12 +116,13 @@ import { EmployeeDetailReportComponent } from './reports/headcount/employee-deta
     OvertimeReportComponent,
     AgencyOvertimeAnalysisComponent,
     CitytimeOTReportComponent,
-    ChartReportComponent,
-    DetailReportComponent,
-    TitleSummaryReportComponent,
-    ReconciliationReportComponent,
-    BudgetSummaryReportComponent,
-    EmployeeDetailReportComponent
+    HeadcountReportChartComponent,
+    HeadcountReportDetailComponent,
+    HeadcountReportTitleSummaryComponent,
+    HeadcountReportReconciliationSummaryComponent,
+    HeadcountReportBudgetSummaryComponent,
+    HeadcountReportEmployeeDetailComponent,
+    HeadcountComponent,
   ],
   imports: [
     BrowserModule,
@@ -140,11 +142,21 @@ import { EmployeeDetailReportComponent } from './reports/headcount/employee-deta
     BsDatepickerModule.forRoot(),
     CarouselModule.forRoot(),
     CollapseModule.forRoot(),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptorService, multi: true },
-    { provide: LocationStrategy, useClass: HashLocationStrategy}],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeaderInterceptorService,
+      multi: true,
+    },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

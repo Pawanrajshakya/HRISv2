@@ -1,0 +1,51 @@
+<div class="col-sm-12">
+  <div class="card border-secondary">
+    <div class="card-body">
+      <div>
+        <p>Displays the headcount title summary for your areas.</p>
+      </div>
+      <hr>
+      <div class="col-12">
+        <div class="form-group row">
+          <label for="rcs" class="col-sm-1 col-form-label col-form-label-sm" *ngIf="
+          this.loginService.currentUser.roleID == 1 ||
+          this.loginService.currentUser.roleID == 2 ||
+          this.loginService.currentUser.roleID == 3 ||
+          this.loginService.currentUser.roleID == 4
+        ">RC</label>
+          <div class="col-sm-5" *ngIf="
+          this.loginService.currentUser.roleID == 1 ||
+          this.loginService.currentUser.roleID == 2 ||
+          this.loginService.currentUser.roleID == 3 ||
+          this.loginService.currentUser.roleID == 4
+        ">
+            <select multiple class="form-control" [(ngModel)]="selectedRC" id="rcs" name="selectedRC">
+              <option *ngFor="let rc of rcs" [value]="rc.code">{{
+                  rc.description
+                }}</option>
+            </select>
+          </div>
+          <label for="titles" class="col-sm-1 col-form-label col-form-label-sm">Titles</label>
+          <div class="col-sm-5">
+            <select multiple class="form-control" [(ngModel)]="selectedTitle" id="titles" name="selectedTitle">
+              <option *ngFor="let title of titles" [value]="title.code">{{
+                    title.description
+                  }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="col-sm-10 offset-sm-2">
+          <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()">
+            <i class="bi bi-search"></i> Search
+          </button>
+          <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()">
+            <i class="bi bi-stars"></i> Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />

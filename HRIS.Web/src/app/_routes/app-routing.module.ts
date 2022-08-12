@@ -21,6 +21,8 @@ import { VacationRosterComponent } from '../reports/vacation-roster/vacation-ros
 import { SeparationComponent } from '../reports/separation/separation.component';
 import { ParComponent } from '../reports/par/par.component';
 import { OvertimeComponent } from '../reports/overtime/overtime.component';
+import { HeadcountChartComponent } from '../charts/headcount/headcount-chart.component';
+import { HeadcountComponent } from '../reports/headcount/headcount.component';
 
 const routes: Routes = [
   {
@@ -111,6 +113,15 @@ const routes: Routes = [
     resolve: {
       currentUser: CurrentUserResolver
       , rcdp: RcDpCodeResolverService
+    }
+  },
+  {
+    path: 'headcount', component: HeadcountComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
+      , titles: TitleCodeResolverService
+      , lvStatus: LeaveStatusResolverService
     }
   },
   {

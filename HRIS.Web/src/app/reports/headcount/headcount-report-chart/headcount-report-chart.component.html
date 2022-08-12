@@ -1,0 +1,68 @@
+<div class="col-sm-12">
+  <div class="card border-secondary mb-1">
+    <div class="card-body">
+      <div class="form-group row">
+        <label for="rcs" class="col-sm-1 col-form-label col-form-label-sm">RC</label>
+        <div class="col-sm-9">
+          <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedRC" id="rcs" name="selectedRC"
+            placeholder="Select RC">
+            <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{
+              rc.description
+            }}</ng-option>
+          </ng-select>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()">
+            <i class="bi bi-search"></i> Search
+          </button>
+          <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()">
+            <i class="bi bi-stars"></i> Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 mb-1">
+    <div class="offset-3 col-6">
+      <div class="card border-info shadow">
+        <div class="card-header text-white bg-info border-info shadow">
+          <i class="bi bi-graph-up-arrow"></i> DSS-HRA-DHS Headcount
+        </div>
+        <div class="card-body pb-0 pt-1">
+          <div>
+            <canvas baseChart [data]="chartDataHC" [options]="chartOptionsHC" [plugins]="chartPluginsHC"
+              [type]="chartTypeHC">
+            </canvas>
+            <div class="table-responsive">
+              <table class="table table-sm table-hover">
+                <!-- <caption>List of users</caption> -->
+                <tbody>
+                  <tr class="bg-info">
+                    <td></td>
+                    <td class="text-center text-white" *ngFor="let item of chartDataHC.labels">
+                      <small>{{item}}</small></td>
+                  </tr>
+                  <tr [ngStyle]="{'color': hoverBackgroundColor[0]}">
+                    <td><small>Budgeted HC</small></td>
+                    <td class="text-center" *ngFor="let item of chartDataHC.datasets[0].data; let i = index">
+                      <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
+                  </tr>
+                  <tr [ngStyle]="{'color': hoverBackgroundColor[1]}">
+                    <td><small>Active Staff</small></td>
+                    <td class="text-center" *ngFor="let item of chartDataHC.datasets[1].data">
+                      <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
+                  </tr>
+                  <tr [ngStyle]="{'color': hoverBackgroundColor[2]}">
+                    <td><small>Vacancy</small></td>
+                    <td class="text-center" *ngFor="let item of chartDataHC.datasets[2].data">
+                      <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

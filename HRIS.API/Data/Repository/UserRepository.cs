@@ -219,7 +219,7 @@ namespace HRIS.API
                 }
             };
 
-            await _context.Database.ExecuteSqlRawAsync($"EXECUTE dbo.spIsDeveloper_new @LanID, @IsDeveloper OUTPUT", sqlParameters);
+            await _context.Database.ExecuteSqlRawAsync($"EXECUTE dbo.spIsDeveloper_V2 @LanID, @IsDeveloper OUTPUT", sqlParameters);
 
             return await Task.Run(() => (bool)sqlParameters[1].Value);
         }

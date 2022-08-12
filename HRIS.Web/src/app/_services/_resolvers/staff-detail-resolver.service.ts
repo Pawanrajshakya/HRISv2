@@ -25,11 +25,11 @@ export class StaffDetailResolverService implements Resolve<IStaffDetail | null> 
 //   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<ISeparationTable | null> {
 
 //     return new Promise((resolve, reject) => {
-//       this.httpClient.get<IRC[]>(this.url + 'code/rc').subscribe({
+//       this.httpClient.get<IRc[]>(this.url + 'code/rc').subscribe({
 //         next: data => {
 //           this.rc_dp.RC = data;
 //         }, error: (error) => { }, complete: () => {
-//           this.httpClient.get<IDP[]>(this.url + 'code/dp').subscribe({
+//           this.httpClient.get<IDp[]>(this.url + 'code/dp').subscribe({
 //             next: data => {
 //               this.rc_dp.DP = data;
 //             }, error: (error) => { }, complete: () => {

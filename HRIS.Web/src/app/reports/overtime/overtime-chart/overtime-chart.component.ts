@@ -3,7 +3,7 @@ import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { BaseComponent } from 'src/app/base/base.component';
 import { IBudgetedOT } from 'src/app/_models/IBudgetedOT';
-import { IRC } from 'src/app/_models/IRC_DP';
+import { IRc } from 'src/app/_models/IRcDp';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
 import { merge, startWith, switchMap, Observable } from 'rxjs';
@@ -64,7 +64,7 @@ export class OvertimeChartComponent
   }
 
   ngOnInit(): void {
-    this.rcs = this.codeService.rc_dp.RC as IRC[];
+    this.rcs = this.codeService.rc_dp.RC as IRc[];
   }
 
   ngAfterViewInit(): void {

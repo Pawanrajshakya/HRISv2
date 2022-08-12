@@ -11,7 +11,7 @@ import {
 } from 'rxjs';
 import { BaseComponent } from 'src/app/base/base.component';
 import { IOvertimeReport } from 'src/app/_models/IOvertimeReport';
-import { IDP, IRC } from 'src/app/_models/IRC_DP';
+import { IDp, IRc } from 'src/app/_models/IRcDp';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
@@ -87,8 +87,8 @@ export class OvertimeReportComponent
 
   ngOnInit(): void {
     this.prepareColoumns();
-    this.rcs = this.codeService.rc_dp.RC as IRC[];
-    this.dps = this.codeService.rc_dp.DP as IDP[];
+    this.rcs = this.codeService.rc_dp.RC as IRc[];
+    this.dps = this.codeService.rc_dp.DP as IDp[];
     this.filteredDPs = this.dps;
   }
 

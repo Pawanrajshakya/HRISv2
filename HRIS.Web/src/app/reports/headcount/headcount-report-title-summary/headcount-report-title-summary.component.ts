@@ -10,64 +10,55 @@ import {
   of as observableOf,
 } from 'rxjs';
 import { BaseComponent } from 'src/app/base/base.component';
-import { IOvertimeReport } from 'src/app/_models/IOvertimeReport';
+import { IHeadCountTitleSummaryReport } from 'src/app/_models/IHeadcountReport';
+
 import { IRc } from 'src/app/_models/IRcDp';
+import { ITitle } from 'src/app/_models/ITitle';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
+import { HeadcountService } from 'src/app/_services/headcount.service';
 import { LoginService } from 'src/app/_services/login.service';
-import { OvertimeService } from 'src/app/_services/overtime.service';
 
 @Component({
-  selector: 'app-agency-overtime-analysis',
-  templateUrl: './agency-overtime-analysis.component.html',
-  styleUrls: ['./agency-overtime-analysis.component.scss'],
+  selector: 'app-headcount-report-title-summary',
+  templateUrl: './headcount-report-title-summary.component.html',
+  styleUrls: ['./headcount-report-title-summary.component.scss'],
 })
-export class AgencyOvertimeAnalysisComponent
-  extends BaseComponent<IOvertimeReport>
+export class HeadcountReportTitleSummaryComponent
+  extends BaseComponent<IHeadCountTitleSummaryReport>
   implements AfterViewInit, OnInit
 {
-  overtimeEarnedAnalysisReport: any = [];
-  selectedType: string = 'Earned';
-  types: string[] = ['Earned', 'Paid'];
-
-  selectedYear: string = '2022';
-  years: string[] = ['2022', '2021', '2020', '2019'];
-
   constructor(
     private codeService: CodeService,
-    private overtimeService: OvertimeService,
     private modalService: BsModalService,
-    public loginService: LoginService
+    public loginService: LoginService,
+    public headcountService: HeadcountService
   ) {
     super();
   }
 
   ngOnInit(): void {
     this.displayedColumns = [
-      'rarc',
-      'description',
-      'july',
-      'august',
-      'september',
-      'october',
-      'november',
-      'december',
-      'january',
-      'february',
-      'march',
-      'april',
-      'may',
-      'june',
-      'monthly_Alloc',
-      'fY_Alloc',
-      'fytD_Earned',
-      'fytD_Bal',
-      'project_Earned',
-      'project_Percent',
-      'project_Diff',
+      'titleCode',
+      'title',
+      'rc',
+      'ctlBudgetHC',
+      'ctlOnBoardHC',
+      'ctlhcVacancies',
+      'ctlNewHireTickets',
+      'ctlotNewHireTickets',
+      'ctlAvailHC',
+      'budgetHC',
+      'onBoardHC',
+      'hcVacancies',
+      'newHireTickets',
+      'otNewHireTickets',
+      'availHC',
+      'totalAvailVacancies'
     ];
+
     this.rcs = this.codeService.rc_dp.RC as IRc[];
-    this.filteredDPs = this.dps;
+    this.titles = this.codeService.titles as ITitle[];
   }
 
   ngAfterViewInit(): void {
@@ -92,10 +83,8 @@ export class AgencyOvertimeAnalysisComponent
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          this.reportParam.year = this.selectedYear;
-          this.reportParam.isDateEarned = this.selectedType == this.types[0];
-          return this.overtimeService
-            .overtimeEarnedAnalysisReport$(this.reportParam)
+          return this.headcountService
+            .titleSummaryReport$(this.reportParam)
             .pipe(catchError(() => observableOf(null)));
         }),
         map((data) => {
@@ -111,17 +100,16 @@ export class AgencyOvertimeAnalysisComponent
 
   onSearch() {
     this.reportParam.rcDp.rcs = this.selectedRC.join(',');
-    this.reportParam.isDateEarned = this.selectedType == this.types[0];
+    this.reportParam.code.titles = this.selectedTitle.join(',');
     this.filterSubject.next(this.filterValue);
   }
 
   onClear() {
     this.clear();
-    this.selectedType = this.types[0];
-    this.selectedYear = this.years[0];
+    this.filterSubject.next(this.filterValue);
   }
 
   onExport() {
-    this.download(this.modalService, Reports[9]);
+    this.download(this.modalService, Reports[14]);
   }
 }

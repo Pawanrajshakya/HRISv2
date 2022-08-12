@@ -42,7 +42,6 @@ namespace HRIS.API
             CreateMap<AnnouncementList, AnnouncementListDto>();
             CreateMap<AnnouncementSummary, AnnouncementSummaryDto>();
 
-            CreateMap<AgencyHeadcountChart, AgencyHeadcountChartDto>();
             CreateMap<PendingCasesChart, PendingCasesChartDto>();
             CreateMap<CaseCountByYearChart, CaseCountByYearChartDto>();
             CreateMap<EDUChart, EDUChartDto>();
@@ -70,6 +69,7 @@ namespace HRIS.API
             CreateMap<PARReport, PARReportDto>();
             CreateMap<PARDetail, PARDetailDto>();
 
+            #region Overtime
             CreateMap<ActualOT, ActualOTDto>();
             CreateMap<BudgetedOT, BudgetedOTDto>();
             CreateMap<OvertimeReport, OvertimeReportDto>()
@@ -91,6 +91,16 @@ namespace HRIS.API
                 .ForMember(x => x.Dec, y => y.MapFrom(z => z.December));
 
             CreateMap<OvertimeCitytimeReport, OvertimeCitytimeReportDto>();
+            #endregion
+
+            #region headcount
+            CreateMap<AgencyHeadcountChart, AgencyHeadcountChartDto>();
+            CreateMap<HeadcountReport, HeadcountReportDto>();
+            CreateMap<HeadCountTitleSummaryReport, HeadcountTitleSummaryReportDto>();
+            CreateMap<HeadcountTitleAndBudgetReconciliationSummaryReport, HeadcountTitleAndBudgetReconciliationSummaryReportDto>();
+            CreateMap<HeadcountTitleAndBudgetSummaryReport, HeadcountTitleAndBudgetSummaryReportDto>();
+            CreateMap<HeadcountPMSEmployeeDetailReport, HeadcountPMSEmployeeDetailReportDto>();
+            #endregion
         }
     }
 }

@@ -1,1 +1,52 @@
-<p>headcount works!</p>
+<div class="card">
+  <tabset [justified]="true">
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-graph-up-arrow"></i>&nbsp;Headcount Chart
+      </ng-template>
+      <div class="mt-2">
+        <app-headcount-report-chart></app-headcount-report-chart>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-grid-3x3-gap"></i>&nbsp;Detail Report
+      </ng-template>
+      <div class="mt-2">
+        <app-headcount-report-detail></app-headcount-report-detail>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-grid"></i>&nbsp;Title Summary Report
+      </ng-template>
+      <div class="mt-2">
+        <app-headcount-report-title-summary></app-headcount-report-title-summary>
+      </div>
+    </tab>
+    <tab>
+        <ng-template tabHeading>
+            <i class="bi bi-check2-circle"></i>&nbsp;Title & Budget Summary Reconciliation Report
+        </ng-template>
+        <div class="mt-2">
+          <app-headcount-report-reconciliation-summary></app-headcount-report-reconciliation-summary>
+        </div>
+      </tab>
+      <tab>
+        <ng-template tabHeading>
+            <i class="bi bi-cash-coin"></i>&nbsp;Title & Budget Summary Budget Only
+        </ng-template>
+        <div class="mt-2">
+          <app-headcount-report-budget-summary></app-headcount-report-budget-summary>
+        </div>
+      </tab>
+      <tab>
+        <ng-template tabHeading>
+            <i class="bi bi-person-check"></i>&nbsp;PMS Employee Details By RC Report
+        </ng-template>
+        <div class="mt-2">
+          <app-headcount-report-employee-detail></app-headcount-report-employee-detail>
+        </div>
+      </tab>
+  </tabset>
+</div>

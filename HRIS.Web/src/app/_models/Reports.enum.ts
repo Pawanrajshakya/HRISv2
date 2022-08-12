@@ -9,5 +9,11 @@ export enum Reports {
     PARReport,
     OvertimeReport,
     OvertimeEarnedAnalysisReport,
-    CitytimeOTReportByMonth
+    CitytimeOTReportByMonth,
+    HeadCountReport,
+    HeadCountTitleSummaryReport,
+    HeadcountTitleAndBudgetSummaryReconciliationReportByRCAndTitle,
+    HeadcountTitleAndBudgetSummaryReportByRCAndTitle,
+    PMSEmployeeDetailReport
+
 }

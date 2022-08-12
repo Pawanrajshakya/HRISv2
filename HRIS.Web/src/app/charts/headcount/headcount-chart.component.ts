@@ -10,11 +10,11 @@ import { HeadcountService } from 'src/app/_services/headcount.service';
 
 
 @Component({
-  selector: 'app-headcount',
-  templateUrl: './headcount.component.html',
-  styleUrls: ['./headcount.component.scss']
+  selector: 'app-headcount-chart',
+  templateUrl: './headcount-chart.component.html',
+  styleUrls: ['./headcount-chart.component.scss']
 })
-export class HeadcountComponent extends BaseComponent<ILineChartData> {
+export class HeadcountChartComponent extends BaseComponent<ILineChartData> {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 

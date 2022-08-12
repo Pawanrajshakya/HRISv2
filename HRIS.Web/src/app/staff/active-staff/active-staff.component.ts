@@ -3,7 +3,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
 import { BaseComponent } from '../../base/base.component';
 import { IActiveStaffReport } from '../../_models/IActiveStaffReport';
-import { IRC, IDP } from '../../_models/IRC_DP';
+import { IRc, IDp } from '../../_models/IRcDp';
 import { Reports } from '../../_models/Reports.enum';
 import { StaffService } from '../../_services/staff.service';
 import { CodeService } from '../../_services/code.service';
@@ -66,8 +66,8 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaffReport> impl
 
   ngOnInit(): void {
     this.prepareColoumns();
-    this.rcs = this.codeService.rc_dp.RC as IRC[];
-    this.dps = this.codeService.rc_dp.DP as IDP[];
+    this.rcs = this.codeService.rc_dp.RC as IRc[];
+    this.dps = this.codeService.rc_dp.DP as IDp[];
     this.filteredDPs = this.dps;
     this.locations = this.codeService.locations;
     this.titles = this.codeService.titles;

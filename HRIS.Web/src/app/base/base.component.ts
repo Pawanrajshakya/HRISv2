@@ -7,7 +7,7 @@ import {
 import { MatSort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 import { IGroup } from '../_models/IGroup';
-import { IRC, IDP } from '../_models/IRC_DP';
+import { IRc, IDp, IDpGroup } from '../_models/IRcDp';
 import { IReportParam } from '../_models/IReportParam';
 import { IRole } from '../_models/IRole';
 import { ICSStatus } from '../_models/ICSStatus';
@@ -55,12 +55,16 @@ export class BaseComponent<T> {
 
   roles: IRole[] = [];
 
-  rcs: IRC[] = [];
+  rcs: IRc[] = [];
   selectedRC: string[] = [];
 
-  dps: IDP[] = [];
-  filteredDPs: IDP[] = [];
+  dps: IDp[] = [];
+  filteredDPs: IDp[] = [];
   selectedDP: string[] = [];
+
+  groupDPs: IDpGroup[] = [];
+  filteredGroupDPs: IDpGroup[] = [];
+  selectedGroupDP: string[] = [];
 
   locations: ILocation[] = [];
   selectedLocation: string[] = [];
@@ -197,6 +201,33 @@ export class BaseComponent<T> {
     this.modalRef = modalService.show(DownloadComponent, initialState);
   }
 
+  onGroupRcSelect($event: Event) {
+    console.log('onGroupRcSelect', this.selectedRC);
+    let _selectedGroupDP = this.selectedGroupDP;
+    let _selectedRC = this.selectedRC;
+    this.filteredGroupDPs = [];
+    this.selectedDP = [];
+
+    if (_selectedRC.length === 0) {
+      this.filteredGroupDPs = this.dps;
+    } else {
+      this.groupDPs.forEach((x) => {
+        if (_selectedRC.indexOf(x.rcCode || '') != -1) {
+          this.filteredGroupDPs.push(x);
+        } else {
+          let i = _selectedGroupDP.indexOf(x.rcCode || '');
+
+          if (i != -1) {
+            _selectedGroupDP.splice(i, 1);
+          }
+        }
+      });
+
+      _selectedGroupDP.forEach((dp) => this.selectedGroupDP.push(dp));
+    }
+    console.log('onGroupRcSelect', this.filteredGroupDPs, _selectedGroupDP);
+  }
+
   onRCSelect($event: Event) {
     let _selectedDP = this.selectedDP;
     let _selectedRC = this.selectedRC;
@@ -226,12 +257,14 @@ export class BaseComponent<T> {
     this.selectedGroup = [];
     this.selectedRC = [];
     this.selectedDP = [];
+    this.selectedGroupDP = [];
     this.selectedLocation = [];
     this.selectedTitle = [];
     this.selectedLvStatuses = [];
     this.selectedBkpTitle = [];
     this.selectedCsStatus = [];
     this.filteredDPs = this.dps;
+    this.filteredGroupDPs = this.groupDPs;
     this.reportParam.userID = '';
     this.reportParam.ein = '';
     this.reportParam.pagination.pageNumber = 1;
@@ -250,7 +283,7 @@ export class BaseComponent<T> {
     this.reportParam.dateFrom = '';
     this.reportParam.dateTo = '';
     this.reportParam.openClose = '';
-
+    this.reportParam.isCalendarYear = true;
     this.filterValue = '';
     this.filterSubject.next('');
   }
