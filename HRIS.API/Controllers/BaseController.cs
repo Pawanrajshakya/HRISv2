@@ -60,6 +60,12 @@ namespace HRIS.API.Controllers
                 case "OvertimeReport":
                 case "OvertimeEarnedAnalysisReport":
                 case "PARReport":
+
+                case "HeadCountReport":
+                case "HeadCountTitleSummaryReport":
+                case "HeadcountTitleAndBudgetSummaryReportByRCAndTitle":
+                case "PMSEmployeeDetailReport":
+                case "HeadcountTitleAndBudgetSummaryReconciliationReportByRCAndTitle":
                     stringBuilder.Append("&UserID=" + (string.IsNullOrEmpty(parameters.UserID) ? UserSession.Instance.User.UserID : parameters.UserID));
                     stringBuilder.Append("&SortColumn=" + (parameters.Pagination.SortColumn ?? ""));
                     stringBuilder.Append("&SortOrder=" + (parameters.Pagination.SortOrder ?? "asc"));
@@ -142,6 +148,34 @@ namespace HRIS.API.Controllers
                     stringBuilder.Append("&vPYear=" + parameters.Year.ToString());
                     stringBuilder.Append("&vCYear=" + parameters.Year.ToString());
                     stringBuilder.Append("&isDateEarned=" + (parameters.IsDateEarned ? "*" : "0"));
+                    break;
+                case "HeadCountReport":
+                    parameters.File.RDLFileName = "HeadCountReport";
+                    stringBuilder.Append("&RCs=" + (string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs));
+                    stringBuilder.Append("&DPs=" + (parameters.RcDp.DPs ?? ""));
+                    break;
+                case "HeadCountTitleSummaryReport":
+                    parameters.File.RDLFileName = "HeadCountTitleSummaryReport";
+                    stringBuilder.Append("&RCs=" + parameters.RcDp.RCs);
+                    stringBuilder.Append("&Titles=" + (parameters.Code.Titles ?? ""));
+                    break;
+                case "HeadcountTitleAndBudgetSummaryReportByRCAndTitle":
+                    parameters.File.RDLFileName = "HeadcountTitleAndBudgetSummaryReportByRCAndTitle";
+                    stringBuilder.Append("&RCs=" + (string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs));
+                    stringBuilder.Append("&Titles=" + (parameters.Code.Titles ?? ""));
+                    break;
+                case "PMSEmployeeDetailReport":
+                    parameters.File.RDLFileName = "PMSEmployeeDetailReport";
+                    stringBuilder.Append("&RCs=" + (string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs));
+                    stringBuilder.Append("&DPs=" + (parameters.RcDp.DPs ?? ""));
+                    stringBuilder.Append("&LeaveStatus=" + (parameters.Code.LvStatuses ?? ""));
+                    stringBuilder.Append("&Titles=" + (parameters.Code.Titles ?? ""));
+
+                    break;
+                case "HeadcountTitleAndBudgetSummaryReconciliationReportByRCAndTitle":
+                    parameters.File.RDLFileName = "HeadcountTitleAndBudgetSummaryReconciliationReportByRCAndTitle";
+                    stringBuilder.Append("&RCs=" + parameters.RcDp.RCs);
+                    stringBuilder.Append("&Titles=" + (parameters.Code.Titles ?? ""));
                     break;
             }
 

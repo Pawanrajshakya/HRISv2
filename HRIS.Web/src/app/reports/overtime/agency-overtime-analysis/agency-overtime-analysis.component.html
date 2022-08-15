@@ -101,7 +101,7 @@
                   Jul
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.jul < 0}">
+                  [ngClass]="{'bg-danger':row.jul < 0}">
                   {{ row.jul | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -110,7 +110,7 @@
                   Aug
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.aug < 0}">
+                  [ngClass]="{'bg-danger':row.aug < 0}">
                   {{ row.aug | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -119,7 +119,7 @@
                   Sep
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.sep < 0}">
+                  [ngClass]="{'bg-danger':row.sep < 0}">
                   {{ row.sep | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -128,7 +128,7 @@
                   Oct
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.oct < 0}">
+                  [ngClass]="{'bg-danger':row.oct < 0}">
                   {{ row.oct | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -137,7 +137,7 @@
                   Nov
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.nov < 0}">
+                  [ngClass]="{'bg-danger':row.nov < 0}">
                   {{ row.nov | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -146,7 +146,7 @@
                   Dec
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.dec < 0}">
+                  [ngClass]="{'bg-danger':row.dec < 0}">
                   {{ row.dec | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -155,7 +155,7 @@
                   Jan
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.jan < 0}">
+                  [ngClass]="{'bg-danger':row.jan < 0}">
                   {{ row.jan | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -164,7 +164,7 @@
                   Feb
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.feb < 0}">
+                  [ngClass]="{'bg-danger':row.feb < 0}">
                   {{ row.feb | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -173,7 +173,7 @@
                   Mar
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.mar < 0}">
+                  [ngClass]="{'bg-danger':row.mar < 0}">
                   {{ row.mar | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -182,7 +182,7 @@
                   Apr
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.apr < 0}">
+                  [ngClass]="{'bg-danger':row.apr < 0}">
                   {{ row.apr | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -191,7 +191,7 @@
                   May
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.may < 0}">
+                  [ngClass]="{'bg-danger':row.may < 0}">
                   {{ row.may | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -200,7 +200,7 @@
                   Jun
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.jun < 0}">
+                  [ngClass]="{'bg-danger':row.jun < 0}">
                   {{ row.jun | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -209,14 +209,14 @@
                   Monthly Alloc
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.monthly_Alloc < 0}">{{ row.monthly_Alloc | currency | hrisParentheses }}
+                  [ngClass]="{'bg-danger':row.monthly_Alloc < 0}">{{ row.monthly_Alloc | currency | hrisParentheses }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="fY_Alloc">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
                   FY Alloc
                 </th>
-                <td mat-cell *matCellDef="let row" class="text-nowrap text-right" [ngClass]="{'bg-warning':row.fY_Alloc <
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right" [ngClass]="{'bg-danger':row.fY_Alloc <
                   0}">{{ row.fY_Alloc | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -225,14 +225,14 @@
                   FYTD Earned
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.fytD_Earned < 0}">{{ row.fytD_Earned | currency | hrisParentheses }}
+                  [ngClass]="{'bg-danger':row.fytD_Earned < 0}">{{ row.fytD_Earned | currency | hrisParentheses }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="fytD_Bal">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
                   FY Allow
                 </th>
-                <td mat-cell *matCellDef="let row" class="text-nowrap text-right" [ngClass]="{'bg-warning':row.fytD_Bal <
+                <td mat-cell *matCellDef="let row" class="text-nowrap text-right" [ngClass]="{'bg-danger':row.fytD_Bal <
                   0}">{{ row.fytD_Bal | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -241,7 +241,7 @@
                   Project Earned
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.project_Earned < 0}">
+                  [ngClass]="{'bg-danger':row.project_Earned < 0}">
                   {{ row.project_Earned | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -250,7 +250,7 @@
                   Project Percent
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.project_Percent < 0}">{{ row.project_Percent | hrisEmptyValue:'NA' }}
+                  [ngClass]="{'bg-danger':row.project_Percent < 0}">{{ row.project_Percent | hrisEmptyValue:'NA' }}
                 </td>
               </ng-container>
               <ng-container matColumnDef="project_Diff">
@@ -258,7 +258,7 @@
                   Project Diff
                 </th>
                 <td mat-cell *matCellDef="let row" class="text-nowrap text-right"
-                  [ngClass]="{'bg-warning':row.project_Diff < 0}">
+                  [ngClass]="{'bg-danger':row.project_Diff < 0}">
                   {{ row.project_Diff | currency | hrisParentheses }}
                 </td>
               </ng-container>

@@ -4,7 +4,7 @@
       <div>
         <p>Displays the PMS Employee detail.</p>
       </div>
-      <hr>
+      <hr />
       <div class="col-12">
         <div class="form-group row">
           <label for="rcs" class="col-sm-1 col-form-label col-form-label-sm" *ngIf="
@@ -21,17 +21,17 @@
             ">
             <select multiple class="form-control" [(ngModel)]="selectedRC" id="rcs" name="selectedRC"
               (change)="onGroupRcSelect($event)">
-              <option *ngFor="let rc of rcs" [value]="rc.code">{{
-                      rc.description
-                    }}</option>
+              <option *ngFor="let rc of rcs" [value]="rc.code">
+                {{ rc.description }}
+              </option>
             </select>
           </div>
           <label for="titles" class="col-sm-1 col-form-label col-form-label-sm">DP</label>
           <div class="col-sm-5">
             <select multiple class="form-control" [(ngModel)]="selectedGroupDP" id="dp" name="selectedDP">
-              <optgroup *ngFor="let group of filteredGroupDPs" label="{{group.rcCode}}">
+              <optgroup *ngFor="let group of filteredGroupDPs" label="{{ group.rcCode }}">
                 <option *ngFor="let item of group.dpCodes" [value]="item.dpCode">
-                  {{item.dpName}}
+                  {{ item.dpName }}
                 </option>
               </optgroup>
             </select>
@@ -43,17 +43,18 @@
           <label for="titles" class="col-sm-1 col-form-label col-form-label-sm">Titles</label>
           <div class="col-sm-5">
             <select multiple class="form-control" [(ngModel)]="selectedTitle" id="titles" name="selectedTitle">
-              <option *ngFor="let title of titles" [value]="title.code">{{
-                    title.description
-                  }}</option>
+              <option *ngFor="let title of titles" [value]="title.code">
+                {{ title.description }}
+              </option>
             </select>
           </div>
           <label for="titles" class="col-sm-1 col-form-label col-form-label-sm">Leave Status</label>
           <div class="col-sm-5">
-            <select multiple class="form-control" [(ngModel)]="selectedLvStatuses" id="lvStatuses" name="selectedLvStatuses">
-              <option *ngFor="let item of lvStatuses" [value]="item.lvStatus">{{
-                    item.lvStatusDesc
-                  }}</option>
+            <select multiple class="form-control" [(ngModel)]="selectedLvStatuses" id="lvStatuses"
+              name="selectedLvStatuses">
+              <option *ngFor="let item of lvStatuses" [value]="item.lvStatus">
+                {{ item.lvStatusDesc }}
+              </option>
             </select>
           </div>
         </div>
@@ -70,4 +71,284 @@
       </div>
     </div>
   </div>
-  <br />
+</div>
+<br />
+<div class="col-sm-12">
+  <div class="card border-secondary">
+    <div class="card-header text-white bg-secondary border-secondary shadow">
+      <i class="bi bi-grid"></i> Result
+      <span *ngIf="resultsLength > 0; else noDataFound">
+        {{ resultsLength }}</span>
+      <button class="btn btn-primary btn-xs float-right text-white shadow border-white"
+        [disabled]="!(resultsLength > 0)" (click)="onExport()">
+        <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet
+      </button>
+    </div>
+    <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Filter By</span>
+            </div>
+            <input type="text" class="form-control" (keyup)="applyFilter($event)" [(ngModel)]="filterValue"
+              placeholder="EIN / LAST NAME / FIRST NAME" #input />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="table-container table-responsive" [hidden]="resultsLength === 0">
+            <table mat-table [dataSource]="data" matSort matSortActive="rc" matSortDisableClear matSortDirection="asc"
+              matSort class="table table-hover table-bordered">
+              <ng-container matColumnDef="agency">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  Business<br />Unit
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.agency }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="lName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  Last Name
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.lName }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="fName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  First Name
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.fName }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ein">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  EMP ID
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.ein }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="rc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  RC#
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.rc }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="muCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  MU
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.muCode }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="disbCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  DISB
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.disbCode }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="dpCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  DP#
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.dpCode }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="dpName">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  DP Name
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.dpName }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">
+                  LOC<br>Code
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.location }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="titleNumber">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  Title Number
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.titleNumber }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="titleDesc">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  Title Name
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.titleDesc }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="backupTitle">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  Back Up Title Num*
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.backupTitle }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="backupTitleName">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  Back Up Title Name*
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.backupTitleName }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="cityDate">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  City Start DT
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.cityDate }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="agencyDate">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  Agency Start DT
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.agencyDate }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="titleDate">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  Title Start DT
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.titleDate }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="civilServiceDate">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  CS Entry DT
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.civilServiceDate }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="csStatus">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  CS<br>STAT
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.csStatus }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="budCode">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  BUD<br>Code
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.budCode }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="budLine">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  Bud<br>Line
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{ row.budLine }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="salary">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  Base Salary
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-right text-nowrap"
+                  [ngClass]="{ 'bg-danger': row.salary < 0 }">
+                  {{ row.salary | currency | hrisParentheses }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="addComps">
+                <th mat-header-cell *matHeaderCellDef class="text-center text-nowrap">
+                  Add Comps
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-right text-nowrap"
+                  [ngClass]="{ 'bg-danger': row.addComps < 0 }">
+                  {{ row.addComps }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="totalSalary">
+                <th mat-header-cell *matHeaderCellDef class="text-center text-nowrap">
+                  Total Salary
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-right text-nowrap"
+                  [ngClass]="{ 'bg-danger': row.totalSalary < 0 }">
+                  {{ row.totalSalary }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="perDime">
+                <th mat-header-cell *matHeaderCellDef class="text-center text-nowrap">
+                  Per<br>Diem
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap" [ngClass]="{ 'bg-danger': row.perDime < 0 }">
+                  {{ row.perDime}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="percent">
+                <th mat-header-cell *matHeaderCellDef class="text-nowrap">
+                  100%
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap" [ngClass]="{ 'bg-danger': row.percent < 0 }">
+                  {{ row.percent }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ctl">
+                <th mat-header-cell *matHeaderCellDef class="text-center text-nowrap">
+                  CTL
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap" [ngClass]="{ 'bg-danger': row.ctl < 0 }">
+                  {{ row.ctl  }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="lvStatus">
+                <th mat-header-cell *matHeaderCellDef class="text-center text-nowrap">
+                  LS
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">{{row.lvStatus}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="thead-light;"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="clickedRows.add(row)"
+                [class.demo-row-is-clicked]="clickedRows.has(row)" (click)="clearClickedRow(row)"></tr>
+            </table>
+          </div>
+          <mat-paginator showFirstLastButtons [length]="resultsLength" [pageSize]="reportParam.pagination.pageSize"
+            [pageSizeOptions]="pageSizeOptions" [hidden]="resultsLength === 0"></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<ng-template #noDataFound>
+  &nbsp; <span class="badge badge-warning"> No Result</span>
+</ng-template>

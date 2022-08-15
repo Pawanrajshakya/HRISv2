@@ -17,13 +17,13 @@ namespace HRIS.API
         public Task<List<HeadcountTitleSummaryReportDto>> GetPagedHeadcountTitleSummaryReportAsync
             (string userID, string rcs, string titles, int pageNumber = 1, int pageSize = 10,
             string sortColumn = "RC", string sortOrder = "asc", string searchTerm = "");
-        public Task<List<HeadcountTitleAndBudgetReconciliationSummaryReport>> GetPagedHeadcountTitleAndBudgetReconciliationSummaryReportAsync
+        public Task<List<HeadcountTitleAndBudgetReconciliationSummaryReportDto>> GetPagedHeadcountTitleAndBudgetReconciliationSummaryReportAsync
             (string userID, string rcs, string titles, int pageNumber = 1, int pageSize = 10,
             string sortColumn = "RC", string sortOrder = "asc", string searchTerm = "");
-        public Task<List<HeadcountTitleAndBudgetSummaryReport>> GetPagedHeadcountTitleAndBudgetSummaryReportAsync
+        public Task<List<HeadcountTitleAndBudgetSummaryReportDto>> GetPagedHeadcountTitleAndBudgetSummaryReportAsync
             (string userID, string rcs, string titles, int pageNumber = 1, int pageSize = 10,
             string sortColumn = "RC", string sortOrder = "asc", string searchTerm = "");
-        public Task<List<HeadcountPMSEmployeeDetailReport>> GetPagedHeadcountPMSEmployeeDetailReportsAsync
+        public Task<List<HeadcountPMSEmployeeDetailReportDto>> GetPagedHeadcountPMSEmployeeDetailReportsAsync
             (string userID, string rcs, string dps, string leaveStatus, string titles, int pageNumber = 1, int pageSize = 10,
             string sortColumn = "RC", string sortOrder = "asc", string searchTerm = "");
     }
@@ -90,9 +90,9 @@ namespace HRIS.API
             return await Task.Run(() => dtos);
         }
 
-        public async Task<List<HeadcountPMSEmployeeDetailReport>> GetPagedHeadcountPMSEmployeeDetailReportsAsync(string userID, string rcs, string dps, string leaveStatus, string titles, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = "")
+        public async Task<List<HeadcountPMSEmployeeDetailReportDto>> GetPagedHeadcountPMSEmployeeDetailReportsAsync(string userID, string rcs, string dps, string leaveStatus, string titles, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = "")
         {
-            List<HeadcountPMSEmployeeDetailReport> dtos = new List<HeadcountPMSEmployeeDetailReport>();
+            List<HeadcountPMSEmployeeDetailReportDto> dtos = new List<HeadcountPMSEmployeeDetailReportDto>();
 
             SqlParameter[] sqlParameters =
                    new SqlParameter[] {
@@ -109,22 +109,22 @@ namespace HRIS.API
                    };
 
 
-            var data = _context.HeadcountReports
+            var data = _context.HeadcountPMSEmployeeDetailReports
                 .FromSqlRaw($"EXECUTE dbo.[spGetPMSEmployeeDetailReportV2] @UserID, @PageNumber, @PageSize, @SortColumn, @SortOrder, @SearchTerm, @RCs, @DPs, @LeaveStatus, @Titles", sqlParameters)
                 .ToList();
 
 
             foreach (var item in data)
             {
-                dtos.Add(_mapper.Map<HeadcountPMSEmployeeDetailReport>(item));
+                dtos.Add(_mapper.Map<HeadcountPMSEmployeeDetailReportDto>(item));
             }
 
             return await Task.Run(() => dtos);
         }
 
-        public async Task<List<HeadcountTitleAndBudgetReconciliationSummaryReport>> GetPagedHeadcountTitleAndBudgetReconciliationSummaryReportAsync(string userID, string rcs, string titles, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = "")
+        public async Task<List<HeadcountTitleAndBudgetReconciliationSummaryReportDto>> GetPagedHeadcountTitleAndBudgetReconciliationSummaryReportAsync(string userID, string rcs, string titles, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = "")
         {
-            List<HeadcountTitleAndBudgetReconciliationSummaryReport> dtos = new List<HeadcountTitleAndBudgetReconciliationSummaryReport>();
+            List<HeadcountTitleAndBudgetReconciliationSummaryReportDto> dtos = new List<HeadcountTitleAndBudgetReconciliationSummaryReportDto>();
 
             SqlParameter[] sqlParameters =
                    new SqlParameter[] {
@@ -146,15 +146,15 @@ namespace HRIS.API
 
             foreach (var item in data)
             {
-                dtos.Add(_mapper.Map<HeadcountTitleAndBudgetReconciliationSummaryReport>(item));
+                dtos.Add(_mapper.Map<HeadcountTitleAndBudgetReconciliationSummaryReportDto>(item));
             }
 
             return await Task.Run(() => dtos);
         }
 
-        public async Task<List<HeadcountTitleAndBudgetSummaryReport>> GetPagedHeadcountTitleAndBudgetSummaryReportAsync(string userID, string rcs, string titles, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = "")
+        public async Task<List<HeadcountTitleAndBudgetSummaryReportDto>> GetPagedHeadcountTitleAndBudgetSummaryReportAsync(string userID, string rcs, string titles, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = "")
         {
-            List<HeadcountTitleAndBudgetSummaryReport> dtos = new List<HeadcountTitleAndBudgetSummaryReport>();
+            List<HeadcountTitleAndBudgetSummaryReportDto> dtos = new List<HeadcountTitleAndBudgetSummaryReportDto>();
 
             SqlParameter[] sqlParameters =
                    new SqlParameter[] {
@@ -176,7 +176,7 @@ namespace HRIS.API
 
             foreach (var item in data)
             {
-                dtos.Add(_mapper.Map<HeadcountTitleAndBudgetSummaryReport>(item));
+                dtos.Add(_mapper.Map<HeadcountTitleAndBudgetSummaryReportDto>(item));
             }
 
             return await Task.Run(() => dtos);

@@ -285,9 +285,9 @@ namespace HRIS.API
         public string CSStatus { get; set; }
         public string BudCode { get; set; }
         public string BudLine { get; set; }
-        public float Salary { get; set; }
+        public double Salary { get; set; }
         public decimal AddComps { get; set; }
-        public float TotalSalary { get; set; }
+        public double TotalSalary { get; set; }
         public int PerDime { get; set; }
         public int Percent { get; set; }
         public int Ctl { get; set; }

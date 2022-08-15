@@ -132,7 +132,7 @@
                   Budget<br />
                   HC
                 </th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.ctlBudgetHc<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.ctlBudgetHc<0}">
                   {{ row.ctlBudgetHc}}
                 </td>
               </ng-container>
@@ -144,7 +144,7 @@
                   Board<br />
                   HC
                 </th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.ctlOnBoard<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.ctlOnBoard<0}">
                   {{ row.ctlOnBoard  }}
                 </td>
               </ng-container>
@@ -155,7 +155,7 @@
                   HC<br />
                   Vacancies
                 </th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.ctlHcVacancies<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.ctlHcVacancies<0}">
                   {{ row.ctlHcVacancies }}
                 </td>
               </ng-container>
@@ -166,7 +166,7 @@
                   Base<br />
                   Salary $</th>
                 <td mat-cell *matCellDef="let row" class="text-center"
-                  [ngClass]="{'bg-warning':row.ctlBdgBaseSalary<0}">
+                  [ngClass]="{'bg-danger':row.ctlBdgBaseSalary<0}">
                   {{ row.ctlBdgBaseSalary    | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -178,7 +178,7 @@
                   Base<br />
                   Salary $</th>
                 <td mat-cell *matCellDef="let row" class="text-center"
-                  [ngClass]="{'bg-warning':row.ctlTotalBaseSalary<0}">
+                  [ngClass]="{'bg-danger':row.ctlTotalBaseSalary<0}">
                   {{ row.ctlTotalBaseSalary | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -189,7 +189,7 @@
                   Vacancy<br />
                   Salary $</th>
                 <td mat-cell *matCellDef="let row" class="text-center"
-                  [ngClass]="{'bg-warning':row.ctlVacancySalary<0}">
+                  [ngClass]="{'bg-danger':row.ctlVacancySalary<0}">
                   {{ row.ctlVacancySalary | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -201,7 +201,7 @@
                   Hire<br />
                   Tickets</th>
                 <td mat-cell *matCellDef="let row" class="text-center"
-                  [ngClass]="{'bg-warning':row.ctlNewHireTickets<0}">
+                  [ngClass]="{'bg-danger':row.ctlNewHireTickets<0}">
                   {{ row.ctlNewHireTickets }}
                 </td>
               </ng-container>
@@ -213,7 +213,7 @@
                   Hire<br />
                   Tickets</th>
                 <td mat-cell *matCellDef="let row" class="text-center"
-                  [ngClass]="{'bg-warning':row.ctlOtNewHireTickets<0}">
+                  [ngClass]="{'bg-danger':row.ctlOtNewHireTickets<0}">
                   {{ row.ctlOtNewHireTickets }}
                 </td>
               </ng-container>
@@ -224,7 +224,7 @@
                   Incremental<br />
                   Cost</th>
                 <td mat-cell *matCellDef="let row" class="text-center"
-                  [ngClass]="{'bg-warning':row.ctlIncrementCost<0}">
+                  [ngClass]="{'bg-danger':row.ctlIncrementCost<0}">
                   {{ row.ctlIncrementCost  | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -233,7 +233,7 @@
                 <th mat-header-cell *matHeaderCellDef class="text-center">CTL<br />
                   Avail<br />
                   $$</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.ctlAvail<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.ctlAvail<0}">
                   {{ row.ctlAvail  | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -242,7 +242,7 @@
                 <th mat-header-cell *matHeaderCellDef class="text-center">100%<br />
                   Budget<br />
                   HC</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.budgetHc<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.budgetHc<0}">
                   {{ row.budgetHc }}
                 </td>
               </ng-container>
@@ -253,7 +253,7 @@
                   On<br />
                   Board<br />
                   HC</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.staffOnBoard<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.staffOnBoard<0}">
                   {{ row.staffOnBoard }}
                 </td>
               </ng-container>
@@ -263,7 +263,7 @@
                   100%<br />
                   HC<br />
                   Vacancies</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.hcVacancies<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.hcVacancies<0}">
                   {{ row.hcVacancies }}
                 </td>
               </ng-container>
@@ -274,7 +274,7 @@
                   BDG<br />
                   Base<br />
                   Salary $</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.bdgBaseSalary<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.bdgBaseSalary<0}">
                   {{ row.bdgBaseSalary   | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -285,7 +285,7 @@
                   Total<br />
                   Base<br />
                   Salary $</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.totalBaseSalary<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.totalBaseSalary<0}">
                   {{ row.totalBaseSalary   | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -295,7 +295,7 @@
                   100%<br />
                   Vacancy<br />
                   Salary $</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.vacancySalary<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.vacancySalary<0}">
                   {{ row.vacancySalary   | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -306,7 +306,7 @@
                   New<br />
                   Hire<br />
                   Tickets</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.newHireTickets<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.newHireTickets<0}">
                   {{ row.newHireTickets }}
                 </td>
               </ng-container>
@@ -318,7 +318,7 @@
                   Hire<br />
                   Tickets</th>
                 <td mat-cell *matCellDef="let row" class="text-center"
-                  [ngClass]="{'bg-warning':row.otNewHireTickets<0}">
+                  [ngClass]="{'bg-danger':row.otNewHireTickets<0}">
                   {{ row.otNewHireTickets }}
                 </td>
               </ng-container>
@@ -328,7 +328,7 @@
                   100%<br />
                   Increment<br />
                   Cost</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.incrementCost<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.incrementCost<0}">
                   {{ row.incrementCost   | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -338,7 +338,7 @@
                   100%<br />
                   Avail<br />
                   $$</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.avail<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.avail<0}">
                   {{ row.avail   | currency | hrisParentheses }}
                 </td>
               </ng-container>
@@ -349,7 +349,7 @@
                   Avail<br />
                   Vacancies</th>
                 <td mat-cell *matCellDef="let row" class="text-center"
-                  [ngClass]="{'bg-warning':row.totalAvailVacancies<0}">
+                  [ngClass]="{'bg-danger':row.totalAvailVacancies<0}">
                   {{ row.totalAvailVacancies }}
                 </td>
               </ng-container>
@@ -359,7 +359,7 @@
                   Total<br />
                   Avail<br />
                   $$</th>
-                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-warning':row.totalAvail<0}">
+                <td mat-cell *matCellDef="let row" class="text-center" [ngClass]="{'bg-danger':row.totalAvail<0}">
                   {{ row.totalAvail   | currency | hrisParentheses }}
                 </td>
               </ng-container>

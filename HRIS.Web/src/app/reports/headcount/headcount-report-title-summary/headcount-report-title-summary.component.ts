@@ -110,6 +110,6 @@ export class HeadcountReportTitleSummaryComponent
   }
 
   onExport() {
-    this.download(this.modalService, Reports[14]);
+    this.download(this.modalService, Reports[12]);
   }
 }

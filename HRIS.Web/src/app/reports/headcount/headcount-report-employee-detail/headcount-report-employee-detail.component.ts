@@ -10,13 +10,9 @@ import {
   of as observableOf,
 } from 'rxjs';
 import { BaseComponent } from 'src/app/base/base.component';
-import {
-  IHeadcountPMSEmployeeDetailReport,
-  IHeadcountReport,
-} from 'src/app/_models/IHeadcountReport';
+import { IHeadcountPMSEmployeeDetailReport } from 'src/app/_models/IHeadcountReport';
 import { ILeaveStatus } from 'src/app/_models/ILeaveStatus';
-
-import { IDp, IDpGroup, IRc } from 'src/app/_models/IRcDp';
+import { IDpGroup, IRc } from 'src/app/_models/IRcDp';
 import { ITitle } from 'src/app/_models/ITitle';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
@@ -47,11 +43,11 @@ export class HeadcountReportEmployeeDetailComponent
       'lName',
       'fName',
       'ein',
-      'rC',
-      'mUCode',
+      'rc',
+      'muCode',
       'disbCode',
-      'dPCode',
-      'dPName',
+      'dpCode',
+      'dpName',
       'location',
       'titleNumber',
       'titleDesc',
@@ -61,7 +57,7 @@ export class HeadcountReportEmployeeDetailComponent
       'agencyDate',
       'titleDate',
       'civilServiceDate',
-      'cSStatus',
+      'csStatus',
       'budCode',
       'budLine',
       'salary',
@@ -70,7 +66,7 @@ export class HeadcountReportEmployeeDetailComponent
       'perDime',
       'percent',
       'ctl',
-      'lVStatus',
+      'lvStatus',
     ];
 
     this.rcs = this.codeService.rc_dp.RC as IRc[];
@@ -119,7 +115,7 @@ export class HeadcountReportEmployeeDetailComponent
 
   onSearch() {
     this.reportParam.rcDp.rcs = this.selectedRC.join(',');
-    this.reportParam.rcDp.dps = this.selectedDP.join(',');
+    this.reportParam.rcDp.dps = this.selectedGroupDP.join(',');
     this.reportParam.code.titles = this.selectedTitle.join(',');
     this.reportParam.code.lvStatuses = this.selectedLvStatuses.join(',');
     this.filterSubject.next(this.filterValue);

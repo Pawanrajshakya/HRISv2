@@ -88,9 +88,9 @@ export interface IHeadcountTitleAndBudgetReconciliationSummaryReport {
 export interface IHeadcountTitleAndBudgetSummaryReport {
   total?: number;
   rowNum?: number;
-  rC?: string;
-  Title?: string;
-  TitleDesc?: string;
+  rc?: string;
+  title?: string;
+  titleDesc?: string;
   ctlBudgetHc?: number;
   ctlOnBoard?: number;
   ctlHcVacancies?: number;
@@ -127,11 +127,11 @@ export interface IHeadcountPMSEmployeeDetailReport {
   lName?: string;
   fName?: string;
   ein?: string;
-  rC?: string;
-  mUCode?: string;
+  rc?: string;
+  muCode?: string;
   disbCode?: string;
-  dPCode?: string;
-  dPName?: string;
+  dpCode?: string;
+  dpName?: string;
   location?: string;
   titleNumber?: string;
   titleDesc?: string;
@@ -150,5 +150,5 @@ export interface IHeadcountPMSEmployeeDetailReport {
   perDime?: number;
   percent?: number;
   ctl?: number;
-  lVStatus?: string;
+  lvStatus?: string;
 }

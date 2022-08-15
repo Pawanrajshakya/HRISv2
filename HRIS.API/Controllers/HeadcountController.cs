@@ -12,6 +12,7 @@ namespace HRIS.API.Controllers
         public HeadcountController(IHeadcountRepository headcountRepository, IRCRepository rcRepository, IDPRepository dpRepository) : base(rcRepository, dpRepository)
         {
             _headcountRepository = headcountRepository;
+
         }
 
         [HttpGet("chart")]
@@ -46,6 +47,8 @@ namespace HRIS.API.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
+
                 return Ok(await _headcountRepository.GetHeadcountReportAsync(UserSession.Instance.User.UserID,
                                                                              parameters.RcDp.RCs,
                                                                              parameters.RcDp.DPs,
@@ -66,6 +69,8 @@ namespace HRIS.API.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
+
                 return Ok(await _headcountRepository.GetPagedHeadcountTitleSummaryReportAsync(UserSession.Instance.User.UserID,
                                                                                               parameters.RcDp.RCs,
                                                                                               parameters.Code.Titles,
@@ -106,6 +111,8 @@ namespace HRIS.API.Controllers
         {
             try
             {
+                //if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
+
                 return Ok(await _headcountRepository.GetPagedHeadcountTitleAndBudgetSummaryReportAsync(UserSession.Instance.User.UserID,
                                                                                                        parameters.RcDp.RCs,
                                                                                                        parameters.Code.Titles,
@@ -126,6 +133,11 @@ namespace HRIS.API.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
+
+                if (parameters.Code.LvStatuses == "*")
+                    parameters.Code.LvStatuses = "";
+
                 return Ok(await _headcountRepository.GetPagedHeadcountPMSEmployeeDetailReportsAsync(UserSession.Instance.User.UserID,
                                                                                                     parameters.RcDp.RCs,
                                                                                                     parameters.RcDp.DPs,
