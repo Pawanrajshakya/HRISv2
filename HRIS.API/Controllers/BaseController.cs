@@ -50,6 +50,10 @@ namespace HRIS.API.Controllers
         {
             StringBuilder stringBuilder = new StringBuilder();
 
+            parameters.File.RDLFileName = string.IsNullOrEmpty(parameters.File.RDLFileName)
+                ? parameters.ReportName
+                : parameters.File.RDLFileName;
+
             switch (parameters.ReportName)
             {
                 case "ActiveStaffReport":
@@ -60,12 +64,15 @@ namespace HRIS.API.Controllers
                 case "OvertimeReport":
                 case "OvertimeEarnedAnalysisReport":
                 case "PARReport":
-
                 case "HeadCountReport":
                 case "HeadCountTitleSummaryReport":
                 case "HeadcountTitleAndBudgetSummaryReportByRCAndTitle":
                 case "PMSEmployeeDetailReport":
                 case "HeadcountTitleAndBudgetSummaryReconciliationReportByRCAndTitle":
+                case "EEOSummaryReport":
+                case "EEOConfirmedReportByRA":
+                case "EEOPendingReportByRA":
+
                     stringBuilder.Append("&UserID=" + (string.IsNullOrEmpty(parameters.UserID) ? UserSession.Instance.User.UserID : parameters.UserID));
                     stringBuilder.Append("&SortColumn=" + (parameters.Pagination.SortColumn ?? ""));
                     stringBuilder.Append("&SortOrder=" + (parameters.Pagination.SortOrder ?? "asc"));
@@ -75,8 +82,7 @@ namespace HRIS.API.Controllers
 
             switch (parameters.ReportName)
             {
-                case "ActiveStaffReport":
-                    parameters.File.RDLFileName = "SearchStaffReport";
+                case "SearchStaffReport":
                     stringBuilder.Append("&RCs=" + (parameters.RcDp.RCs ?? ""));
                     stringBuilder.Append("&DPs=" + (parameters.RcDp.DPs ?? ""));
                     stringBuilder.Append("&Locations=" + (parameters.Code.Locations ?? ""));
@@ -93,7 +99,6 @@ namespace HRIS.API.Controllers
                     stringBuilder.Append("&Option=Leave");
                     break;
                 case "EmergencyContactInfoReport":
-                    parameters.File.RDLFileName = "EmergencyContactInfoReport";
                     stringBuilder.Append("&RCs=" + (parameters.RcDp.RCs ?? ""));
                     stringBuilder.Append("&DPs=" + (parameters.RcDp.DPs ?? ""));
                     stringBuilder.Append("&Locations=" + (parameters.Code.Locations ?? ""));
@@ -107,14 +112,11 @@ namespace HRIS.API.Controllers
                     stringBuilder.Append("&Option=Ceased");
                     break;
                 case "StaffDetails":
-                    parameters.File.RDLFileName = "StaffDetails";
                     stringBuilder.Append("&UserID=" + (string.IsNullOrEmpty(parameters.UserID) ? UserSession.Instance.User.UserID : parameters.UserID));
                     stringBuilder.Append("&EIN=" + (parameters.Ein ?? ""));
                     stringBuilder.Append("&LanID=" + UserSession.Instance.User.LanID);
                     break;
                 case "PARReport":
-                    parameters.File.RDLFileName = "PARReport";
-
                     stringBuilder.Append("&DisplayColumns=" + "[Request Type][Transaction Type][Attrition EIN][Attrition Date][Attrition Reason][Requested RC Code][Requested DP Code][Requested Location][SA Action][SA Remark][SA Analyst][SA Date][HCU Action][HCU Remark][HCU Analyst][HCU Date][OSR Action][OSR Remark][OSR Analyst][OSR Date]");
                     stringBuilder.Append("&UserID=" + (string.IsNullOrEmpty(parameters.UserID) ? UserSession.Instance.User.UserID : parameters.UserID));
                     stringBuilder.Append("&DateFrom=" + (parameters.DateFrom ?? ""));
@@ -126,14 +128,12 @@ namespace HRIS.API.Controllers
                     stringBuilder.Append("&OpenClose=" + (parameters.OpenClose ?? ""));
                     break;
                 case "OvertimeReport":
-                    parameters.File.RDLFileName = "OvertimeReport";
                     stringBuilder.Append("&RCs=" + (parameters.RcDp.RCs ?? ""));
                     stringBuilder.Append("&DPs=" + (parameters.RcDp.DPs ?? ""));
                     stringBuilder.Append("&IsCalendar=" + (parameters.IsCalendarYear ? "Calendar" : "Fiscal"));
                     stringBuilder.Append("&RoleID=" + UserSession.Instance.User.RoleID);
                     break;
                 case "CitytimeOTReportByMonth":
-                    parameters.File.RDLFileName = "CitytimeOTReportByMonth";
                     stringBuilder.Append("&UserID=" + (string.IsNullOrEmpty(parameters.UserID) ? UserSession.Instance.User.UserID : parameters.UserID));
                     stringBuilder.Append("&RCs=" + (string.IsNullOrEmpty(parameters.RcDp.RCs) ? "ALL" : parameters.RcDp.RCs));
                     stringBuilder.Append("&DPs=" + (string.IsNullOrEmpty(parameters.RcDp.DPs) ? "ALL" : parameters.RcDp.DPs));
@@ -142,7 +142,6 @@ namespace HRIS.API.Controllers
                     stringBuilder.Append("&TotalOnly=true");
                     break;
                 case "OvertimeEarnedAnalysisReport":
-                    parameters.File.RDLFileName = "OvertimeEarnedAnalysisReport";
                     stringBuilder.Append("&RARC=" + (string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs));
                     stringBuilder.Append("&CuDate=" + parameters.Year.ToString());
                     stringBuilder.Append("&vPYear=" + parameters.Year.ToString());
@@ -150,22 +149,18 @@ namespace HRIS.API.Controllers
                     stringBuilder.Append("&isDateEarned=" + (parameters.IsDateEarned ? "*" : "0"));
                     break;
                 case "HeadCountReport":
-                    parameters.File.RDLFileName = "HeadCountReport";
                     stringBuilder.Append("&RCs=" + (string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs));
                     stringBuilder.Append("&DPs=" + (parameters.RcDp.DPs ?? ""));
                     break;
                 case "HeadCountTitleSummaryReport":
-                    parameters.File.RDLFileName = "HeadCountTitleSummaryReport";
                     stringBuilder.Append("&RCs=" + parameters.RcDp.RCs);
                     stringBuilder.Append("&Titles=" + (parameters.Code.Titles ?? ""));
                     break;
                 case "HeadcountTitleAndBudgetSummaryReportByRCAndTitle":
-                    parameters.File.RDLFileName = "HeadcountTitleAndBudgetSummaryReportByRCAndTitle";
                     stringBuilder.Append("&RCs=" + (string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs));
                     stringBuilder.Append("&Titles=" + (parameters.Code.Titles ?? ""));
                     break;
                 case "PMSEmployeeDetailReport":
-                    parameters.File.RDLFileName = "PMSEmployeeDetailReport";
                     stringBuilder.Append("&RCs=" + (string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs));
                     stringBuilder.Append("&DPs=" + (parameters.RcDp.DPs ?? ""));
                     stringBuilder.Append("&LeaveStatus=" + (parameters.Code.LvStatuses ?? ""));
@@ -173,10 +168,19 @@ namespace HRIS.API.Controllers
 
                     break;
                 case "HeadcountTitleAndBudgetSummaryReconciliationReportByRCAndTitle":
-                    parameters.File.RDLFileName = "HeadcountTitleAndBudgetSummaryReconciliationReportByRCAndTitle";
                     stringBuilder.Append("&RCs=" + parameters.RcDp.RCs);
                     stringBuilder.Append("&Titles=" + (parameters.Code.Titles ?? ""));
                     break;
+
+                case "EEOConfirmedReportByRA":
+                case "EEOPendingReportByRA":
+                    stringBuilder.Append("&RA=" + parameters.RcDp.RCs);
+                    break;
+
+                case "EEOSummaryReport":
+                    stringBuilder.Append("&RCs=" + parameters.RcDp.RCs);
+                    break;
+
             }
 
             stringBuilder.Append("&rs:Format=" + (parameters.File.Format ?? ""));

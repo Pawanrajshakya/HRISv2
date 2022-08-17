@@ -16,8 +16,6 @@ import { ITitle } from '../_models/ITitle';
 import { IBackupTitle } from '../_models/IBackupTitle';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ILeaveStatus } from '../_models/ILeaveStatus';
-import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { Reports } from '../_models/Reports.enum';
 import { DownloadComponent } from '../download/download.component';
 
 @Component({
@@ -90,7 +88,7 @@ export class BaseComponent<T> {
   //   ];
 
   reportParam: IReportParam = {
-    reportName: '',
+    reportName: 'unknown',
     file: {
       format: 'EXCELOPENXML',
     },
@@ -103,6 +101,7 @@ export class BaseComponent<T> {
       dps: '',
     },
     code: {},
+    fields: [],
   };
 
   /** Model */

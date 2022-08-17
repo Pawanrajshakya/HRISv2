@@ -15,7 +15,7 @@ import { IDp, IRc } from 'src/app/_models/IRcDp';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
-import { ParService } from 'src/app/_services/par.service';
+import { DataService } from 'src/app/_services/data.service';
 
 @Component({
   selector: 'app-par',
@@ -37,7 +37,7 @@ export class ParComponent
 
   constructor(
     private codeService: CodeService,
-    private parService: ParService,
+    private dataService: DataService,
     private modalService: BsModalService,
     public loginService: LoginService
   ) {
@@ -126,7 +126,7 @@ export class ParComponent
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          return this.parService
+          return this.dataService
             .parReport$(this.reportParam)
             .pipe(catchError(() => observableOf(null)));
         }),
@@ -201,7 +201,7 @@ export class ParComponent
 
   onShowDetail(template: TemplateRef<any>, IPARReport: any): void {
     if (IPARReport.reqNumber) {
-      this.parService.parDetail$(IPARReport.reqNumber).subscribe({
+      this.dataService.parDetail$(IPARReport.reqNumber).subscribe({
         next: (_detail) => {
           if (_detail) {
             this.parDetails = _detail as IPARDetail[];

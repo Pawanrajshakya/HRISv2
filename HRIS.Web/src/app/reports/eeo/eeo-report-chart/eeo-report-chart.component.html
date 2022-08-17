@@ -1,0 +1,31 @@
+<div class="col-sm-12 row">
+  <div class="col-sm-5 offset-sm-1">
+    <div class="card border-info shadow">
+      <div class="card-header text-white bg-info border-info shadow">
+        <i class="bi bi-pie-chart"></i> {{dbTitle}}
+      </div>
+      <div class="card-body pb-0 pt-1">
+        <div style="display: block" *ngIf="eeoAgencyDemographicBreakdownChart$ | async as data">
+          <canvas baseChart [data]="data.chartData" [options]="data.chartOptions" [plugins]="data.chartPlugins"
+            [type]="data.chartType">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-5">
+    <div class="card border-info shadow">
+      <div class="card-header text-white bg-info border-info shadow">
+        <i class="bi bi-pie-chart"></i> {{gbTitle}}
+      </div>
+      <div class="card-body pb-0 pt-1">
+        <div style="display: block" *ngIf="eeoGenderBreakdownChart$ | async as data">
+          <canvas baseChart [data]="data.chartData" [options]="data.chartOptions" [plugins]="data.chartPlugins"
+            [type]="data.chartType">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>

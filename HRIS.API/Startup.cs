@@ -39,7 +39,7 @@ namespace HRIS.API
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IRCRepository, RCRepository>();
             services.AddScoped<IDPRepository, DPRepository>();
-            services.AddScoped<IEcardRepository, EcardRepository>();
+            services.AddScoped<IGDSRepository, GDSRepository>();
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
             services.AddScoped<IHeadcountRepository, HeadcountRepository>();
             services.AddScoped<ITEAMRepository, TeamRepository>();
@@ -53,7 +53,7 @@ namespace HRIS.API
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IOvertimeRepository, OvertimeRepository>();
             services.AddScoped<IAgencySeparationRepository, AgencySeparationRepository>();
-            services.AddScoped<IHRISReportRepository, HRISReportRepository>();
+            services.AddScoped<IHRISReportRepository, HRISRepository>();
             services.AddScoped<IPARRepository, PARRepository>();
             //********Repository DI - end
 

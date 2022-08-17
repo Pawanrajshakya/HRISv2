@@ -1,6 +1,14 @@
 import { AfterViewInit, Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
+import {
+  catchError,
+  map,
+  merge,
+  startWith,
+  switchMap,
+  tap,
+  of as observableOf,
+} from 'rxjs';
 import { BaseComponent } from '../../base/base.component';
 import { IRc, IDp } from '../../_models/IRcDp';
 import { Reports } from '../../_models/Reports.enum';
@@ -9,27 +17,36 @@ import { CodeService } from '../../_services/code.service';
 import { LoginService } from '../../_services/login.service';
 import { IStaffEmergencyContactInfoReport } from 'src/app/_models/IStaffEmergencyContactInfoReport';
 import { IStaffEmergencyContactInfo } from 'src/app/_models/IStaffDetail';
+import { DataService } from 'src/app/_services/data.service';
 
 @Component({
   selector: 'app-staff-emergency-contact-info',
   templateUrl: './staff-emergency-contact-info.component.html',
-  styleUrls: ['./staff-emergency-contact-info.component.scss']
+  styleUrls: ['./staff-emergency-contact-info.component.scss'],
 })
-export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmergencyContactInfoReport> implements AfterViewInit, OnInit {
-
+export class StaffEmergencyContactInfoComponent
+  extends BaseComponent<IStaffEmergencyContactInfoReport>
+  implements AfterViewInit, OnInit
+{
   isCollapsed = false;
 
   emergencyContactInfo: any = [];
 
-  constructor(private codeService: CodeService,
+  constructor(
+    private codeService: CodeService,
+    private dataService: DataService,
     private staffService: StaffService,
     private modalService: BsModalService,
-    public loginService: LoginService) {
+    public loginService: LoginService
+  ) {
     super();
   }
 
   private prepareColoumns() {
-    if (this.loginService.currentUser.roleID == 1 || this.loginService.currentUser.roleID == 4) {
+    if (
+      this.loginService.currentUser.roleID == 1 ||
+      this.loginService.currentUser.roleID == 4
+    ) {
       this.displayedColumns = [
         'ein',
         'lastName',
@@ -42,10 +59,12 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
         'homeAddress',
         'homePhone',
         'personalEmail',
-        'emergencyContactName'
+        'emergencyContactName',
       ];
-    }
-    else if (this.loginService.currentUser.roleID !== 1 && this.loginService.currentUser.roleID !== 4) {
+    } else if (
+      this.loginService.currentUser.roleID !== 1 &&
+      this.loginService.currentUser.roleID !== 4
+    ) {
       this.displayedColumns = [
         'ein',
         'lastName',
@@ -56,7 +75,7 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
         'homeAddress',
         'homePhone',
         'personalEmail',
-        'emergencyContactName'
+        'emergencyContactName',
       ];
     }
   }
@@ -70,7 +89,6 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
   }
 
   ngAfterViewInit(): void {
-
     // reset sort order to the first page
     // mat-table sort order
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -80,7 +98,7 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
       .pipe(
         startWith({}),
         tap((filter) => {
-          if ((typeof filter) != "object") {
+          if (typeof filter != 'object') {
             this.reportParam.pagination.searchTerm = filter.toString();
             this.paginator.pageIndex = 0;
             this.paginator.pageSize = 10;
@@ -92,25 +110,26 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          return this.staffService.emergencyContactInfoReport$(this.reportParam)
+          return this.dataService
+            .emergencyContactInfoReport$(this.reportParam)
             .pipe(
               tap(),
               catchError(() => observableOf(null))
             );
         }),
-        map(data => {
+        map((data) => {
           this.resultsLength = this.getResultLength(data);
           return this.resultsLength > 0 ? data : [];
-        }),
+        })
       )
       .subscribe({
-        next: data => {
+        next: (data) => {
           if (Array.isArray(data)) this.data = data;
           this.isLoadingResults = false;
-        }
-        , error: (error) => {
+        },
+        error: (error) => {
           this.isLoadingResults = false;
-        }
+        },
       });
   }
 
@@ -142,9 +161,9 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
   // }
 
   onSearch() {
-    this.reportParam.rcDp.rcs = this.selectedRC.join(",");
-    this.reportParam.rcDp.dps = this.selectedDP.join(",");
-    this.reportParam.code.locations = this.selectedLocation.join(",");
+    this.reportParam.rcDp.rcs = this.selectedRC.join(',');
+    this.reportParam.rcDp.dps = this.selectedDP.join(',');
+    this.reportParam.code.locations = this.selectedLocation.join(',');
     this.filterSubject.next(this.filterValue);
   }
 
@@ -163,11 +182,13 @@ export class StaffEmergencyContactInfoComponent extends BaseComponent<IStaffEmer
 
   onShowMore(template: TemplateRef<any>, staff: any): void {
     if (staff.ein) {
-      this.staffService.emergencyContactInfo$(staff.ein).subscribe(_emergencyContactInfo => {
-        this.emergencyContactInfo = _emergencyContactInfo as IStaffEmergencyContactInfo[];
-        this.modalRef = this.modalService.show(template, this.modalConfig);
-      });
+      this.staffService
+        .emergencyContactInfo$(staff.ein)
+        .subscribe((_emergencyContactInfo) => {
+          this.emergencyContactInfo =
+            _emergencyContactInfo as IStaffEmergencyContactInfo[];
+          this.modalRef = this.modalService.show(template, this.modalConfig);
+        });
     }
   }
 }
-

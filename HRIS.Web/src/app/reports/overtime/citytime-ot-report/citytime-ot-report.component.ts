@@ -9,7 +9,8 @@ import { IDp, IRc } from 'src/app/_models/IRcDp';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
-import { OvertimeService } from 'src/app/_services/overtime.service';
+import { DataService } from 'src/app/_services/data.service';
+
 
 @Component({
   selector: 'app-citytime-otreport',
@@ -69,7 +70,7 @@ export class CitytimeOTReportComponent
   constructor(
     public loginService: LoginService,
     private codeService: CodeService,
-    private overtimeService: OvertimeService,
+    private dataService: DataService,
     private modalService: BsModalService
   ) {
     super();
@@ -86,7 +87,7 @@ export class CitytimeOTReportComponent
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.overtimeService.overtimeCitytimeReport$(this.reportParam);
+          return this.dataService.overtimeCitytimeReport$(this.reportParam);
         })
       )
       .subscribe({

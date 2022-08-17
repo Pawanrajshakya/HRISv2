@@ -7,7 +7,7 @@ import { IRc } from 'src/app/_models/IRcDp';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
 import { merge, startWith, switchMap, Observable } from 'rxjs';
-import { OvertimeService } from 'src/app/_services/overtime.service';
+import { DataService } from 'src/app/_services/data.service';
 
 @Component({
   selector: 'app-overtime-chart',
@@ -58,7 +58,7 @@ export class OvertimeChartComponent
   constructor(
     private codeService: CodeService,
     public loginService: LoginService,
-    private overtimeService: OvertimeService
+    private dataService: DataService
   ) {
     super();
   }
@@ -75,7 +75,7 @@ export class OvertimeChartComponent
           console.log(this.selectedRC.join(','));
           //this.separationChart$.subscribe();
           this.isLoadingResults = true;
-          return this.overtimeService.budgetedOTChart$(
+          return this.dataService.budgetedOTChart$(
             this.selectedRC.join('|') ?? '',
             this.year
           );
@@ -138,7 +138,7 @@ export class OvertimeChartComponent
         startWith({}),
         switchMap(() => {
           this.isLoadingResultsAOT = true;
-          return this.overtimeService.actualOTChart$(
+          return this.dataService.actualOTChart$(
             this.selectedRC.join('|') ?? ''
           );
         })

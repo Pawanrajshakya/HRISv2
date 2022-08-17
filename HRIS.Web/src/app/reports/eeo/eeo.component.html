@@ -1,1 +1,37 @@
-<p>eeo works!</p>
+<div class="card">
+    <tabset [justified]="true">
+      <tab>
+        <ng-template tabHeading>
+          <i class="bi bi-pie-chart-fill"></i>&nbsp;EEO Chart
+        </ng-template>
+        <div class="mt-5">
+          <app-eeo-report-chart></app-eeo-report-chart>
+        </div>
+      </tab>
+      <tab>
+        <ng-template tabHeading>
+          <i class="bi bi-grid"></i>&nbsp;EEO Summary Report
+        </ng-template>
+        <div class="mt-2">
+          <app-eeo-report-summary></app-eeo-report-summary>
+        </div>
+      </tab>
+      <tab>
+        <ng-template tabHeading>
+          <i class="bi bi-grid-3x3-gap"></i>&nbsp;EEO Confirmed Report
+        </ng-template>
+        <div class="mt-2">
+          <app-eeo-report-confirmed></app-eeo-report-confirmed>
+        </div>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+            <i class="bi bi-ui-checks-grid"></i>&nbsp;EEO Pending Report
+          </ng-template>
+          <div class="mt-2">
+            <app-eeo-report-pending></app-eeo-report-pending>
+          </div>
+        </tab>
+    </tabset>
+  </div>
+  

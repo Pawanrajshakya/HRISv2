@@ -15,8 +15,9 @@ import { IRc } from 'src/app/_models/IRcDp';
 import { ITitle } from 'src/app/_models/ITitle';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
-import { HeadcountService } from 'src/app/_services/headcount.service';
+
 import { LoginService } from 'src/app/_services/login.service';
+import { DataService } from 'src/app/_services/data.service';
 
 @Component({
   selector: 'app-headcount-report-budget-summary',
@@ -27,12 +28,11 @@ export class HeadcountReportBudgetSummaryComponent
   extends BaseComponent<IHeadcountTitleAndBudgetSummaryReport>
   implements AfterViewInit, OnInit
 {
-  
   constructor(
     private codeService: CodeService,
     private modalService: BsModalService,
     public loginService: LoginService,
-    public headcountService: HeadcountService
+    public dataService: DataService
   ) {
     super();
   }
@@ -97,7 +97,7 @@ export class HeadcountReportBudgetSummaryComponent
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          return this.headcountService
+          return this.dataService
             .titleAndBudgetSummary$(this.reportParam)
             .pipe(catchError(() => observableOf(null)));
         }),

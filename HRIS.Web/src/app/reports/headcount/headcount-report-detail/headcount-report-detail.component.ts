@@ -15,8 +15,9 @@ import { IHeadcountReport } from 'src/app/_models/IHeadcountReport';
 import { IDpGroup, IRc } from 'src/app/_models/IRcDp';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
-import { HeadcountService } from 'src/app/_services/headcount.service';
+
 import { LoginService } from 'src/app/_services/login.service';
+import { DataService } from 'src/app/_services/data.service';
 
 @Component({
   selector: 'app-headcount-report-detail',
@@ -31,7 +32,7 @@ export class HeadcountReportDetailComponent
     private codeService: CodeService,
     private modalService: BsModalService,
     public loginService: LoginService,
-    public headcountService: HeadcountService
+    public dataService: DataService
   ) {
     super();
   }
@@ -70,7 +71,6 @@ export class HeadcountReportDetailComponent
     ];
 
     this.rcs = this.codeService.rc_dp.RC as IRc[];
-    //this.dps = this.codeService.rc_dp.DP as IDp[];
     this.groupDPs = this.codeService.rc_dp.IDpGroup as IDpGroup[];
     this.filteredGroupDPs = this.groupDPs;
   }
@@ -97,7 +97,7 @@ export class HeadcountReportDetailComponent
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          return this.headcountService
+          return this.dataService
             .report$(this.reportParam)
             .pipe(catchError(() => observableOf(null)));
         }),

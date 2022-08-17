@@ -2,13 +2,12 @@ import { formatNumber } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { merge, startWith, switchMap, Observable } from 'rxjs';
+import { merge, startWith, switchMap } from 'rxjs';
 import { BaseComponent } from 'src/app/base/base.component';
 import { IHeadcountChartData } from 'src/app/_models/IHeadcountChartData';
 import { IRc } from 'src/app/_models/IRcDp';
 import { CodeService } from 'src/app/_services/code.service';
-import { HeadcountService } from 'src/app/_services/headcount.service';
+import { DataService } from 'src/app/_services/data.service';
 
 @Component({
   selector: 'app-headcount-report-chart',
@@ -77,9 +76,8 @@ export class HeadcountReportChartComponent
   };
 
   constructor(
-    private headcountService: HeadcountService,
-    private codeService: CodeService,
-    private modalService: BsModalService
+    private dataService: DataService,
+    private codeService: CodeService
   ) {
     super();
   }
@@ -98,7 +96,7 @@ export class HeadcountReportChartComponent
           //this.separationChart$.subscribe();
           this.isLoadingResults = true;
           this.reportParam.rcDp.rcs = this.selectedRC.join(',') ?? '';
-          return this.headcountService.chart$(this.reportParam);
+          return this.dataService.chart$(this.reportParam);
         })
       )
       .subscribe({

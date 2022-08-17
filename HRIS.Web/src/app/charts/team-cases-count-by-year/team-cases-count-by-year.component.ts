@@ -7,7 +7,7 @@ import { BaseComponent } from 'src/app/base/base.component';
 import { ICasesCountByYear } from "src/app/_models/ICasesCountByYear";
 import { IBarChartData } from 'src/app/_models/IChart';
 import { LoginService } from 'src/app/_services/login.service';
-import { TeamService } from 'src/app/_services/team.service';
+import { DataService } from 'src/app/_services/data.service';
 
 @Component({
   selector: 'app-team-cases-count-by-year',
@@ -24,7 +24,7 @@ export class TeamCasesCountByYearComponent extends BaseComponent<IBarChartData> 
 
   _chartDataDatasets: any = [];
 
-  casesCountByYearChart$ = this.teamService.casesCountByYearChart$
+  casesCountByYearChart$ = this.dataService.casesCountByYearChart$
     .pipe<IBarChartData>(
       map(rows => {
 
@@ -105,7 +105,7 @@ export class TeamCasesCountByYearComponent extends BaseComponent<IBarChartData> 
       })
     );
 
-  constructor(private teamService: TeamService,
+  constructor(private dataService: DataService,
     private loginService: LoginService) {
     super();
   }

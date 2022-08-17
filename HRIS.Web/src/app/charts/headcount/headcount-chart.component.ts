@@ -6,7 +6,8 @@ import { map } from 'rxjs';
 import { BaseComponent } from 'src/app/base/base.component';
 import { ILineChartData } from 'src/app/_models/IChart';
 import { IHeadcountChartData } from 'src/app/_models/IHeadcountChartData';
-import { HeadcountService } from 'src/app/_services/headcount.service';
+import { DataService } from 'src/app/_services/data.service';
+
 
 
 @Component({
@@ -18,7 +19,7 @@ export class HeadcountChartComponent extends BaseComponent<ILineChartData> {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
-  headcountChart$ = this.headcountService.headcountChart$.pipe<ILineChartData>(
+  headcountChart$ = this.dataService.headcountChart$.pipe<ILineChartData>(
     map(_data => {
 
       // let dataset: any = [];
@@ -99,7 +100,7 @@ export class HeadcountChartComponent extends BaseComponent<ILineChartData> {
     }));
 
 
-  constructor(private headcountService: HeadcountService) {
+  constructor(private dataService: DataService) {
     super();
   }
 

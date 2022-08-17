@@ -74,6 +74,10 @@ import { HeadcountReportReconciliationSummaryComponent } from './reports/headcou
 import { HeadcountReportBudgetSummaryComponent } from './reports/headcount/headcount-report-budget-summary/headcount-report-budget-summary.component';
 import { HeadcountReportEmployeeDetailComponent } from './reports/headcount/headcount-report-employee-detail/headcount-report-employee-detail.component';
 import { HeadcountComponent } from './reports/headcount/headcount.component';
+import { EeoReportChartComponent } from './reports/eeo/eeo-report-chart/eeo-report-chart.component';
+import { EeoReportSummaryComponent } from './reports/eeo/eeo-report-summary/eeo-report-summary.component';
+import { EeoReportConfirmedComponent } from './reports/eeo/eeo-report-confirmed/eeo-report-confirmed.component';
+import { EeoReportPendingComponent } from './reports/eeo/eeo-report-pending/eeo-report-pending.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +127,10 @@ import { HeadcountComponent } from './reports/headcount/headcount.component';
     HeadcountReportBudgetSummaryComponent,
     HeadcountReportEmployeeDetailComponent,
     HeadcountComponent,
+    EeoReportChartComponent,
+    EeoReportSummaryComponent,
+    EeoReportConfirmedComponent,
+    EeoReportPendingComponent,
   ],
   imports: [
     BrowserModule,

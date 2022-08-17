@@ -1,20 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, tap } from 'rxjs';
-import { IActiveStaffReport } from '../_models/IActiveStaffReport';
-import { IReportParam } from '../_models/IReportParam';
+import { catchError } from 'rxjs';
 import {
   IStaffDetail,
   IStaffEDUDetail,
   IStaffEmergencyContactInfo,
   IStaffOvertimeSummary,
 } from '../_models/IStaffDetail';
-import { IStaffEmergencyContactInfoReport } from '../_models/IStaffEmergencyContactInfoReport';
-import { IVacationRosterReport } from '../_models/IVacationRosterReport';
-import { IStaffLeaveReport } from '../_models/IStaffLeaveReport';
 import { ErrorHandlingService } from './error-handling.service';
 import { BaseService } from './_base.service';
-import { IAgencySeparationSummary } from '../_models/IAgencySeparationSummary';
 
 @Injectable({
   providedIn: 'root',
@@ -25,81 +19,6 @@ export class StaffService extends BaseService {
     private errorHandlingService: ErrorHandlingService
   ) {
     super();
-  }
-
-  activeStaffReport$(tableViewParam?: IReportParam) {
-    console.log('tableViewParam', tableViewParam);
-    return this.httpClient
-      .post<IActiveStaffReport[]>(
-        this.url + 'hrisReport/activeStaffReport',
-        tableViewParam
-      )
-      .pipe(
-        //tap((data) => { console.log(data); }),
-        catchError((err) => this.errorHandlingService.handleError(err))
-      );
-  }
-
-  leaveReport$(tableViewParam?: IReportParam) {
-    console.log('tableViewParam', tableViewParam);
-    return this.httpClient
-      .post<IStaffLeaveReport[]>(
-        this.url + 'hrisReport/leaveReport',
-        tableViewParam
-      )
-      .pipe(
-        //tap((data) => { console.log(data); }),
-        catchError((err) => this.errorHandlingService.handleError(err))
-      );
-  }
-
-  ceasedReport$(tableViewParam?: IReportParam) {
-    console.log('tableViewParam', tableViewParam);
-    return this.httpClient
-      .post<IStaffLeaveReport[]>(
-        this.url + 'hrisReport/ceasedReport',
-        tableViewParam
-      )
-      .pipe(
-        //tap((data) => { console.log(data); }),
-        catchError((err) => this.errorHandlingService.handleError(err))
-      );
-  }
-
-  emergencyContactInfoReport$(tableViewParam?: IReportParam) {
-    return this.httpClient
-      .post<IStaffEmergencyContactInfoReport[]>(
-        this.url + 'hrisReport/emergencyContactInfoReport',
-        tableViewParam
-      )
-      .pipe(
-        //tap((data) => {  console.log('$', data); }),
-        catchError((err) => this.errorHandlingService.handleError(err))
-      );
-  }
-
-  vacationRosterReport$(tableViewParam?: IReportParam) {
-    return this.httpClient
-      .post<IVacationRosterReport[]>(
-        this.url + 'hrisReport/vactionRoasterReport',
-        tableViewParam
-      )
-      .pipe(
-        //tap((data) => {  console.log('$', data); }),
-        catchError((err) => this.errorHandlingService.handleError(err))
-      );
-  }
-
-  agencySeparation$(tableViewParam?: IReportParam) {
-    return this.httpClient
-      .post<IAgencySeparationSummary[]>(
-        this.url + 'agencySeparation/summary',
-        tableViewParam
-      )
-      .pipe(
-        //tap((data) => {  console.log('$', data); }),
-        catchError((err) => this.errorHandlingService.handleError(err))
-      );
   }
 
   detail$(ein: string) {

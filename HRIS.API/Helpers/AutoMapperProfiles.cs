@@ -101,6 +101,13 @@ namespace HRIS.API
             CreateMap<HeadcountTitleAndBudgetSummaryReport, HeadcountTitleAndBudgetSummaryReportDto>();
             CreateMap<HeadcountPMSEmployeeDetailReport, HeadcountPMSEmployeeDetailReportDto>();
             #endregion
+
+            #region EEO
+            CreateMap<EEOChart, EEOChartDto>();
+            CreateMap<EEOConfirmedReport, EEOConfirmedReportDto>();
+            CreateMap<EEOPendingReport, EEOPendingReportDto>();
+            CreateMap<EEOSummaryReport, EEOSummaryReportDto>();
+            #endregion
         }
     }
 }

@@ -9,7 +9,7 @@ import { ICurrentUser } from 'src/app/_models/ICurrentUser';
 import { LoginService } from 'src/app/_services/login.service';
 import { BaseComponent } from 'src/app/base/base.component';
 import { IBarChartData } from 'src/app/_models/IChart';
-import { EcardService } from 'src/app/_services/ecard.service';
+import { DataService } from 'src/app/_services/data.service';
 
 @Component({
   selector: 'app-ecard-chart',
@@ -23,7 +23,7 @@ export class EcardChartComponent extends BaseComponent<IBarChartData> {
 
   today = new Date().toLocaleDateString();
 
-  ecardChart$ = this.ecardService.eCards$.pipe<IBarChartData>(
+  ecardChart$ = this.dataService.eCards$.pipe<IBarChartData>(
     map((ecards) => {
       let data: Array<number> = [];
       let barChartData: ChartData<'bar'> = { labels: [], datasets: [] };
@@ -69,7 +69,7 @@ export class EcardChartComponent extends BaseComponent<IBarChartData> {
   );
 
   constructor(
-    private ecardService: EcardService,
+    private dataService: DataService,
     private loginService: LoginService,
     private ngSelect: NgSelectConfig
   ) {

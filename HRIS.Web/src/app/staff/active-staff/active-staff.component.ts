@@ -1,32 +1,47 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
+import {
+  catchError,
+  map,
+  merge,
+  startWith,
+  switchMap,
+  tap,
+  of as observableOf,
+} from 'rxjs';
 import { BaseComponent } from '../../base/base.component';
 import { IActiveStaffReport } from '../../_models/IActiveStaffReport';
 import { IRc, IDp } from '../../_models/IRcDp';
 import { Reports } from '../../_models/Reports.enum';
-import { StaffService } from '../../_services/staff.service';
 import { CodeService } from '../../_services/code.service';
 import { LoginService } from '../../_services/login.service';
+import { DataService } from 'src/app/_services/data.service';
 
 @Component({
   selector: 'app-active-staff',
   templateUrl: './active-staff.component.html',
-  styleUrls: ['./active-staff.component.scss']
+  styleUrls: ['./active-staff.component.scss'],
 })
-export class ActiveStaffComponent extends BaseComponent<IActiveStaffReport> implements AfterViewInit, OnInit {
-
+export class ActiveStaffComponent
+  extends BaseComponent<IActiveStaffReport>
+  implements AfterViewInit, OnInit
+{
   isCollapsed = false;
 
-  constructor(private codeService: CodeService,
-    private staffService: StaffService,
+  constructor(
+    private codeService: CodeService,
+    private dataService: DataService,
     private modalService: BsModalService,
-    public loginService: LoginService) {
+    public loginService: LoginService
+  ) {
     super();
   }
 
   private prepareColoumns() {
-    if (this.loginService.currentUser.roleID == 1 || this.loginService.currentUser.roleID == 4) {
+    if (
+      this.loginService.currentUser.roleID == 1 ||
+      this.loginService.currentUser.roleID == 4
+    ) {
       this.displayedColumns = [
         'ein',
         'lastName',
@@ -42,10 +57,12 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaffReport> impl
         'backupTitleDate',
         'address',
         'actionDate',
-        'actionReason'
+        'actionReason',
       ];
-    }
-    else if (this.loginService.currentUser.roleID !== 1 && this.loginService.currentUser.roleID !== 4) {
+    } else if (
+      this.loginService.currentUser.roleID !== 1 &&
+      this.loginService.currentUser.roleID !== 4
+    ) {
       this.displayedColumns = [
         'ein',
         'combinedLastName',
@@ -59,7 +76,7 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaffReport> impl
         'backupTitleDate',
         'address',
         'actionDate',
-        'actionReason'
+        'actionReason',
       ];
     }
   }
@@ -76,8 +93,6 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaffReport> impl
   }
 
   ngAfterViewInit(): void {
-
-
     // reset sort order to the first page
     // mat-table sort order
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -87,7 +102,7 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaffReport> impl
       .pipe(
         startWith({}),
         tap((filter) => {
-          if ((typeof filter) != "object") {
+          if (typeof filter != 'object') {
             this.reportParam.pagination.searchTerm = filter.toString();
             this.paginator.pageIndex = 0;
             this.paginator.pageSize = 10;
@@ -99,19 +114,17 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaffReport> impl
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          return this.staffService.activeStaffReport$(this.reportParam)
-            .pipe(
-              catchError(() => observableOf(null))
-            );
+          return this.dataService
+            .activeStaffReport$(this.reportParam)
+            .pipe(catchError(() => observableOf(null)));
         }),
-        map(data => {
+        map((data) => {
           this.resultsLength = this.getResultLength(data);
           return this.resultsLength > 0 ? data : [];
-        }),
+        })
       )
-      .subscribe(data => {
-        if (Array.isArray(data))
-          this.data = data;
+      .subscribe((data) => {
+        if (Array.isArray(data)) this.data = data;
         this.isLoadingResults = false;
       });
   }
@@ -144,12 +157,12 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaffReport> impl
   // }
 
   onSearch() {
-    this.reportParam.rcDp.rcs = this.selectedRC.join(",");
-    this.reportParam.rcDp.dps = this.selectedDP.join(",");
-    this.reportParam.code.backupTitles = this.selectedBkpTitle.join(",");
-    this.reportParam.code.cSStatuses = this.selectedCsStatus.join(",");
-    this.reportParam.code.locations = this.selectedLocation.join(",");
-    this.reportParam.code.titles = this.selectedTitle.join(",");
+    this.reportParam.rcDp.rcs = this.selectedRC.join(',');
+    this.reportParam.rcDp.dps = this.selectedDP.join(',');
+    this.reportParam.code.backupTitles = this.selectedBkpTitle.join(',');
+    this.reportParam.code.cSStatuses = this.selectedCsStatus.join(',');
+    this.reportParam.code.locations = this.selectedLocation.join(',');
+    this.reportParam.code.titles = this.selectedTitle.join(',');
     this.filterSubject.next(this.filterValue);
   }
 
@@ -157,10 +170,8 @@ export class ActiveStaffComponent extends BaseComponent<IActiveStaffReport> impl
     this.clear();
     this.filterSubject.next(this.filterValue);
   }
-  
+
   onExport() {
     this.download(this.modalService, Reports[0]);
   }
-
 }
-

@@ -1,33 +1,47 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { catchError, map, merge, startWith, switchMap, tap, of as observableOf } from 'rxjs';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import {
+  catchError,
+  map,
+  merge,
+  startWith,
+  switchMap,
+  tap,
+  of as observableOf,
+} from 'rxjs';
 import { BaseComponent } from '../../base/base.component';
 import { IRc, IDp } from '../../_models/IRcDp';
 import { Reports } from '../../_models/Reports.enum';
-import { StaffService } from '../../_services/staff.service';
 import { CodeService } from '../../_services/code.service';
 import { LoginService } from '../../_services/login.service';
-import { DownloadComponent } from '../../download/download.component';
 import { IStaffLeaveReport } from 'src/app/_models/IStaffLeaveReport';
+import { DataService } from 'src/app/_services/data.service';
 
 @Component({
   selector: 'app-ceased-staff',
   templateUrl: './ceased-staff.component.html',
-  styleUrls: ['./ceased-staff.component.scss']
+  styleUrls: ['./ceased-staff.component.scss'],
 })
-export class CeasedStaffComponent extends BaseComponent<IStaffLeaveReport> implements AfterViewInit, OnInit {
-
+export class CeasedStaffComponent
+  extends BaseComponent<IStaffLeaveReport>
+  implements AfterViewInit, OnInit
+{
   isCollapsed = false;
 
-  constructor(private codeService: CodeService,
-    private staffService: StaffService,
+  constructor(
+    private codeService: CodeService,
+    private dataService: DataService,
     private modalService: BsModalService,
-    public loginService: LoginService) {
+    public loginService: LoginService
+  ) {
     super();
   }
 
   private prepareColoumns() {
-    if (this.loginService.currentUser.roleID == 1 || this.loginService.currentUser.roleID == 4) {
+    if (
+      this.loginService.currentUser.roleID == 1 ||
+      this.loginService.currentUser.roleID == 4
+    ) {
       this.displayedColumns = [
         'ein',
         'lastName',
@@ -40,10 +54,12 @@ export class CeasedStaffComponent extends BaseComponent<IStaffLeaveReport> imple
         'previousDPName',
         'leaveDateObserved',
         'expectedReturnDt',
-        'lvStatusDesc'
+        'lvStatusDesc',
       ];
-    }
-    else if (this.loginService.currentUser.roleID !== 1 && this.loginService.currentUser.roleID !== 4) {
+    } else if (
+      this.loginService.currentUser.roleID !== 1 &&
+      this.loginService.currentUser.roleID !== 4
+    ) {
       this.displayedColumns = [
         'ein',
         'lastName',
@@ -54,7 +70,7 @@ export class CeasedStaffComponent extends BaseComponent<IStaffLeaveReport> imple
         'previousDPName',
         'leaveDateObserved',
         'expectedReturnDt',
-        'lvStatusDesc'
+        'lvStatusDesc',
       ];
     }
   }
@@ -69,7 +85,6 @@ export class CeasedStaffComponent extends BaseComponent<IStaffLeaveReport> imple
   }
 
   ngAfterViewInit(): void {
-
     // reset sort order to the first page
     // mat-table sort order
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -79,7 +94,7 @@ export class CeasedStaffComponent extends BaseComponent<IStaffLeaveReport> imple
       .pipe(
         startWith({}),
         tap((filter) => {
-          if ((typeof filter) != "object") {
+          if (typeof filter != 'object') {
             this.reportParam.pagination.searchTerm = filter.toString();
             this.paginator.pageIndex = 0;
             this.paginator.pageSize = 10;
@@ -91,24 +106,23 @@ export class CeasedStaffComponent extends BaseComponent<IStaffLeaveReport> imple
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          return this.staffService.ceasedReport$(this.reportParam)
-            .pipe(
-              catchError(() => observableOf(null))
-            );
+          return this.dataService
+            .ceasedReport$(this.reportParam)
+            .pipe(catchError(() => observableOf(null)));
         }),
-        map(data => {
+        map((data) => {
           this.resultsLength = this.getResultLength(data);
           return this.resultsLength > 0 ? data : [];
-        }),
+        })
       )
       .subscribe({
-next: data => {
+        next: (data) => {
           if (Array.isArray(data)) this.data = data;
           this.isLoadingResults = false;
-        }
-        , error: (error) => {
+        },
+        error: (error) => {
           this.isLoadingResults = false;
-        }
+        },
       });
   }
 
@@ -140,10 +154,10 @@ next: data => {
   // }
 
   onSearch() {
-    this.reportParam.rcDp.rcs = this.selectedRC.join(",");
-    this.reportParam.rcDp.dps = this.selectedDP.join(",");
-    this.reportParam.code.titles = this.selectedTitle.join(",");
-    this.reportParam.code.lvStatuses = this.selectedLvStatuses.join(",");
+    this.reportParam.rcDp.rcs = this.selectedRC.join(',');
+    this.reportParam.rcDp.dps = this.selectedDP.join(',');
+    this.reportParam.code.titles = this.selectedTitle.join(',');
+    this.reportParam.code.lvStatuses = this.selectedLvStatuses.join(',');
     this.filterSubject.next(this.filterValue);
   }
 
@@ -152,8 +166,7 @@ next: data => {
     this.filterSubject.next(this.filterValue);
   }
 
-  onExport(){
-    this.download(this.modalService, Reports[4])
-  }  
-
+  onExport() {
+    this.download(this.modalService, Reports[4]);
+  }
 }

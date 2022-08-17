@@ -10,25 +10,27 @@ import {
   of as observableOf,
 } from 'rxjs';
 import { BaseComponent } from 'src/app/base/base.component';
-import { IHeadCountTitleSummaryReport } from 'src/app/_models/IHeadcountReport';
-
+import { IEEOSummaryReport } from 'src/app/_models/IEEO';
 import { IRc } from 'src/app/_models/IRcDp';
-import { ITitle } from 'src/app/_models/ITitle';
 import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
-
-import { LoginService } from 'src/app/_services/login.service';
 import { DataService } from 'src/app/_services/data.service';
+import { LoginService } from 'src/app/_services/login.service';
 
 @Component({
-  selector: 'app-headcount-report-title-summary',
-  templateUrl: './headcount-report-title-summary.component.html',
-  styleUrls: ['./headcount-report-title-summary.component.scss'],
+  selector: 'app-eeo-report-summary',
+  templateUrl: './eeo-report-summary.component.html',
+  styleUrls: ['./eeo-report-summary.component.scss'],
 })
-export class HeadcountReportTitleSummaryComponent
-  extends BaseComponent<IHeadCountTitleSummaryReport>
+export class EeoReportSummaryComponent
+  extends BaseComponent<IEEOSummaryReport>
   implements AfterViewInit, OnInit
 {
+  additionalTitle =
+    new Date().getMonth() < 6
+      ? 'between January 1 – June 30.'
+      : 'between July 1 – December 31.';
+
   constructor(
     private codeService: CodeService,
     private modalService: BsModalService,
@@ -40,26 +42,13 @@ export class HeadcountReportTitleSummaryComponent
 
   ngOnInit(): void {
     this.displayedColumns = [
-      'titleCode',
-      'title',
       'rc',
-      'ctlBudgetHC',
-      'ctlOnBoardHC',
-      'ctlhcVacancies',
-      'ctlNewHireTickets',
-      'ctlotNewHireTickets',
-      'ctlAvailHC',
-      'budgetHC',
-      'onBoardHC',
-      'hcVacancies',
-      'newHireTickets',
-      'otNewHireTickets',
-      'availHC',
-      'totalAvailVacancies'
+      'rcName',
+      'activeEmployees',
+      'countThatHadConfirmation',
+      'percentConfirmed',
     ];
-
     this.rcs = this.codeService.rc_dp.RC as IRc[];
-    this.titles = this.codeService.titles as ITitle[];
   }
 
   ngAfterViewInit(): void {
@@ -85,7 +74,7 @@ export class HeadcountReportTitleSummaryComponent
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
           return this.dataService
-            .titleSummaryReport$(this.reportParam)
+            .eeoSummaryReport$(this.reportParam)
             .pipe(catchError(() => observableOf(null)));
         }),
         map((data) => {
@@ -101,16 +90,17 @@ export class HeadcountReportTitleSummaryComponent
 
   onSearch() {
     this.reportParam.rcDp.rcs = this.selectedRC.join(',');
-    this.reportParam.code.titles = this.selectedTitle.join(',');
     this.filterSubject.next(this.filterValue);
   }
 
   onClear() {
     this.clear();
+    this.reportParam.pagination.sortColumn = 'rc';
+    this.reportParam.pagination.sortOrder = 'asc';
     this.filterSubject.next(this.filterValue);
   }
 
   onExport() {
-    this.download(this.modalService, Reports[12]);
+    this.download(this.modalService, Reports[16]);
   }
 }

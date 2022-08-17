@@ -23,6 +23,7 @@ import { ParComponent } from '../reports/par/par.component';
 import { OvertimeComponent } from '../reports/overtime/overtime.component';
 import { HeadcountChartComponent } from '../charts/headcount/headcount-chart.component';
 import { HeadcountComponent } from '../reports/headcount/headcount.component';
+import { EeoComponent } from '../reports/eeo/eeo.component';
 
 const routes: Routes = [
   {
@@ -122,6 +123,13 @@ const routes: Routes = [
       , rcdp: RcDpCodeResolverService
       , titles: TitleCodeResolverService
       , lvStatus: LeaveStatusResolverService
+    }
+  },
+  {
+    path: 'eeo', component: EeoComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
     }
   },
   {

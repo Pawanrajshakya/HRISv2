@@ -62,5 +62,7 @@ namespace HRIS.API
         public DbSet<HeadcountTitleAndBudgetReconciliationSummaryReport> HeadCountTitleAndBudgetReconciliationSummaryReports { get; set; }
         public DbSet<HeadcountTitleAndBudgetSummaryReport> HeadCountTitleAndBudgetSummaryReports { get; set; }
         public DbSet<HeadcountPMSEmployeeDetailReport> HeadcountPMSEmployeeDetailReports { get; set; }
+
+        public DbSet<EEOChart> EEOCharts { get; set; }
     }
 }

@@ -23,6 +23,5 @@ namespace HRIS.API
         HRBP = 4,
         Director = 5,
         Supervisor = 6,
-        Staff = 7
     }
 }
