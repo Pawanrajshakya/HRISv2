@@ -1,0 +1,36 @@
+<div class="card">
+  <tabset [justified]="true">
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-bar-chart-fill"></i>&nbsp;E-Cards Chart
+      </ng-template>
+      <div class="mt-5">
+        <app-ecard-chart></app-ecard-chart>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-send-check-fill"></i>&nbsp;Send And Received By RC
+      </ng-template>
+      <div class="mt-2">
+        <app-ecard-send-received></app-ecard-send-received>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-share-fill"></i>&nbsp;By Relationship Of Sender
+      </ng-template>
+      <div class="mt-2">
+        <app-ecard-by-relationship></app-ecard-by-relationship>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-hand-thumbs-up-fill"></i>&nbsp;By Excellence Program
+      </ng-template>
+      <div class="mt-2">
+        <app-ecard-by-excellence></app-ecard-by-excellence>
+      </div>
+    </tab>
+  </tabset>
+</div>

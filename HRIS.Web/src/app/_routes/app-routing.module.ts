@@ -24,6 +24,7 @@ import { OvertimeComponent } from '../reports/overtime/overtime.component';
 import { HeadcountChartComponent } from '../charts/headcount/headcount-chart.component';
 import { HeadcountComponent } from '../reports/headcount/headcount.component';
 import { EeoComponent } from '../reports/eeo/eeo.component';
+import { ECardComponent } from '../reports/e-card/e-card.component';
 
 const routes: Routes = [
   {
@@ -127,6 +128,13 @@ const routes: Routes = [
   },
   {
     path: 'eeo', component: EeoComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
+    }
+  },
+  {
+    path: 'ecard', component: ECardComponent,
     resolve: {
       currentUser: CurrentUserResolver
       , rcdp: RcDpCodeResolverService

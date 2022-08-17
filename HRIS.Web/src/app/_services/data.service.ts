@@ -14,7 +14,7 @@ import {
   IOvertimeReport,
 } from '../_models/IOvertimeReport';
 import { IOvertimeCitytimeReport } from '../_models/IOvertimeCitytimeReport';
-import { IEcard } from '../_models/IEcard';
+
 import { IHeadcountChartData } from '../_models/IHeadcountChartData';
 import {
   IHeadcountPMSEmployeeDetailReport,
@@ -35,6 +35,7 @@ import {
   IEEOPendingReport,
   IEEOSummaryReport,
 } from '../_models/IEEO';
+import { IECardChart } from '../_models/IECard';
 
 @Injectable({
   providedIn: 'root',
@@ -167,12 +168,7 @@ export class DataService extends BaseService {
   }
   //#endregion
 
-  //#region  GDS
-  eCards$ = this.httpClient
-    .post<IEcard[]>(this.url + 'gds/ECardChart', null)
-    .pipe(
-      catchError((err) => this.errorHandlingService.handleError(err)) //error handling
-    );
+  //#region  EEO
 
   eeoGenderChart$ = this.httpClient
     .post<IEEOChartDto[]>(this.url + 'gds/EEOGenderChart', null)
@@ -381,5 +377,63 @@ export class DataService extends BaseService {
         catchError((err) => this.errorHandlingService.handleError(err))
       );
   }
+  //#endregion
+
+  //#region ECard
+
+  eCards$ = this.httpClient
+    .post<IECardChart[]>(this.url + 'gds/ECardChart', null)
+    .pipe(
+      catchError((err) => this.errorHandlingService.handleError(err)) //error handling
+    );
+
+  ECardChartByRC$(tableViewParam?: IReportParam) {
+    return this.httpClient
+      .post<IAgencySeparationSummary[]>(
+        this.url + 'gds/ECardChartByRC',
+        tableViewParam
+      )
+      .pipe(
+        //tap((data) => {  console.log('$', data); }),
+        catchError((err) => this.errorHandlingService.handleError(err))
+      );
+  }
+
+  ECardSendAndReceivedReport$(tableViewParam?: IReportParam) {
+    return this.httpClient
+      .post<IAgencySeparationSummary[]>(
+        this.url + 'gds/ECardSendAndReceivedReport',
+        tableViewParam
+      )
+      .pipe(
+        //tap((data) => {  console.log('$', data); }),
+        catchError((err) => this.errorHandlingService.handleError(err))
+      );
+  }
+
+  GetECardByRelationshipReport$(tableViewParam?: IReportParam) {
+    return this.httpClient
+      .post<IAgencySeparationSummary[]>(
+        this.url + 'gds/ECardSendAndReceivedReport',
+        tableViewParam
+      )
+      .pipe(
+        //tap((data) => {  console.log('$', data); }),
+        catchError((err) => this.errorHandlingService.handleError(err))
+      );
+  }
+
+  GetECardByExcellenceReport$(tableViewParam?: IReportParam) {
+    return this.httpClient
+      .post<IAgencySeparationSummary[]>(
+        this.url + 'gds/GetECardByExcellenceReport',
+        tableViewParam
+      )
+      .pipe(
+        //tap((data) => {  console.log('$', data); }),
+        catchError((err) => this.errorHandlingService.handleError(err))
+      );
+  }
+
   //#endregion
 }

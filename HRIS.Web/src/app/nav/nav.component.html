@@ -17,7 +17,7 @@
     <button mat-menu-item>Classification Report (DSS & HRA)</button>
     <button mat-menu-item>Customer Service Complaints Report (HRA)</button>
     <button mat-menu-item>Disciplinary Report (DSS & HRA)</button>
-    <button mat-menu-item>E-Cards Report (DSS & HRA)</button>
+    <button mat-menu-item [routerLink]="['/ecard']" routerLinkActive="active">E-Cards Report (DSS & HRA)</button>
     <button mat-menu-item [routerLink]="['/eeo']" routerLinkActive="active">EEO Report (DSS & HRA)</button>
     <button mat-menu-item [routerLink]="['/emergencyContactInfoReport']" routerLinkActive="active">
       Emergency Contact Info Report (DSS & HRA)

@@ -45,6 +45,7 @@ export interface IReportParam {
   isDateEarned?: boolean; //13.1
   minDate?: number; //14.1
   maxDate?: number; //15.1
+  isSentBy?: Boolean; //16.1
   fields: number[];
 }
 

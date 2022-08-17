@@ -78,6 +78,10 @@ import { EeoReportChartComponent } from './reports/eeo/eeo-report-chart/eeo-repo
 import { EeoReportSummaryComponent } from './reports/eeo/eeo-report-summary/eeo-report-summary.component';
 import { EeoReportConfirmedComponent } from './reports/eeo/eeo-report-confirmed/eeo-report-confirmed.component';
 import { EeoReportPendingComponent } from './reports/eeo/eeo-report-pending/eeo-report-pending.component';
+import { EcardComponent } from './reports/ecard/ecard.component';
+import { EcardSendReceivedComponent } from './reports/ecard/ecard-send-received/ecard-send-received.component';
+import { EcardByRelationshipComponent } from './reports/ecard/ecard-by-relationship/ecard-by-relationship.component';
+import { EcardByExcellenceComponent } from './reports/ecard/ecard-by-excellence/ecard-by-excellence.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +135,10 @@ import { EeoReportPendingComponent } from './reports/eeo/eeo-report-pending/eeo-
     EeoReportSummaryComponent,
     EeoReportConfirmedComponent,
     EeoReportPendingComponent,
+    EcardComponent,
+    EcardSendReceivedComponent,
+    EcardByRelationshipComponent,
+    EcardByExcellenceComponent,
   ],
   imports: [
     BrowserModule,

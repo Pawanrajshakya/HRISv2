@@ -4,7 +4,7 @@ import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { map } from 'rxjs/operators';
 
-import { IEcard } from 'src/app/_models/IEcard';
+import { IECardChart } from 'src/app/_models/IECard';
 import { ICurrentUser } from 'src/app/_models/ICurrentUser';
 import { LoginService } from 'src/app/_services/login.service';
 import { BaseComponent } from 'src/app/base/base.component';
@@ -43,7 +43,7 @@ export class EcardChartComponent extends BaseComponent<IBarChartData> {
       let barChartType: ChartType = 'bar';
 
       Array.isArray(ecards)
-        ? ecards.forEach((ecard: IEcard) => {
+        ? ecards.forEach((ecard: IECardChart) => {
             barChartData.labels?.push(ecard.labels);
             data.push(ecard.data);
           })

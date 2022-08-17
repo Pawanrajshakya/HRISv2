@@ -88,6 +88,7 @@ namespace HRIS.API
         public string DateFrom { get; set; }
         public string DateTo { get; set; }
         public string OpenClose { get; set; }
+        public bool IsSentBy { get; set; }
     }
 
     public class AgencySeparationParameters : ReportParameters

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Repository\ECardRepository.cs" />
     <Compile Remove="Helpers\ReportHelper.cs" />
   </ItemGroup>
 

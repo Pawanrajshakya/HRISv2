@@ -28,7 +28,7 @@ namespace HRIS.API.Controllers
                     ? string.Join(",", _dpRepository.GetByUserIDAsync(UserSession.Instance.User.UserID).Result.ToList().Select(x => x.DPCode))
                     : "";
 
-                return Ok(await _gdsRepository.GetECardChart(UserSession.Instance.User.RoleID, dp));
+                return Ok(await _gdsRepository.GetECardChart(UserSession.Instance.User.RoleID, "", dp));
             }
             catch (System.Exception ex)
             {
@@ -36,12 +36,104 @@ namespace HRIS.API.Controllers
             }
         }
 
+        [HttpPost("ECardChartByRC")]
+        public async Task<ActionResult> ECardChartByRCAsync(ReportParameters parameters)
+        {
+            try
+            {
+                string dp =
+                    (UserSession.Instance.User.RoleID == 5)
+                    ? string.Join(",", _dpRepository.GetByUserIDAsync(UserSession.Instance.User.UserID).Result.ToList().Select(x => x.DPCode))
+                    : "";
+
+                return Ok(await _gdsRepository.GetECardChart(UserSession.Instance.User.RoleID, parameters.RcDp.RCs, dp));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPost("ECardSendAndReceivedReport")]
+        public async Task<ActionResult> ECardSendAndReceivedReportAsync(ReportParameters parameters)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
+
+                return Ok(await _gdsRepository.GetECardSendAndReceivedReport(UserSession.Instance.User.UserID,
+                                                                             parameters.Pagination.PageNumber,
+                                                                             parameters.Pagination.PageSize,
+                                                                             parameters.Pagination.SortColumn,
+                                                                             parameters.Pagination.SortOrder,
+                                                                             parameters.Pagination.SearchTerm,
+                                                                             parameters.DateFrom,
+                                                                             parameters.DateTo,
+                                                                             parameters.RcDp.RCs,
+                                                                             parameters.IsSentBy));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPost("GetECardByRelationshipReport")]
+        public async Task<ActionResult> GetECardByRelationshipReportAsync(ReportParameters parameters)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
+
+                return Ok(await _gdsRepository.GetECardByRelationshipReport(UserSession.Instance.User.UserID,
+                                                                            parameters.Pagination.PageNumber,
+                                                                            parameters.Pagination.PageSize,
+                                                                            parameters.Pagination.SortColumn,
+                                                                            parameters.Pagination.SortOrder,
+                                                                            parameters.Pagination.SearchTerm,
+                                                                            parameters.DateFrom,
+                                                                            parameters.DateTo,
+                                                                            parameters.RcDp.RCs,
+                                                                            parameters.IsSentBy));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPost("GetECardByExcellenceReport")]
+        public async Task<ActionResult> GetECardByExcellenceReportAsync(ReportParameters parameters)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
+
+                return Ok(await _gdsRepository.GetECardByExcellenceReport(UserSession.Instance.User.UserID,
+                                                                             parameters.Pagination.PageNumber,
+                                                                             parameters.Pagination.PageSize,
+                                                                             parameters.Pagination.SortColumn,
+                                                                             parameters.Pagination.SortOrder,
+                                                                             parameters.Pagination.SearchTerm,
+                                                                             parameters.DateFrom,
+                                                                             parameters.DateTo,
+                                                                             parameters.RcDp.RCs,
+                                                                             parameters.IsSentBy));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+
+        #region EEO
         [HttpPost("EEOGenderChart")]
         public async Task<ActionResult> EEOGenderChartAsync()
         {
             try
             {
-                return Ok(await _hrisRepository.GetGenderBreakdownChart(UserSession.Instance.User.UserID, "",""));
+                return Ok(await _hrisRepository.GetGenderBreakdownChart(UserSession.Instance.User.UserID, "", ""));
             }
             catch (System.Exception ex)
             {
@@ -125,4 +217,6 @@ namespace HRIS.API.Controllers
             }
         }
     }
+
+    #endregion
 }

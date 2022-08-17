@@ -35,7 +35,6 @@ namespace HRIS.API
             CreateMap<RC, RCDto>();
             CreateMap<DP, DPDto>();
 
-            CreateMap<EcardChart, EcardChartDto>();
 
             CreateMap<Announcement, AnnouncementDto>()
                 .ForMember(x => x.Roles, y => y.Ignore());
@@ -107,6 +106,14 @@ namespace HRIS.API
             CreateMap<EEOConfirmedReport, EEOConfirmedReportDto>();
             CreateMap<EEOPendingReport, EEOPendingReportDto>();
             CreateMap<EEOSummaryReport, EEOSummaryReportDto>();
+            #endregion
+
+
+            #region ECard
+            CreateMap<ECardChart, ECardChartDto>();
+            CreateMap<ECardByExcellenceReport, ECardByExcellenceReportDto>();
+            CreateMap<ECardByRelationshipReport, ECardByRelationshipReportDto>();
+            CreateMap<ECardSendAndReceivedReport, ECardSendAndReceivedReportDto>();
             #endregion
         }
     }
