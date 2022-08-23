@@ -21,10 +21,9 @@ import { VacationRosterComponent } from '../reports/vacation-roster/vacation-ros
 import { SeparationComponent } from '../reports/separation/separation.component';
 import { ParComponent } from '../reports/par/par.component';
 import { OvertimeComponent } from '../reports/overtime/overtime.component';
-import { HeadcountChartComponent } from '../charts/headcount/headcount-chart.component';
 import { HeadcountComponent } from '../reports/headcount/headcount.component';
 import { EeoComponent } from '../reports/eeo/eeo.component';
-import { ECardComponent } from '../reports/e-card/e-card.component';
+import { EcardComponent } from '../reports/ecard/ecard.component';
 
 const routes: Routes = [
   {
@@ -134,7 +133,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'ecard', component: ECardComponent,
+    path: 'ecard', component: EcardComponent,
     resolve: {
       currentUser: CurrentUserResolver
       , rcdp: RcDpCodeResolverService

@@ -84,7 +84,6 @@ export class HeadcountReportChartComponent
 
   ngOnInit(): void {
     this.rcs = this.codeService.rc_dp.RC as IRc[];
-    console.log('group', this.codeService.rc_dp);
   }
 
   ngAfterViewInit(): void {

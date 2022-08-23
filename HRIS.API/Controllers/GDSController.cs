@@ -67,8 +67,8 @@ namespace HRIS.API.Controllers
                                                                              parameters.Pagination.SortColumn,
                                                                              parameters.Pagination.SortOrder,
                                                                              parameters.Pagination.SearchTerm,
-                                                                             parameters.DateFrom,
-                                                                             parameters.DateTo,
+                                                                             parameters.DateFrom ??  "",
+                                                                             parameters.DateTo ?? "",
                                                                              parameters.RcDp.RCs,
                                                                              parameters.IsSentBy));
             }
@@ -78,7 +78,7 @@ namespace HRIS.API.Controllers
             }
         }
 
-        [HttpPost("GetECardByRelationshipReport")]
+        [HttpPost("ECardByRelationshipReport")]
         public async Task<ActionResult> GetECardByRelationshipReportAsync(ReportParameters parameters)
         {
             try
@@ -91,8 +91,8 @@ namespace HRIS.API.Controllers
                                                                             parameters.Pagination.SortColumn,
                                                                             parameters.Pagination.SortOrder,
                                                                             parameters.Pagination.SearchTerm,
-                                                                            parameters.DateFrom,
-                                                                            parameters.DateTo,
+                                                                            parameters.DateFrom??"",
+                                                                            parameters.DateTo??"",
                                                                             parameters.RcDp.RCs,
                                                                             parameters.IsSentBy));
             }
@@ -115,8 +115,8 @@ namespace HRIS.API.Controllers
                                                                              parameters.Pagination.SortColumn,
                                                                              parameters.Pagination.SortOrder,
                                                                              parameters.Pagination.SearchTerm,
-                                                                             parameters.DateFrom,
-                                                                             parameters.DateTo,
+                                                                             parameters.DateFrom??"",
+                                                                             parameters.DateTo??"",
                                                                              parameters.RcDp.RCs,
                                                                              parameters.IsSentBy));
             }

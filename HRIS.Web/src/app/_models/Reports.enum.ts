@@ -18,6 +18,12 @@ export enum Reports {
   EEOSummaryReport,
   EEOConfirmedReportByRA,
   EEOPendingReportByRA,
+  ECardsSentByRCReport,
+  ECardsReceivedByRCReport,
+  ECardsSentByRelationshipOfSenderReport,
+  ECardsReceivedByRelationshipOfSenderReport,
+  ECardsSentByExcellenceProgramReport,
+  ECardsReceivedByExcellenceProgramReport
 }
 
 // export enum RDLParameters {

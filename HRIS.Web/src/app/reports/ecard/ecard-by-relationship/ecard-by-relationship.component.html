@@ -1,1 +1,187 @@
-<p>ecard-by-relationship works!</p>
+<div class="col-sm-12">
+  <div class="card border-secondary">
+    <div class="card-body">
+      <div>
+        <p>Displays # of ECards sent/received by staff members by relationship of sender/recipient for a specific date
+          range</p>
+      </div>
+      <hr>
+      <div class="col-12">
+        <div class="form-group row"
+          *ngIf="this.loginService.currentUser.roleID == 1 || this.loginService.currentUser.roleID == 2 || this.loginService.currentUser.roleID == 3 || this.loginService.currentUser.roleID == 4">
+          <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm">RC</label>
+          <div class="col-sm-10">
+            <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedRC" id="rcs" name="selectedRC"
+              placeholder="Select RC" (change)="onRCSelect($event)">
+              <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{rc.description}}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mb-2 row">
+        <div class="col-sm-2">Report</div>
+        <div class="col-sm-10">
+          <mat-radio-group [(ngModel)]="selectedReport">
+            <mat-radio-button class="ml-2" *ngFor="let report of reports" [value]="report">
+              {{report}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <div class="col-12 mb-2 row">
+        <div class="col-sm-2">Date Submitted From</div>
+        <div class="col-sm-4">
+          <div class="input-group">
+            <input class="form-control" [matDatepicker]="pickerFrom" [(ngModel)]="dateFrom">
+            <mat-datepicker #pickerFrom></mat-datepicker>
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <span (click)="pickerFrom.open()"><i class="bi bi-calendar-check-fill"></i></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">Date Submitted To</div>
+        <div class="col-sm-4">
+          <div class="input-group">
+            <input class="form-control" [matDatepicker]="pickerTo" [(ngModel)]="dateTo">
+            <mat-datepicker #pickerTo></mat-datepicker>
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <span (click)="pickerTo.open()"><i class="bi bi-calendar-check-fill"></i></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="col-sm-10 offset-sm-2">
+          <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()">
+            <i class="bi bi-search"></i> Search
+          </button>
+          <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()">
+            <i class="bi bi-stars"></i> Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div class="col-sm-12">
+  <div class="card border-secondary">
+    <div class="card-header text-white bg-secondary border-secondary shadow">
+      <i class="bi bi-grid"></i> Result
+      <span *ngIf="resultsLength > 0; else noDataFound">
+        {{resultsLength}}</span>
+      <button class="btn btn-primary btn-xs float-right text-white shadow border-white"
+        [disabled]="!(resultsLength > 0)" (click)="onExport()">
+        <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</button>
+    </div>
+    <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Filter By</span>
+            </div>
+            <input type="text" class="form-control" (keyup)="applyFilter($event)" [(ngModel)]="filterValue"
+              placeholder="Name / RC / RC Name" #input />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="table-container table-responsive" [hidden]="resultsLength === 0">
+            <table mat-table [dataSource]="data" matSort matSortActive="receiversLName" matSortDirection="asc"
+              class="table table-hover table-bordered">
+
+              <ng-container matColumnDef="receiversLName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Receiver's Last Name</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{row.receiversLName}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="receiversFName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap"> Receiver's First Name
+                </th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{row.receiversFName}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="receiverEIN">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Receiver's EIN</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{row.receiverEIN}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="receiverRC">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Receiver's RC</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{row.receiverRC}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="sendersLName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Sender's Last Name</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{row.sendersLName}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="sendersFName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Sender's First Name</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{row.sendersFName}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="senderEIN">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Sender's EIN</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{row.senderEIN}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="senderRC">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Sender's RC</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{row.senderRC}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="relationship">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Relationship of Sender to
+                  Recipient</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{row.relationship}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="numberOfCards">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">Num Of Cards</th>
+                <td mat-cell *matCellDef="let row" class="text-nowrap">
+                  {{row.numberOfCards}}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="thead-light;"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="clickedRows.add(row)"
+                [class.demo-row-is-clicked]="clickedRows.has(row)" (click)="clearClickedRow(row)"></tr>
+            </table>
+          </div>
+          <mat-paginator showFirstLastButtons [length]="resultsLength" [pageSize]="reportParam.pagination.pageSize"
+            [pageSizeOptions]="pageSizeOptions" [hidden]="resultsLength === 0"></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<ng-template #noDataFound>
+  &nbsp; <span class="badge badge-warning"> No Result</span>
+</ng-template>

@@ -35,7 +35,7 @@ import {
   IEEOPendingReport,
   IEEOSummaryReport,
 } from '../_models/IEEO';
-import { IECardChart } from '../_models/IECard';
+import { IECardByExcellenceReport, IECardByRelationshipReport, IECardChart, IECardSendAndReceivedReport } from '../_models/IECard';
 
 @Injectable({
   providedIn: 'root',
@@ -389,7 +389,7 @@ export class DataService extends BaseService {
 
   ECardChartByRC$(tableViewParam?: IReportParam) {
     return this.httpClient
-      .post<IAgencySeparationSummary[]>(
+      .post<IECardChart[]>(
         this.url + 'gds/ECardChartByRC',
         tableViewParam
       )
@@ -401,7 +401,7 @@ export class DataService extends BaseService {
 
   ECardSendAndReceivedReport$(tableViewParam?: IReportParam) {
     return this.httpClient
-      .post<IAgencySeparationSummary[]>(
+      .post<IECardSendAndReceivedReport[]>(
         this.url + 'gds/ECardSendAndReceivedReport',
         tableViewParam
       )
@@ -413,8 +413,8 @@ export class DataService extends BaseService {
 
   GetECardByRelationshipReport$(tableViewParam?: IReportParam) {
     return this.httpClient
-      .post<IAgencySeparationSummary[]>(
-        this.url + 'gds/ECardSendAndReceivedReport',
+      .post<IECardByRelationshipReport[]>(
+        this.url + 'gds/ECardByRelationshipReport',
         tableViewParam
       )
       .pipe(
@@ -425,7 +425,7 @@ export class DataService extends BaseService {
 
   GetECardByExcellenceReport$(tableViewParam?: IReportParam) {
     return this.httpClient
-      .post<IAgencySeparationSummary[]>(
+      .post<IECardByExcellenceReport[]>(
         this.url + 'gds/GetECardByExcellenceReport',
         tableViewParam
       )

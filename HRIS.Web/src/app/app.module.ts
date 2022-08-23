@@ -55,7 +55,6 @@ import { MyInfoComponent } from './my-info/my-info.component';
 import { StaffEmergencyContactInfoComponent } from './reports/staff-emergency-contact-info/staff-emergency-contact-info.component';
 import { CustomerServiceComplaintsComponent } from './reports/customer-service-complaints/customer-service-complaints.component';
 import { DisciplinaryComponent } from './reports/disciplinary/disciplinary.component';
-import { ECardComponent } from './reports/e-card/e-card.component';
 import { EeoComponent } from './reports/eeo/eeo.component';
 import { OvertimeComponent } from './reports/overtime/overtime.component';
 import { ParComponent } from './reports/par/par.component';
@@ -82,6 +81,7 @@ import { EcardComponent } from './reports/ecard/ecard.component';
 import { EcardSendReceivedComponent } from './reports/ecard/ecard-send-received/ecard-send-received.component';
 import { EcardByRelationshipComponent } from './reports/ecard/ecard-by-relationship/ecard-by-relationship.component';
 import { EcardByExcellenceComponent } from './reports/ecard/ecard-by-excellence/ecard-by-excellence.component';
+import { EcardChartByRcComponent } from './reports/ecard/ecard-chart/ecard-chart-by-rc.component';
 
 @NgModule({
   declarations: [
@@ -114,7 +114,6 @@ import { EcardByExcellenceComponent } from './reports/ecard/ecard-by-excellence/
     StaffEmergencyContactInfoComponent,
     CustomerServiceComplaintsComponent,
     DisciplinaryComponent,
-    ECardComponent,
     EeoComponent,
     OvertimeComponent,
     ParComponent,
@@ -139,6 +138,7 @@ import { EcardByExcellenceComponent } from './reports/ecard/ecard-by-excellence/
     EcardSendReceivedComponent,
     EcardByRelationshipComponent,
     EcardByExcellenceComponent,
+    EcardChartByRcComponent
   ],
   imports: [
     BrowserModule,

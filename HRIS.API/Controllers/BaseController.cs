@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -72,6 +73,12 @@ namespace HRIS.API.Controllers
                 case "EEOSummaryReport":
                 case "EEOConfirmedReportByRA":
                 case "EEOPendingReportByRA":
+                case "ECardsSentByRCReport":
+                case "ECardsReceivedByRCReport":
+                case "ECardsSentByRelationshipOfSenderReport":
+                case "ECardsReceivedByRelationshipOfSenderReport":
+                case "ECardsSentByExcellenceProgramReport":
+                case "ECardsReceivedByExcellenceProgramReport":
 
                     stringBuilder.Append("&UserID=" + (string.IsNullOrEmpty(parameters.UserID) ? UserSession.Instance.User.UserID : parameters.UserID));
                     stringBuilder.Append("&SortColumn=" + (parameters.Pagination.SortColumn ?? ""));
@@ -180,6 +187,21 @@ namespace HRIS.API.Controllers
                 case "EEOSummaryReport":
                     stringBuilder.Append("&RCs=" + parameters.RcDp.RCs);
                     break;
+                case "ECardsSentByRCReport":
+                case "ECardsReceivedByRCReport":
+                case "ECardsSentByRelationshipOfSenderReport":
+                case "ECardsReceivedByRelationshipOfSenderReport":
+                case "ECardsSentByExcellenceProgramReport":
+                case "ECardsReceivedByExcellenceProgramReport":
+                    DateTime.TryParse(parameters.DateFrom, out DateTime from);
+                    DateTime.TryParse(parameters.DateTo, out DateTime to);
+
+                    stringBuilder.Append("&FromDate=" + ( from.ToShortDateString() ?? ""));
+                    stringBuilder.Append("&ToDate=" + (to.ToShortDateString() ?? ""));
+                    stringBuilder.Append("&RC=" + (string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs));
+                    stringBuilder.Append("&SentBy=" + (parameters.IsSentBy));
+                    break;
+
 
             }
 

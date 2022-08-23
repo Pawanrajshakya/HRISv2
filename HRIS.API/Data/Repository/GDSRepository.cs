@@ -139,7 +139,7 @@ namespace HRIS.API
                         new ECardChartDto
                         {
                             Data = row.Data,
-                            Date = row.Date.ToString(),
+                            //Date = row.Date.ToString(),
                             Labels = row.Created
                         });
                 }

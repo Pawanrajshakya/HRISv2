@@ -8,14 +8,14 @@ namespace HRIS.API
         [Key]
         public string Created { get; set; }
         public int Data { get; set; }
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
     }
 
     public class ECardChartDto
     {
         public string Labels { get; set; }
         public int Data { get; set; }
-        public string Date { get; set; }
+        //public string Date { get; set; }
     }
 
     //HRIS_ECards_ByRC

@@ -284,6 +284,7 @@ export class BaseComponent<T> {
     this.reportParam.openClose = '';
     this.reportParam.isCalendarYear = true;
     this.filterValue = '';
+    this.sort._stateChanges.next();
     this.filterSubject.next('');
   }
 }
