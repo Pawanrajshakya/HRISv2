@@ -35,7 +35,13 @@ import {
   IEEOPendingReport,
   IEEOSummaryReport,
 } from '../_models/IEEO';
-import { IECardByExcellenceReport, IECardByRelationshipReport, IECardChart, IECardSendAndReceivedReport } from '../_models/IECard';
+import {
+  IECardByExcellenceReport,
+  IECardByRelationshipReport,
+  IECardChart,
+  IECardSendAndReceivedReport,
+} from '../_models/IECard';
+import { IRc, IRcDp } from '../_models/IRcDp';
 
 @Injectable({
   providedIn: 'root',
@@ -389,10 +395,7 @@ export class DataService extends BaseService {
 
   ECardChartByRC$(tableViewParam?: IReportParam) {
     return this.httpClient
-      .post<IECardChart[]>(
-        this.url + 'gds/ECardChartByRC',
-        tableViewParam
-      )
+      .post<IECardChart[]>(this.url + 'gds/ECardChartByRC', tableViewParam)
       .pipe(
         //tap((data) => {  console.log('$', data); }),
         catchError((err) => this.errorHandlingService.handleError(err))
@@ -435,5 +438,45 @@ export class DataService extends BaseService {
       );
   }
 
+  //#endregion
+
+  //#region  Disciplinary
+  GetPendingCasesChart$(rc: string) {
+    return this.httpClient
+      .get<IPendingCasesChart[]>(
+        this.url + 'Team/PendingCasesChartAsync/' + rc ?? ''
+      )
+      .pipe(
+        // tap((data) =>
+        //   console.log('PendingCasesChartAsync >> ', JSON.stringify(data))
+        // ),
+        catchError((err) => this.errorHandlingService.handleError(err)) //error handling
+      );
+  }
+  GetCasesCountByYearChart$(rc: string) {
+    return this.httpClient
+      .get<ICasesCountByYear[]>(
+        this.url + 'Team/CaseCountByYearChartAsync/' + rc ?? ''
+      )
+      .pipe(
+        // tap((data) =>
+        //   console.log('CaseCountByYearChartAsync >> ', JSON.stringify(data))
+        // ),
+        catchError((err) => this.errorHandlingService.handleError(err)) //error handling
+      );
+  }
+
+  GetTopInfractionsChart$(rc: string) {
+    return this.httpClient
+      .get<ITopInfractionsChart[]>(
+        this.url + 'Team/TopInfractionsChartAsync/' + rc ?? ''
+      )
+      .pipe(
+        // tap((data) =>
+        //   console.log('TopInfractionsChartAsync >> ', JSON.stringify(data))
+        // ),
+        catchError((err) => this.errorHandlingService.handleError(err)) //error handling
+      );
+  }
   //#endregion
 }

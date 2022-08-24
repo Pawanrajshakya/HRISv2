@@ -18,32 +18,34 @@ namespace HRIS.API.Controllers
             _teamRepository = teamRepository;
         }
 
-        [HttpGet("PendingCasesChartAsync")]
-        public async Task<ActionResult> PendingCasesChartAsync()
+        [HttpGet("PendingCasesChartAsync/{rc?}")]
+        public async Task<ActionResult> PendingCasesChartAsync(string rc)
         {
             try
             {
-                string rc = Utility.ConvertToString(
-                        _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
-                        .Select(x => x.Code).ToList()
-                        );
+                string _rc = string.IsNullOrEmpty(rc) ?
+                 Utility.ConvertToString(
+                 _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
+                 .Select(x => x.Code).ToList()
+                 ) : rc;
 
-                return Ok(await _teamRepository.GetPendingCasesChartAsync(rc));
+                return Ok(await _teamRepository.GetPendingCasesChartAsync(_rc));
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
-        [HttpGet("TopInfractionsChartAsync")]
-        public async Task<ActionResult> TopInfractionsChartAsync()
+        [HttpGet("TopInfractionsChartAsync/{rc?}")]
+        public async Task<ActionResult> TopInfractionsChartAsync(string rc)
         {
             try
             {
-                string rc = Utility.ConvertToString(
+                string _rc = string.IsNullOrEmpty(rc) ?
+                Utility.ConvertToString(
                 _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
                 .Select(x => x.Code).ToList()
-                );
+                ) : rc;
 
-                return Ok(await _teamRepository.GetTopInfractionsChartAsync(rc));
+                return Ok(await _teamRepository.GetTopInfractionsChartAsync(_rc));
             }
             catch (Exception ex)
             {
@@ -51,17 +53,18 @@ namespace HRIS.API.Controllers
             }
         }
 
-        [HttpGet("CaseCountByYearChartAsync")]
-        public async Task<ActionResult> CaseCountByYearChartAsync()
+        [HttpGet("CaseCountByYearChartAsync/{rc?}")]
+        public async Task<ActionResult> CaseCountByYearChartAsync(string rc)
         {
             try
             {
-                string rc = Utility.ConvertToString(
-                    _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
-                    .Select(x => x.Code).ToList()
-                    );
+                string _rc = string.IsNullOrEmpty(rc) ?
+                Utility.ConvertToString(
+                _rcRepository.GetAsync(UserSession.Instance.User.UserID).Result
+                .Select(x => x.Code).ToList()
+                ) : rc;
 
-                return Ok(await _teamRepository.GetCaseCountByYearChartAsync(rc));
+                return Ok(await _teamRepository.GetCaseCountByYearChartAsync(_rc));
             }
             catch (Exception ex)
             {

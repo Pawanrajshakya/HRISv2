@@ -82,6 +82,9 @@ import { EcardSendReceivedComponent } from './reports/ecard/ecard-send-received/
 import { EcardByRelationshipComponent } from './reports/ecard/ecard-by-relationship/ecard-by-relationship.component';
 import { EcardByExcellenceComponent } from './reports/ecard/ecard-by-excellence/ecard-by-excellence.component';
 import { EcardChartByRcComponent } from './reports/ecard/ecard-chart/ecard-chart-by-rc.component';
+import { TopInfractionChartComponent } from './reports/disciplinary/top-infraction-chart/top-infraction-chart.component';
+import { CaseCountByYearChartComponent } from './reports/disciplinary/case-count-by-year-chart/case-count-by-year-chart.component';
+import { PendingCasesChartComponent } from './reports/disciplinary/pending-cases-chart/pending-cases-chart.component';
 
 @NgModule({
   declarations: [
@@ -138,7 +141,10 @@ import { EcardChartByRcComponent } from './reports/ecard/ecard-chart/ecard-chart
     EcardSendReceivedComponent,
     EcardByRelationshipComponent,
     EcardByExcellenceComponent,
-    EcardChartByRcComponent
+    EcardChartByRcComponent,
+    TopInfractionChartComponent,
+    CaseCountByYearChartComponent,
+    PendingCasesChartComponent
   ],
   imports: [
     BrowserModule,

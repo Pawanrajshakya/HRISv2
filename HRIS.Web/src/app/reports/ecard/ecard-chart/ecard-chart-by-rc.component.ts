@@ -69,7 +69,6 @@ export class EcardChartByRcComponent
 
   ngOnInit(): void {
     this.rcs = this.codeService.rc_dp.RC as IRc[];
-    
   }
 
   ngAfterViewInit(): void {

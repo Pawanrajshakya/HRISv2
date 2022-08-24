@@ -24,6 +24,7 @@ import { OvertimeComponent } from '../reports/overtime/overtime.component';
 import { HeadcountComponent } from '../reports/headcount/headcount.component';
 import { EeoComponent } from '../reports/eeo/eeo.component';
 import { EcardComponent } from '../reports/ecard/ecard.component';
+import { DisciplinaryComponent } from '../reports/disciplinary/disciplinary.component';
 
 const routes: Routes = [
   {
@@ -134,6 +135,13 @@ const routes: Routes = [
   },
   {
     path: 'ecard', component: EcardComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , rcdp: RcDpCodeResolverService
+    }
+  },
+  {
+    path: 'disciplinary', component: DisciplinaryComponent,
     resolve: {
       currentUser: CurrentUserResolver
       , rcdp: RcDpCodeResolverService

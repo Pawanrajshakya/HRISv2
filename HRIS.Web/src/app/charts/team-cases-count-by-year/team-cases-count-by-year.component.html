@@ -22,16 +22,19 @@
             <tr *ngFor="let item of data.chartData.datasets;  let i = index">
               <td class="text-center"><small [ngStyle]="{'color': hoverBackgroundColor[i]}">{{item.label}}</small>
               </td>
-              <td class="text-center"><small [ngStyle]="{'color': hoverBackgroundColor[i]}">{{item.data[0] | number}}</small>
+              <td class="text-center"><small
+                  [ngStyle]="{'color': hoverBackgroundColor[i]}">{{item.data[0] | number}}</small>
               </td>
-              <td class="text-center"><small [ngStyle]="{'color': hoverBackgroundColor[i]}">{{item.data[1] | number}}</small>
+              <td class="text-center"><small
+                  [ngStyle]="{'color': hoverBackgroundColor[i]}">{{item.data[1] | number}}</small>
               </td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
               <td colspan="3">
-                <code class="text-info">Note: This chart also accounts for cases received in previous years, that were closed in the present year.</code>
+                <code class="text-info">Note: This chart also accounts for cases received in previous years, that were
+                  closed in the present year.</code>
               </td>
             </tr>
           </tfoot>
