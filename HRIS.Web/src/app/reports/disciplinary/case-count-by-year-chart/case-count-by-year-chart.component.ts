@@ -81,7 +81,6 @@ export class CaseCountByYearChartComponent
       )
       .subscribe({
         next: (_data) => {
-          console.log('1', _data);
 
           let _label: string[] = [];
 

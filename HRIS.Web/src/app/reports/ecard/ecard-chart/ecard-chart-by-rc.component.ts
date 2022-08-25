@@ -83,12 +83,10 @@ export class EcardChartByRcComponent
       )
       .subscribe({
         next: (_data) => {
-          console.log('ecard', _data);
           this.chartData.labels = [];
           this.chartData.datasets[0].data = [];
           Array.isArray(_data)
             ? _data.forEach((ecard: IECardChart) => {
-                console.log(ecard);
                 this.chartData.labels?.push(ecard.labels);
                 this.chartData.datasets[0].data.push(ecard.data);
               })

@@ -121,15 +121,15 @@ namespace HRIS.API.Controllers
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
-        [HttpGet("employeeBehavior/{userid?}")]
-        public async Task<ActionResult> GetEmployeeBehaviorAsync(string userid = null)
+        [HttpGet("employeeBehaviorCode/{userid?}")]
+        public async Task<ActionResult> GetEmployeeBehaviorCodeAsync(string userid = null)
         {
             if (userid == null)
                 userid = UserSession.Instance.User.UserID;
 
             try
             {
-                return Ok(await _employeeBehaviorRepository.GetAsync(userid));
+                return Ok(await _employeeBehaviorRepository.GetEmployeeBehaviorCodeAsync(userid));
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }

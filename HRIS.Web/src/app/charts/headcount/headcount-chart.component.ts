@@ -27,7 +27,7 @@ export class HeadcountChartComponent extends BaseComponent<ILineChartData> {
       let vacancyDataset: any = {
         data: [],
         label: "Vacancy",
-        backgroundColor: 'rgba(0,0,0,0)',
+        backgroundColor: 'rgba(0,0,0,0.1)',
         borderColor: this.backgroundColor[2],
         pointBackgroundColor: this.hoverBackgroundColor[2],
         pointBorderColor: this.hoverBackgroundColor[2],
@@ -39,7 +39,7 @@ export class HeadcountChartComponent extends BaseComponent<ILineChartData> {
       let budgetedHeadcountDataset: any = {
         data: [],
         label: "Budgeted Headcount",
-        backgroundColor: 'rgba(0,0,0,0)',
+        backgroundColor: 'rgba(0,0,0,0.1)',
         borderColor: this.backgroundColor[0],
         pointBackgroundColor: this.hoverBackgroundColor[0],
         pointBorderColor: this.hoverBackgroundColor[0],
@@ -51,7 +51,7 @@ export class HeadcountChartComponent extends BaseComponent<ILineChartData> {
       let activeStaffDataset: any = {
         data: [],
         label: "Active Staff",
-        backgroundColor: 'rgba(0,0,0,0)',
+        backgroundColor: 'rgba(0,0,0,.1)',
         borderColor: this.backgroundColor[1],
         pointBackgroundColor: this.hoverBackgroundColor[1],
         pointBorderColor: this.hoverBackgroundColor[1],
@@ -73,7 +73,9 @@ export class HeadcountChartComponent extends BaseComponent<ILineChartData> {
         },
         plugins: {
           legend: {
-            display: false,
+            display: true,
+            position: 'bottom',
+            align: 'center',
           }
         }
       };
@@ -104,12 +106,12 @@ export class HeadcountChartComponent extends BaseComponent<ILineChartData> {
     super();
   }
 
-  convertToNumberFormat(value: any) {
-    if (Number(value) !== NaN)
-      return formatNumber(Number(value), 'en-US', '1.0-0')
+  // convertToNumberFormat(value: any) {
+  //   if (Number(value) !== NaN)
+  //     return formatNumber(Number(value), 'en-US', '1.0-0')
 
-    return formatNumber(Number(value.ToString()), 'en-US', '1.0-0')
-  }
+  //   return formatNumber(Number(value.ToString()), 'en-US', '1.0-0')
+  // }
 
   isString(value: any) {
     return typeof value === 'string' || value instanceof String;

@@ -125,5 +125,7 @@ namespace HRIS.API.Controllers
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }
+
+        
     }
 }

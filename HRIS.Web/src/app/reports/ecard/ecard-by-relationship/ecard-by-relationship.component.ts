@@ -28,8 +28,6 @@ export class EcardByRelationshipComponent
 {
   selectedReport: string = 'Sent By';
   reports: string[] = ['Sent By', 'Received By'];
-  dateFrom: string = '';
-  dateTo: string = '';
 
   constructor(
     private codeService: CodeService,
@@ -54,6 +52,10 @@ export class EcardByRelationshipComponent
       'numberOfCards',
     ];
     this.rcs = this.codeService.rc_dp.RC as IRc[];
+    this.SetDate();
+  }
+
+  private SetDate() {
     let today = new Date();
     today.setMonth(today.getMonth() - 3);
     today.setDate(1);
@@ -123,6 +125,7 @@ export class EcardByRelationshipComponent
       this.selectedReport === 'Sent By' ? true : false;
     this.sort.direction = 'asc';
     this.sort.active = 'rc';
+    this.SetDate(); 
     this.clear();
   }
 

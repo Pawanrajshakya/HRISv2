@@ -31,7 +31,6 @@ export class UserService extends BaseService {
   );
 
   tableList$(tableViewParam?: ITableViewParam) {
-    console.log('tableViewParam', tableViewParam);
     return this.httpClient.post<IUserList[]>(this.url + 'User/list', tableViewParam)
       .pipe(
         //tap((data) => { console.log(data); }),
@@ -40,7 +39,6 @@ export class UserService extends BaseService {
   }
 
   list$(tableViewParam?: IReportParam) {
-    console.log('tableViewParam', tableViewParam?.pagination);
     return this.httpClient.post<IUserList[]>(this.url + 'User/list', tableViewParam?.pagination)
       .pipe(
         //tap((data) => { console.log(data); }),
@@ -63,7 +61,6 @@ export class UserService extends BaseService {
   }
 
   add$(user: IUser) {
-    console.log(user);
     return this.httpClient.post(this.url + 'user', user).pipe(
       tap((data) => { console.log(data); }),
       catchError(err => this.errorHandlingService.handleError(err))
@@ -71,7 +68,6 @@ export class UserService extends BaseService {
   }
 
   update$(user: IUser) {
-    console.log(user);
     return this.httpClient.put(this.url + 'user', user).pipe(
       tap((data) => { console.log(data); }),
       catchError(err => this.errorHandlingService.handleError(err))
@@ -79,7 +75,6 @@ export class UserService extends BaseService {
   }
 
   delete$(userID: string) {
-    console.log(userID);
     return this.httpClient.delete(this.url + 'user/' + userID).pipe(
       tap((data) => { console.log(data); }),
       catchError(err => this.errorHandlingService.handleError(err))

@@ -25,8 +25,6 @@ export class ErrorHandlingService {
     if (err.status >= 300 && err.status <= 499) message.type = 2;
     if (err.status >= 500) message.type = 3;
 
-    console.log('ErrorHandlingService', message);
-
     this.errorNotificationService.notification.next(message);
     return of(null);
   }

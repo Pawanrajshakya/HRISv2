@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace HRIS.API
+﻿namespace HRIS.API
 {
     public class EmployeeBehaviorChart
     {
@@ -11,8 +6,8 @@ namespace HRIS.API
         public string IssueCodeName { get; set; }
         public int IssueCodeNameCount { get; set; }
         public string Date { get; set; }
-        public string Year { get; set; }
-        public string Month { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
         public string Week { get; set; }
     }
 }

@@ -104,4 +104,17 @@ namespace HRIS.API
         public int MaxDate { get; set; }
     }
 
+    public class EmployeeBehaviorParameters
+    {
+
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string RequestStatus { get; set; }
+        public string JobCenters { get; set; }
+        public string FoodCenters { get; set; }
+        public string Facilities { get; set; }
+        public bool IsMonthView { get; set; }
+        public string YearMonth { get; set; }
+    }
+
 }

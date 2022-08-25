@@ -72,7 +72,6 @@ export class PendingCasesChartComponent
       )
       .subscribe({
         next: (_data) => {
-          console.log('1', _data);
 
           this.chartData.labels = [];
           this.chartData.datasets = [];

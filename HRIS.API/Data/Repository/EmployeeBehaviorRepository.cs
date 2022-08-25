@@ -9,9 +9,9 @@ namespace HRIS.API
 {
     public interface IEmployeeBehaviorRepository
     {
-        public Task<List<EmployeeBehaviorDto>> GetAsync(string userid);
-        public Task<List<EmployeeBehaviorChartDto>> GetChartAsync(
-            string userid,
+        public Task<List<EmployeeBehaviorDto>> GetEmployeeBehaviorCodeAsync(string userid);
+        public Task<List<EmployeeBehaviorChartDto>> GetEmployeeBehaviorChartAsync(
+            string userID,
             string startDate,
             string endDate,
             string requestStatus,
@@ -30,40 +30,58 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<List<EmployeeBehaviorDto>> GetAsync(string userid)
+        public async Task<List<EmployeeBehaviorDto>> GetEmployeeBehaviorCodeAsync(string userid)
         {
-            var param = new SqlParameter("@UserID", userid);
-            var data = _context.EmployeeBehaviors
-                .FromSqlRaw("dbo.sp_GetHRAEmployeeBehaviorList @UserID", param)
-                .ProjectTo<EmployeeBehaviorDto>(_mapper.ConfigurationProvider)
-                .ToList();
+            try
+            {
+                var param = new SqlParameter("@UserID", userid);
+                var data = _context.EmployeeBehaviors
+                    .FromSqlRaw("dbo.sp_GetHRAEmployeeBehaviorList @UserID", param)
+                    .ProjectTo<EmployeeBehaviorDto>(_mapper.ConfigurationProvider)
+                    .ToList();
 
-            return await Task.Run(() => data);
+                return await Task.Run(() => data);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public async Task<List<EmployeeBehaviorChartDto>> GetChartAsync(string userid, string startDate, string endDate,
+        public async Task<List<EmployeeBehaviorChartDto>> GetEmployeeBehaviorChartAsync(string userID, string startDate, string endDate,
             string requestStatus, string jobCenters, string foodCenters, string facilities,
             bool monthView, string yearMonth)
         {
-            var useridParam = new SqlParameter("@UserID", userid);
-            var startDateParam = new SqlParameter("@StartDate", startDate);
-            var endDateParam = new SqlParameter("@EndDate", endDate);
-            var requestStatusParam = new SqlParameter("@RequestStatus", requestStatus);
-            var jobCentersParam = new SqlParameter("@JobCenters", jobCenters);
-            var foodCentersParam = new SqlParameter("@FoodCenters", foodCenters);
-            var facilitiesParam = new SqlParameter("@Facilities", facilities);
-            var monthViewParam = new SqlParameter("@MonthView", monthView);
-            var yearMonthParam = new SqlParameter("@YearMonth", yearMonth);
+            try
+            {
+                var dtos = new List<EmployeeBehaviorChartDto>();
 
-            var data = _context.Location
-                .FromSqlRaw("dbo.sp_GetHRAEmployeeBehaviorChartData @UserID, @StartDate, @EndDate, @RequestStatus," +
-                "@JobCenters, @FoodCenters, @HRAFacilities, @MonthView, @YearMonth",
-                useridParam, startDateParam, endDateParam, requestStatusParam, jobCentersParam, foodCentersParam,
-                facilitiesParam, monthViewParam, yearMonthParam)
-                .ProjectTo<EmployeeBehaviorChartDto>(_mapper.ConfigurationProvider)
-                .ToList();
+                SqlParameter[] sqlParameters = new SqlParameter[] {
+                    new SqlParameter("@userID", userID??"") { },
+                    new SqlParameter("@StartDate", startDate??"") { },
+                    new SqlParameter("@EndDate", endDate??"") { },
+                    new SqlParameter("@RequestStatus", requestStatus??"") { },
+                    new SqlParameter("@JobCenters", jobCenters??"") { },
+                    new SqlParameter("@FoodCenters", foodCenters??"") { },
+                    new SqlParameter("@HRAFacilities", facilities??"") { },
+                    new SqlParameter("@MonthView", monthView) { },
+                    new SqlParameter("@YearMonth", yearMonth??"") { }
+                };
+                var data = _context.EmployeeBehaviorCharts
+                    .FromSqlRaw("dbo.sp_GetHRAEmployeeBehaviorChartDataV2 @UserID, @StartDate, @EndDate, @RequestStatus," +
+                    "@JobCenters, @FoodCenters, @HRAFacilities, @MonthView, @YearMonth", sqlParameters)
+                    .ToList();
 
-            return await Task.Run(() => data);
+                foreach (var row in data)
+                {
+                    dtos.Add(_mapper.Map<EmployeeBehaviorChartDto>(row));
+                }
+                return await Task.Run(() => dtos); ;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

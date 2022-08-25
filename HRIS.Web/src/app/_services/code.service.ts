@@ -21,7 +21,8 @@ export class CodeService extends BaseService {
   bkpTitles: IBackupTitle[] = [];
   csStatuses: ICSStatus[] = [];
   lvStatuses: ILeaveStatus[] = [];
-
+  employeeBehaviors: IEmployeeBehavior[] = [];
+ 
   constructor(
     private httpClient: HttpClient,
     private errorHandlingService: ErrorHandlingService
@@ -31,7 +32,6 @@ export class CodeService extends BaseService {
 
   resolveRCDP(): Promise<IRcDp> {
     return new Promise((resolve, reject) => {
-      console.log('resolveRCDP', this.rc_dp.RC);
       if (
         this.rc_dp.RC === undefined ||
         this.rc_dp.RC === null ||
@@ -63,7 +63,6 @@ export class CodeService extends BaseService {
                     }
                   });
                 }
-                console.log('dps', this.rc_dp);
               },
               error: (error) => {},
               complete: () => {
@@ -102,7 +101,6 @@ export class CodeService extends BaseService {
 
   resolveLvStatus(): Promise<ILeaveStatus[]> {
     return new Promise((resolve, reject) => {
-      console.log('resolveLvStatus', this.lvStatuses);
       if (
         this.lvStatuses === undefined ||
         this.lvStatuses === null ||
@@ -127,7 +125,6 @@ export class CodeService extends BaseService {
 
   resolveLocation(): Promise<ILocation[]> {
     return new Promise((resolve, reject) => {
-      console.log('resolveTitles', this.locations);
       if (
         this.locations === undefined ||
         this.locations === null ||
@@ -150,7 +147,6 @@ export class CodeService extends BaseService {
 
   resolveBkpTitle(): Promise<IBackupTitle[]> {
     return new Promise((resolve, reject) => {
-      console.log('resolveBkpTitles');
       if (
         this.bkpTitles === undefined ||
         this.bkpTitles === null ||
@@ -175,7 +171,6 @@ export class CodeService extends BaseService {
 
   resolveCSStatus(): Promise<ICSStatus[]> {
     return new Promise((resolve, reject) => {
-      console.log('resolveCSStatus');
       if (
         this.csStatuses === undefined ||
         this.csStatuses === null ||
@@ -196,39 +191,49 @@ export class CodeService extends BaseService {
     });
   }
 
+  resolveEmployeeBehavior(): Promise<IEmployeeBehavior[]> {
+    return new Promise((resolve, reject) => {
+      if (
+        this.employeeBehaviors === undefined ||
+        this.employeeBehaviors === null ||
+        this.employeeBehaviors.length === 0
+      ) {
+        this.httpClient.get<IEmployeeBehavior[]>(this.url + 'code/employeeBehaviorCode/').subscribe({
+          next: (data) => {
+            this.employeeBehaviors = data;
+          },
+          error: (error) => {},
+          complete: () => {
+            resolve(this.employeeBehaviors);
+          },
+        });
+      } else {
+        resolve(this.employeeBehaviors);
+      }
+    });
+  }
+
   rcs$ = this.httpClient.get<IRc[]>(this.url + 'code/rc').pipe(
     catchError((err) => this.errorHandlingService.handleError(err)) //error handling
   );
 
   dps$ = this.httpClient.get<IDp[]>(this.url + 'code/dp').pipe(
-    //tap(data => console.log('dps >> ', JSON.stringify(data))), //debug - display in console
     catchError((err) => this.errorHandlingService.handleError(err)) //error handling
   );
-
-  // dpsByRC$(rc: string) {
-  //   return this.httpClient.get<IDp[]>(this.url + `DP/` + rc)
-  //     .pipe(
-  //       // tap((data) => { console.log(data); }),
-  //       catchError(err => this.errorHandlingService.handleError(err))
-  //     );
-  // };
 
   locations$ = this.httpClient
     .get<ILocation[]>(this.url + 'code/location')
     .pipe(
-      //tap(data => console.log('locations >> ', JSON.stringify(data))), //debug - display in console
       catchError((err) => this.errorHandlingService.handleError(err)) //error handling
     );
 
   titles$ = this.httpClient.get<ITitle[]>(this.url + 'code/title').pipe(
-    //tap(data => console.log('title >> ', JSON.stringify(data))), //debug - display in console
     catchError((err) => this.errorHandlingService.handleError(err)) //error handling
   );
 
   bkpTitles$ = this.httpClient
     .get<IBackupTitle[]>(this.url + 'code/bkpTitle')
     .pipe(
-      //tap(data => console.log('bkptitle >> ', JSON.stringify(data))), //debug - display in console
       catchError((err) => this.errorHandlingService.handleError(err)) //error handling
     );
 
@@ -252,9 +257,4 @@ export class CodeService extends BaseService {
       //tap(data => console.log('leaveStatus >> ', JSON.stringify(data))), //debug - display in console
       catchError((err) => this.errorHandlingService.handleError(err)) //error handling
     );
-
-  // retirementResignationFMLAs$ = this.httpClient.get<IRetirementResignationFMLA[]>(this.url + 'code/retirementResignationFMLA').pipe(
-  //   tap(data => console.log('RetirementResignationFMLA >> ', JSON.stringify(data))), //debug - display in console
-  //   catchError(err => this.errorHandlingService.handleError(err)) //error handling
-  // );
 }

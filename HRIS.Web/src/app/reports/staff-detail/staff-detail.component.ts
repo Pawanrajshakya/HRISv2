@@ -53,7 +53,6 @@ export class StaffDetailComponent extends BaseComponent<IStaffDetail> implements
 
         this.staffService.staffOTSummary$(this.ein).subscribe(staffOTSummaryCalendar => {
 
-          console.log('staffOTSummaryCalendar', staffOTSummaryCalendar);
           if (staffOTSummaryCalendar && staffOTSummaryCalendar != null)
             this.staffOTSummaryCalendar = staffOTSummaryCalendar;
           else
@@ -61,10 +60,8 @@ export class StaffDetailComponent extends BaseComponent<IStaffDetail> implements
         });
 
         this.staffService.staffOTSummary$(this.ein, "Fiscal").subscribe(staffOTSummaryFiscal => {
-          console.log('staffOTSummaryFiscal', staffOTSummaryFiscal, '>>');
 
           if (staffOTSummaryFiscal && staffOTSummaryFiscal != null){
-            console.log('staffOTSummaryFiscal', staffOTSummaryFiscal, '<<');
             this.staffOTSummaryFiscal = staffOTSummaryFiscal;}
           else
             this.staffOTSummaryFiscal = {};

@@ -42,6 +42,11 @@ import {
   IECardSendAndReceivedReport,
 } from '../_models/IECard';
 import { IRc, IRcDp } from '../_models/IRcDp';
+import {
+  IEmployeeBehavior,
+  IEmployeeBehaviorChart,
+  IEmployeeBehaviorParameters,
+} from '../_models/IEmployeeBehavior';
 
 @Injectable({
   providedIn: 'root',
@@ -310,7 +315,6 @@ export class DataService extends BaseService {
 
   //#region  Staff
   activeStaffReport$(tableViewParam?: IReportParam) {
-    console.log('tableViewParam', tableViewParam);
     return this.httpClient
       .post<IActiveStaffReport[]>(
         this.url + 'hrisReport/activeStaffReport',
@@ -323,7 +327,6 @@ export class DataService extends BaseService {
   }
 
   leaveReport$(tableViewParam?: IReportParam) {
-    console.log('tableViewParam', tableViewParam);
     return this.httpClient
       .post<IStaffLeaveReport[]>(
         this.url + 'hrisReport/leaveReport',
@@ -336,7 +339,6 @@ export class DataService extends BaseService {
   }
 
   ceasedReport$(tableViewParam?: IReportParam) {
-    console.log('tableViewParam', tableViewParam);
     return this.httpClient
       .post<IStaffLeaveReport[]>(
         this.url + 'hrisReport/ceasedReport',
@@ -479,4 +481,17 @@ export class DataService extends BaseService {
       );
   }
   //#endregion
+
+  GetEmployeeBehaviorChart$(
+    employeeBehaviorParameters: IEmployeeBehaviorParameters
+  ) {
+    return this.httpClient
+      .post<IEmployeeBehaviorChart[]>(
+        this.url + 'employeeBehavior/employeeBehaviorChartAsync',
+        employeeBehaviorParameters
+      )
+      .pipe(
+        catchError((err) => this.errorHandlingService.handleError(err)) //error handling
+      );
+  }
 }

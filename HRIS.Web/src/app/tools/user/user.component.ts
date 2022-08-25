@@ -210,7 +210,6 @@ next: data => {
   }
 
   onDelete(template: TemplateRef<any>, user: any): void {
-    console.log(user);
     this.user.ein = user.ein;
     this.user.firstName = user.firstName;
     this.user.lastName = user.lastName;
@@ -221,7 +220,6 @@ next: data => {
     if (userID !== undefined)
       this.userService.delete$(userID).subscribe({
         next: (data) => {
-          console.log("delete success", data);
           this.filterSubject.next(this.filterValue);
           this.ClearUserForm();
           this.modalRef?.hide();
@@ -237,8 +235,6 @@ next: data => {
   }
 
   onSubmit(user: NgForm): void {
-    console.log(user.form);
-
     this.userForm.isBusy = true;
     this.userForm.message = "";
 
@@ -306,7 +302,6 @@ next: data => {
   }
 
   onRoleSelect($event: Event) {
-    console.log($event);
   }
 
   // onRCSelect($event: Event) {
@@ -367,7 +362,6 @@ next: data => {
   }
 
   onDPSelect($event: Event) {
-    console.log($event);
   }
 
   validateUserForm(): boolean {

@@ -23,6 +23,8 @@ namespace HRIS.API
                 .HasOne<Group>(x => x.Group)
                 .WithMany(x => x.UsersGroups)
                 .HasForeignKey(x => x.GroupID);
+
+            modelBuilder.Entity<EmployeeBehaviorChart>().HasKey(c => new { c.IssueCodeName, c.Month });
         }
 
         public DbSet<LoginUser> LoginUser { get; set; }
@@ -46,6 +48,7 @@ namespace HRIS.API
         public DbSet<RetirementResignationFMLA> RetirementResignationFMLAs { get; set; }
         public DbSet<ActiveStaff> ActiveStaffs { get; set; }
         public DbSet<EmployeeBehavior> EmployeeBehaviors { get; set; }
+        public DbSet<EmployeeBehaviorChart> EmployeeBehaviorCharts { get; set; }
         public DbSet<StaffDetail> StaffDetails { get; set; }
         public DbSet<StaffEmergencyContactInfo> EmergencyContactInfos { get; set; }
         //spGetPagedStaffsOnLeave

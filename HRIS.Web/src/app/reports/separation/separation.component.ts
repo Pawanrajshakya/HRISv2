@@ -123,7 +123,6 @@ export class SeparationComponent
           this.chartData.labels = [];
           this.chartData.datasets = [];
 
-          console.log('chardate', _data);
           Array.isArray(_data)
             ? _data.forEach((chart: IAgencySeparationChart) => {
                 if (chart.description !== 'ZZZ') {

@@ -50,6 +50,7 @@ namespace HRIS.API
             CreateMap<LeaveStatus, LeaveStatusDto>();
             CreateMap<RetirementResignationFMLA, RetirementResignationFMLADto>();
             CreateMap<CSStatus, CSStatusDto>();
+            CreateMap<EmployeeBehavior, EmployeeBehaviorDto>();
             CreateMap<EmployeeBehaviorChart, EmployeeBehaviorChartDto>()
                 .ForMember(x => x.Name, y => y.MapFrom(z => z.IssueCodeName))
                 .ForMember(x => x.Count, y => y.MapFrom(z => z.IssueCodeNameCount));
@@ -115,6 +116,7 @@ namespace HRIS.API
             CreateMap<ECardByRelationshipReport, ECardByRelationshipReportDto>();
             CreateMap<ECardSendAndReceivedReport, ECardSendAndReceivedReportDto>();
             #endregion
+
         }
     }
 }

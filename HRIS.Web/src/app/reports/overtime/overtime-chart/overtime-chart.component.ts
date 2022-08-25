@@ -72,7 +72,6 @@ export class OvertimeChartComponent
       .pipe(
         startWith({}),
         switchMap(() => {
-          console.log(this.selectedRC.join(','));
           //this.separationChart$.subscribe();
           this.isLoadingResults = true;
           return this.dataService.budgetedOTChart$(
@@ -90,7 +89,6 @@ export class OvertimeChartComponent
           this.chartDataBOT.labels = [];
           this.chartDataBOT.datasets = [];
 
-          console.log('chardate', _data);
           Array.isArray(_data)
             ? _data.forEach((chart: IBudgetedOT) => {
                 if (
@@ -152,7 +150,6 @@ export class OvertimeChartComponent
           this.chartDataAOT.labels = [];
           this.chartDataAOT.datasets = [];
 
-          console.log('chardate', _data);
           Array.isArray(_data)
             ? _data.forEach((chart: IBudgetedOT) => {
                 if (
@@ -207,7 +204,6 @@ export class OvertimeChartComponent
     event?: ChartEvent;
     active?: {}[];
   }): void {
-    console.log(event, active);
     this.year = this.year === 'P' ? 'C' : 'P';
     this.filterSubject.next(this.filterValue);
   }

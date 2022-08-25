@@ -177,7 +177,6 @@ export class AnnouncementComponent
     this.announcementForm.isBusy = true;
     this.announcementForm.message = '';
 
-    console.log(Date.parse(this.announcementForm.bsStartDateValue.toString()));
 
     if (Date.parse(this.announcementForm.bsStartDateValue.toString()) > 0)
       this.announcement.displayAfter = formatDate(
@@ -193,12 +192,10 @@ export class AnnouncementComponent
         'en-US'
       );
 
-    console.log(this.announcement);
 
     if (!this.announcementForm.inEditMode) {
       this.announcementService.add$(this.announcement).subscribe({
         next: (data) => {
-          console.log(data);
           this.filterSubject.next(this.filterValue);
           this.modalRef?.hide();
           this.ClearUserForm();
@@ -218,7 +215,6 @@ export class AnnouncementComponent
     } else {
       this.announcementService.update$(this.announcement).subscribe({
         next: (data) => {
-          console.log(data);
           this.filterSubject.next(this.filterValue);
           this.modalRef?.hide();
           this.ClearUserForm();
@@ -239,8 +235,6 @@ export class AnnouncementComponent
   }
 
   public onPriorityClick(isUp: boolean, row: IAnnouncementList) {
-    console.log(row);
-
     if (isUp && row.priority === 1) return;
 
     if (!isUp && row.priority === row.total) return;

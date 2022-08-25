@@ -17,6 +17,8 @@ import { IBackupTitle } from '../_models/IBackupTitle';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ILeaveStatus } from '../_models/ILeaveStatus';
 import { DownloadComponent } from '../download/download.component';
+import { IEmployeeBehavior } from '../_models/IEmployeeBehavior';
+import { formatNumber } from '@angular/common';
 
 @Component({
   selector: 'app-base',
@@ -79,13 +81,14 @@ export class BaseComponent<T> {
   csStatuses: ICSStatus[] = [];
   selectedCsStatus: string[] = [];
 
-  //Report
-  // reportFormat: IReportFormat[] =
-  //   [
-  //     { mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', extension: '.xlsx' },
-  //     { mimeType: 'application/excel', extension: '.xls' },
-  //     { mimeType: 'application/pdf', extension: '.pdf' },
-  //   ];
+  employeeBehaviors: IEmployeeBehavior[] = [];
+  selectedJobCenter: string[] = [];
+  selectedFoodCenter: string[] = [];
+  selectedHRAFacility: string[] = [];
+  selectedRequestStatus: string[] = [];
+
+  dateFrom: string = '';
+  dateTo: string = '';
 
   reportParam: IReportParam = {
     reportName: 'unknown',
@@ -201,7 +204,6 @@ export class BaseComponent<T> {
   }
 
   onGroupRcSelect($event: Event) {
-    console.log('onGroupRcSelect', this.selectedRC);
     let _selectedGroupDP = this.selectedGroupDP;
     let _selectedRC = this.selectedRC;
     this.filteredGroupDPs = [];
@@ -224,7 +226,6 @@ export class BaseComponent<T> {
 
       _selectedGroupDP.forEach((dp) => this.selectedGroupDP.push(dp));
     }
-    console.log('onGroupRcSelect', this.filteredGroupDPs, _selectedGroupDP);
   }
 
   onRCSelect($event: Event) {
@@ -286,5 +287,12 @@ export class BaseComponent<T> {
     this.filterValue = '';
     this.sort._stateChanges.next();
     this.filterSubject.next('');
+  }
+
+  convertToNumberFormat(value: any) {
+    if (Number(value) !== NaN)
+      return formatNumber(Number(value), 'en-US', '1.0-0');
+
+    return formatNumber(Number(value.ToString()), 'en-US', '1.0-0');
   }
 }

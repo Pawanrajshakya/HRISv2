@@ -116,8 +116,6 @@ export class CitytimeOTReportComponent
           this.chartDataOT.datasets.push(this.voluntaryDataset);
           this.chartDataOT.datasets.push(this.inVoluntaryDataset);
 
-          console.log(this.chartDataOT);
-
           this.chart?.update();
           this.isLoadingResults = false;
         },

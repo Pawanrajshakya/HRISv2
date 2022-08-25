@@ -25,6 +25,8 @@ import { HeadcountComponent } from '../reports/headcount/headcount.component';
 import { EeoComponent } from '../reports/eeo/eeo.component';
 import { EcardComponent } from '../reports/ecard/ecard.component';
 import { DisciplinaryComponent } from '../reports/disciplinary/disciplinary.component';
+import { CustomerServiceComplaintsComponent } from '../reports/customer-service-complaints/customer-service-complaints.component';
+import { EmployeeBehaviorCodeResolverService } from '../_services/_resolvers/employee-behavior-code-resolver.service';
 
 const routes: Routes = [
   {
@@ -145,6 +147,13 @@ const routes: Routes = [
     resolve: {
       currentUser: CurrentUserResolver
       , rcdp: RcDpCodeResolverService
+    }
+  },
+  {
+    path: 'customerServiceComplaint', component: CustomerServiceComplaintsComponent,
+    resolve: {
+      currentUser: CurrentUserResolver
+      , employeeBehaviors: EmployeeBehaviorCodeResolverService
     }
   },
   {

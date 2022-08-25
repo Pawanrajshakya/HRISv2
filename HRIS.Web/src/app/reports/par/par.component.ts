@@ -30,8 +30,7 @@ export class ParComponent
 
   selectedCPSStatus: string = 'Open Request';
   cpsStatuses: string[] = ['Open Request', 'Closed Request'];
-  dateFrom: string = '';
-  dateTo: string = '';
+
 
   parDetails: any = [];
 

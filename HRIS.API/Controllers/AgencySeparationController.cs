@@ -17,7 +17,7 @@ namespace HRIS.API.Controllers
         }
 
         [HttpPost("summary")]
-        public async Task<ActionResult> 
+        public async Task<ActionResult>
             GetAgencySeparationAsync(AgencySeparationParameters parameters)
         {
             try
@@ -28,10 +28,10 @@ namespace HRIS.API.Controllers
                 , parameters.IsCalendarYear
                 , parameters.Year);
 
-            return Ok(list
-                .OrderBy(c => c.ReasonDesc)
-                .ToList());
-            
+                return Ok(list
+                    .OrderBy(c => c.ReasonDesc)
+                    .ToList());
+
             }
             catch (System.Exception ex)
             {
@@ -42,27 +42,28 @@ namespace HRIS.API.Controllers
         [HttpPost("chart")]
         public async Task<ActionResult> GetAgencySeparationChartAsync(AgencySeparationParameters parameters)
         {
-            try { 
-            IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
-                , parameters.RcDp.RCs ?? ""
-                , parameters.RcDp.DPs ?? ""
-                , parameters.IsCalendarYear
-                , parameters.Year);
+            try
+            {
+                IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
+                    , parameters.RcDp.RCs ?? ""
+                    , parameters.RcDp.DPs ?? ""
+                    , parameters.IsCalendarYear
+                    , parameters.Year);
 
-            return Ok(list
-                .GroupBy(x => x.ReasonDesc)
-                .Select(y => new AgencySeparationChart
-                {
-                    Description = y.Key,
-                    Total = y.Sum(x => x.Count)
-                })
-            .OrderBy(c => c.Description)
-            .ToList());
-        }
+                return Ok(list
+                    .GroupBy(x => x.ReasonDesc)
+                    .Select(y => new AgencySeparationChart
+                    {
+                        Description = y.Key,
+                        Total = y.Sum(x => x.Count)
+                    })
+                .OrderBy(c => c.Description)
+                .ToList());
+            }
             catch (System.Exception ex)
             {
                 return NotFound(ex.Message);
-    }
-}
+            }
+        }
     }
 }

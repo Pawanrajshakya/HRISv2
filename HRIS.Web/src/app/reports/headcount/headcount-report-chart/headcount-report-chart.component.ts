@@ -91,8 +91,6 @@ export class HeadcountReportChartComponent
       .pipe(
         startWith({}),
         switchMap(() => {
-          console.log(this.selectedRC.join(','));
-          //this.separationChart$.subscribe();
           this.isLoadingResults = true;
           this.reportParam.rcDp.rcs = this.selectedRC.join(',') ?? '';
           return this.dataService.chart$(this.reportParam);
@@ -100,8 +98,6 @@ export class HeadcountReportChartComponent
       )
       .subscribe({
         next: (_data) => {
-          console.log('_data', _data);
-
           this.chartDataHC.labels = [];
           this.chartDataHC.datasets[0].data = [];
           this.chartDataHC.datasets[1].data = [];
@@ -129,12 +125,7 @@ export class HeadcountReportChartComponent
       });
   }
 
-  convertToNumberFormat(value: any) {
-    if (Number(value) !== NaN)
-      return formatNumber(Number(value), 'en-US', '1.0-0');
 
-    return formatNumber(Number(value.ToString()), 'en-US', '1.0-0');
-  }
 
   isString(value: any) {
     return typeof value === 'string' || value instanceof String;

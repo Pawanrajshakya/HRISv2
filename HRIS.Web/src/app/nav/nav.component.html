@@ -15,7 +15,8 @@
     [matMenuTriggerFor]="reportMenu"><i class="bi bi-list"></i> Reports <span class="caret"></span></a>
   <mat-menu #reportMenu="matMenu">
     <button mat-menu-item>Classification Report (DSS & HRA)</button>
-    <button mat-menu-item>Customer Service Complaints Report (HRA)</button>
+    <button mat-menu-item [routerLink]="['/customerServiceComplaint']" routerLinkActive="active">Customer Service
+      Complaints Report (HRA)</button>
     <button mat-menu-item [routerLink]="['/disciplinary']" routerLinkActive="active">Disciplinary Report (DSS &
       HRA)</button>
     <button mat-menu-item [routerLink]="['/ecard']" routerLinkActive="active">E-Cards Report (DSS & HRA)</button>

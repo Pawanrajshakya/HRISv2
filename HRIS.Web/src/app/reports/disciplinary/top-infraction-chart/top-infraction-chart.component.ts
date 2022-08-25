@@ -71,7 +71,6 @@ export class TopInfractionChartComponent
     this.filterSubject.next(this.filterValue);
     this.disciplinaryService.selectedRCs.subscribe({
       next: (rcs: string[]) => {
-        console.log('TopInfractionChartComponent>rcs', rcs);
         this.selectedRC = rcs;
         this.filterSubject.next(this.filterValue);
       },
@@ -91,12 +90,10 @@ export class TopInfractionChartComponent
       )
       .subscribe({
         next: (_data) => {
-          console.log('1', _data);
           this.chartDataTFI.labels = [];
           this.chartDataTFI.datasets[0].data = [];
           Array.isArray(_data)
             ? _data.forEach((_row) => {
-                console.log(_row);
                 this.chartDataTFI.labels?.push(
                   _row.groupDescription +
                     ' ' +

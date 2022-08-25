@@ -28,8 +28,6 @@ export class EcardByExcellenceComponent
 {
   selectedReport: string = 'Sent By';
   reports: string[] = ['Sent By', 'Received By'];
-  dateFrom: string = '';
-  dateTo: string = '';
 
   constructor(
     private codeService: CodeService,
@@ -86,8 +84,7 @@ export class EcardByExcellenceComponent
           this.reportParam.dateFrom = this.dateFrom;
           this.reportParam.dateTo = this.dateTo;
           this.reportParam.isSentBy =
-      this.selectedReport === 'Sent By' ? true : false;
-    console.log(this.dateFrom);
+            this.selectedReport === 'Sent By' ? true : false;
           return this.dataService
             .GetECardByExcellenceReport$(this.reportParam)
             .pipe(catchError(() => observableOf(null)));
@@ -112,7 +109,6 @@ export class EcardByExcellenceComponent
     this.reportParam.rcDp.rcs = this.selectedRC.join(',');
     this.reportParam.isSentBy =
       this.selectedReport === 'Sent By' ? true : false;
-    console.log(this.dateFrom);
     this.reportParam.dateFrom = this.dateFrom;
     this.reportParam.dateTo = this.dateTo;
     this.filterSubject.next(this.filterValue);

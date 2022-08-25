@@ -25,7 +25,6 @@ export class CarouselComponent implements OnInit {
           announcement.forEach(element => {
             this.announcementSummary.push(element);
           });
-          console.log(this.announcementSummary);
         }
       },
       error: (error) => {
