@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HRIS.API
 {
@@ -12,7 +9,7 @@ namespace HRIS.API
     }
     public class EmployeeBehavior
     {
-        [System.ComponentModel.DataAnnotations.Key]
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
     }

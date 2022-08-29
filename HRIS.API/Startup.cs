@@ -24,8 +24,6 @@ namespace HRIS.API
             ShareManager.Prepare(_config);
         }
 
-
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -55,6 +53,7 @@ namespace HRIS.API
             services.AddScoped<IAgencySeparationRepository, AgencySeparationRepository>();
             services.AddScoped<IHRISReportRepository, HRISRepository>();
             services.AddScoped<IPARRepository, PARRepository>();
+            services.AddScoped<IMyInfoRepository, MyInfoRepository>();
             //********Repository DI - end
 
             services.AddTransient<UserActionFilter>();

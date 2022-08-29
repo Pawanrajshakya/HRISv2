@@ -85,6 +85,8 @@ import { EcardChartByRcComponent } from './reports/ecard/ecard-chart/ecard-chart
 import { TopInfractionChartComponent } from './reports/disciplinary/top-infraction-chart/top-infraction-chart.component';
 import { CaseCountByYearChartComponent } from './reports/disciplinary/case-count-by-year-chart/case-count-by-year-chart.component';
 import { PendingCasesChartComponent } from './reports/disciplinary/pending-cases-chart/pending-cases-chart.component';
+import { MyStaffTreeComponent } from './my-info/my-staff-tree/my-staff-tree.component';
+import { MyStaffInfoComponent } from './my-info/my-staff-info/my-staff-info.component';
 
 @NgModule({
   declarations: [
@@ -144,7 +146,9 @@ import { PendingCasesChartComponent } from './reports/disciplinary/pending-cases
     EcardChartByRcComponent,
     TopInfractionChartComponent,
     CaseCountByYearChartComponent,
-    PendingCasesChartComponent
+    PendingCasesChartComponent,
+    MyStaffTreeComponent,
+    MyStaffInfoComponent
   ],
   imports: [
     BrowserModule,

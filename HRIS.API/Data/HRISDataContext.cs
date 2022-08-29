@@ -14,6 +14,8 @@ namespace HRIS.API
 
             modelBuilder.Entity<SeparationSummary>().HasKey(c => new { c.ReasonDesc, c.Month });
 
+            modelBuilder.Entity<MyInfoTree>().HasKey(x => new { x.EIN, x.Name });
+
             modelBuilder.Entity<UserGroup>()
                 .HasOne<HRISUser>(x => x.User)
                 .WithMany(x => x.UsersGroups)
@@ -67,5 +69,7 @@ namespace HRIS.API
         public DbSet<HeadcountPMSEmployeeDetailReport> HeadcountPMSEmployeeDetailReports { get; set; }
 
         public DbSet<EEOChart> EEOCharts { get; set; }
+
+        public DbSet<MyInfoTree> MyInfoTrees { get; set; }
     }
 }

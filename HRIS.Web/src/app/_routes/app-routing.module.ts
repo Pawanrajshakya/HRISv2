@@ -27,144 +27,173 @@ import { EcardComponent } from '../reports/ecard/ecard.component';
 import { DisciplinaryComponent } from '../reports/disciplinary/disciplinary.component';
 import { CustomerServiceComplaintsComponent } from '../reports/customer-service-complaints/customer-service-complaints.component';
 import { EmployeeBehaviorCodeResolverService } from '../_services/_resolvers/employee-behavior-code-resolver.service';
+import { MyInfoComponent } from '../my-info/my-info.component';
+import { MyInfoTreeResolverService } from '../_services/_resolvers/my-info-tree-resolver.service';
 
 const routes: Routes = [
   {
-    path: 'home', component: HomeComponent
+    path: 'home',
+    component: HomeComponent,
   },
   {
-    path: 'user', component: UserComponent,
-    resolve: { currentUser: CurrentUserResolver }
+    path: 'user',
+    component: UserComponent,
+    resolve: { currentUser: CurrentUserResolver },
   },
   {
-    path: 'developer', component: DeveloperComponent
+    path: 'developer',
+    component: DeveloperComponent,
   },
   {
-    path: 'announcement', component: AnnouncementComponent,
-    resolve: { currentUser: CurrentUserResolver }
+    path: 'announcement',
+    component: AnnouncementComponent,
+    resolve: { currentUser: CurrentUserResolver },
   },
   {
-    path: 'activeStaff', component: ActiveStaffComponent,
+    path: 'activeStaff',
+    component: ActiveStaffComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-      , locations: LocationCodeResolverService
-      , titles: TitleCodeResolverService
-      , bkpTiltes: BkpTitleResolverService
-      , csStatuses: CsStatusResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+      locations: LocationCodeResolverService,
+      titles: TitleCodeResolverService,
+      bkpTiltes: BkpTitleResolverService,
+      csStatuses: CsStatusResolverService,
+    },
   },
   {
-    path: 'staffDetail/:ein', component: StaffDetailComponent,
+    path: 'staffDetail/:ein',
+    component: StaffDetailComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , staffDetail: StaffDetailResolverService
-    }
+      currentUser: CurrentUserResolver,
+      staffDetail: StaffDetailResolverService,
+    },
   },
   {
-    path: 'leaveReport', component: StaffLeaveComponent,
+    path: 'leaveReport',
+    component: StaffLeaveComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-      , titles: TitleCodeResolverService
-      , lvStatus: LeaveStatusResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+      titles: TitleCodeResolverService,
+      lvStatus: LeaveStatusResolverService,
+    },
   },
   {
-    path: 'ceasedReport', component: CeasedStaffComponent,
+    path: 'ceasedReport',
+    component: CeasedStaffComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-      , titles: TitleCodeResolverService
-      , lvStatus: LeaveStatusResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+      titles: TitleCodeResolverService,
+      lvStatus: LeaveStatusResolverService,
+    },
   },
   {
-    path: 'vacationRoasterReport', component: VacationRosterComponent,
+    path: 'vacationRoasterReport',
+    component: VacationRosterComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-      , location: LocationCodeResolverService
-      , title: TitleCodeResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+      location: LocationCodeResolverService,
+      title: TitleCodeResolverService,
+    },
   },
   {
-    path: 'emergencyContactInfoReport', component: StaffEmergencyContactInfoComponent,
+    path: 'emergencyContactInfoReport',
+    component: StaffEmergencyContactInfoComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-      , location: LocationCodeResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+      location: LocationCodeResolverService,
+    },
   },
   {
-    path: 'separationReport', component: SeparationComponent,
+    path: 'separationReport',
+    component: SeparationComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+    },
   },
   {
-    path: 'parReport', component: ParComponent,
+    path: 'parReport',
+    component: ParComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-      , titles: TitleCodeResolverService
-      , locations: LocationCodeResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+      titles: TitleCodeResolverService,
+      locations: LocationCodeResolverService,
+    },
   },
   {
-    path: 'overtimeReport', component: OvertimeComponent,
+    path: 'overtimeReport',
+    component: OvertimeComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+    },
   },
   {
-    path: 'headcount', component: HeadcountComponent,
+    path: 'headcount',
+    component: HeadcountComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-      , titles: TitleCodeResolverService
-      , lvStatus: LeaveStatusResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+      titles: TitleCodeResolverService,
+      lvStatus: LeaveStatusResolverService,
+    },
   },
   {
-    path: 'eeo', component: EeoComponent,
+    path: 'eeo',
+    component: EeoComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+    },
   },
   {
-    path: 'ecard', component: EcardComponent,
+    path: 'ecard',
+    component: EcardComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+    },
   },
   {
-    path: 'disciplinary', component: DisciplinaryComponent,
+    path: 'disciplinary',
+    component: DisciplinaryComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , rcdp: RcDpCodeResolverService
-    }
+      currentUser: CurrentUserResolver,
+      rcdp: RcDpCodeResolverService,
+    },
   },
   {
-    path: 'customerServiceComplaint', component: CustomerServiceComplaintsComponent,
+    path: 'customerServiceComplaint',
+    component: CustomerServiceComplaintsComponent,
     resolve: {
-      currentUser: CurrentUserResolver
-      , employeeBehaviors: EmployeeBehaviorCodeResolverService
-    }
+      currentUser: CurrentUserResolver,
+      employeeBehaviors: EmployeeBehaviorCodeResolverService,
+    },
   },
   {
-    path: '', redirectTo: '/home', pathMatch: 'full',
-    resolve: { currentUser: CurrentUserResolver }
-  }
+    path: 'myinfo',
+    component: MyInfoComponent,
+    resolve: {
+      currentUser: CurrentUserResolver,
+      treeResolver: MyInfoTreeResolverService
+    },
+  },
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+    resolve: { currentUser: CurrentUserResolver },
+  },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

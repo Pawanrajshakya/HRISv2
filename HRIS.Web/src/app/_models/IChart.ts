@@ -1,6 +1,5 @@
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 
-
 export interface IBarChartData {
   chartData: ChartData<'bar'>;
   chartOptions: ChartConfiguration['options'];
@@ -9,15 +8,15 @@ export interface IBarChartData {
 }
 
 export interface IPieChartData {
-  chartData: ChartData<'pie'>,
-  chartOptions: ChartConfiguration['options'],
-  chartPlugins: never[],
-  chartType: ChartType,
+  chartData: ChartData<'pie'>;
+  chartOptions: ChartConfiguration['options'];
+  chartPlugins: never[];
+  chartType: ChartType;
 }
 
 export interface ILineChartData {
-  chartData: ChartData<'line'>,
-  chartOptions: ChartConfiguration['options'],
-  chartPlugins: never[],
-  chartType: ChartType
+  chartData: ChartData<'line'>;
+  chartOptions: ChartConfiguration['options'];
+  chartPlugins: never[];
+  chartType: ChartType;
 }

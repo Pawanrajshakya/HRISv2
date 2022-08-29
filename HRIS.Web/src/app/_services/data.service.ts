@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap } from 'rxjs';
+import { catchError, map, Observable, tap } from 'rxjs';
 import { ITopInfractionsChart } from '../_models/ITopInfractionsChart';
 import { ICasesCountByYear } from '../_models/ICasesCountByYear';
 import { IPendingCasesChart } from '../_models/IPendingCasesChart';
@@ -47,16 +47,35 @@ import {
   IEmployeeBehaviorChart,
   IEmployeeBehaviorParameters,
 } from '../_models/IEmployeeBehavior';
+import { IMyInfoTree } from '../_models/IMyInfoTree';
+import { DynamicFlatNode } from '../my-info/my-staff-tree/my-staff-tree.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService extends BaseService {
+  //#region Tree
+  root: IMyInfoTree[] = [];
+  //#endregion
+
   constructor(
     private httpClient: HttpClient,
     private errorHandlingService: ErrorHandlingService
   ) {
     super();
+    console.log('DataService');
+
+    // this.GetMyInfoTree$().subscribe((data) => {
+    //   let root: IMyInfoTree = {};
+    //   if (data) {
+    //     root.ein = data.ein;
+    //     root.name = data.name;
+    //     root.employeesCount = data.employeesCount;
+    //     root.children = data.children;
+    //   }
+    //   this.root.push(root);
+    //   console.log('DataService>>GetMyInfoTree$()', data, this.root);
+    // });
   }
 
   //#region  Teams
@@ -493,5 +512,50 @@ export class DataService extends BaseService {
       .pipe(
         catchError((err) => this.errorHandlingService.handleError(err)) //error handling
       );
+  }
+
+  GetMyInfoTree$(): Observable<IMyInfoTree | null> {
+    return this.httpClient
+      .post<IMyInfoTree>(this.url + 'myInfo/myInfoTree', null)
+      .pipe(
+        catchError((err) => this.errorHandlingService.handleError(err)) //error handling
+      );
+  }
+
+  GetChildren(tree: IMyInfoTree): Promise<IMyInfoTree[]> {
+    return new Promise((resolve, reject) => {
+      this.httpClient
+        .get<IMyInfoTree[]>(this.url + 'myInfo/myInfoTreeForEIN/' + tree.ein)
+        .subscribe({
+          next: (data) => {
+            resolve(data);
+          },
+          error: (error) => {}
+        });
+    });
+  }
+
+  resolveTreeRoot(): Promise<IMyInfoTree[]> {
+    return new Promise((resolve, reject) => {
+      if (
+        this.root === undefined ||
+        this.root === null ||
+        this.root.length === 0
+      ) {
+        this.httpClient
+          .post<IMyInfoTree>(this.url + 'myInfo/myInfoTree', null)
+          .subscribe({
+            next: (data) => {
+              this.root.push(data);
+            },
+            error: (error) => {},
+            complete: () => {
+              resolve(this.root);
+            },
+          });
+      } else {
+        resolve(this.root);
+      }
+    });
   }
 }

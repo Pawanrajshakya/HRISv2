@@ -1,0 +1,30 @@
+<!-- <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree"> 
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+    {{node.name}}
+  </mat-tree-node>
+  <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+    <div class="mat-tree-node">
+      <span matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+        <i (click)="onNodeClick(node)"
+          [ngClass]="{'bi bi-node-minus': treeControl.isExpanded(node),'bi bi-node-plus':!treeControl.isExpanded(node)}"></i>
+      </span>
+      {{node.name}}
+    </div>
+      <ng-container matTreeNodeOutlet></ng-container>
+    </div>
+  </mat-nested-tree-node>
+</mat-tree>-->
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+    <button mat-icon-button disabled></button>
+    {{node.item.name}}
+  </mat-tree-node>
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+    <button mat-icon-button [attr.aria-label]="'Toggle ' + node.item" matTreeNodeToggle>
+      <i [ngClass]="{'bi bi-node-minus': treeControl.isExpanded(node),'bi bi-node-plus':!treeControl.isExpanded(node)}"></i>
+    </button>
+    {{node.item.name}}
+    <mat-progress-bar *ngIf="node.isLoading" mode="indeterminate" class="example-tree-progress-bar"></mat-progress-bar>
+  </mat-tree-node>
+</mat-tree>

@@ -117,6 +117,9 @@ namespace HRIS.API
             CreateMap<ECardSendAndReceivedReport, ECardSendAndReceivedReportDto>();
             #endregion
 
+            CreateMap<MyInfoTree, MyInfoTreeDto>();
+
+
         }
     }
 }
