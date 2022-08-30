@@ -118,6 +118,7 @@ namespace HRIS.API
             #endregion
 
             CreateMap<MyInfoTree, MyInfoTreeDto>();
+            CreateMap<StaffInfo, StaffInfoDto>();
 
 
         }

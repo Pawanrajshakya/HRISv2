@@ -46,7 +46,7 @@ namespace HRIS.API
         public DbSet<AgencyHeadcountChart> AgencyHeadcountChart { get; set; }
         public DbSet<Title> Titles { get; set; }
         public DbSet<CSStatus> CSStatuses { get; set; }
-        public DbSet<LeaveStatus> LeaveStatuses{ get; set; }
+        public DbSet<LeaveStatus> LeaveStatuses { get; set; }
         public DbSet<RetirementResignationFMLA> RetirementResignationFMLAs { get; set; }
         public DbSet<ActiveStaff> ActiveStaffs { get; set; }
         public DbSet<EmployeeBehavior> EmployeeBehaviors { get; set; }
@@ -54,7 +54,7 @@ namespace HRIS.API
         public DbSet<StaffDetail> StaffDetails { get; set; }
         public DbSet<StaffEmergencyContactInfo> EmergencyContactInfos { get; set; }
         //spGetPagedStaffsOnLeave
-        public DbSet<StaffLeaveReport> StaffLeaveReports  { get; set; }
+        public DbSet<StaffLeaveReport> StaffLeaveReports { get; set; }
         public DbSet<StaffEmergencyContactInfoReport> StaffEmergencyContactInfoReports { get; set; }
         public DbSet<VacationRosterReport> VacationRosterReports { get; set; }
         public DbSet<SeparationSummary> SeparationSummaries { get; set; }
@@ -71,5 +71,6 @@ namespace HRIS.API
         public DbSet<EEOChart> EEOCharts { get; set; }
 
         public DbSet<MyInfoTree> MyInfoTrees { get; set; }
+        public DbSet<StaffInfo> StaffInfos { get; set; }
     }
 }

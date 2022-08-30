@@ -4,20 +4,23 @@ import {
   DataSource,
 } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Injectable } from '@angular/core';
+import { Component } from '@angular/core';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IMyInfoTree } from 'src/app/_models/IMyInfoTree';
-import { DataService } from 'src/app/_services/data.service';
+import { MyInfoService } from 'src/app/_services/my-info.service';
+import { DynamicFlatNodeService } from '../../_services/DynamicFlatNode.service';
+import { DynamicFlatNode } from '../../_models/DynamicFlatNode';
 
 @Component({
   selector: 'app-my-staff-tree',
   templateUrl: './my-staff-tree.component.html',
   styleUrls: ['./my-staff-tree.component.scss'],
 })
-
 export class MyStaffTreeComponent {
-  constructor(database: DynamicHRISDatabase) {
+  constructor(
+    database: DynamicFlatNodeService,
+    private myInfoService: MyInfoService
+  ) {
     this.treeControl = new FlatTreeControl<DynamicFlatNode>(
       this.getLevel,
       this.isExpandable
@@ -36,57 +39,9 @@ export class MyStaffTreeComponent {
   isExpandable = (node: DynamicFlatNode) => node.expandable;
 
   hasChild = (_: number, _nodeData: DynamicFlatNode) => _nodeData.expandable;
-}
 
-/** Flat node with expandable and level information */
-export class DynamicFlatNode {
-  constructor(
-    public item: IMyInfoTree,
-    public level = 1,
-    public expandable = item.employeesCount && item.employeesCount > 0
-      ? true
-      : false,
-    public isLoading = false
-  ) {}
-}
-
-/**
- * Database for dynamic data. When expanding a node in the tree, the data source will need to fetch
- * the descendants data from the database.
- */
-@Injectable({ providedIn: 'root' })
-export class DynamicHRISDatabase {
-  /**
-   *
-   */
-  rootLevelNodes: IMyInfoTree[];
-  dataMap = new Map<IMyInfoTree, IMyInfoTree[]>();
-
-  constructor(private dataService: DataService) {
-    console.log('1', this.dataService.root);
-    this.rootLevelNodes = this.dataService.root;
-  }
-
-  /** Initial data from database */
-  initialData(): DynamicFlatNode[] {
-    return this.rootLevelNodes.map((tree) => {
-      this.dataService.GetChildren(tree).then((data) => {
-        console.log('2', data);
-        if (data) this.dataMap.set(tree, data);
-      });
-      return new DynamicFlatNode(tree, 0, true);
-    });
-  }
-
-  getChildren(node: IMyInfoTree): IMyInfoTree[] | undefined {
-    return this.dataMap.get(node);
-  }
-
-  isExpandable(node: IMyInfoTree): boolean {
-    this.dataService.GetChildren(node).then((data) => {
-      if (data) this.dataMap.set(node, data);
-    });
-    return (node.employeesCount ?? 0) > 0;
+  onClick(node: DynamicFlatNode) {
+    this.myInfoService.selectedRoot.emit(node.item);
   }
 }
 
@@ -110,7 +65,7 @@ export class DynamicDataSource implements DataSource<DynamicFlatNode> {
 
   constructor(
     private _treeControl: FlatTreeControl<DynamicFlatNode>,
-    private _database: DynamicHRISDatabase
+    private _database: DynamicFlatNodeService
   ) {}
 
   connect(collectionViewer: CollectionViewer): Observable<DynamicFlatNode[]> {

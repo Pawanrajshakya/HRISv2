@@ -181,7 +181,7 @@ const routes: Routes = [
     component: MyInfoComponent,
     resolve: {
       currentUser: CurrentUserResolver,
-      treeResolver: MyInfoTreeResolverService
+      tree: MyInfoTreeResolverService
     },
   },
   {

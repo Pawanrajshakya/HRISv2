@@ -41,5 +41,15 @@ namespace HRIS.API.Controllers
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }
+
+        [HttpGet("{ein}")]
+        public async Task<ActionResult> GetStaffInfoAsync(string ein)
+        {
+            try
+            {
+                return Ok(await _repository.GetStaffInfo(UserSession.Instance.User.UserID, ein));
+            }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
+        }
     }
 }

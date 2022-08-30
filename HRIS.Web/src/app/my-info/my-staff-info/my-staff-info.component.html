@@ -1,1 +1,8 @@
-<p>my-staff-info works!</p>
+<div class="card border-secondary">
+  <div class="card-header text-white bg-secondary border-secondary shadow">
+    <i class="bi bi-file-earmark-person-fill"></i> {{selectedRoot.name | titlecase}}
+  </div>
+  <div class="card-body">
+    {{myInfoService.staffInfo.firstName}}
+  </div>
+</div>

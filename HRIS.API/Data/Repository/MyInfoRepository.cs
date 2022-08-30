@@ -11,6 +11,7 @@ namespace HRIS.API
     {
         Task<MyInfoTreeDto> GetMyInfoTreeAsync(UserDto user);
         Task<List<MyInfoTreeDto>> GetMyInfoTreeAsync(string ein);
+        Task<StaffInfoDto> GetStaffInfo(string userID, string ein);
     }
 
     public class MyInfoRepository : Repository, IMyInfoRepository
@@ -70,7 +71,7 @@ namespace HRIS.API
             {
                 var dtos = new List<MyInfoTreeDto>();
 
-                SqlParameter[] sqlParameters = new SqlParameter[] { new SqlParameter("@EIN", ein) { } };
+                SqlParameter[] sqlParameters = new SqlParameter[] { new SqlParameter("@EIN", ein) };
 
                 var rows = _context.MyInfoTrees.FromSqlRaw($"EXECUTE dbo.[spGetChainOfCommand] @EIN", sqlParameters).ToList();
 
@@ -79,6 +80,27 @@ namespace HRIS.API
                     dtos.Add(_mapper.Map<MyInfoTreeDto>(row));
                 }
                 return await Task.Run(() => dtos);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<StaffInfoDto> GetStaffInfo(string userID, string ein)
+        {
+            try
+            {
+
+                SqlParameter[] sqlParameters = new SqlParameter[] { new SqlParameter("@UserID", userID), new SqlParameter("@EIN", ein) };
+
+                var rows = _context.StaffInfos.FromSqlRaw($"EXECUTE dbo.[spGetStaffInfoByEIN] @UserID, @EIN", sqlParameters).ToList();
+
+                var staffInfo = (rows.Count > 0) ? rows[0] : null;
+
+                var dto = _mapper.Map<StaffInfoDto>(staffInfo);
+
+                return await Task.Run(() => dto);
             }
             catch (System.Exception ex)
             {

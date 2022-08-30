@@ -5,18 +5,20 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { IMyInfoTree } from 'src/app/_models/IMyInfoTree';
-import { DataService } from '../data.service';
+import { MyInfoService } from '../my-info.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MyInfoTreeResolverService implements Resolve<IMyInfoTree[]> {
-  constructor(private dataService: DataService) {}
+  constructor(private myInfoService: MyInfoService) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<IMyInfoTree[]> {
-    return this.dataService.resolveTreeRoot();
+    return this.myInfoService.resolveTreeRoot();
   }
 }
+
+
