@@ -109,6 +109,9 @@ namespace HRIS.API
                 {
                     dtos.Add(_mapper.Map<StaffOvertimeSummaryDto>(row));
                 }
+                if (dtos.Count == 0)
+                    return new StaffOvertimeSummaryDto();
+
                 return await Task.Run(() => dtos.SingleOrDefault());
             }
             catch (System.Exception ex)

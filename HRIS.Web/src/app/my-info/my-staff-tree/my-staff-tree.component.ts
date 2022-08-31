@@ -41,7 +41,11 @@ export class MyStaffTreeComponent {
   hasChild = (_: number, _nodeData: DynamicFlatNode) => _nodeData.expandable;
 
   onClick(node: DynamicFlatNode) {
-    this.myInfoService.selectedRoot.emit(node.item);
+    if (node.item.ein)    this.myInfoService.myInfoTreeStaffSelectedEvent.emit(node.item);
+  }
+
+  onExport(){
+    
   }
 }
 

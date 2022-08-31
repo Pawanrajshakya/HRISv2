@@ -20,14 +20,13 @@ namespace HRIS.API.Controllers
             _repository = repository;
         }
 
-        [HttpPost("myInfoTree")]
-        public async Task<ActionResult> GetMyInfoTreeAsync()
+        [HttpPost("myInfoTree/{lanid?}")]
+        public async Task<ActionResult> GetMyInfoTreeForEINAsync(string lanid)
         {
             try
             {
-                UserDto dto = _userRepository.Get("cgupt6696");
-                return Ok(await _repository.GetMyInfoTreeAsync(dto));
-                //UserSession.Instance.User)  ; 
+                UserDto userDto = string.IsNullOrEmpty(lanid) ? UserSession.Instance.User : await _userRepository.GetAsync(lanid);
+                return Ok(await _repository.GetMyInfoTreeAsync(userDto));
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }
@@ -42,7 +41,7 @@ namespace HRIS.API.Controllers
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
-        [HttpGet("{ein}")]
+         [HttpGet("{ein}")]
         public async Task<ActionResult> GetStaffInfoAsync(string ein)
         {
             try

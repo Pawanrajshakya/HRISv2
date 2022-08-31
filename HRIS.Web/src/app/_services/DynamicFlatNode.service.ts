@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IMyInfoTree } from 'src/app/_models/IMyInfoTree';
 import { MyInfoService } from 'src/app/_services/my-info.service';
-import { DynamicFlatNode } from "../_models/DynamicFlatNode";
+import { DynamicFlatNode } from '../_models/DynamicFlatNode';
+import { LoginService } from './login.service';
+import { UserService } from './user.service';
 
 /**
  * Database for dynamic data. When expanding a node in the tree, the data source will need to fetch
@@ -13,24 +15,35 @@ export class DynamicFlatNodeService {
   /**
    *
    */
-  rootLevelNodes: IMyInfoTree[];
+  rootLevelNodes: IMyInfoTree[] = [];
   dataMap = new Map<IMyInfoTree, IMyInfoTree[]>();
 
-  constructor(private myInfoService: MyInfoService) {
-    this.rootLevelNodes = this.myInfoService.root;
-    console.log('0',this.myInfoService.root[0]);
-    // this.myInfoService.selectedRoot.emit(this.myInfoService.root[0]);
+  constructor(
+    private myInfoService: MyInfoService,
+    private loginService: LoginService
+  ) {
+    //this.rootLevelNodes = this.myInfoService.myInfoTreeStaffs;
+    //console.log('0', this.rootLevelNodes);
   }
 
   /** Initial data from database */
   initialData(): DynamicFlatNode[] {
+    this.rootLevelNodes = this.myInfoService.myInfoTreeStaffs;
     return this.rootLevelNodes.map((tree) => {
+      // if (tree.ein === this.loginService.currentUser.ein) {
+      console.log('1', this.rootLevelNodes);
       this.myInfoService.GetChildren(tree).then((data) => {
-        console.log('2', data);
-        if (data)
-          this.dataMap.set(tree, data);
+        console.log('2', data, tree);
+        if (data) this.dataMap.set(tree, data);
       });
-      return new DynamicFlatNode(tree, 0, true);
+      return new DynamicFlatNode(
+        tree,
+        0,
+        tree.children ? tree.children?.length > 0 : false
+      );
+      // } else {
+      //   return new DynamicFlatNode({}, 0, true);
+      // }
     });
   }
 
@@ -40,8 +53,7 @@ export class DynamicFlatNodeService {
 
   isExpandable(node: IMyInfoTree): boolean {
     this.myInfoService.GetChildren(node).then((data) => {
-      if (data)
-        this.dataMap.set(node, data);
+      if (data) this.dataMap.set(node, data);
     });
     return (node.employeesCount ?? 0) > 0;
   }

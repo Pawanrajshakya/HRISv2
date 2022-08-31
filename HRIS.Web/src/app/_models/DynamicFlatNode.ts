@@ -6,9 +6,7 @@ export class DynamicFlatNode {
   constructor(
     public item: IMyInfoTree,
     public level = 1,
-    public expandable = item.employeesCount && item.employeesCount > 0
-      ? true
-      : false,
+    public expandable = false,
     public isLoading = false
   ) { }
 }

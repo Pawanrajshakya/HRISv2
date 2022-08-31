@@ -1,8 +1,146 @@
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary shadow">
-    <i class="bi bi-file-earmark-person-fill"></i> {{selectedRoot.name | titlecase}}
+    <i class="bi bi-file-earmark-person-fill text-warning"></i> {{this.myInfoService.myInfoStaffInfo.legalName??"" | titlecase}} -
+    {{this.myInfoService.myInfoStaffInfo.ein}}
   </div>
   <div class="card-body">
-    {{myInfoService.staffInfo.firstName}}
+    <div class="card border-light mb-3">
+      <div class="card-header">
+        <div class="text-justify">To update your Emergency and Home Contact info please click <a target="_blank"
+            href="https://a127-ess.nyc.gov/" class="btn btn-primary btn-sm">HERE</a> to open up NYCAPS.</div>
+      </div>
+      <div class="card-body">
+        <p class="pl-3 text-justify">Please be reminded that updating contact info in NYCAPS will update your contact
+          information for agency purposes, and will also update your address information at DCAS. However, Any change
+          will <u>not</u> be sent to NYCERS. In order to update your contact information in NYCERS please use their
+          website <u><a target="_blank" href="https://www.nycers.org">www.nycers.org</a></u> or call: 347-643-3000. </p>
+      </div>
+    </div>
+
+    <div class="table-container table-responsive">
+      <table class="table table-hover table-bordered table-sm">
+        <tr>
+          <th [colSpan]="2" class="text-center">
+            <i class="bi bi-briefcase-fill"></i>&nbsp;Work Info </th>
+          <th> Your Info </th>
+          <th> Current Title Info </th>
+        </tr>
+        <tr>
+          <th>Legal Name</th>
+          <td>{{myInfoService.myInfoStaffInfo.legalName}}</td>
+          <th>RC</th>
+          <td>{{myInfoService.myInfoStaffInfo.rcCode}}<br>{{myInfoService.myInfoStaffInfo.rcNameShort}}</td>
+        </tr>
+        <tr>
+          <th>Address</th>
+          <td>
+            {{myInfoService.myInfoStaffInfo.workAddress}}<br>{{myInfoService.myInfoStaffInfo.workCity}}{{myInfoService.myInfoStaffInfo.workZipCode}}
+          </td>
+          <th>Disbursement</th>
+          <td>{{myInfoService.myInfoStaffInfo.disbCode}}-{{myInfoService.myInfoStaffInfo.disbName}}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td><a
+              href="mailto:{{myInfoService.myInfoStaffInfo.workEmail}}">{{myInfoService.myInfoStaffInfo.workEmail | hrisEmptyValue}}</a>
+          </td>
+          <th>Program</th>
+          <td>
+            {{myInfoService.myInfoStaffInfo.dpCode}} - {{myInfoService.myInfoStaffInfo.dpName}}</td>
+        </tr>
+        <tr>
+          <th>Phone</th>
+          <td>{{myInfoService.myInfoStaffInfo.workPhone??"" | hrisPhone}}</td>
+          <th>Title</th>
+          <td>{{myInfoService.myInfoStaffInfo.payTitleCode}} - {{myInfoService.myInfoStaffInfo.payTitle | hrisTrim}}
+            {{myInfoService.myInfoStaffInfo.payTitleLevel | hrisTrim}}
+          </td>
+        </tr>
+        <tr>
+          <th>Supervisor</th>
+          <td>{{myInfoService.myInfoStaffInfo.supervisor}}</td>
+          <th>Title Date</th>
+          <td>{{myInfoService.myInfoStaffInfo.titleDate}}</td>
+        </tr>
+        <tr>
+          <th>CityTime ID</th>
+          <td>{{myInfoService.myInfoStaffInfo.cityTimeID}}</td>
+          <th>Civil Service Status</th>
+          <td>{{myInfoService.myInfoStaffInfo.csStatusCode}} - {{myInfoService.myInfoStaffInfo.csStatus}}</td>
+        </tr>
+        <tr>
+          <th [colSpan]="2" class="text-center">
+            <i class="bi bi-house-fill"></i>&nbsp;Home Info
+          </th>
+          <th>Collective Bargain Unit</th>
+          <td>{{myInfoService.myInfoStaffInfo.collectiveBargain}}
+            {{myInfoService.myInfoStaffInfo.collectiveBargainDesc}}</td>
+        </tr>
+        <tr>
+          <th><span *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">Address</span></th>
+          <td>
+            <span *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">
+              {{myInfoService.myInfoStaffInfo.homeAddress}}<br />
+              {{myInfoService.myInfoStaffInfo.homeCity}} {{myInfoService.myInfoStaffInfo.zipCode}}
+            </span>
+          </td>
+          <th>City Start Date</th>
+          <td>{{myInfoService.myInfoStaffInfo.cityDate}}</td>
+        </tr>
+        <tr>
+          <th><span *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">Phone</span></th>
+          <td><span
+              *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">{{myInfoService.myInfoStaffInfo.homePhone ?? "" | hrisPhone}}</span>
+          </td>
+          <th>Agency Start Date</th>
+          <td>{{myInfoService.myInfoStaffInfo.agencyDate}}</td>
+        </tr>
+        <tr>
+          <th><span *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">Personal Email</span></th>
+          <td><span
+              *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">{{myInfoService.myInfoStaffInfo.personalEmail}}</span>
+          </td>
+          <th>Veteran Status</th>
+          <td>{{myInfoService.myInfoStaffInfo.vetStatus}}</td>
+        </tr>
+        <tr>
+          <th [colSpan]="2" class="text-center">
+            <i class="bi bi-people-fill"></i>&nbsp;Emergency Info
+          </th>
+          <th>Pension Tier</th>
+          <td>{{myInfoService.myInfoStaffInfo.penTier}}</td>
+        </tr>
+        <tr>
+          <th>Name</th>
+          <td>{{myInfoService.myInfoEmergencyContactStaffInfo.name}}</td>
+          <th>Earned Paid<br />Overtime Calendar<br />Year to Date</th>
+          <td>{{myInfoService.myInfoOvertimeSummaryStaffInfo.oT_YTDAmt | currency}}</td>
+        </tr>
+        <tr>
+          <th>Relationship</th>
+          <td>{{myInfoService.myInfoEmergencyContactStaffInfo.relationship}}</td>
+          <th>Earned Paid<br />Overtime Calendar<br />Year to Date Hours and<br />Minutes Worked HH.MM</th>
+          <td>{{myInfoService.myInfoOvertimeSummaryStaffInfo.oT_YTDHrs}}</td>
+        </tr>
+        <tr>
+          <th>Primary Phone</th>
+          <td>{{myInfoService.myInfoEmergencyContactStaffInfo.primaryPhone??"" | hrisPhone}}</td>
+          <th>Earned Comp Time<br />HH.MM YTD</th>
+          <td>{{myInfoService.myInfoOvertimeSummaryStaffInfo.compYTD}}</td>
+        </tr>
+      </table>
+      <div class="card border-light mt-3">
+        <div class="card-header">
+          <div class="text-justify">To update your Emergency and Home Contact info please click <a target="_blank"
+              href="https://a127-ess.nyc.gov/" class="btn btn-primary btn-sm">HERE</a> to open up NYCAPS.</div>
+        </div>
+        <div class="card-body">
+          <p class="pl-3 text-justify">Please be reminded that updating contact info in NYCAPS will update your contact
+            information for agency purposes, and will also update your address information at DCAS. However, Any change
+            will <u>not</u> be sent to NYCERS. In order to update your contact information in NYCERS please use their
+            website <u><a target="_blank" href="https://www.nycers.org">www.nycers.org</a></u> or call: 347-643-3000. </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

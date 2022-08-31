@@ -99,7 +99,6 @@ export class DeveloperComponent implements AfterViewInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    console.log('filterValue', filterValue);
     this.filterSubject.next(filterValue);
   }
 

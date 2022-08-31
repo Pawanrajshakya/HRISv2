@@ -87,6 +87,7 @@ import { CaseCountByYearChartComponent } from './reports/disciplinary/case-count
 import { PendingCasesChartComponent } from './reports/disciplinary/pending-cases-chart/pending-cases-chart.component';
 import { MyStaffTreeComponent } from './my-info/my-staff-tree/my-staff-tree.component';
 import { MyStaffInfoComponent } from './my-info/my-staff-info/my-staff-info.component';
+import { HrisTrimPipe } from './_pipes/hris-trim.pipe';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { MyStaffInfoComponent } from './my-info/my-staff-info/my-staff-info.comp
     HrisPercentPipe,
     HrisParenthesesPipe,
     HrisNumberToTimePipe,
+    HrisTrimPipe,
     StaffLeaveComponent,
     DownloadComponent,
     CeasedStaffComponent,

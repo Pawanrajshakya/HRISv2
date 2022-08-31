@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IMyInfoTree } from 'src/app/_models/IMyInfoTree';
 import { MyInfoService } from 'src/app/_services/my-info.service';
+import { StaffService } from 'src/app/_services/staff.service';
 
 @Component({
   selector: 'app-my-staff-info',
@@ -8,22 +9,25 @@ import { MyInfoService } from 'src/app/_services/my-info.service';
   styleUrls: ['./my-staff-info.component.scss'],
 })
 export class MyStaffInfoComponent implements OnInit {
-  selectedRoot: IMyInfoTree = {};
-  constructor(public myInfoService: MyInfoService) {
-    this.myInfoService.GetMyInfoTree$().subscribe({
-      next: (data) => {
-        if (data) this.selectedRoot = data;
-      },
-    });
-  }
+  constructor(
+    public myInfoService: MyInfoService
+  ) {}
 
   ngOnInit(): void {
-    //this.selectedRoot = this.myInfoService.selectedRoot;
+    this.myInfoService.myInfoTreeStaffSelectedEvent.subscribe({
+      next: (data: IMyInfoTree) => {
+        this.myInfoService.selectedMyInfoTreeStaff = data;
 
-    this.myInfoService.selectedRoot.subscribe({
-      next: (root: IMyInfoTree) => {
-        console.log('00', root);
-        this.selectedRoot = root;
+        this.myInfoService.GetStaffInfo(data.ein ?? '').then((data) => {
+          if (data.myInfoStaffInfo)
+            this.myInfoService.myInfoStaffInfo = data.myInfoStaffInfo;
+          if (data.myInfoEmergencyContactStaffInfo)
+            this.myInfoService.myInfoEmergencyContactStaffInfo =
+              data.myInfoEmergencyContactStaffInfo;
+          if (data.myInfoOvertimeSummaryStaffInfo)
+            this.myInfoService.myInfoOvertimeSummaryStaffInfo =
+              data.myInfoOvertimeSummaryStaffInfo;
+        });
       },
     });
   }

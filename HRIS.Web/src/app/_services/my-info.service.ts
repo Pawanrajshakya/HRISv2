@@ -2,24 +2,41 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
 import { IMyInfoTree } from '../_models/IMyInfoTree';
-import { IStaffInfo } from '../_models/IStaffDetail';
+import {
+  IMyInfoStaffInfo,
+  IStaffEmergencyContactInfo,
+  IStaffOvertimeSummary,
+} from '../_models/IStaffDetail';
 import { ErrorHandlingService } from './error-handling.service';
+import { StaffService } from './staff.service';
 import { BaseService } from './_base.service';
+import { LoginService } from './login.service';
+import { DynamicFlatNode } from '../_models/DynamicFlatNode';
+import { DynamicFlatNodeService } from './DynamicFlatNode.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MyInfoService extends BaseService {
   //#region Tree
-  root: IMyInfoTree[] = [];
-  staffInfo: any = null;
-  selectedRoot = new EventEmitter<IMyInfoTree>();
+  myInfoTreeStaffs: IMyInfoTree[] = [];
+  selectedMyInfoTreeStaff: IMyInfoTree = {};
+  myInfoStaffInfo: IMyInfoStaffInfo = {};
+  myInfoEmergencyContactStaffInfo: IStaffEmergencyContactInfo = {};
+  myInfoOvertimeSummaryStaffInfo: IStaffOvertimeSummary = {};
+  myInfoTreeStaffSelectedEvent = new EventEmitter<IMyInfoTree>();
+  myStaffInfo: {
+    myInfoStaffInfo?: IMyInfoStaffInfo;
+    myInfoEmergencyContactStaffInfo?: IStaffEmergencyContactInfo;
+    myInfoOvertimeSummaryStaffInfo?: IStaffOvertimeSummary;
+  } = {};
   //#endregion
 
   constructor(
     private httpClient: HttpClient,
-    private errorHandlingService: ErrorHandlingService
-  ) {
+    private errorHandlingService: ErrorHandlingService,
+    private staffService: StaffService,
+    private loginService: LoginService  ) {
     super();
   }
 
@@ -31,10 +48,12 @@ export class MyInfoService extends BaseService {
       );
   }
 
-  GetStaffInfo$(ein: string): Observable<IStaffInfo | null> {
-    return this.httpClient.get<IStaffInfo>(this.url + 'myInfo/' + ein).pipe(
-      catchError((err) => this.errorHandlingService.handleError(err)) //error handling
-    );
+  GetStaffInfo$(ein: string): Observable<IMyInfoStaffInfo | null> {
+    return this.httpClient
+      .get<IMyInfoStaffInfo>(this.url + 'myInfo/' + ein)
+      .pipe(
+        catchError((err) => this.errorHandlingService.handleError(err)) //error handling
+      );
   }
 
   GetChildren(tree: IMyInfoTree): Promise<IMyInfoTree[]> {
@@ -52,49 +71,78 @@ export class MyInfoService extends BaseService {
 
   resolveTreeRoot(): Promise<IMyInfoTree[]> {
     return new Promise((resolve, reject) => {
-      if (
-        this.root === undefined ||
-        this.root === null ||
-        this.root.length === 0
-      ) {
-        this.httpClient
-          .post<IMyInfoTree>(this.url + 'myInfo/myInfoTree', null)
-          .subscribe({
-            next: (data) => {
-              this.root.push(data);
-              if (data.ein) {
-                this.GetStaffInfo$(data.ein).subscribe({
-                  next: (data) => {
-                    this.staffInfo = data;
-                  },
-                });
-              }
-            },
-            error: (error) => {},
-            complete: () => {
-              resolve(this.root);
-            },
-          });
-      } else {
-        resolve(this.root);
-      }
-    });
-  }
-  resolveStaffInfo(): Promise<IStaffInfo> {
-    return new Promise((resolve, reject) => {
-      if (this.staffInfo === undefined || this.staffInfo === null) {
-        this.GetStaffInfo$(this.root[0].ein ?? '').subscribe({
+      let lanID = (this.loginService.currentUser.lanID)? this.loginService.currentUser.lanID : '';
+      this.httpClient
+        .post<IMyInfoTree>(
+          this.url + 'myInfo/myInfoTree/' +
+          lanID, null
+        )
+        .subscribe({
           next: (data) => {
-            this.staffInfo = data;
+            //if (this.myInfoTreeStaffs.length > 0) this.myInfoTreeStaffs = [];
+            this.myInfoTreeStaffs = [];
+            this.myInfoTreeStaffs.push(data);
+            this.selectedMyInfoTreeStaff = data;
+            console.log('this.myInfoTreeStaffs.', data, this.myInfoTreeStaffs);
+
+            if (data.ein) {
+              this.GetStaffInfo(data.ein).then((data) => {
+                if (data.myInfoStaffInfo)
+                  this.myInfoStaffInfo = data.myInfoStaffInfo;
+                if (data.myInfoEmergencyContactStaffInfo)
+                  this.myInfoEmergencyContactStaffInfo =
+                    data.myInfoEmergencyContactStaffInfo;
+                if (data.myInfoOvertimeSummaryStaffInfo)
+                  this.myInfoOvertimeSummaryStaffInfo =
+                    data.myInfoOvertimeSummaryStaffInfo;
+              });
+            }
           },
           error: (error) => {},
           complete: () => {
-            resolve(this.staffInfo);
+            resolve(this.myInfoTreeStaffs);
           },
         });
-      } else {
-        resolve(this.staffInfo);
-      }
+    });
+  }
+
+  GetStaffInfo(ein: string): Promise<{
+    myInfoStaffInfo?: IMyInfoStaffInfo;
+    myInfoEmergencyContactStaffInfo?: IStaffEmergencyContactInfo;
+    myInfoOvertimeSummaryStaffInfo?: IStaffOvertimeSummary;
+  }> {
+    return new Promise((resolve, reject) => {
+      let myStaffInfo: {
+        myInfoStaffInfo?: IMyInfoStaffInfo;
+        myInfoEmergencyContactStaffInfo?: IStaffEmergencyContactInfo;
+        myInfoOvertimeSummaryStaffInfo?: IStaffOvertimeSummary;
+      } = {};
+      this.GetStaffInfo$(ein).subscribe({
+        next: (data) => {
+          if (data) {
+            myStaffInfo.myInfoStaffInfo = data;
+
+            this.staffService.emergencyContactInfo$(ein).subscribe({
+              next: (data) => {
+                myStaffInfo.myInfoEmergencyContactStaffInfo = data[0];
+
+                this.staffService.staffOTSummary$(ein).subscribe({
+                  next: (data) => {
+                    if (data) {
+                      myStaffInfo.myInfoOvertimeSummaryStaffInfo = data;
+                      resolve(myStaffInfo);
+                    }
+                  },
+                });
+              },
+            });
+          }
+        },
+        error: (error) => {
+          reject(error);
+        },
+        complete: () => {},
+      });
     });
   }
 }
