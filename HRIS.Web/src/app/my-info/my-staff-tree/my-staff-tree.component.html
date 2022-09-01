@@ -1,23 +1,24 @@
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary shadow">
-    <i class="bi bi-tree-fill text-warning"></i> My Staff <button
+    <i class="bi bi-tree-fill"></i> My Staff <button
       class="btn btn-primary btn-xs float-right text-white shadow border-white" (click)="onExport()">
-      <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</button>
+      <i class="bi bi-cloud-download"></i>&nbsp;Spread Sheet</button>
   </div>
   <div class="card-body">
     <p class="text-light text-justify">Displays all work, home, and emergency contact info for all of your chain of
       command (based on Citytime supervisory relationships)</p>
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding (click)="onClick(node)">
-        &nbsp;<i class="bi bi-caret-right text-light"></i>&nbsp;{{node.item.name| titlecase}}
+        &nbsp;<i class="bi bi-caret-right"></i>&nbsp;{{node.item.name| titlecase}}
       </mat-tree-node>
       <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding (click)="onClick(node)">
-        &nbsp; <span mat-icon-button [attr.aria-label]="'Toggle ' + node.item" matTreeNodeToggle> <span
-            [ngClass]="{'bi bi-caret-up-fill text-info': treeControl.isExpanded(node),'bi bi-caret-down-fill text-info':!treeControl.isExpanded(node)}">
-          </span>
-          &nbsp;{{node.item.name| titlecase}}&nbsp;
-          <mat-progress-spinner *ngIf="node.isLoading" mode="indeterminate" diameter="15" strokeWidth="2">
-          </mat-progress-spinner></span>
+        &nbsp; <span mat-icon-button [attr.aria-label]="'Toggle ' + node.item" matTreeNodeToggle>
+          <span
+            [ngClass]="{'bi bi-caret-up-fill text-info': treeControl.isExpanded(node),'bi bi-caret-down-fill text-info':!treeControl.isExpanded(node)}"></span>
+        </span>
+        &nbsp;{{node.item.name| titlecase}}&nbsp;
+        <mat-progress-spinner *ngIf="node.isLoading" mode="indeterminate" diameter="15" strokeWidth="2">
+        </mat-progress-spinner>
       </mat-tree-node>
     </mat-tree>
   </div>

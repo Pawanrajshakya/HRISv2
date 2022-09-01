@@ -28,7 +28,7 @@ export class DynamicFlatNodeService {
 
   /** Initial data from database */
   initialData(): DynamicFlatNode[] {
-    this.rootLevelNodes = this.myInfoService.myInfoTreeStaffs;
+    this.rootLevelNodes = this.myInfoService.tree;
     return this.rootLevelNodes.map((tree) => {
       // if (tree.ein === this.loginService.currentUser.ein) {
       console.log('1', this.rootLevelNodes);

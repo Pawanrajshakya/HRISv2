@@ -60,7 +60,7 @@
         {{ resultsLength }}</span>
       <button class="btn btn-primary btn-xs float-right text-white shadow border-white"
         [disabled]="!(resultsLength > 0)" (click)="onExport()">
-        <i class="bi bi-file-earmark-spreadsheet"></i>&nbsp;Spread Sheet</button>
+       <i class="bi bi-cloud-download"></i>&nbsp;Spread Sheet</button>
     </div>
     <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
     <div class="card-body">

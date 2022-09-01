@@ -17,7 +17,7 @@ export class MyInfoTreeResolverService implements Resolve<IMyInfoTree[]> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<IMyInfoTree[]> {
-    return this.myInfoService.resolveTreeRoot();
+    return this.myInfoService.resolveTree();
   }
 }
 

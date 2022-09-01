@@ -10,17 +10,24 @@ import { map } from 'rxjs/operators';
 import { MyInfoService } from 'src/app/_services/my-info.service';
 import { DynamicFlatNodeService } from '../../_services/DynamicFlatNode.service';
 import { DynamicFlatNode } from '../../_models/DynamicFlatNode';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BaseComponent } from 'src/app/base/base.component';
+import { Reports } from 'src/app/_models/Reports.enum';
+import { LoginService } from 'src/app/_services/login.service';
 
 @Component({
   selector: 'app-my-staff-tree',
   templateUrl: './my-staff-tree.component.html',
   styleUrls: ['./my-staff-tree.component.scss'],
 })
-export class MyStaffTreeComponent {
+export class MyStaffTreeComponent extends BaseComponent<any> {
   constructor(
     database: DynamicFlatNodeService,
-    private myInfoService: MyInfoService
+    private myInfoService: MyInfoService,
+    private modalService: BsModalService,
+    private loginService: LoginService
   ) {
+    super();
     this.treeControl = new FlatTreeControl<DynamicFlatNode>(
       this.getLevel,
       this.isExpandable
@@ -41,11 +48,17 @@ export class MyStaffTreeComponent {
   hasChild = (_: number, _nodeData: DynamicFlatNode) => _nodeData.expandable;
 
   onClick(node: DynamicFlatNode) {
-    if (node.item.ein)    this.myInfoService.myInfoTreeStaffSelectedEvent.emit(node.item);
+    if (node.item.ein)
+      this.myInfoService.myInfoTreeStaffSelectedEvent.emit(node.item);
   }
 
-  onExport(){
-    
+  onExport() {
+    if (
+      this.loginService.currentUser.roleID === 6 ||
+      this.loginService.currentUser.roleID === 7
+    )
+      this.download(this.modalService, Reports[26]);
+    else this.download(this.modalService, Reports[25]);
   }
 }
 

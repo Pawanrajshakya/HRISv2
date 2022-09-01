@@ -196,12 +196,22 @@ namespace HRIS.API.Controllers
                     DateTime.TryParse(parameters.DateFrom, out DateTime from);
                     DateTime.TryParse(parameters.DateTo, out DateTime to);
 
-                    stringBuilder.Append("&FromDate=" + ( from.ToShortDateString() ?? ""));
+                    stringBuilder.Append("&FromDate=" + (from.ToShortDateString() ?? ""));
                     stringBuilder.Append("&ToDate=" + (to.ToShortDateString() ?? ""));
                     stringBuilder.Append("&RC=" + (string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs));
                     stringBuilder.Append("&SentBy=" + (parameters.IsSentBy));
                     break;
+                case "MyStaffsContactInfoReport":
+                case "MyStaffsContactInfoReportNonAdmin":
+                    stringBuilder.Append("&UserID=" + (string.IsNullOrEmpty(parameters.UserID) ? UserSession.Instance.User.UserID : parameters.UserID));
+                    break;
 
+                case "ContactInformationReport":
+                    stringBuilder.Append("&UserID=" + (string.IsNullOrEmpty(parameters.UserID) ? UserSession.Instance.User.UserID : parameters.UserID));
+                    stringBuilder.Append("&EIN=" + (parameters.Ein ?? ""));
+                    stringBuilder.Append("&IsCalendar=Calendar");
+                    stringBuilder.Append("&ShowHome=" + ( (UserSession.Instance.User.RoleID == 6 && (UserSession.Instance.User.EIN != parameters.Ein)) ? "0" : "1"));
+                    break;
 
             }
 

@@ -11,36 +11,30 @@ import { ErrorHandlingService } from './error-handling.service';
 import { StaffService } from './staff.service';
 import { BaseService } from './_base.service';
 import { LoginService } from './login.service';
-import { DynamicFlatNode } from '../_models/DynamicFlatNode';
-import { DynamicFlatNodeService } from './DynamicFlatNode.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MyInfoService extends BaseService {
   //#region Tree
-  myInfoTreeStaffs: IMyInfoTree[] = [];
-  selectedMyInfoTreeStaff: IMyInfoTree = {};
-  myInfoStaffInfo: IMyInfoStaffInfo = {};
-  myInfoEmergencyContactStaffInfo: IStaffEmergencyContactInfo = {};
-  myInfoOvertimeSummaryStaffInfo: IStaffOvertimeSummary = {};
+  tree: IMyInfoTree[] = [];
+  selectedTree: IMyInfoTree = {};
+  selectedTreeInfo: IMyInfoStaffInfo = {};
+  selectedTree_Emergency_Info: IStaffEmergencyContactInfo = {};
+  selectedTree_Overtime_Info: IStaffOvertimeSummary = {};
   myInfoTreeStaffSelectedEvent = new EventEmitter<IMyInfoTree>();
-  myStaffInfo: {
-    myInfoStaffInfo?: IMyInfoStaffInfo;
-    myInfoEmergencyContactStaffInfo?: IStaffEmergencyContactInfo;
-    myInfoOvertimeSummaryStaffInfo?: IStaffOvertimeSummary;
-  } = {};
   //#endregion
 
   constructor(
     private httpClient: HttpClient,
     private errorHandlingService: ErrorHandlingService,
     private staffService: StaffService,
-    private loginService: LoginService  ) {
+    private loginService: LoginService
+  ) {
     super();
   }
 
-  GetMyInfoTree$(): Observable<IMyInfoTree | null> {
+  GetTree$(): Observable<IMyInfoTree | null> {
     return this.httpClient
       .post<IMyInfoTree>(this.url + 'myInfo/myInfoTree', null)
       .pipe(
@@ -48,7 +42,7 @@ export class MyInfoService extends BaseService {
       );
   }
 
-  GetStaffInfo$(ein: string): Observable<IMyInfoStaffInfo | null> {
+  GetTreeInfo$(ein: string): Observable<IMyInfoStaffInfo | null> {
     return this.httpClient
       .get<IMyInfoStaffInfo>(this.url + 'myInfo/' + ein)
       .pipe(
@@ -64,74 +58,79 @@ export class MyInfoService extends BaseService {
           next: (data) => {
             resolve(data);
           },
-          error: (error) => {},
+          error: (error) => {
+            reject({});
+          },
         });
     });
   }
 
-  resolveTreeRoot(): Promise<IMyInfoTree[]> {
+  resolveTree(): Promise<IMyInfoTree[]> {
     return new Promise((resolve, reject) => {
-      let lanID = (this.loginService.currentUser.lanID)? this.loginService.currentUser.lanID : '';
+      let lanID = this.loginService.currentUser.lanID
+        ? this.loginService.currentUser.lanID
+        : '';
       this.httpClient
-        .post<IMyInfoTree>(
-          this.url + 'myInfo/myInfoTree/' +
-          lanID, null
-        )
+        .post<IMyInfoTree>(this.url + 'myInfo/myInfoTree/' + lanID, null)
         .subscribe({
           next: (data) => {
             //if (this.myInfoTreeStaffs.length > 0) this.myInfoTreeStaffs = [];
-            this.myInfoTreeStaffs = [];
-            this.myInfoTreeStaffs.push(data);
-            this.selectedMyInfoTreeStaff = data;
-            console.log('this.myInfoTreeStaffs.', data, this.myInfoTreeStaffs);
+            this.tree = [];
+            this.tree.push(data);
+            this.selectedTree = data;
+            console.log('this.myInfoTreeStaffs.', data, this.tree);
 
             if (data.ein) {
-              this.GetStaffInfo(data.ein).then((data) => {
-                if (data.myInfoStaffInfo)
-                  this.myInfoStaffInfo = data.myInfoStaffInfo;
-                if (data.myInfoEmergencyContactStaffInfo)
-                  this.myInfoEmergencyContactStaffInfo =
-                    data.myInfoEmergencyContactStaffInfo;
-                if (data.myInfoOvertimeSummaryStaffInfo)
-                  this.myInfoOvertimeSummaryStaffInfo =
-                    data.myInfoOvertimeSummaryStaffInfo;
+              this.GetInfo(data.ein).then((staffInfo) => {
+                console.log(
+                  'this.GetStaffInfo(data.ein service',
+                  staffInfo,
+                  staffInfo._emergency
+                );
+                this.selectedTreeInfo = staffInfo._info ?? {};
+                this.selectedTree_Emergency_Info =
+                  staffInfo._emergency ?? {};
+                this.selectedTree_Overtime_Info = staffInfo._overtime ?? {};
               });
             }
           },
-          error: (error) => {},
+          error: (error) => {
+            reject({});
+          },
           complete: () => {
-            resolve(this.myInfoTreeStaffs);
+            resolve(this.tree);
           },
         });
     });
   }
 
-  GetStaffInfo(ein: string): Promise<{
-    myInfoStaffInfo?: IMyInfoStaffInfo;
-    myInfoEmergencyContactStaffInfo?: IStaffEmergencyContactInfo;
-    myInfoOvertimeSummaryStaffInfo?: IStaffOvertimeSummary;
+  GetInfo(ein: string): Promise<{
+    _info: IMyInfoStaffInfo;
+    _emergency: IStaffEmergencyContactInfo;
+    _overtime: IStaffOvertimeSummary;
   }> {
     return new Promise((resolve, reject) => {
-      let myStaffInfo: {
-        myInfoStaffInfo?: IMyInfoStaffInfo;
-        myInfoEmergencyContactStaffInfo?: IStaffEmergencyContactInfo;
-        myInfoOvertimeSummaryStaffInfo?: IStaffOvertimeSummary;
-      } = {};
-      this.GetStaffInfo$(ein).subscribe({
-        next: (data) => {
-          if (data) {
-            myStaffInfo.myInfoStaffInfo = data;
+      let _info: IMyInfoStaffInfo;
+      let _emergency: IStaffEmergencyContactInfo;
+      let _overtime: IStaffOvertimeSummary;
 
+      this.GetTreeInfo$(ein).subscribe({
+        next: (info) => {
+          if (info) {
+            _info = info;
             this.staffService.emergencyContactInfo$(ein).subscribe({
-              next: (data) => {
-                myStaffInfo.myInfoEmergencyContactStaffInfo = data[0];
-
+              next: (emergency) => {
+                _emergency = emergency[0];
                 this.staffService.staffOTSummary$(ein).subscribe({
-                  next: (data) => {
-                    if (data) {
-                      myStaffInfo.myInfoOvertimeSummaryStaffInfo = data;
-                      resolve(myStaffInfo);
+                  next: (overtime) => {
+                    if (overtime) {
+                      _overtime = overtime;
                     }
+                    resolve({
+                      _info: _info,
+                      _emergency: _emergency,
+                      _overtime: _overtime,
+                    });
                   },
                 });
               },

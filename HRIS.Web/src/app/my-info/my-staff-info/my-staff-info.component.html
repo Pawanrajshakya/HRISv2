@@ -1,7 +1,7 @@
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary shadow">
-    <i class="bi bi-file-earmark-person-fill text-warning"></i> {{this.myInfoService.myInfoStaffInfo.legalName??"" | titlecase}} -
-    {{this.myInfoService.myInfoStaffInfo.ein}}
+    <i class="bi bi-file-earmark-person-fill"></i> {{this.myInfoService.selectedTreeInfo.legalName??"" | titlecase}} -
+    {{this.myInfoService.selectedTreeInfo.ein}}
   </div>
   <div class="card-body">
     <div class="card border-light mb-3">
@@ -16,8 +16,11 @@
           website <u><a target="_blank" href="https://www.nycers.org">www.nycers.org</a></u> or call: 347-643-3000. </p>
       </div>
     </div>
-
-    <div class="table-container table-responsive">
+    <div>
+      <button class="btn btn-primary btn-xs float-right text-white shadow border-white" (click)="onExport()">
+        <i class="bi bi-cloud-download"></i>&nbsp;PDF Document</button>
+    </div>
+    <div class="table-container table-responsive mt-3">
       <table class="table table-hover table-bordered table-sm">
         <tr>
           <th [colSpan]="2" class="text-center">
@@ -27,106 +30,106 @@
         </tr>
         <tr>
           <th>Legal Name</th>
-          <td>{{myInfoService.myInfoStaffInfo.legalName}}</td>
+          <td>{{myInfoService.selectedTreeInfo.legalName}}</td>
           <th>RC</th>
-          <td>{{myInfoService.myInfoStaffInfo.rcCode}}<br>{{myInfoService.myInfoStaffInfo.rcNameShort}}</td>
+          <td>{{myInfoService.selectedTreeInfo.rcCode}}<br>{{myInfoService.selectedTreeInfo.rcNameShort}}</td>
         </tr>
         <tr>
           <th>Address</th>
           <td>
-            {{myInfoService.myInfoStaffInfo.workAddress}}<br>{{myInfoService.myInfoStaffInfo.workCity}}{{myInfoService.myInfoStaffInfo.workZipCode}}
+            {{myInfoService.selectedTreeInfo.workAddress}}<br>{{myInfoService.selectedTreeInfo.workCity}}{{myInfoService.selectedTreeInfo.workZipCode}}
           </td>
           <th>Disbursement</th>
-          <td>{{myInfoService.myInfoStaffInfo.disbCode}}-{{myInfoService.myInfoStaffInfo.disbName}}</td>
+          <td>{{myInfoService.selectedTreeInfo.disbCode}}-{{myInfoService.selectedTreeInfo.disbName}}</td>
         </tr>
         <tr>
           <th>Email</th>
           <td><a
-              href="mailto:{{myInfoService.myInfoStaffInfo.workEmail}}">{{myInfoService.myInfoStaffInfo.workEmail | hrisEmptyValue}}</a>
+              href="mailto:{{myInfoService.selectedTreeInfo.workEmail}}">{{myInfoService.selectedTreeInfo.workEmail | hrisEmptyValue}}</a>
           </td>
           <th>Program</th>
           <td>
-            {{myInfoService.myInfoStaffInfo.dpCode}} - {{myInfoService.myInfoStaffInfo.dpName}}</td>
+            {{myInfoService.selectedTreeInfo.dpCode}} - {{myInfoService.selectedTreeInfo.dpName}}</td>
         </tr>
         <tr>
           <th>Phone</th>
-          <td>{{myInfoService.myInfoStaffInfo.workPhone??"" | hrisPhone}}</td>
+          <td>{{myInfoService.selectedTreeInfo.workPhone??"" | hrisPhone}}</td>
           <th>Title</th>
-          <td>{{myInfoService.myInfoStaffInfo.payTitleCode}} - {{myInfoService.myInfoStaffInfo.payTitle | hrisTrim}}
-            {{myInfoService.myInfoStaffInfo.payTitleLevel | hrisTrim}}
+          <td>{{myInfoService.selectedTreeInfo.payTitleCode}} - {{myInfoService.selectedTreeInfo.payTitle | hrisTrim}}
+            {{myInfoService.selectedTreeInfo.payTitleLevel | hrisTrim}}
           </td>
         </tr>
         <tr>
           <th>Supervisor</th>
-          <td>{{myInfoService.myInfoStaffInfo.supervisor}}</td>
+          <td>{{myInfoService.selectedTreeInfo.supervisor}}</td>
           <th>Title Date</th>
-          <td>{{myInfoService.myInfoStaffInfo.titleDate}}</td>
+          <td>{{myInfoService.selectedTreeInfo.titleDate}}</td>
         </tr>
         <tr>
           <th>CityTime ID</th>
-          <td>{{myInfoService.myInfoStaffInfo.cityTimeID}}</td>
+          <td>{{myInfoService.selectedTreeInfo.cityTimeID}}</td>
           <th>Civil Service Status</th>
-          <td>{{myInfoService.myInfoStaffInfo.csStatusCode}} - {{myInfoService.myInfoStaffInfo.csStatus}}</td>
+          <td>{{myInfoService.selectedTreeInfo.csStatusCode}} - {{myInfoService.selectedTreeInfo.csStatus}}</td>
         </tr>
         <tr>
           <th [colSpan]="2" class="text-center">
             <i class="bi bi-house-fill"></i>&nbsp;Home Info
           </th>
           <th>Collective Bargain Unit</th>
-          <td>{{myInfoService.myInfoStaffInfo.collectiveBargain}}
-            {{myInfoService.myInfoStaffInfo.collectiveBargainDesc}}</td>
+          <td>{{myInfoService.selectedTreeInfo.collectiveBargain}}
+            {{myInfoService.selectedTreeInfo.collectiveBargainDesc}}</td>
         </tr>
         <tr>
-          <th><span *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">Address</span></th>
+          <th><span *ngIf="!!myInfoService.selectedTreeInfo.homeAddress">Address</span></th>
           <td>
-            <span *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">
-              {{myInfoService.myInfoStaffInfo.homeAddress}}<br />
-              {{myInfoService.myInfoStaffInfo.homeCity}} {{myInfoService.myInfoStaffInfo.zipCode}}
+            <span *ngIf="!!myInfoService.selectedTreeInfo.homeAddress">
+              {{myInfoService.selectedTreeInfo.homeAddress}}<br />
+              {{myInfoService.selectedTreeInfo.homeCity}} {{myInfoService.selectedTreeInfo.zipCode}}
             </span>
           </td>
           <th>City Start Date</th>
-          <td>{{myInfoService.myInfoStaffInfo.cityDate}}</td>
+          <td>{{myInfoService.selectedTreeInfo.cityDate}}</td>
         </tr>
         <tr>
-          <th><span *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">Phone</span></th>
+          <th><span *ngIf="!!myInfoService.selectedTreeInfo.homeAddress">Phone</span></th>
           <td><span
-              *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">{{myInfoService.myInfoStaffInfo.homePhone ?? "" | hrisPhone}}</span>
+              *ngIf="!!myInfoService.selectedTreeInfo.homeAddress">{{myInfoService.selectedTreeInfo.homePhone ?? "" | hrisPhone}}</span>
           </td>
           <th>Agency Start Date</th>
-          <td>{{myInfoService.myInfoStaffInfo.agencyDate}}</td>
+          <td>{{myInfoService.selectedTreeInfo.agencyDate}}</td>
         </tr>
         <tr>
-          <th><span *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">Personal Email</span></th>
+          <th><span *ngIf="!!myInfoService.selectedTreeInfo.homeAddress">Personal Email</span></th>
           <td><span
-              *ngIf="!!myInfoService.myInfoStaffInfo.homeAddress">{{myInfoService.myInfoStaffInfo.personalEmail}}</span>
+              *ngIf="!!myInfoService.selectedTreeInfo.homeAddress">{{myInfoService.selectedTreeInfo.personalEmail}}</span>
           </td>
           <th>Veteran Status</th>
-          <td>{{myInfoService.myInfoStaffInfo.vetStatus}}</td>
+          <td>{{myInfoService.selectedTreeInfo.vetStatus}}</td>
         </tr>
         <tr>
           <th [colSpan]="2" class="text-center">
             <i class="bi bi-people-fill"></i>&nbsp;Emergency Info
           </th>
           <th>Pension Tier</th>
-          <td>{{myInfoService.myInfoStaffInfo.penTier}}</td>
+          <td>{{myInfoService.selectedTreeInfo.penTier}}</td>
         </tr>
         <tr>
           <th>Name</th>
-          <td>{{myInfoService.myInfoEmergencyContactStaffInfo.name}}</td>
+          <td>{{myInfoService.selectedTree_Emergency_Info.name}}</td>
           <th>Earned Paid<br />Overtime Calendar<br />Year to Date</th>
-          <td>{{myInfoService.myInfoOvertimeSummaryStaffInfo.oT_YTDAmt | currency}}</td>
+          <td>{{myInfoService.selectedTree_Overtime_Info.oT_YTDAmt | currency}}</td>
         </tr>
         <tr>
           <th>Relationship</th>
-          <td>{{myInfoService.myInfoEmergencyContactStaffInfo.relationship}}</td>
+          <td>{{myInfoService.selectedTree_Emergency_Info.relationship}}</td>
           <th>Earned Paid<br />Overtime Calendar<br />Year to Date Hours and<br />Minutes Worked HH.MM</th>
-          <td>{{myInfoService.myInfoOvertimeSummaryStaffInfo.oT_YTDHrs}}</td>
+          <td>{{myInfoService.selectedTree_Overtime_Info.oT_YTDHrs}}</td>
         </tr>
         <tr>
           <th>Primary Phone</th>
-          <td>{{myInfoService.myInfoEmergencyContactStaffInfo.primaryPhone??"" | hrisPhone}}</td>
+          <td>{{myInfoService.selectedTree_Emergency_Info.primaryPhone??"" | hrisPhone}}</td>
           <th>Earned Comp Time<br />HH.MM YTD</th>
-          <td>{{myInfoService.myInfoOvertimeSummaryStaffInfo.compYTD}}</td>
+          <td>{{myInfoService.selectedTree_Overtime_Info.compYTD}}</td>
         </tr>
       </table>
       <div class="card border-light mt-3">
@@ -138,7 +141,8 @@
           <p class="pl-3 text-justify">Please be reminded that updating contact info in NYCAPS will update your contact
             information for agency purposes, and will also update your address information at DCAS. However, Any change
             will <u>not</u> be sent to NYCERS. In order to update your contact information in NYCERS please use their
-            website <u><a target="_blank" href="https://www.nycers.org">www.nycers.org</a></u> or call: 347-643-3000. </p>
+            website <u><a target="_blank" href="https://www.nycers.org">www.nycers.org</a></u> or call: 347-643-3000.
+          </p>
         </div>
       </div>
     </div>

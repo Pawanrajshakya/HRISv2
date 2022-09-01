@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace HRIS.API.Controllers
 {
@@ -38,8 +39,8 @@ namespace HRIS.API.Controllers
                 if (UserSession.Instance.User.Groups.Contains(3))
                 {
                     if (string.IsNullOrEmpty(rcs) || rcs == "*") rcs = GetRC(false);
-                
-                    return Ok(await _overtimeRepository.GetActualOTs(UserSession.Instance.User.UserID, rcs.Replace(',','|')));
+
+                    return Ok(await _overtimeRepository.GetActualOTs(UserSession.Instance.User.UserID, rcs.Replace(',', '|')));
                 }
                 return NotFound();
             }
@@ -55,7 +56,7 @@ namespace HRIS.API.Controllers
                 {
                     if (string.IsNullOrEmpty(rcs) || rcs == "*") rcs = GetRC(false);
 
-                
+
                     return Ok(await _overtimeRepository.GetBudgetedOTs(UserSession.Instance.User.UserID, rcs.Replace(',', '|'), year));
                 }
                 return NotFound();
@@ -71,7 +72,7 @@ namespace HRIS.API.Controllers
                 if (UserSession.Instance.User.Groups.Contains(3))
                 {
                     return Ok(await _overtimeRepository.GetOvertimeReport(UserSession.Instance.User.UserID
-                    , rcs: string.IsNullOrEmpty(parameters.RcDp.RCs) ?  GetRC(false) : parameters.RcDp.RCs
+                    , rcs: string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs
                     , dps: string.IsNullOrEmpty(parameters.RcDp.DPs) ? GetDP(false) : parameters.RcDp.DPs
                     , isCalender: parameters.IsCalendarYear ? "Calendar" : "Fiscal"
                     , roleID: UserSession.Instance.User.RoleID

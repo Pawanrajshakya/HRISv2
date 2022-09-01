@@ -23,7 +23,10 @@ export enum Reports {
   ECardsSentByRelationshipOfSenderReport,
   ECardsReceivedByRelationshipOfSenderReport,
   ECardsSentByExcellenceProgramReport,
-  ECardsReceivedByExcellenceProgramReport
+  ECardsReceivedByExcellenceProgramReport,
+  MyStaffsContactInfoReport,
+  MyStaffsContactInfoReportNonAdmin,
+  ContactInformationReport
 }
 
 // export enum RDLParameters {
