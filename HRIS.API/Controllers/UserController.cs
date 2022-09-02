@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HRIS.API.Controllers
@@ -19,32 +18,114 @@ namespace HRIS.API.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            return Ok(await _userRepository.GetAsync(UserSession.LanID));
+            try
+            {
+                return Ok(await _userRepository.GetAsync(UserSession.LanID));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPost("list")]
-        public ActionResult<UserDto> ListAsync(Pagination parameters) => Ok(_userRepository.Get(UserSession.Instance.User.UserID, parameters));
+        public ActionResult<UserDto> ListAsync(Pagination parameters)
+        {
+            try
+            {
+                return Ok(_userRepository.Get(UserSession.Instance.User.UserID, parameters));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
         [HttpGet("search/{searchBy}/{isSuper:bool}")]
-        public  async Task<ActionResult> Search(string searchBy, bool isSuper)
+        public async Task<ActionResult> Search(string searchBy, bool isSuper)
         {
-            return Ok( await _userRepository.SearchAsync(searchBy, isSuper));
+            return Ok(await _userRepository.SearchAsync(searchBy, isSuper));
         }
 
         [HttpGet("{ein}/{isSuper:bool}")]
-        public async Task<ActionResult> Get(string ein, bool isSuper) => Ok(await _userRepository.GetAsync(ein, isSuper));
+        public async Task<ActionResult> Get(string ein, bool isSuper)
+        {
+            try
+            {
+                return Ok(await _userRepository.GetAsync(ein, isSuper));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
         [HttpPost]
-        public ActionResult Post([FromBody] UserDtoToAddAndUpdate user) => Ok(_userRepository.Add(user));
+        public ActionResult Post([FromBody] UserDtoToAddAndUpdate user)
+        {
+            try
+            {
+                return Ok(_userRepository.Add(user));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
         [HttpPut]
-        public ActionResult Update([FromBody] UserDtoToAddAndUpdate user) => Ok(_userRepository.Update(user));
+        public ActionResult Update([FromBody] UserDtoToAddAndUpdate user)
+        {
+            try
+            {
+                return Ok(_userRepository.Update(user));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
         [HttpDelete("{userID}")]
-        public ActionResult Delete(string userID) => Ok(_userRepository.Delete(userID));
+        public ActionResult Delete(string userID)
+        {
+            try
+            {
+                return Ok(_userRepository.Delete(userID));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
-        [HttpGet]
-        [Route("IsDeveloper/{lanid}")]
-        public async Task<ActionResult> IsDeveloper(string lanid) => Ok(await _userRepository.IsDeveloperAsync(lanid));
+        [HttpGet("IsDeveloper/{lanid}")]
+        public async Task<ActionResult> IsDeveloper(string lanid)
+        {
+            try
+            {
+                return Ok(await _userRepository.IsDeveloperAsync(lanid));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPost("find/{ein?}")]
+        public async Task<ActionResult> Find(string ein = null)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(ein))
+                    return Ok(false);
+
+                return Ok(await _userRepository.Find(ein));
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }

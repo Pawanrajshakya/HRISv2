@@ -1,7 +1,7 @@
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary">
     <i class="bi bi-people-fill"></i> Manage Users <span *ngIf="resultsLength > 0; else noDataFound">
-       <code class="text-white">(Total: {{ resultsLength | number}})</code></span>
+      <code class="text-white">(Total: {{ resultsLength | number}})</code></span>
   </div>
   <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div>
   <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
@@ -28,8 +28,8 @@
       </div>
       <div class="col-12">
         <div class="example-container table-responsive">
-          <table mat-table [dataSource]="data" matSort matSortActive="created" 
-            matSortDirection="desc" class="table table-hover">
+          <table mat-table [dataSource]="data" matSort matSortActive="created" matSortDirection="desc"
+            class="table table-hover">
             <ng-container matColumnDef="firstName">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>
               <td mat-cell *matCellDef="let row">{{row.firstName}} {{row.lastName}}</td>
@@ -97,7 +97,7 @@
   <form #f="ngForm">
     <div class="card border-primary">
       <div class="card-header text-warning bg-primary border-primary">
-        {{userForm.title}} {{userForm.message}}<i class="bi bi-x-circle float-right" (click)="onCancelClick()"></i>
+        {{userForm.title}} <i class="bi bi-x-circle float-right" (click)="onCancelClick()"></i>
       </div>
       <div class="card-body">
         <div *ngIf="!userForm.inEditMode">
@@ -224,6 +224,8 @@
         </div>
       </div>
       <div class="card-footer border-top border-primary">
+        <span class="float-left" *ngIf="userForm.message.length > 3"><span
+            class="badge badge-warning">{{userForm.message}}</span></span>
         <button class="btn btn-primary btn-sm col-3 float-right" type="submit"
           [disabled]="!f.valid || userForm.isBusy || !validateUserForm()" (click)="onSubmit(f)">Save</button>
         <button class="btn btn-secondary btn-sm col-3 float-right mr-2 " (click)="onCancelClick()"

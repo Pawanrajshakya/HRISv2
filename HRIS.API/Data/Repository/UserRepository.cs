@@ -21,6 +21,7 @@ namespace HRIS.API
         public bool Update(UserDtoToAddAndUpdate user);
         public bool Delete(string userID);
         public Task<bool> IsDeveloperAsync(string lanID);
+        public Task<bool> Find(string ein);
     }
     public class UserRepository : Repository, IUserRepository
     {
@@ -99,53 +100,59 @@ namespace HRIS.API
 
         public async Task<IEnumerable<SearchUser>> SearchAsync(string searchBy, bool isSuper)
         {
-            //List<SearchUser> items = new List<SearchUser>();
+            try
+            {
+                var sqlParameters = new SqlParameter[] {
+                new SqlParameter("@SearchBy", searchBy.Replace(" ","")){ },
+                new SqlParameter("@IsSuper",isSuper){ }};
 
-            var sqlParameters = new SqlParameter[] {
-                new SqlParameter(){ParameterName= "@SearchBy", Value= searchBy.Replace(" ","")},
-                new SqlParameter(){ParameterName= "@IsSuper", Value= isSuper}
-            };
+                List<SearchUser> users = _context.SearchUser
+                    .FromSqlRaw($"EXECUTE dbo.spGetUserByName @SearchBy, @IsSuper", sqlParameters)
+                    .ToList();
 
-            List<SearchUser> users = _context.SearchUser
-                .FromSqlRaw($"EXECUTE dbo.spGetUserByName @SearchBy, @IsSuper", sqlParameters)
-                .ToList();
-
-            //foreach (var user in list)
-            //{
-            //    items.Add(new SearchUser { EIN = user.EIN, Name = user.Name });
-            //}
-            return await Task.Run(() => users);
+                return await Task.Run(() => users);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<GetUserByEINDto> GetAsync(string ein, bool isSuper)
         {
-            var sqlParameters = new SqlParameter[] {
-                new SqlParameter(){ParameterName= "@EIN", Value= ein},
-                new SqlParameter(){ParameterName= "@IsSuper", Value= isSuper}
-            };
-
-            var list = _context.GetUserByEIN
-                .FromSqlRaw($"EXECUTE dbo.spGetUserByEIN @EIN, @IsSuper", sqlParameters)
-                .ToList();
-
-            foreach (var user in list)
+            try
             {
-                GetUserByEINDto getUserByEINDto = _mapper.Map<GetUserByEINDto>(user);
+                var sqlParameters = new SqlParameter[] {
+                new SqlParameter(){ParameterName= "@EIN", Value= ein},
+                new SqlParameter(){ParameterName= "@IsSuper", Value= isSuper}};
 
-                getUserByEINDto.UsersGroups = (await _groupRepository.GetAsync(ein)).Select(x => x.GroupID).ToList();
+                var list = _context.GetUserByEIN
+                    .FromSqlRaw($"EXECUTE dbo.spGetUserByEIN @EIN, @IsSuper", sqlParameters)
+                    .ToList();
 
-                if (user.RCs != null && user.RCs.Length > 0)
-                    getUserByEINDto.RCs = new List<string>(user.RCs.ToString().Split(','));
+                foreach (var user in list)
+                {
+                    GetUserByEINDto getUserByEINDto = _mapper.Map<GetUserByEINDto>(user);
 
-                if (user.DPs != null && user.DPs.Length > 0)
-                    getUserByEINDto.DPs = new List<string>(user.DPs.ToString().Split(','));
+                    getUserByEINDto.UsersGroups = (await _groupRepository.GetAsync(ein)).Select(x => x.GroupID).ToList();
 
-                if (getUserByEINDto.IsSuper == null)
-                    getUserByEINDto.IsSuper = false;
+                    if (user.RCs != null && user.RCs.Length > 0)
+                        getUserByEINDto.RCs = new List<string>(user.RCs.ToString().Split(','));
 
-                return getUserByEINDto;
+                    if (user.DPs != null && user.DPs.Length > 0)
+                        getUserByEINDto.DPs = new List<string>(user.DPs.ToString().Split(','));
+
+                    if (getUserByEINDto.IsSuper == null)
+                        getUserByEINDto.IsSuper = false;
+
+                    return getUserByEINDto;
+                }
+                return null;
             }
-            return null;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public bool Add(UserDtoToAddAndUpdate user)
@@ -249,6 +256,21 @@ namespace HRIS.API
                 dto.Groups = _groupRepository.Get(dto.UserID).Select(x => x.GroupID).ToArray();
 
                 return dto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> Find(string ein)
+        {
+            try
+            {
+                var found = _context.HRISUsers.Count(x => x.EIN == ein) > 0;
+
+                return await Task.Run(() => found);
+
             }
             catch (Exception ex)
             {

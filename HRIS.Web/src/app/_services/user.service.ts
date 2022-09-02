@@ -60,6 +60,13 @@ export class UserService extends BaseService {
     );
   }
 
+  find$(ein: string) {
+    return this.httpClient.post<boolean>(this.url + 'user/find/' + ein, null).pipe(
+      //tap((data) => { console.log(data); }),
+      catchError(err => this.errorHandlingService.handleError(err))
+    );
+  }
+
   add$(user: IUser) {
     return this.httpClient.post(this.url + 'user', user).pipe(
       tap((data) => { console.log(data); }),

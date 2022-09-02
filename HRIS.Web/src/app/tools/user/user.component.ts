@@ -1,8 +1,17 @@
 import { Component, AfterViewInit, TemplateRef } from '@angular/core';
-import { catchError, map, merge, startWith, Subject, switchMap, tap, of as observableOf } from 'rxjs';
+import {
+  catchError,
+  map,
+  merge,
+  startWith,
+  Subject,
+  switchMap,
+  tap,
+  of as observableOf,
+} from 'rxjs';
 import { IUser } from '../../_models/IUser';
-import { IUserList } from "../../_models/IUserList";
-import { ISearchUser } from "../../_models/ISearchUser";
+import { IUserList } from '../../_models/IUserList';
+import { ISearchUser } from '../../_models/ISearchUser';
 import { UserService } from '../../_services/user.service';
 import { NgForm } from '@angular/forms';
 import { IGroup } from '../../_models/IGroup';
@@ -19,11 +28,12 @@ import { IDp, IRc } from 'src/app/_models/IRcDp';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  styleUrls: ['./user.component.scss'],
 })
-
-export class UserComponent extends BaseComponent<IUserList> implements AfterViewInit {
-
+export class UserComponent
+  extends BaseComponent<IUserList>
+  implements AfterViewInit
+{
   /** Table -- check in BaseComponent*/
 
   /* User Form - typeahead*/
@@ -34,32 +44,41 @@ export class UserComponent extends BaseComponent<IUserList> implements AfterView
   /* User Form */
   user: IUser = {
     isSuper: false,
-    lanID: "",
-    firstName: "",
-    lastName: "",
-    emailAddress: "",
-    ein: "",
+    lanID: '',
+    firstName: '',
+    lastName: '',
+    emailAddress: '',
+    ein: '',
     roleID: 1,
     usersGroups: [],
     rCs: [],
-    dPs: []
+    dPs: [],
   };
 
   userForm = {
     inEditMode: false,
-    message: "",
-    title: "",
-    isBusy: false
-  }
+    message: '',
+    title: '',
+    isBusy: false,
+  };
 
-  constructor(private userService: UserService
-    , private modalService: BsModalService
-    , private codeService: CodeService
-    , private ngSelectConfig: NgSelectConfig
-    , protected _snackBar: MatSnackBar
+  constructor(
+    private userService: UserService,
+    private modalService: BsModalService,
+    private codeService: CodeService,
+    private ngSelectConfig: NgSelectConfig,
+    protected _snackBar: MatSnackBar
   ) {
     super();
-    this.displayedColumns = ['ein', 'firstName', 'role', 'lanid', 'emailAddress', 'editOption', 'deleteOption'];
+    this.displayedColumns = [
+      'ein',
+      'firstName',
+      'role',
+      'lanid',
+      'emailAddress',
+      'editOption',
+      'deleteOption',
+    ];
   }
 
   ngAfterViewInit() {
@@ -72,7 +91,7 @@ export class UserComponent extends BaseComponent<IUserList> implements AfterView
       .pipe(
         startWith({}),
         tap((filter) => {
-          if ((typeof filter) != "object") {
+          if (typeof filter != 'object') {
             this.reportParam.pagination.searchTerm = filter.toString();
             this.paginator.pageIndex = 0;
             this.paginator.pageSize = 10;
@@ -84,12 +103,11 @@ export class UserComponent extends BaseComponent<IUserList> implements AfterView
           this.reportParam.pagination.pageSize = this.paginator.pageSize;
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
-          return this.userService.list$(this.reportParam)
-            .pipe(
-              catchError(() => observableOf(null))
-            );
+          return this.userService
+            .list$(this.reportParam)
+            .pipe(catchError(() => observableOf(null)));
         }),
-        map(data => {
+        map((data) => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.isRateLimitReached = true;
@@ -100,18 +118,18 @@ export class UserComponent extends BaseComponent<IUserList> implements AfterView
           // limit errors, we do not want to reset the paginator to zero, as that
           // would prevent users from re-triggering requests.
           let user: IUserList = data[0];
-          this.resultsLength = (user) ? user.total ?? 0 : 0;
+          this.resultsLength = user ? user.total ?? 0 : 0;
           return data;
-        }),
+        })
       )
       .subscribe({
-next: data => {
+        next: (data) => {
           if (Array.isArray(data)) this.data = data;
           this.isLoadingResults = false;
-        }
-        , error: (error) => {
+        },
+        error: (error) => {
           this.isLoadingResults = false;
-        }
+        },
       });
 
     this.userService.groups$.subscribe((data) => {
@@ -137,43 +155,43 @@ next: data => {
       this.filteredDPs = this.dps;
     });
 
-    this.typeaheadUserInput$.subscribe(data => {
-      this.typeaheadSearchedUsers$ = this.userService.search$(data, this.user.isSuper || false);
-    })
+    this.typeaheadUserInput$.subscribe((data) => {
+      this.typeaheadSearchedUsers$ = this.userService.search$(
+        data,
+        this.user.isSuper || false
+      );
+    });
   }
 
-
-
   onAddNew(template: TemplateRef<any>): void {
-    this.userForm.message = "";
-    this.userForm.title = "Add User";
+    this.userForm.message = '';
+    this.userForm.title = 'Add User';
     this.userForm.inEditMode = false;
     this.modalRef = this.modalService.show(template, this.modalConfig);
   }
 
   onEdit(template: TemplateRef<any>, user: any): void {
-    this.userForm.message = "";
-    this.userForm.title = "Edit User";
+    this.userForm.message = '';
+    this.userForm.title = 'Edit User';
     this.userForm.inEditMode = true;
     this.getUser(user.ein, user.isSuper);
     this.modalRef = this.modalService.show(template, this.modalConfig);
   }
 
   private ClearUserForm() {
-
-    this.user.ein = "";
+    this.user.ein = '';
     this.user.isSuper = false;
-    this.user.firstName = "";
-    this.user.lastName = "";
-    this.user.lanID = "";
-    this.user.emailAddress = "";
+    this.user.firstName = '';
+    this.user.lastName = '';
+    this.user.lanID = '';
+    this.user.emailAddress = '';
     this.user.roleID = 1;
     this.selectedGroup = [];
     this.selectedRC = [];
     this.selectedDP = [];
     this.typeaheadSelectedUser = [];
-    this.userForm.message = "";
-    this.userForm.title = "Add User";
+    this.userForm.message = '';
+    this.userForm.title = 'Add User';
     this.userForm.inEditMode = false;
   }
 
@@ -187,25 +205,35 @@ next: data => {
         this.user.lanID = user.lanID ?? '';
         this.user.emailAddress = user.emailAddress ?? '';
         this.user.isSuper = user.isSuper ?? false;
-        (user.roleID !== null && (user.roleID ?? 6 <= 5)) ? this.user.roleID = user.roleID : '';
-        (user.usersGroups !== null && user.usersGroups.length > 0) ? this.selectedGroup = user.usersGroups : "";
-        (user.rCs !== null && user.rCs.length > 0) ? this.selectedRC = user.rCs : "";
-        (user.dPs !== null && user.dPs.length > 0) ? this.selectedDP = user.dPs : "";
-        (user.isHRISUser) ? this.userForm.title = "Modify User" : this.userForm.title = "Add User";
-      }, error: (error) => {
+        user.roleID !== null && (user.roleID ?? 6 <= 5)
+          ? (this.user.roleID = user.roleID)
+          : '';
+        user.usersGroups !== null && user.usersGroups.length > 0
+          ? (this.selectedGroup = user.usersGroups)
+          : '';
+        user.rCs !== null && user.rCs.length > 0
+          ? (this.selectedRC = user.rCs)
+          : '';
+        user.dPs !== null && user.dPs.length > 0
+          ? (this.selectedDP = user.dPs)
+          : '';
+        user.isHRISUser
+          ? (this.userForm.title = 'Modify User')
+          : (this.userForm.title = 'Add User');
+      },
+      error: (error) => {
         console.error(error.userMessage);
         this._snackBar.open(error.userMessage, 'Close', {
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
           duration: 10000,
         });
-      }
+      },
     });
   }
 
   onTypeaheadSelect($event: ISearchUser) {
-    if ($event === null || $event === undefined)
-      return;
+    if ($event === null || $event === undefined) return;
     this.getUser($event.ein, this.user.isSuper || false);
   }
 
@@ -223,20 +251,21 @@ next: data => {
           this.filterSubject.next(this.filterValue);
           this.ClearUserForm();
           this.modalRef?.hide();
-        }, error: (error) => {
+        },
+        error: (error) => {
           console.error(error.userMessage);
           this._snackBar.open(error.userMessage, 'Close', {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
             duration: 10000,
-          })
-        }
+          });
+        },
       });
   }
 
   onSubmit(user: NgForm): void {
     this.userForm.isBusy = true;
-    this.userForm.message = "";
+    this.userForm.message = '';
 
     this.user.usersGroups = this.selectedGroup;
     this.user.rCs = this.selectedRC;
@@ -249,36 +278,46 @@ next: data => {
           this.filterSubject.next(this.filterValue);
           this.modalRef?.hide();
           this.ClearUserForm();
-        }, error: (error) => {
-          this.userForm.message = " - " + error.userMessage;
+        },
+        error: (error) => {
+          this.userForm.message = error.userMessage;
           this._snackBar.open(error.userMessage, 'Close', {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
             duration: 10000,
-          })
+          });
         },
         complete: () => {
           this.userForm.isBusy = false;
-        }
+        },
       });
-
     } else {
-      this.userService.add$(this.user).subscribe({
-        next: (data) => {
-          this.filterSubject.next(this.filterValue);
-          this.modalRef?.hide();
-          this.ClearUserForm();
-        }, error: (error) => {
-          this.userForm.message = " - " + error.userMessage;
-          this._snackBar.open(error.userMessage, 'Close', {
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-            duration: 10000,
-          })
+      this.userService.find$(this.user.ein || '').subscribe({
+        next: (flag) => {
+          if (!flag) {
+            this.userService.add$(this.user).subscribe({
+              next: (data) => {
+                this.filterSubject.next(this.filterValue);
+                this.modalRef?.hide();
+                this.ClearUserForm();
+              },
+              error: (error) => {
+                this.userForm.message = error.userMessage;
+                this._snackBar.open(error.userMessage, 'Close', {
+                  horizontalPosition: this.horizontalPosition,
+                  verticalPosition: this.verticalPosition,
+                  duration: 10000,
+                });
+              },
+              complete: () => {
+                this.userForm.isBusy = false;
+              },
+            });
+          } else {
+            this.userForm.message = 'User Already Exists.';
+            this.userForm.isBusy = false;
+          }
         },
-        complete: () => {
-          this.userForm.isBusy = false;
-        }
       });
     }
   }
@@ -289,20 +328,18 @@ next: data => {
   }
 
   onExport() {
-
     this.reportParam.reportName = Reports[1];
 
     const initialState: ModalOptions = {
       initialState: {
-        reportParam: this.reportParam
-      }
+        reportParam: this.reportParam,
+      },
     };
 
     this.modalRef = this.modalService.show(DownloadComponent, initialState);
   }
 
-  onRoleSelect($event: Event) {
-  }
+  onRoleSelect($event: Event) {}
 
   // onRCSelect($event: Event) {
   //   let _selectedDP = this.selectedDP;
@@ -335,7 +372,7 @@ next: data => {
     if (this.selectedRC.length === 0) {
       this.selectedRC = [];
       this.rcs.forEach((x) => {
-        this.selectedRC.push(x.code || "NO DATA")
+        this.selectedRC.push(x.code || 'NO DATA');
       });
     } else {
       this.selectedRC = [];
@@ -350,7 +387,7 @@ next: data => {
     if (this.selectedDP.length === 0) {
       this.selectedDP = [];
       this.filteredDPs.forEach((x) => {
-        this.selectedDP.push(x.dpCode || "NO DATA")
+        this.selectedDP.push(x.dpCode || 'NO DATA');
       });
     } else {
       this.selectedDP = [];
@@ -361,13 +398,12 @@ next: data => {
     return this.selectedDP.length > 0 ? 'Clear' : 'Select All DPs';
   }
 
-  onDPSelect($event: Event) {
-  }
+  onDPSelect($event: Event) {}
 
   validateUserForm(): boolean {
     let isValid = false;
 
-    isValid = (this.user.firstName.length > 0) && (this.user.lastName.length > 0)
+    isValid = this.user.firstName.length > 0 && this.user.lastName.length > 0;
 
     return isValid;
     // return false;

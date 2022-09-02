@@ -21,7 +21,7 @@ namespace HRIS.API.Controllers
             {
                 return Ok(await _staffRepository.GetDetail(UserSession.Instance.User.UserID, ein));
             }
-            catch (System.Exception) { throw; }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
         [HttpGet("EmergencyContactInfo/{ein}")]
@@ -31,7 +31,7 @@ namespace HRIS.API.Controllers
             {
                 return Ok(await _staffRepository.EmergencyContacts(UserSession.Instance.User.UserID, ein));
             }
-            catch (System.Exception) { throw; }
+            catch (System.Exception ex) { return NotFound(ex.Message); }
         }
     }
 }
