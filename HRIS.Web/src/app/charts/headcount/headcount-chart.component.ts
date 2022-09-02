@@ -18,7 +18,7 @@ import { DataService } from 'src/app/_services/data.service';
 export class HeadcountChartComponent extends BaseComponent<ILineChartData> {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-
+  
   headcountChart$ = this.dataService.headcountChart$.pipe<ILineChartData>(
     map(_data => {
 

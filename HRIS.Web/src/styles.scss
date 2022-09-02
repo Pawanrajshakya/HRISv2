@@ -21,6 +21,7 @@ body {
   font-size: 14px !important;
   background: url(../src/assets/bg.jpg) repeat-x;
   background-color: white !important;
+  letter-spacing: .4px;
 }
 
 .menu_link {
@@ -212,4 +213,8 @@ $body-bg: #f3f3f0;*/
 
 .bg-offwhite{
   background-color: whitesmoke !important;
+}
+
+.nomat-progress-bar{
+  min-height: 4px;
 }
