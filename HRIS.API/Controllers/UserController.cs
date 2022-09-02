@@ -17,26 +17,28 @@ namespace HRIS.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<UserDto>> Get()
+        public async Task<ActionResult> Get()
         {
-            return await _userRepository.GetAsync(UserSession.LanID);
+            return Ok(await _userRepository.GetAsync(UserSession.LanID));
         }
 
-        [HttpPost]
-        [Route("list")]
-        public ActionResult<IEnumerable<UserDto>> ListAsync(Pagination parameters) => Ok(_userRepository.Get(UserSession.Instance.User.UserID, parameters));
+        [HttpPost("list")]
+        public ActionResult<UserDto> ListAsync(Pagination parameters) => Ok(_userRepository.Get(UserSession.Instance.User.UserID, parameters));
 
         [HttpGet("search/{searchBy}/{isSuper:bool}")]
-        public ActionResult<IEnumerable<SearchUser>> Search(string searchBy, bool isSuper) => Ok(_userRepository.SearchAsync(searchBy, isSuper));
+        public  async Task<ActionResult> Search(string searchBy, bool isSuper)
+        {
+            return Ok( await _userRepository.SearchAsync(searchBy, isSuper));
+        }
 
         [HttpGet("{ein}/{isSuper:bool}")]
         public async Task<ActionResult> Get(string ein, bool isSuper) => Ok(await _userRepository.GetAsync(ein, isSuper));
 
         [HttpPost]
-        public ActionResult Post([FromBody]UserDtoToAddAndUpdate user) => Ok(_userRepository.Add(user));
+        public ActionResult Post([FromBody] UserDtoToAddAndUpdate user) => Ok(_userRepository.Add(user));
 
         [HttpPut]
-        public ActionResult Update([FromBody]UserDtoToAddAndUpdate user) => Ok(_userRepository.Update(user));
+        public ActionResult Update([FromBody] UserDtoToAddAndUpdate user) => Ok(_userRepository.Update(user));
 
         [HttpDelete("{userID}")]
         public ActionResult Delete(string userID) => Ok(_userRepository.Delete(userID));

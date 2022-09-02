@@ -99,22 +99,22 @@ namespace HRIS.API
 
         public async Task<IEnumerable<SearchUser>> SearchAsync(string searchBy, bool isSuper)
         {
-            List<SearchUser> items = new List<SearchUser>();
+            //List<SearchUser> items = new List<SearchUser>();
 
             var sqlParameters = new SqlParameter[] {
                 new SqlParameter(){ParameterName= "@SearchBy", Value= searchBy.Replace(" ","")},
                 new SqlParameter(){ParameterName= "@IsSuper", Value= isSuper}
             };
 
-            var list = _context.SearchUser
+            List<SearchUser> users = _context.SearchUser
                 .FromSqlRaw($"EXECUTE dbo.spGetUserByName @SearchBy, @IsSuper", sqlParameters)
                 .ToList();
 
-            foreach (var user in list)
-            {
-                items.Add(new SearchUser { EIN = user.EIN, Name = user.Name });
-            }
-            return await Task.Run(() => items);
+            //foreach (var user in list)
+            //{
+            //    items.Add(new SearchUser { EIN = user.EIN, Name = user.Name });
+            //}
+            return await Task.Run(() => users);
         }
 
         public async Task<GetUserByEINDto> GetAsync(string ein, bool isSuper)
