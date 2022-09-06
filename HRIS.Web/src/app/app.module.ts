@@ -13,13 +13,13 @@ import { NgChartsModule } from 'ng2-charts';
 
 import { FileSaverModule } from 'ngx-filesaver';
 import { NgxScrollTopModule } from 'ngx-scrolltop';
-
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { HeaderInterceptorService } from './_services/_interceptors/header-interceptor.service';
 
@@ -171,6 +171,7 @@ import { HrisTrimPipe } from './_pipes/hris-trim.pipe';
     CarouselModule.forRoot(),
     CollapseModule.forRoot(),
     TabsModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   providers: [
     {

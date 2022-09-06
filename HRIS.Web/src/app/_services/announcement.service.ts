@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs';
 import { IAnnouncement } from '../_models/IAnnouncement';
 import { IAnnouncementSummary } from "../_models/IAnnouncementSummary";
@@ -13,6 +13,8 @@ import { ErrorHandlingService } from './error-handling.service';
 })
 export class AnnouncementService extends BaseService {
 
+  selectedAnnouncement = new EventEmitter<IAnnouncementSummary[]>();
+  
   constructor(private httpClient: HttpClient
     , private errorHandlingService: ErrorHandlingService) {
     super();
@@ -35,7 +37,7 @@ export class AnnouncementService extends BaseService {
   }
 
   get$(id: number) {
-    return this.httpClient.get<IAnnouncement>(this.url + 'announcement/' + id)
+    return this.httpClient.get<IAnnouncement[]>(this.url + 'announcement/' + id)
       .pipe(
         //tap((data) => { console.log(data); }),
         catchError(err => this.errorHandlingService.handleError(err))

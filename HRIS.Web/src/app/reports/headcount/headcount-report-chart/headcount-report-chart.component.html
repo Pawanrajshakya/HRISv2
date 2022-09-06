@@ -28,7 +28,7 @@
         <div class="card-header text-white bg-secondary border-secondary shadow">
           <i class="bi bi-graph-up-arrow"></i> DSS-HRA-DHS Headcount
         </div>
-        <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+        <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div><mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
         <div class="card-body pb-0 pt-1">
           <div>
             <canvas baseChart [data]="chartDataHC" [options]="chartOptionsHC" [plugins]="chartPluginsHC"

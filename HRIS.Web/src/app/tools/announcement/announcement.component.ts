@@ -20,6 +20,7 @@ import {
   tap,
   of as observableOf,
 } from 'rxjs';
+import { IAnnouncementSummary } from 'src/app/_models/IAnnouncementSummary';
 import { BaseComponent } from '../../base/base.component';
 import { IAnnouncement } from '../../_models/IAnnouncement';
 import { IAnnouncementList } from '../../_models/IAnnouncementList';
@@ -177,7 +178,6 @@ export class AnnouncementComponent
     this.announcementForm.isBusy = true;
     this.announcementForm.message = '';
 
-
     if (Date.parse(this.announcementForm.bsStartDateValue.toString()) > 0)
       this.announcement.displayAfter = formatDate(
         this.announcementForm.bsStartDateValue.toString(),
@@ -191,7 +191,6 @@ export class AnnouncementComponent
         'MM/dd/yyyy',
         'en-US'
       );
-
 
     if (!this.announcementForm.inEditMode) {
       this.announcementService.add$(this.announcement).subscribe({
@@ -263,6 +262,26 @@ export class AnnouncementComponent
     this.selectedAnnouncement.id = announcement.id;
     this.selectedAnnouncement.title = announcement.title;
     this.modalRef = this.modalService.show(template, this.modalConfig);
+  }
+
+  onShow(template: TemplateRef<any>, id: number) {
+    this.announcementService.get$(id).subscribe({
+      next: (data) => {
+        if (data) {
+          this.modalConfig.ignoreBackdropClick = false;
+          this.modalConfig.backdrop = false;
+          this.modalConfig.class = 'modal-md';
+          this.modalRef = this.modalService.show(template, this.modalConfig);
+
+          this.announcementService.get$(id).subscribe((data) => {
+            if (data) this.announcementService.selectedAnnouncement.emit(data);
+          });
+          this.modalConfig.ignoreBackdropClick = true;
+          this.modalConfig.backdrop = true;
+          this.modalConfig.class = 'modal-lg';
+        }
+      },
+    });
   }
 
   onDeleteConfirm(id: number) {

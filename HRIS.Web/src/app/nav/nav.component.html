@@ -1,43 +1,90 @@
 <div class="logo bg-white d-block mh-100"></div>
+<div class="pull-right" id="sub-menu">
+  <ul class="nav">
+    <li class="nav-link">
+      <a href="mailto:hcmcomputersupport@dss.nyc.gov?subject=HRIS%20Support">Contact Us</a>
+    </li>
+    <li class="nav-link">
+      <a href="assets/HRIS_GUIDE.pdf" target="_blank">User Guide</a>
+    </li>
+    <li class="nav-link">
+      <a href="http://intranetnew.hra.nycnet/sites/hraintranet/Pages/default.aspx" target="_blank">HRA Home</a>
+    </li>
+    <li class="nav-link">
+      <a href="http://intranetnew.hra.nycnet/sites/HRAIntranet/Pages/osr.aspx" target="_blank">HRS Home</a>
+    </li>
+  </ul>
+</div>
 
 <mat-toolbar class="bg-primary shadow border-top border-bottom border-white" style="width: 100%">
-  <a class="btn btn-link btn-sm text-white text-decoration-none" [routerLink]="['/home']" routerLinkActive="active"><i
-      class="bi bi-house-fill"></i> Home</a>
-  <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="staffMenu"><i
-      class="bi bi-person-lines-fill"></i> Staff <span class="caret"></span></a>
+  <a class="btn btn-link btn-sm text-white text-decoration-none" [routerLink]="['/home']" routerLinkActive="active">
+    <i class="bi bi-house-fill"></i> Home</a>
+
+  <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="staffMenu"
+    *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)">
+    <i class="bi bi-person-lines-fill"></i> Staff <span class="caret"></span></a>
+
   <mat-menu #staffMenu="matMenu" yPosition="below">
+
     <button [routerLink]="['/activeStaff']" routerLinkActive="active" mat-menu-item>
       Active Staff (DHS & HRA)
     </button>
+
   </mat-menu>
 
-  <a mat-menu role="menu" class="btn btn-link text-white text-decoration-none btn-sm"
-    [matMenuTriggerFor]="reportMenu"><i class="bi bi-list"></i> Reports <span class="caret"></span></a>
+  <a mat-menu role="menu" class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="reportMenu"
+    *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)"><i
+      class="bi bi-list"></i> Reports <span class="caret"></span></a>
   <mat-menu #reportMenu="matMenu">
-    <button mat-menu-item>Classification Report (DSS & HRA)</button>
-    <button mat-menu-item [routerLink]="['/customerServiceComplaint']" routerLinkActive="active">Customer Service
+
+    <button mat-menu-item
+      *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4)">Classification
+      Report (DSS & HRA)</button>
+
+    <button mat-menu-item [routerLink]="['/customerServiceComplaint']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
+    (this.loginService.currentUser.groups?.indexOf(9) !== -1)">Customer Service
       Complaints Report (HRA)</button>
-    <button mat-menu-item [routerLink]="['/disciplinary']" routerLinkActive="active">Disciplinary Report (DSS &
+
+    <button mat-menu-item [routerLink]="['/disciplinary']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4) &&
+    (this.loginService.currentUser.groups?.indexOf(2) !== -1)">Disciplinary Report (DSS &
       HRA)</button>
-    <button mat-menu-item [routerLink]="['/ecard']" routerLinkActive="active">E-Cards Report (DSS & HRA)</button>
-    <button mat-menu-item [routerLink]="['/eeo']" routerLinkActive="active">EEO Report (DSS & HRA)</button>
-    <button mat-menu-item [routerLink]="['/emergencyContactInfoReport']" routerLinkActive="active">
+
+    <button mat-menu-item [routerLink]="['/ecard']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
+    (this.loginService.currentUser.groups?.indexOf(7) !== -1)">E-Cards Report (DSS & HRA)</button>
+
+    <button mat-menu-item [routerLink]="['/eeo']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
+    (this.loginService.currentUser.groups?.indexOf(6) !== -1)">EEO Report (DSS & HRA)</button>
+
+    <button mat-menu-item [routerLink]="['/emergencyContactInfoReport']" routerLinkActive="active"
+      *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)">
       Emergency Contact Info Report (DSS & HRA)
     </button>
-    <button mat-menu-item [routerLink]="['/headcount']" routerLinkActive="active">Headcount Report (DSS & HRA)</button>
-    <button mat-menu-item [routerLink]="['/overtimeReport']" routerLinkActive="active">
+
+    <button mat-menu-item [routerLink]="['/headcount']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
+    (this.loginService.currentUser.groups?.indexOf(5) !== -1)">Headcount Report (DSS & HRA)</button>
+
+    <button mat-menu-item [routerLink]="['/overtimeReport']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
+    (this.loginService.currentUser.groups?.indexOf(3) !== -1)">
       Overrtime Report (DSS & HRA)
     </button>
-    <button mat-menu-item [routerLink]="['/parReport']" routerLinkActive="active">
+
+    <button mat-menu-item [routerLink]="['/parReport']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
+    (this.loginService.currentUser.groups?.indexOf(4) !== -1)">
       PAR Report (DSS & HRA)
     </button>
-    <button mat-menu-item [routerLink]="['/separationReport']" routerLinkActive="active">
+
+    <button mat-menu-item [routerLink]="['/separationReport']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4) &&
+    (this.loginService.currentUser.groups?.indexOf(10) !== -1)">
       Seperations Report (DSS & HRA)
     </button>
-    <button mat-menu-item [routerLink]="['/vacationRoasterReport']" routerLinkActive="active">
+
+    <button mat-menu-item [routerLink]="['/vacationRoasterReport']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
+    (this.loginService.currentUser.groups?.indexOf(11) !== -1)">
       Vacation Roster Report (HRA)
     </button>
-    <button mat-menu-item [matMenuTriggerFor]="staffReport">
+
+    <button mat-menu-item [matMenuTriggerFor]="staffReport"
+      *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)">
       Staff On Leave / Ceased Report (DSS & HRA)
     </button>
   </mat-menu>
@@ -50,8 +97,8 @@
     </button>
   </mat-menu>
 
-  <a class="btn btn-link text-white text-decoration-none btn-sm" [routerLink]="['/myinfo']" routerLinkActive="active"><i
-      class="bi bi-eye"></i> My Info
+  <a class="btn btn-link text-white text-decoration-none btn-sm" [routerLink]="['/myinfo']" routerLinkActive="active">
+    <i class="bi bi-eye"></i> My Info
   </a>
 
   <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="toolMenu"
@@ -103,17 +150,17 @@
     <a class="text-decoration-none" mat-menu-item href="https://webp16dssap03.hra.nycnet/pirs" routerLinkActive="active"
       target="_blank">Photo ID Request System (PIRS)</a>
 
-    <a class="text-decoration-none" mat-menu-item *ngIf=" loginService.currentUser && (
+    <a class="text-decoration-none" mat-menu-item *ngIf="loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 4)
       " href="https://webp16dssap01.hra.nycnet/AgencyOTSystem/UI/Pages/Index.aspx" routerLinkActive="active"
       target="_blank">Agency Overtime Management System</a>
-    <a class="text-decoration-none" mat-menu-item *ngIf=" loginService.currentUser && (
+    <a class="text-decoration-none" mat-menu-item *ngIf="loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 4)
       " href="https://CPS.hra.nycnet/cps_system/oba_prf/logon.cfm" routerLinkActive="active"
       target="_blank">Comprehensive Personnel System (CPS)</a>
-    <a class="text-decoration-none" mat-menu-item *ngIf=" loginService.currentUser && (
+    <a class="text-decoration-none" mat-menu-item *ngIf="loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 4)
       " href="https://webp16dssap01.hra.nycnet/dssEmailGeneratorv2/Login.aspx" routerLinkActive="active"
@@ -153,8 +200,10 @@
       target="_blank">HR SolutionsXchange</a>
   </mat-menu>
   <div class="fill-spacer"></div>
-  <a class="btn btn-link text-white text-decoration-none" [routerLink]="['/developer']"
-    *ngIf="currentUser$ | async as user" routerLinkActive="active"><i class="bi bi-person-fill text-success"></i>
+  <a class="btn btn-link text-white text-decoration-none" [routerLink]="['/developer']" [tooltip]="tolTemplate"
+    placement="left" *ngIf="currentUser$ | async as user" routerLinkActive="active"><i
+      class="bi bi-person-fill text-success"></i>
     {{ user.lastName | titlecase}}
     {{ user.firstName | titlecase}}</a>
 </mat-toolbar>
+<ng-template #tolTemplate>You are logged in as {{loginService.currentUser.firstName}} {{loginService.currentUser.lastName}} - EIN {{loginService.currentUser.ein}}. Your role in this application is {{loginService.currentUser.roleDescription}}</ng-template>

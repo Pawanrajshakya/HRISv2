@@ -2,7 +2,7 @@
   <div class="card-header text-white bg-secondary border-secondary shadow">
     <i class="bi bi-bar-chart-fill"></i> {{title}}
   </div>
-  <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+  <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div><mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
   <div class="card-body">
     <div style="display: block">
       <canvas baseChart [data]="chartData" [options]="chartOptions" [plugins]="chartPlugins" [type]="chartType">

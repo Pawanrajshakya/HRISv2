@@ -3,8 +3,7 @@
     <i class="bi bi-people-fill"></i> Manage Users <span *ngIf="resultsLength > 0; else noDataFound">
       <code class="text-white">(Total: {{ resultsLength | number}})</code></span>
   </div>
-  <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div>
-  <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+  <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div><mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
   <div class="card-body">
     <div class="row">
       <div class="col-3 offset-9 mb-2">

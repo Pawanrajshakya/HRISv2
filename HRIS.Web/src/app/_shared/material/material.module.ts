@@ -18,7 +18,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatTreeModule} from '@angular/material/tree';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   exports: [
@@ -41,7 +41,7 @@ import {MatTreeModule} from '@angular/material/tree';
     MatDatepickerModule,
     MatRadioModule,
     MatTooltipModule,
-    MatTreeModule
+    MatTreeModule,
   ],
 })
 export class MaterialModule {}
