@@ -37,8 +37,12 @@
       class="bi bi-list"></i> Reports <span class="caret"></span></a>
   <mat-menu #reportMenu="matMenu">
 
-    <button mat-menu-item
-      *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4)">Classification
+    <button mat-menu-item (click)="onClassificationReportClick(1)"
+      *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4)">Classification
+      Report (DSS & HRA)</button>
+
+      <button mat-menu-item (click)="onClassificationReportClick(0)"
+      *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1)">Classification
       Report (DSS & HRA)</button>
 
     <button mat-menu-item [routerLink]="['/customerServiceComplaint']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
@@ -84,7 +88,7 @@
     </button>
 
     <button mat-menu-item [matMenuTriggerFor]="staffReport"
-      *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)">
+      *ngIf="loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)">
       Staff On Leave / Ceased Report (DSS & HRA)
     </button>
   </mat-menu>
@@ -116,8 +120,13 @@
   <a class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="quickLinkMenu"><i
       class="bi bi-link"></i> Quick Links <i class="caret"></i></a>
   <mat-menu #quickLinkMenu="matMenu" yPosition="below">
+
     <a class="text-decoration-none" mat-menu-item href="https://webp16dssap01/CARF/SearchRequests.aspx"
       routerLinkActive="active" target="_blank">CARF (Classification Request Form)</a>
+    
+      <a class="text-decoration-none" mat-menu-item href="https://webp16dssap01/CARF/SearchRequests.aspx"
+      routerLinkActive="active" target="_blank">CARF (Classification Request Form)</a>  
+
     <a class="text-decoration-none" mat-menu-item
       href="https://CentralIntake.hra.nycnet/CentralIntakeWorkFlow/UI/Page/Login.aspx" routerLinkActive="active"
       target="_blank">Central Intake Workflow System (CIWS)</a>
