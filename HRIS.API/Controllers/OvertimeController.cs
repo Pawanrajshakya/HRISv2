@@ -26,7 +26,7 @@ namespace HRIS.API.Controllers
                 {
                     return Ok(await _overtimeRepository.GetStaffOTSummary(UserSession.Instance.User.UserID, ein, calenderType));
                 }
-                return NotFound();
+                return Ok();
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }

@@ -29,16 +29,29 @@ import { CustomerServiceComplaintsComponent } from '../reports/customer-service-
 import { EmployeeBehaviorCodeResolverService } from '../_services/_resolvers/employee-behavior-code-resolver.service';
 import { MyInfoComponent } from '../my-info/my-info.component';
 import { MyInfoTreeResolverService } from '../_services/_resolvers/my-info-tree-resolver.service';
+import { StaffReportGuard } from '../_services/_guard/staff-report.guard';
+import { AdminToolGuard } from '../_services/_guard/admin-tool.guard';
+import { VacationRosterReportGuard } from '../_services/_guard/vacation-roster-report.guard';
+import { SeparationsReportGuard } from '../_services/_guard/separations-report.guard';
+import { PARReportGuard } from '../_services/_guard/par-report.guard';
+import { OvertimeReportGuard } from '../_services/_guard/overtime-report.guard';
+import { HeadcountReportGuard } from '../_services/_guard/headcount-report.guard';
+import { EEOReportGuard } from '../_services/_guard/eeo-report.guard';
+import { ECardsReportGuard } from '../_services/_guard/ecards-report.guard';
+import { DisciplinaryReportGuard } from '../_services/_guard/disciplinary-report.guard';
+import { CustomerServiceComplaintsReportGuard } from '../_services/_guard/customer-service-complaints-report.guard';
 
 const routes: Routes = [
   {
     path: 'home',
-    component: HomeComponent,
+    component: HomeComponent
   },
   {
     path: 'user',
     component: UserComponent,
     resolve: { currentUser: CurrentUserResolver },
+    canActivate: [AdminToolGuard]
+
   },
   {
     path: 'developer',
@@ -48,6 +61,7 @@ const routes: Routes = [
     path: 'announcement',
     component: AnnouncementComponent,
     resolve: { currentUser: CurrentUserResolver },
+    canActivate: [AdminToolGuard]
   },
   {
     path: 'activeStaff',
@@ -60,6 +74,7 @@ const routes: Routes = [
       bkpTiltes: BkpTitleResolverService,
       csStatuses: CsStatusResolverService,
     },
+    canActivate: [StaffReportGuard]
   },
   {
     path: 'staffDetail/:ein',
@@ -68,6 +83,7 @@ const routes: Routes = [
       currentUser: CurrentUserResolver,
       staffDetail: StaffDetailResolverService,
     },
+    canActivate: [StaffReportGuard]
   },
   {
     path: 'leaveReport',
@@ -78,6 +94,7 @@ const routes: Routes = [
       titles: TitleCodeResolverService,
       lvStatus: LeaveStatusResolverService,
     },
+    canActivate: [StaffReportGuard]
   },
   {
     path: 'ceasedReport',
@@ -88,6 +105,7 @@ const routes: Routes = [
       titles: TitleCodeResolverService,
       lvStatus: LeaveStatusResolverService,
     },
+    canActivate: [StaffReportGuard]
   },
   {
     path: 'vacationRoasterReport',
@@ -98,6 +116,7 @@ const routes: Routes = [
       location: LocationCodeResolverService,
       title: TitleCodeResolverService,
     },
+    canActivate: [VacationRosterReportGuard]
   },
   {
     path: 'emergencyContactInfoReport',
@@ -107,6 +126,7 @@ const routes: Routes = [
       rcdp: RcDpCodeResolverService,
       location: LocationCodeResolverService,
     },
+    canActivate: [StaffReportGuard]
   },
   {
     path: 'separationReport',
@@ -115,6 +135,7 @@ const routes: Routes = [
       currentUser: CurrentUserResolver,
       rcdp: RcDpCodeResolverService,
     },
+    canActivate: [SeparationsReportGuard]
   },
   {
     path: 'parReport',
@@ -125,6 +146,7 @@ const routes: Routes = [
       titles: TitleCodeResolverService,
       locations: LocationCodeResolverService,
     },
+    canActivate: [PARReportGuard]
   },
   {
     path: 'overtimeReport',
@@ -133,6 +155,7 @@ const routes: Routes = [
       currentUser: CurrentUserResolver,
       rcdp: RcDpCodeResolverService,
     },
+    canActivate: [OvertimeReportGuard]
   },
   {
     path: 'headcount',
@@ -143,6 +166,7 @@ const routes: Routes = [
       titles: TitleCodeResolverService,
       lvStatus: LeaveStatusResolverService,
     },
+    canActivate: [HeadcountReportGuard]
   },
   {
     path: 'eeo',
@@ -151,6 +175,7 @@ const routes: Routes = [
       currentUser: CurrentUserResolver,
       rcdp: RcDpCodeResolverService,
     },
+    canActivate: [EEOReportGuard]
   },
   {
     path: 'ecard',
@@ -159,6 +184,7 @@ const routes: Routes = [
       currentUser: CurrentUserResolver,
       rcdp: RcDpCodeResolverService,
     },
+    canActivate: [ECardsReportGuard]
   },
   {
     path: 'disciplinary',
@@ -167,6 +193,7 @@ const routes: Routes = [
       currentUser: CurrentUserResolver,
       rcdp: RcDpCodeResolverService,
     },
+    canActivate: [DisciplinaryReportGuard]
   },
   {
     path: 'customerServiceComplaint',
@@ -175,6 +202,7 @@ const routes: Routes = [
       currentUser: CurrentUserResolver,
       employeeBehaviors: EmployeeBehaviorCodeResolverService,
     },
+    canActivate: [CustomerServiceComplaintsReportGuard]
   },
   {
     path: 'myinfo',
