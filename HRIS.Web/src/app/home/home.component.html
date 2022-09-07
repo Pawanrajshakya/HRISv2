@@ -1,6 +1,6 @@
 <div>
   <div class="row">
-    <div class="col-8">
+    <div class="col-lg-8">
       <div class="card border-info shadow">
         <div class="card-header text-white bg-secondary border-secondary shadow">
           <i class="bi bi-flag"></i> Office of Human Resources Solutions (HRS)
@@ -26,34 +26,34 @@
         </div>
       </div>
     </div>
-    <div class="col-4 mt-1" *ngIf="loginService.currentUser && !!loginService.currentUser.lanID">
+    <div class="col-lg-4 mt-2" *ngIf="loginService.currentUser && !!loginService.currentUser.lanID">
       <app-carousel></app-carousel>
     </div>
   </div>
-  <div class="row mt-3" *ngIf="loginService.currentUser && !!loginService.currentUser.lanID">
-    <div class="col-4 mt-1">
+  <div class="row mt-2" *ngIf="loginService.currentUser && !!loginService.currentUser.lanID">
+    <div class="col-lg-4 mt-2">
       <app-ecard-chart></app-ecard-chart>
     </div>
-    <div class="col-4 mt-1" *ngIf="loginService.currentUser && !!loginService.currentUser.hasHeadcount">
+    <div class="col-lg-4 mt-2" *ngIf="loginService.currentUser && !!loginService.currentUser.hasHeadcount">
       <app-headcount-chart></app-headcount-chart>
     </div>
-    <div class="col-4 mt-1"
+    <div class="col-lg-4 mt-2"
       *ngIf="loginService.currentUser && !(loginService.currentUser.roleID === 5) && !!loginService.currentUser.hasTEAMS">
       <app-pending-cases-chart></app-pending-cases-chart>
     </div>
-    <div class="col-4 mt-1"
+    <div class="col-lg-4 mt-2"
       *ngIf="loginService.currentUser && !(loginService.currentUser.roleID === 5) && !!loginService.currentUser.hasTEAMS">
       <app-case-count-by-year-chart></app-case-count-by-year-chart>
     </div>
-    <div class="col-4 mt-1"
+    <div class="col-lg-4 mt-2"
       *ngIf="loginService.currentUser && !(loginService.currentUser.roleID === 5) && !!loginService.currentUser.hasTEAMS">
       <app-top-infraction-chart></app-top-infraction-chart>
     </div>
-    <div class="col-4 mt-1">
+    <div class="col-lg-4 mt-2">
     </div>
   </div>
-  <div class="row mt-3" *ngIf="loginService.currentUser && !!loginService.currentUser.lanID">
-    <div class="col-12">
+  <div class="row mt-2" *ngIf="loginService.currentUser && !!loginService.currentUser.lanID">
+    <div class="col-lg-12">
       <div class="card border-info shadow">
         <div class="card-body text-info">
           <b>Human Resources Information System (HRIS)</b> provides management tools tokeep track of changes personnel

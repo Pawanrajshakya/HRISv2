@@ -14,8 +14,8 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.announcementService.getByUser$().subscribe((data) => {
-      if (data) this.announcementService.selectedAnnouncement.emit(data);
+    this.announcementService.getByUser().then((data) => {
+      if (data && data.length > 0) this.announcementService.selectedAnnouncement.emit(data);
     });
   }
 }

@@ -5,7 +5,7 @@
           <p>Displays # eCards sent/received by staff members based on Excellence Program for a specific date range</p>
         </div>
         <hr>
-        <div class="col-12">
+        <div class="col-lg-12">
           <div class="form-group row"
             *ngIf="this.loginService.currentUser.roleID == 1 || this.loginService.currentUser.roleID == 2 || this.loginService.currentUser.roleID == 3 || this.loginService.currentUser.roleID == 4">
             <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm">RC</label>
@@ -17,7 +17,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12 mb-2 row">
+        <div class="col-lg-12 mb-2 row">
           <div class="col-sm-2">Report</div>
           <div class="col-sm-10">
             <mat-radio-group [(ngModel)]="selectedReport">
@@ -28,7 +28,7 @@
           </div>
         </div>
   
-        <div class="col-12 mb-2 row">
+        <div class="col-lg-12 mb-2 row">
           <div class="col-sm-2">Date Submitted From</div>
           <div class="col-sm-4">
             <div class="input-group">
@@ -55,7 +55,7 @@
           </div>
         </div>
   
-        <div class="col-12">
+        <div class="col-lg-12">
           <div class="col-sm-10 offset-sm-2">
             <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()">
               <i class="bi bi-search"></i> Search
@@ -82,7 +82,7 @@
       <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div><mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
       <div class="card-body">
         <div class="row">
-          <div class="col-12">
+          <div class="col-lg-12">
             <div class="input-group input-group-sm mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text">Filter By</span>
@@ -91,7 +91,7 @@
                 placeholder="Name / RC / RC Name" #input />
             </div>
           </div>
-          <div class="col-12">
+          <div class="col-lg-12">
             <div class="table-container table-responsive" [hidden]="resultsLength === 0">
               <table mat-table [dataSource]="data" matSort matSortActive="receiversLName" matSortDirection="asc"
                 class="table table-hover table-bordered">

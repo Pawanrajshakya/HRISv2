@@ -8,7 +8,7 @@
         </p>
       </div>
       <hr />
-      <div class="col-12 mb-2">
+      <div class="col-lg-12 mb-2">
         <div class="form-group row">
           <div class="col-sm-2">Fiscal Year</div>
           <div class="col-sm-4">
@@ -20,7 +20,7 @@
           <div class="col-sm-6"></div>
         </div>
       </div>
-      <div class="col-12 mb-2 row">
+      <div class="col-lg-12 mb-2 row">
         <div class="col-sm-2">Type</div>
         <div class="col-sm-10">
           <mat-radio-group [(ngModel)]="selectedType">
@@ -30,7 +30,7 @@
           </mat-radio-group>
         </div>
       </div>
-      <div class="col-12">
+      <div class="col-lg-12">
         <div class="form-group row">
           <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm">RC</label>
           <div class="col-sm-10">
@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12">
+      <div class="col-lg-12">
         <div class="col-sm-10 offset-sm-2">
           <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()">
             <i class="bi bi-search"></i> Search
@@ -57,7 +57,7 @@
   </div>
 </div>
 <br />
-<div class="col-12">
+<div class="col-lg-12">
   <div class="card border-secondary">
     <div class="card-header text-white bg-secondary border-secondary shadow">
       <i class="bi bi-grid"></i> Result <span *ngIf="resultsLength > 0; else noDataFound"> <code class="text-white">(Total: {{ resultsLength | number}})</code></span>
@@ -67,7 +67,7 @@
     <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div><mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
     <div class="card-body">
       <div class="row">
-        <div class="col-12">
+        <div class="col-lg-12">
           <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">Filter By</span>
@@ -76,7 +76,7 @@
               placeholder="RARC / Description" #input />
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-lg-12">
           <div class="table-container table-responsive" [hidden]="resultsLength === 0">
             <table mat-table [dataSource]="data" matSort matSortActive="rarc"  matSortDirection="asc"
               class="table table-hover table-bordered">

@@ -6,7 +6,7 @@
       (click)="isCollapsed = !isCollapsed"></i>
   </div>
   <div class="card-body" [collapse]="isCollapsed" [isAnimated]="true">
-    <div class="col-12">
+    <div class="col-lg-12">
       <div class="form-group row" *ngIf="
           this.loginService.currentUser.roleID == 1 ||
           this.loginService.currentUser.roleID == 2 ||
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-lg-12">
       <div class="form-group row">
         <label for="dps" class="col-sm-2 col-form-label col-form-label-sm">DP</label>
         <div class="col-sm-10">
@@ -38,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-lg-12">
       <div class="form-group row">
         <label for="Location" class="col-sm-2 col-form-label col-form-label-sm">Location</label>
         <div class="col-sm-10">
@@ -49,7 +49,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-lg-12">
       <div class="form-group row">
         <label for="titles" class="col-sm-2 col-form-label col-form-label-sm">Titles</label>
         <div class="col-sm-10">
@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-lg-12">
       <div class="form-group row">
         <label for="bkpTitles" class="col-sm-2 col-form-label col-form-label-sm">Backup Titles</label>
         <div class="col-sm-10">
@@ -73,7 +73,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-lg-12">
       <div class="form-group row">
         <label for="csStatus" class="col-sm-2 col-form-label col-form-label-sm">Civil Service Status:</label>
         <div class="col-sm-10">
@@ -85,7 +85,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12">
+    <div class="col-lg-12">
       <div class="col-sm-10 offset-sm-2">
         <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()">
           <i class="bi bi-search"></i> Search
@@ -110,7 +110,7 @@
   <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div><mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
   <div class="card-body">
     <div class="row">
-      <div class="col-12">
+      <div class="col-lg-12">
         <div class="input-group input-group-sm mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Filter By</span>
@@ -119,7 +119,7 @@
             placeholder="EIN / Full Name / Role / LAN ID" #input />
         </div>
       </div>
-      <div class="col-12">
+      <div class="col-lg-12">
         <div class="table-container table-responsive" [hidden]="resultsLength === 0">
           <table mat-table [dataSource]="data" matSort matSortActive="ein"  matSortDirection="asc"
             class="table table-hover table-bordered">
