@@ -309,6 +309,18 @@ export class DataService extends BaseService {
         catchError((err) => this.errorHandlingService.handleError(err))
       );
   }
+
+  agencySeparation$(tableViewParam?: IReportParam) {
+    return this.httpClient
+      .post<IAgencySeparationSummary[]>(
+        this.url + 'agencySeparation/summary',
+        tableViewParam
+      )
+      .pipe(
+        //tap((data) => {  console.log('$', data); }),
+        catchError((err) => this.errorHandlingService.handleError(err))
+      );
+  }
   //#endregion
 
   //#region  Staff
@@ -372,17 +384,7 @@ export class DataService extends BaseService {
       );
   }
 
-  agencySeparation$(tableViewParam?: IReportParam) {
-    return this.httpClient
-      .post<IAgencySeparationSummary[]>(
-        this.url + 'agencySeparation/summary',
-        tableViewParam
-      )
-      .pipe(
-        //tap((data) => {  console.log('$', data); }),
-        catchError((err) => this.errorHandlingService.handleError(err))
-      );
-  }
+  
   //#endregion
 
   //#region ECard

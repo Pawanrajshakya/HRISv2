@@ -19,7 +19,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _staffRepository.GetDetail(UserSession.Instance.User.UserID, ein));
+                return Ok(await _staffRepository.GetStaffDetailAsync(UserSession.Instance.User.UserID, ein));
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }
@@ -29,7 +29,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _staffRepository.EmergencyContacts(UserSession.Instance.User.UserID, ein));
+                return Ok(await _staffRepository.GetEmergencyContactsAsync(UserSession.Instance.User.UserID, ein));
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }

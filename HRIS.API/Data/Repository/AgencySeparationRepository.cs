@@ -8,7 +8,7 @@ namespace HRIS.API
 {
     public interface IAgencySeparationRepository
     {
-        public Task<IEnumerable<SeparationSummaryDto>> GetGetAgencySeparationSummary(string userid, string rcs, string dps,
+        public Task<IEnumerable<SeparationSummaryDto>> GetChartAsync(string userid, string rcs, string dps,
                                                                          bool isCalenderYear, int year);
     }
 
@@ -22,7 +22,7 @@ namespace HRIS.API
 
         
         public async Task<IEnumerable<SeparationSummaryDto>> 
-            GetGetAgencySeparationSummary(string userid,
+            GetChartAsync(string userid,
                                           string rcs,
                                           string dps,
                                           bool isCalenderYear,

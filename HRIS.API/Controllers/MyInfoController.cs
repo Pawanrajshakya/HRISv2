@@ -25,7 +25,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                UserDto userDto = string.IsNullOrEmpty(lanid) ? UserSession.Instance.User : await _userRepository.GetAsync(lanid);
+                UserDto userDto = string.IsNullOrEmpty(lanid) ? UserSession.Instance.User : await _userRepository.GetUserByLanIDAsync(lanid);
                 return Ok(await _repository.GetMyInfoTreeAsync(userDto));
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
@@ -46,7 +46,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _repository.GetStaffInfo(UserSession.Instance.User.UserID, ein));
+                return Ok(await _repository.GetStaffInfoAsync(UserSession.Instance.User.UserID, ein));
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }

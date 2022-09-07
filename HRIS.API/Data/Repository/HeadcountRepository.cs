@@ -9,7 +9,7 @@ namespace HRIS.API
 {
     public interface IHeadcountRepository
     {
-        public Task<List<AgencyHeadcountChartDto>> GetChartAsync
+        public Task<List<AgencyHeadcountChartDto>> GetAgencyHeadcountChartAsync
             (string userID, string rcs, string dps);
         public Task<List<HeadcountReportDto>> GetHeadcountReportAsync
             (string userID, string rcs, string dps, int pageNumber = 1, int pageSize = 10,
@@ -37,15 +37,15 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<List<AgencyHeadcountChartDto>> GetChartAsync(string userID, string rcs, string dps)
+        public async Task<List<AgencyHeadcountChartDto>> GetAgencyHeadcountChartAsync(string userID, string rcs, string dps)
         {
             List<AgencyHeadcountChartDto> dtos = new List<AgencyHeadcountChartDto>();
 
             SqlParameter[] sqlParameters =
                    new SqlParameter[] {
-                        new SqlParameter("@UserID", userID) { },
-                        new SqlParameter("@RCs", rcs){},
-                        new SqlParameter("@DPs", dps){},
+                        new SqlParameter("@UserID", userID),
+                        new SqlParameter("@RCs", rcs),
+                        new SqlParameter("@DPs", dps),
                    };
 
             var data = _context.AgencyHeadcountChart
@@ -67,14 +67,14 @@ namespace HRIS.API
 
             SqlParameter[] sqlParameters =
                    new SqlParameter[] {
-                        new SqlParameter("@UserID", userID) { },
-                        new SqlParameter("@PageNumber", pageNumber){},
-                        new SqlParameter("@PageSize", pageSize){},
-                        new SqlParameter("@SortColumn", sortColumn){},
-                        new SqlParameter("@SortOrder", sortOrder){},
-                        new SqlParameter("@SearchTerm", searchTerm){},
-                        new SqlParameter("@RCs", rcs){},
-                        new SqlParameter("@DPs", dps){},
+                        new SqlParameter("@UserID", userID),
+                        new SqlParameter("@PageNumber", pageNumber),
+                        new SqlParameter("@PageSize", pageSize),
+                        new SqlParameter("@SortColumn", sortColumn),
+                        new SqlParameter("@SortOrder", sortOrder),
+                        new SqlParameter("@SearchTerm", searchTerm),
+                        new SqlParameter("@RCs", rcs),
+                        new SqlParameter("@DPs", dps),
                    };
 
 
@@ -96,16 +96,16 @@ namespace HRIS.API
 
             SqlParameter[] sqlParameters =
                    new SqlParameter[] {
-                        new SqlParameter("@UserID", userID) { },
-                        new SqlParameter("@PageNumber", pageNumber){},
-                        new SqlParameter("@PageSize", pageSize){},
-                        new SqlParameter("@SortColumn", sortColumn){},
-                        new SqlParameter("@SortOrder", sortOrder){},
-                        new SqlParameter("@SearchTerm", searchTerm){},
-                        new SqlParameter("@RCs", rcs){},
-                        new SqlParameter("@DPs", dps){},
-                        new SqlParameter("@LeaveStatus", leaveStatus){},
-                        new SqlParameter("@Titles", titles){}
+                        new SqlParameter("@UserID", userID),
+                        new SqlParameter("@PageNumber", pageNumber),
+                        new SqlParameter("@PageSize", pageSize),
+                        new SqlParameter("@SortColumn", sortColumn),
+                        new SqlParameter("@SortOrder", sortOrder),
+                        new SqlParameter("@SearchTerm", searchTerm),
+                        new SqlParameter("@RCs", rcs),
+                        new SqlParameter("@DPs", dps),
+                        new SqlParameter("@LeaveStatus", leaveStatus),
+                        new SqlParameter("@Titles", titles)
                    };
 
 
@@ -128,14 +128,14 @@ namespace HRIS.API
 
             SqlParameter[] sqlParameters =
                    new SqlParameter[] {
-                        new SqlParameter("@UserID", userID) { },
-                        new SqlParameter("@PageNumber", pageNumber){},
-                        new SqlParameter("@PageSize", pageSize){},
-                        new SqlParameter("@SortColumn", sortColumn){},
-                        new SqlParameter("@SortOrder", sortOrder){},
-                        new SqlParameter("@SearchTerm", searchTerm){},
-                        new SqlParameter("@RCs", rcs){},
-                        new SqlParameter("@Titles", titles){}
+                        new SqlParameter("@UserID", userID),
+                        new SqlParameter("@PageNumber", pageNumber),
+                        new SqlParameter("@PageSize", pageSize),
+                        new SqlParameter("@SortColumn", sortColumn),
+                        new SqlParameter("@SortOrder", sortOrder),
+                        new SqlParameter("@SearchTerm", searchTerm),
+                        new SqlParameter("@RCs", rcs),
+                        new SqlParameter("@Titles", titles)
                    };
 
 
@@ -158,14 +158,14 @@ namespace HRIS.API
 
             SqlParameter[] sqlParameters =
                    new SqlParameter[] {
-                        new SqlParameter("@UserID", userID) { },
-                        new SqlParameter("@PageNumber", pageNumber){},
-                        new SqlParameter("@PageSize", pageSize){},
-                        new SqlParameter("@SortColumn", sortColumn){},
-                        new SqlParameter("@SortOrder", sortOrder){},
-                        new SqlParameter("@SearchTerm", searchTerm){},
-                        new SqlParameter("@RCs", rcs){},
-                        new SqlParameter("@Titles", titles){}
+                        new SqlParameter("@UserID", userID),
+                        new SqlParameter("@PageNumber", pageNumber),
+                        new SqlParameter("@PageSize", pageSize),
+                        new SqlParameter("@SortColumn", sortColumn),
+                        new SqlParameter("@SortOrder", sortOrder),
+                        new SqlParameter("@SearchTerm", searchTerm),
+                        new SqlParameter("@RCs", rcs),
+                        new SqlParameter("@Titles", titles)
                    };
 
 
@@ -188,14 +188,14 @@ namespace HRIS.API
 
             SqlParameter[] sqlParameters =
                    new SqlParameter[] {
-                        new SqlParameter("@UserID", userID) { },
-                        new SqlParameter("@PageNumber", pageNumber){},
-                        new SqlParameter("@PageSize", pageSize){},
-                        new SqlParameter("@SortColumn", sortColumn){},
-                        new SqlParameter("@SortOrder", sortOrder){},
-                        new SqlParameter("@SearchTerm", searchTerm){},
-                        new SqlParameter("@RCs", rcs){},
-                        new SqlParameter("@Titles", titles){},
+                        new SqlParameter("@UserID", userID),
+                        new SqlParameter("@PageNumber", pageNumber),
+                        new SqlParameter("@PageSize", pageSize),
+                        new SqlParameter("@SortColumn", sortColumn),
+                        new SqlParameter("@SortOrder", sortOrder),
+                        new SqlParameter("@SearchTerm", searchTerm),
+                        new SqlParameter("@RCs", rcs),
+                        new SqlParameter("@Titles", titles),
                    };
 
 

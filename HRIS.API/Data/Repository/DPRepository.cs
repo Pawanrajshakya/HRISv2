@@ -25,31 +25,41 @@ namespace HRIS.API
 
         public async Task<IEnumerable<DPDto>> GetAsync(string userid = null)
         {
-            var _userId = new SqlParameter("@UserID", userid ?? UserSession.Instance.User.UserID);
-            var rC = new SqlParameter("@RC", "");
-            var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID, @RC", _userId, rC)
+            SqlParameter[] sqlParameters = new SqlParameter[] { new SqlParameter("@UserID", userid ?? UserSession.Instance.User.UserID),
+            new SqlParameter("@RC", "") };
+
+            var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID, @RC", sqlParameters)
                 .ProjectTo<DPDto>(_mapper.ConfigurationProvider)
                 .ToList();
+
             return await Task.Run(() => DPs);
         }
 
         public async Task<IEnumerable<DPDto>> GetAsync()
         {
-            var userId = new SqlParameter("@UserID", UserSession.Instance.User.UserID);
-            var rC = new SqlParameter("@RC", "");
-            var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID, @RC", userId, rC)
+            SqlParameter[] sqlParameters = new SqlParameter[] {
+                new SqlParameter("@UserID", UserSession.Instance.User.UserID),
+                new SqlParameter("@RC", "")
+            };
+
+            var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID, @RC", sqlParameters)
                 .ProjectTo<DPDto>(_mapper.ConfigurationProvider)
                 .ToList();
+
             return await Task.Run(() => DPs);
         }
 
         public async Task<IEnumerable<DPDto>> GetByUserIDAsync(string userid, string rc = "")
         {
-            var rC = new SqlParameter("@RC", rc);
-            var userID = new SqlParameter("@UserID", userid);
-            var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID, @RC", userID, rC)
+            SqlParameter[] sqlParameters = new SqlParameter[] {
+                new SqlParameter("@RC", rc),
+                new SqlParameter("@UserID", userid)
+            };
+
+            var DPs = _context.DP.FromSqlRaw("spGetDPList @UserID, @RC", sqlParameters)
                 .ProjectTo<DPDto>(_mapper.ConfigurationProvider)
                 .ToList();
+
             return await Task.Run(() => DPs);
         }
     }

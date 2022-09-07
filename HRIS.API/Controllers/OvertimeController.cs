@@ -24,7 +24,7 @@ namespace HRIS.API.Controllers
             {
                 if (UserSession.Instance.User.Groups.Contains(3))
                 {
-                    return Ok(await _overtimeRepository.GetStaffOTSummary(UserSession.Instance.User.UserID, ein, calenderType));
+                    return Ok(await _overtimeRepository.GetStaffOvertimeSummaryAsync(UserSession.Instance.User.UserID, ein, calenderType));
                 }
                 return Ok();
             }
@@ -40,7 +40,7 @@ namespace HRIS.API.Controllers
                 {
                     if (string.IsNullOrEmpty(rcs) || rcs == "*") rcs = GetRC(false);
 
-                    return Ok(await _overtimeRepository.GetActualOTs(UserSession.Instance.User.UserID, rcs.Replace(',', '|')));
+                    return Ok(await _overtimeRepository.GetActualOvertimeAsync(UserSession.Instance.User.UserID, rcs.Replace(',', '|')));
                 }
                 return NotFound();
             }
@@ -57,7 +57,7 @@ namespace HRIS.API.Controllers
                     if (string.IsNullOrEmpty(rcs) || rcs == "*") rcs = GetRC(false);
 
 
-                    return Ok(await _overtimeRepository.GetBudgetedOTs(UserSession.Instance.User.UserID, rcs.Replace(',', '|'), year));
+                    return Ok(await _overtimeRepository.GetBudgetedOvertimeAsync(UserSession.Instance.User.UserID, rcs.Replace(',', '|'), year));
                 }
                 return NotFound();
             }
@@ -71,7 +71,7 @@ namespace HRIS.API.Controllers
             {
                 if (UserSession.Instance.User.Groups.Contains(3))
                 {
-                    return Ok(await _overtimeRepository.GetOvertimeReport(UserSession.Instance.User.UserID
+                    return Ok(await _overtimeRepository.GetOvertimeReportAsync(UserSession.Instance.User.UserID
                     , rcs: string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs
                     , dps: string.IsNullOrEmpty(parameters.RcDp.DPs) ? GetDP(false) : parameters.RcDp.DPs
                     , isCalender: parameters.IsCalendarYear ? "Calendar" : "Fiscal"
@@ -97,7 +97,7 @@ namespace HRIS.API.Controllers
             {
                 if (UserSession.Instance.User.Groups.Contains(3))
                 {
-                    return Ok(await _overtimeRepository.GetOvertimeEarnedAnalysisReport(
+                    return Ok(await _overtimeRepository.GetOvertimeEarnedAnalysisReportAsync(
                     userid: UserSession.Instance.User.UserID
                     , rcs: string.IsNullOrEmpty(parameters.RcDp.RCs) ? GetRC(false) : parameters.RcDp.RCs
                     , year: parameters.Year.ToString()

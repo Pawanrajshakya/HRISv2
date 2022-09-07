@@ -15,11 +15,16 @@ import { ElementSchemaRegistry } from '@angular/compiler';
 export class AnnouncementService extends BaseService {
   selectedAnnouncement = new EventEmitter<IAnnouncementSummary[]>();
 
+  announcements: IAnnouncementSummary[] = [];
+
   constructor(
     private httpClient: HttpClient,
     private errorHandlingService: ErrorHandlingService
   ) {
     super();
+    this.getByUser().then((data) => {
+      this.announcements = data;
+    });
   }
 
   tableList$(tableViewParam?: IReportParam) {
@@ -44,10 +49,17 @@ export class AnnouncementService extends BaseService {
   }
 
   getByUser(): Promise<IAnnouncementSummary[]> {
+    // let announcementSummary: IAnnouncementSummary[] = [];
     return new Promise((resolve, reject) => {
-      this.getByUser$().subscribe((data) => {
-        if (data) resolve(data);
-        else resolve([]);
+      if (this.announcements.length > 0) resolve(this.announcements);
+      this.getByUser$().subscribe({
+        next: (data) => {
+          if (data) this.announcements = data;
+        },
+        error: (err) => {},
+        complete: () => {
+          resolve(this.announcements);
+        },
       });
     });
   }

@@ -9,8 +9,8 @@ namespace HRIS.API
 {
     public interface IEmployeeBehaviorRepository
     {
-        public Task<List<EmployeeBehaviorDto>> GetEmployeeBehaviorCodeAsync(string userid);
-        public Task<List<EmployeeBehaviorChartDto>> GetEmployeeBehaviorChartAsync(
+        public Task<List<EmployeeBehaviorDto>> GetCodesAsync(string userid);
+        public Task<List<EmployeeBehaviorChartDto>> GetChartAsync(
             string userID,
             string startDate,
             string endDate,
@@ -30,11 +30,12 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<List<EmployeeBehaviorDto>> GetEmployeeBehaviorCodeAsync(string userid)
+        public async Task<List<EmployeeBehaviorDto>> GetCodesAsync(string userid)
         {
             try
             {
                 var param = new SqlParameter("@UserID", userid);
+
                 var data = _context.EmployeeBehaviors
                     .FromSqlRaw("dbo.sp_GetHRAEmployeeBehaviorList @UserID", param)
                     .ProjectTo<EmployeeBehaviorDto>(_mapper.ConfigurationProvider)
@@ -48,7 +49,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<List<EmployeeBehaviorChartDto>> GetEmployeeBehaviorChartAsync(string userID, string startDate, string endDate,
+        public async Task<List<EmployeeBehaviorChartDto>> GetChartAsync(string userID, string startDate, string endDate,
             string requestStatus, string jobCenters, string foodCenters, string facilities,
             bool monthView, string yearMonth)
         {
@@ -57,14 +58,14 @@ namespace HRIS.API
                 var dtos = new List<EmployeeBehaviorChartDto>();
 
                 SqlParameter[] sqlParameters = new SqlParameter[] {
-                    new SqlParameter("@userID", userID??"") { },
-                    new SqlParameter("@StartDate", startDate??"") { },
-                    new SqlParameter("@EndDate", endDate??"") { },
-                    new SqlParameter("@RequestStatus", requestStatus??"") { },
-                    new SqlParameter("@JobCenters", jobCenters??"") { },
-                    new SqlParameter("@FoodCenters", foodCenters??"") { },
-                    new SqlParameter("@HRAFacilities", facilities??"") { },
-                    new SqlParameter("@MonthView", monthView) { },
+                    new SqlParameter("@userID", userID??""),
+                    new SqlParameter("@StartDate", startDate??""),
+                    new SqlParameter("@EndDate", endDate??""),
+                    new SqlParameter("@RequestStatus", requestStatus??""),
+                    new SqlParameter("@JobCenters", jobCenters??""),
+                    new SqlParameter("@FoodCenters", foodCenters??""),
+                    new SqlParameter("@HRAFacilities", facilities??""),
+                    new SqlParameter("@MonthView", monthView),
                     new SqlParameter("@YearMonth", yearMonth??"") { }
                 };
                 var data = _context.EmployeeBehaviorCharts

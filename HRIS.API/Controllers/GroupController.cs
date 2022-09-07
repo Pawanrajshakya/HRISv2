@@ -21,7 +21,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return _groupRepository.Get(groupID);
+                return _groupRepository.GetByID(groupID);
             }
             catch (System.Exception ex)
             {

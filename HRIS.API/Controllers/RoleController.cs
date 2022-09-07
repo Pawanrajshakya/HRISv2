@@ -19,7 +19,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await roleRepository.GetAsync(roleID));
+                return Ok(await roleRepository.GetByIDAsync(roleID));
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }

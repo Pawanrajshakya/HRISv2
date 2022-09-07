@@ -8,25 +8,25 @@ namespace HRIS.API
 {
     public interface IGDSRepository
     {
-        public Task<IEnumerable<ECardChartDto>> GetECardChart(int roleId, string rcs, string dps);
+        public Task<IEnumerable<ECardChartDto>> GetChartAsync(int roleId, string rcs, string dps);
 
         //HRIS_ECards_ByRC
-        public Task<IEnumerable<ECardSendAndReceivedReportDto>> GetECardSendAndReceivedReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc",
-            string searchTerm = null, string fromDate = null, string toDate = null, string rcs= null, bool ecardReportIsSentBy = true);
+        public Task<IEnumerable<ECardSendAndReceivedReportDto>> GetSendAndReceivedReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc",
+            string searchTerm = null, string fromDate = null, string toDate = null, string rcs = null, bool ecardReportIsSentBy = true);
 
         //HRIS_ECards_ByRelationshipOfSender
-        public Task<IEnumerable<ECardByRelationshipReportDto>> GetECardByRelationshipReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc",
+        public Task<IEnumerable<ECardByRelationshipReportDto>> GetRelationshipReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc",
             string searchTerm = null, string fromDate = null, string toDate = null, string rcs = null, bool ecardReportIsSentBy = true);
 
         //HRIS_ECards_ByExcellenceProgram
-        public Task<IEnumerable<ECardByExcellenceReportDto>> GetECardByExcellenceReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc",
+        public Task<IEnumerable<ECardByExcellenceReportDto>> GetExcellenceReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc",
             string searchTerm = null, string fromDate = null, string toDate = null, string rcs = null, bool ecardReportIsSentBy = true);
 
-        public Task<IEnumerable<EEOConfirmedReportDto>> GetEEOConfirmedReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RA",
+        public Task<IEnumerable<EEOConfirmedReportDto>> GetEEOConfirmedReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RA",
             string sortOrder = "asc", string searchTerm = null, string rcs = null);
-        public Task<IEnumerable<EEOPendingReportDto>> GetEEOPendingReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC",
+        public Task<IEnumerable<EEOPendingReportDto>> GetEEOPendingReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC",
             string sortOrder = "asc", string searchTerm = null, string rcs = null);
-        public Task<IEnumerable<EEOSummaryReportDto>> GetEEOSummaryReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC",
+        public Task<IEnumerable<EEOSummaryReportDto>> GetEEOSummaryReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC",
             string sortOrder = "asc", string searchTerm = null, string rcs = null);
     }
 
@@ -39,7 +39,7 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ECardByExcellenceReportDto>> GetECardByExcellenceReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = null, string fromDate = null, string toDate = null, string rcs = null, bool ecardReportIsSentBy = true)
+        public async Task<IEnumerable<ECardByExcellenceReportDto>> GetExcellenceReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = null, string fromDate = null, string toDate = null, string rcs = null, bool ecardReportIsSentBy = true)
         {
             try
             {
@@ -47,16 +47,16 @@ namespace HRIS.API
                 = new List<ECardByExcellenceReportDto>();
 
                 SqlParameter[] param = new SqlParameter[] {
-                    new SqlParameter("@UserID", userID) { },
-                    new SqlParameter("@PageNumber", pageNumber) { },
-                    new SqlParameter("@PageSize", pageSize) { },
-                    new SqlParameter("@SortColumn", sortColumn) { },
-                    new SqlParameter("@SortOrder", sortOrder) { },
-                    new SqlParameter("@SearchTerm", searchTerm) { },
-                    new SqlParameter("@FromDate", fromDate) { } ,
-                    new SqlParameter("@ToDate", toDate) { } ,
-                    new SqlParameter("@RC", rcs) { } ,
-                    new SqlParameter("@SentBy", ecardReportIsSentBy) { } 
+                    new SqlParameter("@UserID", userID),
+                    new SqlParameter("@PageNumber", pageNumber),
+                    new SqlParameter("@PageSize", pageSize),
+                    new SqlParameter("@SortColumn", sortColumn),
+                    new SqlParameter("@SortOrder", sortOrder),
+                    new SqlParameter("@SearchTerm", searchTerm),
+                    new SqlParameter("@FromDate", fromDate),
+                    new SqlParameter("@ToDate", toDate),
+                    new SqlParameter("@RC", rcs),
+                    new SqlParameter("@SentBy", ecardReportIsSentBy)
                 };
 
                 var rows = _gdsContext.ECardByExcellenceReports
@@ -77,7 +77,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<ECardByRelationshipReportDto>> GetECardByRelationshipReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = null, string fromDate = null, string toDate = null, string rcs = null, bool ecardReportIsSentBy = true)
+        public async Task<IEnumerable<ECardByRelationshipReportDto>> GetRelationshipReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = null, string fromDate = null, string toDate = null, string rcs = null, bool ecardReportIsSentBy = true)
         {
             try
             {
@@ -85,16 +85,16 @@ namespace HRIS.API
                 = new List<ECardByRelationshipReportDto>();
 
                 SqlParameter[] param = new SqlParameter[] {
-                    new SqlParameter("@UserID", userID) { },
-                    new SqlParameter("@PageNumber", pageNumber) { },
-                    new SqlParameter("@PageSize", pageSize) { },
-                    new SqlParameter("@SortColumn", sortColumn) { },
-                    new SqlParameter("@SortOrder", sortOrder) { },
-                    new SqlParameter("@SearchTerm", searchTerm) { },
-                    new SqlParameter("@FromDate", fromDate) { } ,
-                    new SqlParameter("@ToDate", toDate) { } ,
-                    new SqlParameter("@RC", rcs) { } ,
-                    new SqlParameter("@SentBy", ecardReportIsSentBy) { }
+                    new SqlParameter("@UserID", userID),
+                    new SqlParameter("@PageNumber", pageNumber),
+                    new SqlParameter("@PageSize", pageSize),
+                    new SqlParameter("@SortColumn", sortColumn),
+                    new SqlParameter("@SortOrder", sortOrder),
+                    new SqlParameter("@SearchTerm", searchTerm),
+                    new SqlParameter("@FromDate", fromDate),
+                    new SqlParameter("@ToDate", toDate),
+                    new SqlParameter("@RC", rcs),
+                    new SqlParameter("@SentBy", ecardReportIsSentBy)
                 };
 
                 var rows = _gdsContext.ECardByRelationshipReports
@@ -115,7 +115,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<ECardChartDto>> GetECardChart(int roleId, string rcs, string dps)
+        public async Task<IEnumerable<ECardChartDto>> GetChartAsync(int roleId, string rcs, string dps)
         {
             try
             {
@@ -123,9 +123,9 @@ namespace HRIS.API
                 = new List<ECardChartDto>();
 
                 var param = new SqlParameter[] {
-                new SqlParameter( "@RoleID", roleId){ },
-                new SqlParameter("@RCs", rcs){},
-                new SqlParameter("@DPs", dps){}
+                new SqlParameter( "@RoleID", roleId),
+                new SqlParameter("@RCs", rcs),
+                new SqlParameter("@DPs", dps)
             };
 
                 var data = _gdsContext.ECardChart
@@ -151,7 +151,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<ECardSendAndReceivedReportDto>> GetECardSendAndReceivedReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = null, string fromDate = null, string toDate = null, string rcs = null, bool ecardReportIsSentBy = true)
+        public async Task<IEnumerable<ECardSendAndReceivedReportDto>> GetSendAndReceivedReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = null, string fromDate = null, string toDate = null, string rcs = null, bool ecardReportIsSentBy = true)
         {
             try
             {
@@ -159,16 +159,16 @@ namespace HRIS.API
                 = new List<ECardSendAndReceivedReportDto>();
 
                 SqlParameter[] param = new SqlParameter[] {
-                    new SqlParameter("@UserID", userID) { },
-                    new SqlParameter("@PageNumber", pageNumber) { },
-                    new SqlParameter("@PageSize", pageSize) { },
-                    new SqlParameter("@SortColumn", sortColumn) { },
-                    new SqlParameter("@SortOrder", sortOrder) { },
-                    new SqlParameter("@SearchTerm", searchTerm) { },
-                    new SqlParameter("@FromDate", fromDate) { } ,
-                    new SqlParameter("@ToDate", toDate) { } ,
-                    new SqlParameter("@RC", rcs) { } ,
-                    new SqlParameter("@SentBy", ecardReportIsSentBy) { }
+                    new SqlParameter("@UserID", userID),
+                    new SqlParameter("@PageNumber", pageNumber),
+                    new SqlParameter("@PageSize", pageSize),
+                    new SqlParameter("@SortColumn", sortColumn),
+                    new SqlParameter("@SortOrder", sortOrder),
+                    new SqlParameter("@SearchTerm", searchTerm),
+                    new SqlParameter("@FromDate", fromDate),
+                    new SqlParameter("@ToDate", toDate),
+                    new SqlParameter("@RC", rcs),
+                    new SqlParameter("@SentBy", ecardReportIsSentBy)
                 };
 
                 var rows = _gdsContext.ECardSendAndReceivedReports
@@ -189,7 +189,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<EEOConfirmedReportDto>> GetEEOConfirmedReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RA", string sortOrder = "asc", string searchTerm = null, string rcs = null)
+        public async Task<IEnumerable<EEOConfirmedReportDto>> GetEEOConfirmedReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RA", string sortOrder = "asc", string searchTerm = null, string rcs = null)
         {
             try
             {
@@ -197,13 +197,13 @@ namespace HRIS.API
                 = new List<EEOConfirmedReportDto>();
 
                 SqlParameter[] param = new SqlParameter[] {
-                    new SqlParameter("@UserID", userID) { },
-                    new SqlParameter("@PageNumber", pageNumber) { },
-                    new SqlParameter("@PageSize", pageSize) { },
-                    new SqlParameter("@SortColumn", sortColumn) { },
-                    new SqlParameter("@SortOrder", sortOrder) { },
-                    new SqlParameter("@SearchTerm", searchTerm) { },
-                    new SqlParameter("@RA", rcs) { } };
+                    new SqlParameter("@UserID", userID),
+                    new SqlParameter("@PageNumber", pageNumber),
+                    new SqlParameter("@PageSize", pageSize),
+                    new SqlParameter("@SortColumn", sortColumn),
+                    new SqlParameter("@SortOrder", sortOrder),
+                    new SqlParameter("@SearchTerm", searchTerm),
+                    new SqlParameter("@RA", rcs)};
 
                 var rows = _gdsContext.EEOConfirmedReports
                     .FromSqlRaw($"EXECUTE HRIS_eeo_spGetSurveyData_Confirmed6mthsbyRA_final_Report_JanJuly " +
@@ -223,7 +223,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<EEOPendingReportDto>> GetEEOPendingReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = null, string rcs = null)
+        public async Task<IEnumerable<EEOPendingReportDto>> GetEEOPendingReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = null, string rcs = null)
         {
             try
             {
@@ -231,13 +231,13 @@ namespace HRIS.API
                 = new List<EEOPendingReportDto>();
 
                 SqlParameter[] param = new SqlParameter[] {
-                    new SqlParameter("@UserID", userID) { },
-                    new SqlParameter("@PageNumber", pageNumber) { },
-                    new SqlParameter("@PageSize", pageSize) { },
-                    new SqlParameter("@SortColumn", sortColumn) { },
-                    new SqlParameter("@SortOrder", sortOrder) { },
-                    new SqlParameter("@SearchTerm", searchTerm) { },
-                    new SqlParameter("@RA", rcs) { } };
+                    new SqlParameter("@UserID", userID),
+                    new SqlParameter("@PageNumber", pageNumber),
+                    new SqlParameter("@PageSize", pageSize),
+                    new SqlParameter("@SortColumn", sortColumn),
+                    new SqlParameter("@SortOrder", sortOrder),
+                    new SqlParameter("@SearchTerm", searchTerm),
+                    new SqlParameter("@RA", rcs)};
 
                 var rows = _gdsContext.EEOPendingReports
                     .FromSqlRaw($"EXECUTE dbo.[HRIS_eeo_spGetPendingSurveyData_ByRA_final_Report_JanJuly] " +
@@ -257,7 +257,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<EEOSummaryReportDto>> GetEEOSummaryReport(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = null, string rcs = null)
+        public async Task<IEnumerable<EEOSummaryReportDto>> GetEEOSummaryReportAsync(string userID, int pageNumber = 1, int pageSize = 10, string sortColumn = "RC", string sortOrder = "asc", string searchTerm = null, string rcs = null)
         {
             try
             {
@@ -265,13 +265,13 @@ namespace HRIS.API
                 = new List<EEOSummaryReportDto>();
 
                 SqlParameter[] param = new SqlParameter[] {
-                    new SqlParameter("@UserID", userID) { },
-                    new SqlParameter("@PageNumber", pageNumber) { },
-                    new SqlParameter("@PageSize", pageSize) { },
-                    new SqlParameter("@SortColumn", sortColumn) { },
-                    new SqlParameter("@SortOrder", sortOrder) { },
-                    new SqlParameter("@SearchTerm", searchTerm) { },
-                    new SqlParameter("@RA", rcs) { } };
+                    new SqlParameter("@UserID", userID),
+                    new SqlParameter("@PageNumber", pageNumber),
+                    new SqlParameter("@PageSize", pageSize),
+                    new SqlParameter("@SortColumn", sortColumn),
+                    new SqlParameter("@SortOrder", sortOrder),
+                    new SqlParameter("@SearchTerm", searchTerm),
+                    new SqlParameter("@RA", rcs)};
 
                 var rows = _gdsContext.EEOSummaryReports
                     .FromSqlRaw($"EXECUTE dbo.[HRIS_eeo_spGetSummarydataByRC_Report_JanJuly] " +

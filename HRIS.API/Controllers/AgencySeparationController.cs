@@ -17,12 +17,11 @@ namespace HRIS.API.Controllers
         }
 
         [HttpPost("summary")]
-        public async Task<ActionResult>
-            GetAgencySeparationAsync(AgencySeparationParameters parameters)
+        public async Task<ActionResult> GetSummaryAsync(AgencySeparationParameters parameters)
         {
             try
             {
-                IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
+                IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetChartAsync(UserSession.Instance.User.UserID
                 , parameters.RcDp.RCs ?? ""
                 , parameters.RcDp.DPs ?? ""
                 , parameters.IsCalendarYear
@@ -40,11 +39,11 @@ namespace HRIS.API.Controllers
         }
 
         [HttpPost("chart")]
-        public async Task<ActionResult> GetAgencySeparationChartAsync(AgencySeparationParameters parameters)
+        public async Task<ActionResult> GetChartAsync(AgencySeparationParameters parameters)
         {
             try
             {
-                IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetGetAgencySeparationSummary(UserSession.Instance.User.UserID
+                IEnumerable<SeparationSummaryDto> list = await _agencySeparationRepository.GetChartAsync(UserSession.Instance.User.UserID
                     , parameters.RcDp.RCs ?? ""
                     , parameters.RcDp.DPs ?? ""
                     , parameters.IsCalendarYear

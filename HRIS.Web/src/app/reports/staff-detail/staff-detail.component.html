@@ -1,6 +1,7 @@
 <div class="card border-secondary">
   <div class="card-header text-white bg-secondary border-secondary shadow">
-    <i class="bi bi-person-check-fill"></i> Staff Detail <span class="pull-right">{{ein}}</span>
+    <i class="bi bi-person-check-fill"></i> Staff Detail <button class="btn btn-primary btn-xs text-white shadow pull-right" (click)="onExport()">
+      <i class="bi bi-file-earmark-pdf"></i>&nbsp;Print</button>
   </div>
   <div class="card-body">
     <div class="col-sm-12 row">
@@ -15,12 +16,6 @@
       <div class="col-sm-4">{{detail.ein | hrisEmptyValue}}</div>
       <div class="col-sm-2 font-weight-bold">RC Name</div>
       <div class="col-sm-4">{{detail.rcName | hrisEmptyValue}}</div>
-    </div>
-    <div class="col-sm-12 row mt-2 mb-2">
-      <div class=" col-sm-12">
-        <button class="btn btn-primary btn-xs text-white shadow  pull-right" [disabled]="!(resultsLength > 0)" (click)="onExport()">
-          <i class="bi bi-file-earmark-pdf"></i>&nbsp;Print</button>
-      </div>
     </div>
     <br>
     <tabset [justified]="true">
@@ -177,7 +172,8 @@
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-2 font-weight-bold text-primary"><i class="bi bi-envelope"></i>&nbsp;Outlook</div>
-              <div class="col-sm-9"><a href="mailto:{{detail.workEmail}}">{{detail.workEmail | hrisEmptyValue}}</a></div>
+              <div class="col-sm-9"><a href="mailto:{{detail.workEmail}}">{{detail.workEmail | hrisEmptyValue}}</a>
+              </div>
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-2 font-weight-bold"><i class="bi bi-telephone"></i>&nbsp;Office Phone</div>
@@ -246,7 +242,7 @@
           <i class="bi bi-hand-index-fill"></i>&nbsp;EDU Info
         </ng-template>
         <div class="card border border-top border-secondary shadow mt-2" *ngIf="staffEDUDetail.length === 0">
-          <h3 class="text-info mt-2 mb-2 ml-2"><i class="bi bi-info-square-fill"></i>  No records found.</h3>
+          <h3 class="text-info mt-2 mb-2 ml-2"><i class="bi bi-info-square-fill"></i> No records found.</h3>
         </div>
         <div *ngIf="!!staffEDUDetail">
           <div class="card border border-top border-secondary shadow mt-2"
@@ -366,7 +362,8 @@
             </div>
             <div class="col-sm-12 row mt-2">
               <div class="col-sm-4 font-weight-bold">Earned OT %</div>
-              <div class="col-sm-4">{{staffOTSummaryCalendar.otPercentofBaseSalary | hrisEmptyValue | hrisPercent}}</div>
+              <div class="col-sm-4">{{staffOTSummaryCalendar.otPercentofBaseSalary | hrisEmptyValue | hrisPercent}}
+              </div>
               <div class="col-sm-4">{{staffOTSummaryFiscal.otPercentofBaseSalary | hrisEmptyValue | hrisPercent}}</div>
             </div>
             <div class="col-sm-12 row mt-2">

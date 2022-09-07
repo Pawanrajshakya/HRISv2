@@ -7,7 +7,7 @@ namespace HRIS.API
 {
     public interface ILogRepository
     {
-        public Task<bool> Save(
+        public Task<bool> SaveAsync(
             string source, 
             DateTime logDateTime, 
             string message, 
@@ -21,7 +21,7 @@ namespace HRIS.API
             string userAuthentication, 
             string userName);
 
-        public Task<bool> Access(
+        public Task<bool> AccessAsync(
             string sessionID, 
             string userName,
             string hostName, 
@@ -40,7 +40,7 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<bool> Access(string sessionID, string userName, string hostName, string osVersion, 
+        public async Task<bool> AccessAsync(string sessionID, string userName, string hostName, string osVersion, 
             string browser, string browserVersion, string url, string action)
         {
             SqlParameter[] sqlParameters = new SqlParameter[] {
@@ -61,7 +61,7 @@ namespace HRIS.API
             return await Task.Run(() => true);
         }
 
-        public async Task<bool> Save(string source, DateTime logDateTime, string message, string queryString, 
+        public async Task<bool> SaveAsync(string source, DateTime logDateTime, string message, string queryString, 
             string targetSite, string stackTrace, string serverName, string requestUrl, 
             string userAgent, string userIP, string userAuthentication, string userName)
         {

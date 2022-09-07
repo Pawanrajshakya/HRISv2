@@ -16,7 +16,7 @@
   </ul>
 </div>
 
-<mat-toolbar class="bg-primary shadow border-top border-bottom border-white" style="width: 100%">
+<mat-toolbar class="bg-primary shadow border-top border-bottom border-white text-justify" style="width: 100%">
   <a class="btn btn-link btn-sm text-white text-decoration-none" [routerLink]="['/home']" routerLinkActive="active">
     <i class="bi bi-house-fill"></i> Home</a>
 
@@ -24,24 +24,22 @@
     *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)">
     <i class="bi bi-person-lines-fill"></i> Staff <span class="caret"></span></a>
 
-  <mat-menu #staffMenu="matMenu" yPosition="below">
-
-    <button [routerLink]="['/activeStaff']" routerLinkActive="active" mat-menu-item>
-      Active Staff (DHS & HRA)
-    </button>
-
+    <mat-menu #staffMenu="matMenu">
+    <div>
+      <button [routerLink]="['/activeStaff']" routerLinkActive="active" mat-menu-item>Active Staff (DHS & HRA)</button>
+    </div>
   </mat-menu>
 
   <a mat-menu role="menu" class="btn btn-link text-white text-decoration-none btn-sm" [matMenuTriggerFor]="reportMenu"
-    *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)"><i
+  *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)"><i
       class="bi bi-list"></i> Reports <span class="caret"></span></a>
-  <mat-menu #reportMenu="matMenu">
-
+  <mat-menu #reportMenu="matMenu" overlapTrigger="false">
+    <span>
     <button mat-menu-item (click)="onClassificationReportClick(1)"
       *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4)">Classification
       Report (DSS & HRA)</button>
 
-      <button mat-menu-item (click)="onClassificationReportClick(0)"
+    <button mat-menu-item (click)="onClassificationReportClick(0)"
       *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1)">Classification
       Report (DSS & HRA)</button>
 
@@ -91,6 +89,7 @@
       *ngIf="loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)">
       Staff On Leave / Ceased Report (DSS & HRA)
     </button>
+    </span>
   </mat-menu>
   <mat-menu #staffReport="matMenu">
     <button [routerLink]="['/leaveReport']" routerLinkActive="active" mat-menu-item>
@@ -123,9 +122,9 @@
 
     <a class="text-decoration-none" mat-menu-item href="https://webp16dssap01/CARF/SearchRequests.aspx"
       routerLinkActive="active" target="_blank">CARF (Classification Request Form)</a>
-    
-      <a class="text-decoration-none" mat-menu-item href="https://webp16dssap01/CARF/SearchRequests.aspx"
-      routerLinkActive="active" target="_blank">CARF (Classification Request Form)</a>  
+
+    <a class="text-decoration-none" mat-menu-item href="https://webp16dssap01/CARF/SearchRequests.aspx"
+      routerLinkActive="active" target="_blank">CARF (Classification Request Form)</a>
 
     <a class="text-decoration-none" mat-menu-item
       href="https://CentralIntake.hra.nycnet/CentralIntakeWorkFlow/UI/Page/Login.aspx" routerLinkActive="active"
@@ -215,4 +214,6 @@
     {{ user.lastName | titlecase}}
     {{ user.firstName | titlecase}}</a>
 </mat-toolbar>
-<ng-template #tolTemplate>You are logged in as {{loginService.currentUser.firstName}} {{loginService.currentUser.lastName}} - EIN {{loginService.currentUser.ein}}. Your role in this application is {{loginService.currentUser.roleDescription}}</ng-template>
+<ng-template #tolTemplate>You are logged in as {{loginService.currentUser.firstName}}
+  {{loginService.currentUser.lastName}} - EIN {{loginService.currentUser.ein}}. Your role in this application is
+  {{loginService.currentUser.roleDescription}}</ng-template>

@@ -129,7 +129,7 @@ namespace HRIS.API.Controllers
 
             try
             {
-                return Ok(await _employeeBehaviorRepository.GetEmployeeBehaviorCodeAsync(userid));
+                return Ok(await _employeeBehaviorRepository.GetCodesAsync(userid));
             }
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }

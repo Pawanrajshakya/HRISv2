@@ -20,7 +20,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _employeeBehaviorRepository.GetEmployeeBehaviorChartAsync(UserSession.Instance.User.UserID, parameters.StartDate,
+                return Ok(await _employeeBehaviorRepository.GetChartAsync(UserSession.Instance.User.UserID, parameters.StartDate,
                     parameters.EndDate, parameters.RequestStatus, parameters.JobCenters, parameters.FoodCenters,
                     parameters.Facilities, parameters.IsMonthView, parameters.YearMonth));
             }

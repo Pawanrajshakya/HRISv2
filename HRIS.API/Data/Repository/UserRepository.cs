@@ -11,17 +11,17 @@ namespace HRIS.API
 {
     public interface IUserRepository
     {
-        public Task<UserDto> GetAsync(string lanID);
-        public UserDto Get(string lanID);
-        public Task<GetUserByEINDto> GetAsync(string ein, bool isSuper);
+        public Task<UserDto> GetUserByLanIDAsync(string lanID);
+        public UserDto GetByLanID(string lanID);
+        public Task<GetUserByEINDto> GetByEINAsync(string ein, bool isSuper);
         //public Task<IEnumerable<UserDto>> Get(int roleID, int groupID);
-        public IEnumerable<UserListDto> Get(string userID, Pagination _reportParameters);
+        public IEnumerable<UserListDto> GetUsers(string userID, Pagination _reportParameters);
         public Task<IEnumerable<SearchUser>> SearchAsync(string searchBy, bool isSuper);
         public bool Add(UserDtoToAddAndUpdate user);
         public bool Update(UserDtoToAddAndUpdate user);
         public bool Delete(string userID);
         public Task<bool> IsDeveloperAsync(string lanID);
-        public Task<bool> Find(string ein);
+        public Task<bool> FindAsync(string ein);
     }
     public class UserRepository : Repository, IUserRepository
     {
@@ -50,13 +50,9 @@ namespace HRIS.API
 
         //}
 
-        public async Task<UserDto> GetAsync(string lanID)
+        public async Task<UserDto> GetUserByLanIDAsync(string lanID)
         {
-            var sqlParameters = new SqlParameter[] {
-                new SqlParameter(){
-                    ParameterName= "@LanID", Value= lanID
-                }
-            };
+            var sqlParameters = new SqlParameter[] { new SqlParameter("@LanID", lanID) };
 
             LoginUser user = _context.LoginUser
                 .FromSqlRaw($"EXECUTE dbo.spGetUser @LanID", sqlParameters).ToList()
@@ -68,23 +64,23 @@ namespace HRIS.API
 
             var dto = _mapper.Map<UserDto>(user);
 
-            dto.RoleDescription = (await _roleRepository.GetAsync(dto.RoleID)).Description;
-            dto.Groups = (await _groupRepository.GetAsync(dto.UserID)).Select(x => x.GroupID).ToArray();
+            dto.RoleDescription = (await _roleRepository.GetByIDAsync(dto.RoleID)).Description;
+            dto.Groups = (await _groupRepository.GetByUserIDAsync(dto.UserID)).Select(x => x.GroupID).ToArray();
 
             return await Task.Run(() => dto);
         }
 
-        public IEnumerable<UserListDto> Get(string userID, Pagination _reportParameters)
+        public IEnumerable<UserListDto> GetUsers(string userID, Pagination _reportParameters)
         {
             List<UserListDto> dto = new List<UserListDto>();
 
             var sqlParameters = new SqlParameter[] {
-                new SqlParameter(){ParameterName= "@UserID", Value= userID},
-                new SqlParameter(){ParameterName= "@PageNumber", Value= _reportParameters.PageNumber },
-                new SqlParameter(){ParameterName= "@PageSize", Value= _reportParameters.PageSize},
-                new SqlParameter(){ParameterName= "@SortColumn", Value= _reportParameters.SortColumn??""},
-                new SqlParameter(){ParameterName= "@SortOrder", Value= _reportParameters.SortOrder??""},
-                new SqlParameter(){ParameterName= "@SearchTerm", Value= _reportParameters.SearchTerm??""}
+                new SqlParameter("@UserID", userID),
+                new SqlParameter("@PageNumber", _reportParameters.PageNumber ),
+                new SqlParameter("@PageSize", _reportParameters.PageSize),
+                new SqlParameter("@SortColumn", _reportParameters.SortColumn??""),
+                new SqlParameter("@SortOrder", _reportParameters.SortOrder??""),
+                new SqlParameter("@SearchTerm", _reportParameters.SearchTerm??"")
             };
 
             var rows = _context.UserList
@@ -103,8 +99,8 @@ namespace HRIS.API
             try
             {
                 var sqlParameters = new SqlParameter[] {
-                new SqlParameter("@SearchBy", searchBy.Replace(" ","")){ },
-                new SqlParameter("@IsSuper",isSuper){ }};
+                new SqlParameter("@SearchBy", searchBy.Replace(" ","")),
+                new SqlParameter("@IsSuper",isSuper)};
 
                 List<SearchUser> users = _context.SearchUser
                     .FromSqlRaw($"EXECUTE dbo.spGetUserByName @SearchBy, @IsSuper", sqlParameters)
@@ -118,13 +114,13 @@ namespace HRIS.API
             }
         }
 
-        public async Task<GetUserByEINDto> GetAsync(string ein, bool isSuper)
+        public async Task<GetUserByEINDto> GetByEINAsync(string ein, bool isSuper)
         {
             try
             {
                 var sqlParameters = new SqlParameter[] {
-                new SqlParameter(){ParameterName= "@EIN", Value= ein},
-                new SqlParameter(){ParameterName= "@IsSuper", Value= isSuper}};
+                new SqlParameter("@EIN", ein),
+                new SqlParameter("@IsSuper",isSuper)};
 
                 var list = _context.GetUserByEIN
                     .FromSqlRaw($"EXECUTE dbo.spGetUserByEIN @EIN, @IsSuper", sqlParameters)
@@ -134,7 +130,7 @@ namespace HRIS.API
                 {
                     GetUserByEINDto getUserByEINDto = _mapper.Map<GetUserByEINDto>(user);
 
-                    getUserByEINDto.UsersGroups = (await _groupRepository.GetAsync(ein)).Select(x => x.GroupID).ToList();
+                    getUserByEINDto.UsersGroups = (await _groupRepository.GetByUserIDAsync(ein)).Select(x => x.GroupID).ToList();
 
                     if (user.RCs != null && user.RCs.Length > 0)
                         getUserByEINDto.RCs = new List<string>(user.RCs.ToString().Split(','));
@@ -231,14 +227,12 @@ namespace HRIS.API
             return await Task.Run(() => (bool)sqlParameters[1].Value);
         }
 
-        public UserDto Get(string lanID)
+        public UserDto GetByLanID(string lanID)
         {
             try
             {
                 var sqlParameters = new SqlParameter[] {
-                new SqlParameter(){
-                    ParameterName= "@LanID", Value= lanID
-                }
+                new SqlParameter("@LanID", lanID)
             };
 
                 var users = _context.LoginUser
@@ -253,7 +247,7 @@ namespace HRIS.API
 
                 var dto = _mapper.Map<UserDto>(user);
 
-                dto.Groups = _groupRepository.Get(dto.UserID).Select(x => x.GroupID).ToArray();
+                dto.Groups = _groupRepository.GetByUserID(dto.UserID).Select(x => x.GroupID).ToArray();
 
                 return dto;
             }
@@ -262,8 +256,7 @@ namespace HRIS.API
                 throw ex;
             }
         }
-
-        public async Task<bool> Find(string ein)
+        public async Task<bool> FindAsync(string ein)
         {
             try
             {

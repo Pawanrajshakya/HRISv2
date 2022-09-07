@@ -11,7 +11,7 @@ namespace HRIS.API
     {
         Task<MyInfoTreeDto> GetMyInfoTreeAsync(UserDto user);
         Task<List<MyInfoTreeDto>> GetMyInfoTreeAsync(string ein);
-        Task<StaffInfoDto> GetStaffInfo(string userID, string ein);
+        Task<StaffInfoDto> GetStaffInfoAsync(string userID, string ein);
     }
 
     public class MyInfoRepository : Repository, IMyInfoRepository
@@ -29,7 +29,7 @@ namespace HRIS.API
             {
                 var dtos = new List<MyInfoTreeDto>();
 
-                SqlParameter[] sqlParameters = new SqlParameter[] { new SqlParameter("@EIN", user.EIN) { } };
+                SqlParameter[] sqlParameters = new SqlParameter[] { new SqlParameter("@EIN", user.EIN) };
 
                 var rows = _context.MyInfoTrees.FromSqlRaw($"EXECUTE dbo.[spGetChainOfCommand] @EIN", sqlParameters).ToList();
 
@@ -43,20 +43,8 @@ namespace HRIS.API
                 foreach (var row in rows)
                 {
                     dto.Children.Add(_mapper.Map<MyInfoTreeDto>(row));
-                    //var hasChildren = row.EmployeesCount > 0;
-                    //do
-                    //{
-                    //    var children = _context.MyInfoTrees.FromSqlRaw($"EXECUTE dbo.[spGetChainOfCommand] @EIN", new SqlParameter[] { new SqlParameter("@EIN", row.EIN) { } }).ToList();
-                    //    foreach(var child in children)
-                    //    {
-                    //        var _childDto = _mapper.Map<MyInfoTreeDto>(child);
-                    //        hasChildren = _childDto.EmployeesCount > 0;
-                    //    }
-                    //} while (hasChildren);
                 }
-
-
-
+                
                 return await Task.Run(() => dto);
             }
             catch (System.Exception ex)
@@ -87,7 +75,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<StaffInfoDto> GetStaffInfo(string userID, string ein)
+        public async Task<StaffInfoDto> GetStaffInfoAsync(string userID, string ein)
         {
             try
             {

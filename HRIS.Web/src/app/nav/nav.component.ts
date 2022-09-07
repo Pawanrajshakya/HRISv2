@@ -1,9 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICurrentUser } from '../_models/ICurrentUser';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { LoginService } from '../_services/login.service';
 import { Route, Router } from '@angular/router';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-nav',
@@ -19,11 +20,21 @@ import { Route, Router } from '@angular/router';
 })
 export class NavComponent {
   currentUser$: Observable<ICurrentUser>;
-
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined;
+  
   message: any;
   constructor(public loginService: LoginService) {
     this.currentUser$ = this.loginService.currentUserAction$;
   }
+
+  // openMyMenu(menu: any) {
+  //   console.log(menu);
+  //   this.trigger?.openMenu();
+  // } 
+  // closeMyMenu(menu: any) {
+  //   console.log(menu);
+  //   this.trigger?.closeMenu();
+  // }  
 
   onClassificationReportClick(i: number) {
     console.log(i);

@@ -8,7 +8,7 @@ namespace HRIS.API
 {
     public interface IRoleRepository
     {
-        public Task<RoleDto> GetAsync(int roleID);
+        public Task<RoleDto> GetByIDAsync(int roleID);
         public Task<IEnumerable<RoleDto>> GetAsync();
     }
 
@@ -20,7 +20,7 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<RoleDto> GetAsync(int roleID)
+        public async Task<RoleDto> GetByIDAsync(int roleID)
         {
             RoleDto dto = _context.Roles
                 .Where(x => x.RoleID == roleID && x.IsVisible == true)

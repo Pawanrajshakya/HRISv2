@@ -40,6 +40,7 @@ import { EEOReportGuard } from '../_services/_guard/eeo-report.guard';
 import { ECardsReportGuard } from '../_services/_guard/ecards-report.guard';
 import { DisciplinaryReportGuard } from '../_services/_guard/disciplinary-report.guard';
 import { CustomerServiceComplaintsReportGuard } from '../_services/_guard/customer-service-complaints-report.guard';
+import { DeveloperGuard } from '../_services/_guard/developer.guard';
 
 const routes: Routes = [
   {
@@ -56,6 +57,7 @@ const routes: Routes = [
   {
     path: 'developer',
     component: DeveloperComponent,
+    canActivate: [DeveloperGuard]
   },
   {
     path: 'announcement',

@@ -19,7 +19,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _reportRepository.GetActiveStaffReport(UserSession.Instance.User.UserID
+                return Ok(await _reportRepository.GetActiveStaffReportAsync(UserSession.Instance.User.UserID
                        , parameters.RcDp.RCs ?? ""
                        , parameters.RcDp.DPs ?? ""
                        , parameters.Code.Locations
@@ -40,7 +40,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _reportRepository.GetStaffLeaveReport(UserSession.Instance.User.UserID
+                return Ok(await _reportRepository.GetStaffLeaveReportAsync(UserSession.Instance.User.UserID
                         , parameters.RcDp.RCs ?? ""
                         , parameters.RcDp.DPs ?? ""
                         , parameters.Code.Titles
@@ -60,7 +60,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _reportRepository.GetStaffLeaveReport(UserSession.Instance.User.UserID
+                return Ok(await _reportRepository.GetStaffLeaveReportAsync(UserSession.Instance.User.UserID
                         , parameters.RcDp.RCs ?? ""
                         , parameters.RcDp.DPs ?? ""
                         , parameters.Code.Titles
@@ -80,7 +80,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _reportRepository.GetStaffEmergencyContactInfoReport(UserSession.Instance.User.UserID
+                return Ok(await _reportRepository.GetStaffEmergencyContactInfoReportAsync(UserSession.Instance.User.UserID
                         , parameters.RcDp.RCs ?? ""
                         , parameters.RcDp.DPs ?? ""
                         , parameters.Code.Locations
@@ -98,7 +98,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _reportRepository.GetVacationRosterReport(UserSession.Instance.User.UserID
+                return Ok(await _reportRepository.GetVacationRosterReportAsync(UserSession.Instance.User.UserID
                 , parameters.RcDp.RCs ?? ""
                 , parameters.RcDp.DPs ?? ""
                 , parameters.Code.Locations
@@ -117,7 +117,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _reportRepository.GetOvertimeCitytimeReport(UserSession.Instance.User.UserID
+                return Ok(await _reportRepository.GetOvertimeCitytimeReportAsync(UserSession.Instance.User.UserID
                 , parameters.RcDp.RCs ?? ""
                 , parameters.RcDp.DPs ?? ""
                 , parameters.MinDate

@@ -71,7 +71,6 @@ export class StaffDetailComponent extends BaseComponent<IStaffDetail> implements
     });
   }
 
-
   onExport() {
     this.reportParam.file.format = "PDF";
     this.reportParam.ein = this.ein;

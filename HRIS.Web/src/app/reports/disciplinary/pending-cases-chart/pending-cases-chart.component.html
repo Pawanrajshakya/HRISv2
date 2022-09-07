@@ -2,15 +2,14 @@
   <div class="card-header text-white bg-secondary border-secondary shadow">
     <i class="bi bi-bar-chart-fill"></i> {{title}}
   </div>
-  <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div><mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+  <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div>
+  <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
   <div class="card-body">
     <div style="display: block">
       <canvas baseChart [data]="chartData" [options]="chartOptions" [plugins]="chartPlugins" [type]="chartType">
       </canvas>
-      <!-- {{ecardChart.barChartData | json}} -->
       <div class="table-responsive">
-        <table class="table table-sm table-hover table-responsive ">
-          <!-- <caption>List of users</caption> -->
+        <table class="table table-sm table-hover">
           <tbody>
             <tr *ngFor="let item of chartData.labels;  let i = index">
               <td class="text-center"><small [ngStyle]="{'color': hoverBackgroundColor[i]}">{{item}}</small>
@@ -20,15 +19,10 @@
               </td>
             </tr>
           </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="2">
-                <code class="text-info">Note: This chart also accounts for cases received in previous years, but that
-                  are still pending.</code>
-              </td>
-            </tr>
-          </tfoot>
         </table>
+      </div>
+      <div class="text-info text-justify">
+        Note: This chart also accounts for cases received in previous years, but that are still pending.
       </div>
     </div>
   </div>

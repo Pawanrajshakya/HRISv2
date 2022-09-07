@@ -78,7 +78,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _teamRepository.GetStaffEDUDetail(UserSession.Instance.User.UserID, ein));
+                return Ok(await _teamRepository.GetStaffEDUDetailAsync(UserSession.Instance.User.UserID, ein));
             }
             catch (Exception ex)
             {

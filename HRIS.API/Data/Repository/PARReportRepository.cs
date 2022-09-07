@@ -9,8 +9,8 @@ namespace HRIS.API
 {
     public interface IPARRepository
     {
-        public Task<IEnumerable<PARReportDto>> Get(string userid, string dateFrom, string dateTo, string openClose, string rcs, string dps, string titles, string locations, int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "");
-        public Task<IEnumerable<PARDetailDto>> Get(string reqNumber);
+        public Task<IEnumerable<PARReportDto>> GetReportAsync(string userid, string dateFrom, string dateTo, string openClose, string rcs, string dps, string titles, string locations, int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "");
+        public Task<IEnumerable<PARDetailDto>> GetDetailAsync(string reqNumber);
     }
 
     public class PARRepository : Repository, IPARRepository
@@ -22,7 +22,7 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<PARReportDto>> Get(string userid,
+        public async Task<IEnumerable<PARReportDto>> GetReportAsync(string userid,
             string dateFrom, string dateTo, string openClose, string rcs, string dps, string titles,
             string locations, int pageNumber = 1,
             int pageSize = 10, string sortColumn = "", string sortOrder = "",
@@ -36,19 +36,19 @@ namespace HRIS.API
                 List<PARReportDto> dtos = new List<PARReportDto>();
 
                 SqlParameter[] sqlParameters = new SqlParameter[] {
-                new SqlParameter("@UserID", userid){},
-                new SqlParameter("@PageNumber", pageNumber){},
-                new SqlParameter("@PageSize", pageSize){},
-                new SqlParameter("@SortColumn", sortColumn){},
-                new SqlParameter("@SortOrder", sortOrder){},
-                new SqlParameter("@SearchTerm", searchTerm){},
-                new SqlParameter("@DateFrom", isValidFromDate ? dateFrom : ""){},
-                new SqlParameter("@DateTo", isValidToDate ? dateTo : ""){},
-                new SqlParameter("@OpenClose", openClose){},
-                new SqlParameter("@RCs", rcs){},
-                new SqlParameter("@DPs", dps){},
-                new SqlParameter("@Titles", titles){},
-                new SqlParameter("@Locations", locations){},
+                new SqlParameter("@UserID", userid),
+                new SqlParameter("@PageNumber", pageNumber),
+                new SqlParameter("@PageSize", pageSize),
+                new SqlParameter("@SortColumn", sortColumn),
+                new SqlParameter("@SortOrder", sortOrder),
+                new SqlParameter("@SearchTerm", searchTerm),
+                new SqlParameter("@DateFrom", isValidFromDate ? dateFrom : ""),
+                new SqlParameter("@DateTo", isValidToDate ? dateTo : ""),
+                new SqlParameter("@OpenClose", openClose),
+                new SqlParameter("@RCs", rcs),
+                new SqlParameter("@DPs", dps),
+                new SqlParameter("@Titles", titles),
+                new SqlParameter("@Locations", locations),
             };
 
                 var rows = _context.PARReports
@@ -68,14 +68,14 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<PARDetailDto>> Get(string reqNumber)
+        public async Task<IEnumerable<PARDetailDto>> GetDetailAsync(string reqNumber)
         {
             try
             {
                 List<PARDetailDto> dtos = new List<PARDetailDto>();
 
                 SqlParameter[] sqlParameters = new SqlParameter[] {
-                new SqlParameter("@REQNUMBER", reqNumber){}
+                new SqlParameter("@REQNUMBER", reqNumber)
             };
 
                 var rows = _context.PARDetails

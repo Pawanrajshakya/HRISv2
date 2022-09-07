@@ -9,9 +9,9 @@ namespace HRIS.API
 {
     public interface IGroupRepository
     {
-        public IEnumerable<GroupDto> Get(string userID);
-        public Task<IEnumerable<GroupDto>> GetAsync(string userID);
-        public GroupDto Get(int groupID);
+        public IEnumerable<GroupDto> GetByUserID(string userID);
+        public Task<IEnumerable<GroupDto>> GetByUserIDAsync(string userID);
+        public GroupDto GetByID(int groupID);
         public IEnumerable<GroupDto> Get();
     }
     public class GroupRepository : Repository, IGroupRepository
@@ -22,7 +22,7 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public GroupDto Get(int groupID)
+        public GroupDto GetByID(int groupID)
         {
             return _context.Groups
                 .Where(x => x.GroupID == groupID)
@@ -37,7 +37,7 @@ namespace HRIS.API
                 .ToList();
         }
 
-        public IEnumerable<GroupDto> Get(string userID)
+        public IEnumerable<GroupDto> GetByUserID(string userID)
         {
             List<GroupDto> items = new List<GroupDto>();
 
@@ -57,7 +57,7 @@ namespace HRIS.API
             return items;
         }
 
-        public async Task<IEnumerable<GroupDto>> GetAsync(string userID)
+        public async Task<IEnumerable<GroupDto>> GetByUserIDAsync(string userID)
         {
             List<GroupDto> items = new List<GroupDto>();
 

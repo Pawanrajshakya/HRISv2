@@ -22,7 +22,7 @@ namespace HRIS.API
         {
             try
             {
-                var user = _userRepository.Get(UserSession.LanID);
+                var user = _userRepository.GetByLanID(UserSession.LanID);
 
                 if (user == null)
                     context.Result = new UnauthorizedResult();

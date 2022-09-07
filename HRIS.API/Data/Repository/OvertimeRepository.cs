@@ -9,12 +9,12 @@ namespace HRIS.API
 {
     public interface IOvertimeRepository
     {
-        public Task<StaffOvertimeSummaryDto> GetStaffOTSummary(string userid, string ein, string calenderType);
-        public Task<IEnumerable<BudgetedOT>> GetBudgetedOTs(string userid, string rcs, string year);
-        public Task<IEnumerable<ActualOT>> GetActualOTs(string userid, string rcs);
-        public Task<IEnumerable<OvertimeReportDto>> GetOvertimeReport(string userid, string rcs, string dps, string isCalender,
+        public Task<StaffOvertimeSummaryDto> GetStaffOvertimeSummaryAsync(string userid, string ein, string calenderType);
+        public Task<IEnumerable<BudgetedOT>> GetBudgetedOvertimeAsync(string userid, string rcs, string year);
+        public Task<IEnumerable<ActualOT>> GetActualOvertimeAsync(string userid, string rcs);
+        public Task<IEnumerable<OvertimeReportDto>> GetOvertimeReportAsync(string userid, string rcs, string dps, string isCalender,
            int roleID, int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "");
-        public Task<IEnumerable<OvertimeEarnedAnalysisReportDto>> GetOvertimeEarnedAnalysisReport(string userid, string rcs, string year, bool isDateEarned,
+        public Task<IEnumerable<OvertimeEarnedAnalysisReportDto>> GetOvertimeEarnedAnalysisReportAsync(string userid, string rcs, string year, bool isDateEarned,
            int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "");
     }
 
@@ -30,7 +30,7 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ActualOT>> GetActualOTs(
+        public async Task<IEnumerable<ActualOT>> GetActualOvertimeAsync(
             string userid, string rcs)
         {
             try
@@ -39,8 +39,8 @@ namespace HRIS.API
 
                 SqlParameter[] sqlParameters =
                     new SqlParameter[] {
-                        new SqlParameter("@UserID", userid) { },
-                        new SqlParameter("@RAList", rcs) { }
+                        new SqlParameter("@UserID", userid),
+                        new SqlParameter("@RAList", rcs)
                     };
 
                 var rows = _context.ActualOTs
@@ -59,7 +59,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<BudgetedOT>> GetBudgetedOTs(string userid, string rcs, string year)
+        public async Task<IEnumerable<BudgetedOT>> GetBudgetedOvertimeAsync(string userid, string rcs, string year)
         {
             try
             {
@@ -67,9 +67,9 @@ namespace HRIS.API
 
                 SqlParameter[] sqlParameters =
                     new SqlParameter[] {
-                        new SqlParameter("@UserID", userid) { },
-                        new SqlParameter("@RAList", rcs) { },
-                        new SqlParameter("@Year", year) { }
+                        new SqlParameter("@UserID", userid),
+                        new SqlParameter("@RAList", rcs),
+                        new SqlParameter("@Year", year)
                     };
 
                 var rows = _context.BudgetedOTs
@@ -88,7 +88,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<StaffOvertimeSummaryDto> GetStaffOTSummary(string userid, string ein, string calenderType)
+        public async Task<StaffOvertimeSummaryDto> GetStaffOvertimeSummaryAsync(string userid, string ein, string calenderType)
         {
             try
             {
@@ -96,9 +96,9 @@ namespace HRIS.API
 
                 SqlParameter[] sqlParameters =
                     new SqlParameter[] {
-                        new SqlParameter("@UserID", userid) { },
-                        new SqlParameter("@EIN", ein) { },
-                        new SqlParameter("@IsCalendar", calenderType) { }
+                        new SqlParameter("@UserID", userid),
+                        new SqlParameter("@EIN", ein),
+                        new SqlParameter("@IsCalendar", calenderType)
                     };
 
                 var rows = _context.StaffOvertimeSummaries
@@ -120,7 +120,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<OvertimeReportDto>> GetOvertimeReport(string userid, string rcs, string dps, string isCalender,
+        public async Task<IEnumerable<OvertimeReportDto>> GetOvertimeReportAsync(string userid, string rcs, string dps, string isCalender,
             int roleID, int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "")
         {
             try
@@ -129,16 +129,16 @@ namespace HRIS.API
 
                 SqlParameter[] sqlParameters =
                     new SqlParameter[] {
-                        new SqlParameter("@UserID", userid) { },
-                        new SqlParameter("@PageNumber", pageNumber){},
-                        new SqlParameter("@PageSize", pageSize){},
-                        new SqlParameter("@SortColumn", sortColumn){},
-                        new SqlParameter("@SortOrder", sortOrder){},
-                        new SqlParameter("@SearchTerm", searchTerm){},
-                        new SqlParameter("@IsCalendar", isCalender) { },
-                        new SqlParameter("@RCs", rcs){},
-                        new SqlParameter("@DPs", dps){},
-                        new SqlParameter("@RoleID", roleID){}
+                        new SqlParameter("@UserID", userid),
+                        new SqlParameter("@PageNumber", pageNumber),
+                        new SqlParameter("@PageSize", pageSize),
+                        new SqlParameter("@SortColumn", sortColumn),
+                        new SqlParameter("@SortOrder", sortOrder),
+                        new SqlParameter("@SearchTerm", searchTerm),
+                        new SqlParameter("@IsCalendar", isCalender),
+                        new SqlParameter("@RCs", rcs),
+                        new SqlParameter("@DPs", dps),
+                        new SqlParameter("@RoleID", roleID)
                     };
 
                 var rows = _context.OvertimeReports
@@ -157,7 +157,7 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<OvertimeEarnedAnalysisReportDto>> GetOvertimeEarnedAnalysisReport(string userid,
+        public async Task<IEnumerable<OvertimeEarnedAnalysisReportDto>> GetOvertimeEarnedAnalysisReportAsync(string userid,
                                                                                                         string rcs,
                                                                                                         string year,
                                                                                                         bool isDateEarned,
@@ -173,17 +173,17 @@ namespace HRIS.API
 
                 SqlParameter[] sqlParameters =
                     new SqlParameter[] {
-                        new SqlParameter("@UserID", userid) { },
-                        new SqlParameter("@PageNumber", pageNumber){},
-                        new SqlParameter("@PageSize", pageSize){},
-                        new SqlParameter("@SortColumn", sortColumn){},
-                        new SqlParameter("@SortOrder", sortOrder){},
-                        new SqlParameter("@SearchTerm", searchTerm){},
-                        new SqlParameter("@RARC", rcs){},
-                        new SqlParameter("@CuDate", year){},
-                        new SqlParameter("@vPYear", year){},
-                        new SqlParameter("@vCYear", year){},
-                        new SqlParameter("@isDateEarned", isDateEarned ? "*" : "0"){},
+                        new SqlParameter("@UserID", userid),
+                        new SqlParameter("@PageNumber", pageNumber),
+                        new SqlParameter("@PageSize", pageSize),
+                        new SqlParameter("@SortColumn", sortColumn),
+                        new SqlParameter("@SortOrder", sortOrder),
+                        new SqlParameter("@SearchTerm", searchTerm),
+                        new SqlParameter("@RARC", rcs),
+                        new SqlParameter("@CuDate", year),
+                        new SqlParameter("@vPYear", year),
+                        new SqlParameter("@vCYear", year),
+                        new SqlParameter("@isDateEarned", isDateEarned ? "*" : "0"),
                     };
 
                 var rows = _context.OvertimeEarnedAnalysisReports

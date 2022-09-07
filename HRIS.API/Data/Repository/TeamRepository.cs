@@ -12,7 +12,7 @@ namespace HRIS.API
         public Task<IEnumerable<PendingCasesChartDto>> GetPendingCasesChartAsync(string rc);
         public Task<IEnumerable<TopInfractionsChartDto>> GetTopInfractionsChartAsync(string rc);
         public Task<IEnumerable<CaseCountByYearChartDto>> GetCaseCountByYearChartAsync(string rc);
-        public Task<IEnumerable<StaffEDUDetailDto>> GetStaffEDUDetail(string userid, string ein);
+        public Task<IEnumerable<StaffEDUDetailDto>> GetStaffEDUDetailAsync(string userid, string ein);
     }
 
     public class TeamRepository : ITEAMRepository
@@ -33,7 +33,7 @@ namespace HRIS.API
                 List<CaseCountByYearChartDto> dtos = new List<CaseCountByYearChartDto>();
 
                 SqlParameter[] sqlParameters =
-                    new SqlParameter[] { new SqlParameter() { ParameterName = "@RCs", Value = rc } };
+                    new SqlParameter[] { new SqlParameter("@RCs", rc) };
 
                 var data = _context.CaseCountByYearChart
                     .FromSqlRaw($"EXECUTE dbo.[spHRISGetCaseCountsByYearAndFlag] @RCs", sqlParameters)
@@ -58,7 +58,7 @@ namespace HRIS.API
             List<PendingCasesChartDto> dtos = new List<PendingCasesChartDto>();
 
             SqlParameter[] sqlParameters =
-                new SqlParameter[] { new SqlParameter() { ParameterName = "@RCs", Value = rc } };
+                new SqlParameter[] { new SqlParameter("@RCs", rc) };
 
             var data = _context.PendingCasesChart
                 .FromSqlRaw($"EXECUTE dbo.[spHRISGetPendingCaseCountsByUnit] @RCs", sqlParameters)
@@ -78,7 +78,7 @@ namespace HRIS.API
             List<TopInfractionsChartDto> dtos = new List<TopInfractionsChartDto>();
 
             SqlParameter[] sqlParameters = 
-                new SqlParameter[] { new SqlParameter() { ParameterName = "@RCs", Value = rc } };
+                new SqlParameter[] { new SqlParameter("@RCs", rc ) };
 
             var data = _context.TopInfractionsChart
                 .FromSqlRaw($"EXECUTE dbo.[spHRISGetEDUCaseCountsByInfractions] @RCs", sqlParameters)
@@ -93,13 +93,13 @@ namespace HRIS.API
             return await Task.Run(() => dtos);
         }
 
-        public async Task<IEnumerable<StaffEDUDetailDto>> GetStaffEDUDetail(string userid, string ein)
+        public async Task<IEnumerable<StaffEDUDetailDto>> GetStaffEDUDetailAsync(string userid, string ein)
         {
             List<StaffEDUDetailDto> dtos = new List<StaffEDUDetailDto>();
 
             SqlParameter[] sqlParameters = new SqlParameter[] {
-                new SqlParameter("@UserID", userid){},
-                new SqlParameter("@EIN", ein){}
+                new SqlParameter("@UserID", userid),
+                new SqlParameter("@EIN", ein)
             };
 
             var data = _context.StaffEDUDetails

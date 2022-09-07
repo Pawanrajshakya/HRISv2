@@ -13,19 +13,19 @@ namespace HRIS.API.Controllers
     public class AnnouncementController : BaseController
     {
         private readonly IAnnouncementRepository announcementRepository;
-        private readonly IHostEnvironment environment;
+        //private readonly IHostEnvironment environment;
 
         public AnnouncementController(IAnnouncementRepository announcementRepository
-            , IHostEnvironment environment
+            //, IHostEnvironment environment
             , IRCRepository rcRepository
             , IDPRepository dpRepository) : base(rcRepository, dpRepository)
         {
             this.announcementRepository = announcementRepository;
-            this.environment = environment;
+            //this.environment = environment;
         }
 
         [HttpPost("list")]
-        public ActionResult Get(Pagination parameters)
+        public ActionResult GetList(Pagination parameters)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace HRIS.API.Controllers
         }
 
         [HttpPut]
-        public ActionResult Update([FromBody] AnnouncementDto dto)
+        public ActionResult Put([FromBody] AnnouncementDto dto)
         {
             if (dto.UpdatedBy == null || dto.UpdatedBy == "")
                 dto.UpdatedBy = UserSession.Instance.User.UserID;

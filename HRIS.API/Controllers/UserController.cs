@@ -20,7 +20,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _userRepository.GetAsync(UserSession.LanID));
+                return Ok(await _userRepository.GetUserByLanIDAsync(UserSession.LanID));
             }
             catch (System.Exception ex)
             {
@@ -33,7 +33,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(_userRepository.Get(UserSession.Instance.User.UserID, parameters));
+                return Ok(_userRepository.GetUsers(UserSession.Instance.User.UserID, parameters));
             }
             catch (System.Exception ex)
             {
@@ -52,7 +52,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _userRepository.GetAsync(ein, isSuper));
+                return Ok(await _userRepository.GetByEINAsync(ein, isSuper));
             }
             catch (System.Exception ex)
             {
@@ -99,12 +99,14 @@ namespace HRIS.API.Controllers
             }
         }
 
-        [HttpGet("IsDeveloper/{lanid}")]
-        public async Task<ActionResult> IsDeveloper(string lanid)
+        [HttpGet("isDeveloper/{lanID?}")]
+        public async Task<ActionResult> IsDeveloper(string? lanID)
         {
             try
             {
-                return Ok(await _userRepository.IsDeveloperAsync(lanid));
+                if (string.IsNullOrEmpty(lanID)) lanID = UserSession.LanID;
+
+                return Ok(await _userRepository.IsDeveloperAsync(lanID));
             }
             catch (System.Exception ex)
             {
@@ -120,7 +122,7 @@ namespace HRIS.API.Controllers
                 if (string.IsNullOrEmpty(ein))
                     return Ok(false);
 
-                return Ok(await _userRepository.Find(ein));
+                return Ok(await _userRepository.FindAsync(ein));
             }
             catch (System.Exception ex)
             {

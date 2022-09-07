@@ -28,7 +28,7 @@ namespace HRIS.API.Controllers
                     ? string.Join(",", _dpRepository.GetByUserIDAsync(UserSession.Instance.User.UserID).Result.ToList().Select(x => x.DPCode))
                     : "";
 
-                return Ok(await _gdsRepository.GetECardChart(UserSession.Instance.User.RoleID, "", dp));
+                return Ok(await _gdsRepository.GetChartAsync(UserSession.Instance.User.RoleID, "", dp));
             }
             catch (System.Exception ex)
             {
@@ -46,7 +46,7 @@ namespace HRIS.API.Controllers
                     ? string.Join(",", _dpRepository.GetByUserIDAsync(UserSession.Instance.User.UserID).Result.ToList().Select(x => x.DPCode))
                     : "";
 
-                return Ok(await _gdsRepository.GetECardChart(UserSession.Instance.User.RoleID, parameters.RcDp.RCs, dp));
+                return Ok(await _gdsRepository.GetChartAsync(UserSession.Instance.User.RoleID, parameters.RcDp.RCs, dp));
             }
             catch (System.Exception ex)
             {
@@ -61,7 +61,7 @@ namespace HRIS.API.Controllers
             {
                 if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
 
-                return Ok(await _gdsRepository.GetECardSendAndReceivedReport(UserSession.Instance.User.UserID,
+                return Ok(await _gdsRepository.GetSendAndReceivedReportAsync(UserSession.Instance.User.UserID,
                                                                              parameters.Pagination.PageNumber,
                                                                              parameters.Pagination.PageSize,
                                                                              parameters.Pagination.SortColumn,
@@ -85,7 +85,7 @@ namespace HRIS.API.Controllers
             {
                 if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
 
-                return Ok(await _gdsRepository.GetECardByRelationshipReport(UserSession.Instance.User.UserID,
+                return Ok(await _gdsRepository.GetRelationshipReportAsync(UserSession.Instance.User.UserID,
                                                                             parameters.Pagination.PageNumber,
                                                                             parameters.Pagination.PageSize,
                                                                             parameters.Pagination.SortColumn,
@@ -109,7 +109,7 @@ namespace HRIS.API.Controllers
             {
                 if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
 
-                return Ok(await _gdsRepository.GetECardByExcellenceReport(UserSession.Instance.User.UserID,
+                return Ok(await _gdsRepository.GetExcellenceReportAsync(UserSession.Instance.User.UserID,
                                                                              parameters.Pagination.PageNumber,
                                                                              parameters.Pagination.PageSize,
                                                                              parameters.Pagination.SortColumn,
@@ -133,7 +133,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _hrisRepository.GetGenderBreakdownChart(UserSession.Instance.User.UserID, "", ""));
+                return Ok(await _hrisRepository.GetGenderBreakdownChartAsync(UserSession.Instance.User.UserID, "", ""));
             }
             catch (System.Exception ex)
             {
@@ -146,7 +146,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _hrisRepository.GetAgencyDemographicChart(UserSession.Instance.User.UserID, "", ""));
+                return Ok(await _hrisRepository.GetAgencyDemographicChartAsync(UserSession.Instance.User.UserID, "", ""));
             }
             catch (System.Exception ex)
             {
@@ -161,7 +161,7 @@ namespace HRIS.API.Controllers
             {
                 if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
 
-                return Ok(await _gdsRepository.GetEEOConfirmedReport(UserSession.Instance.User.UserID,
+                return Ok(await _gdsRepository.GetEEOConfirmedReportAsync(UserSession.Instance.User.UserID,
                                                                              parameters.Pagination.PageNumber,
                                                                              parameters.Pagination.PageSize,
                                                                              parameters.Pagination.SortColumn,
@@ -182,7 +182,7 @@ namespace HRIS.API.Controllers
             {
                 if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
 
-                return Ok(await _gdsRepository.GetEEOPendingReport(UserSession.Instance.User.UserID,
+                return Ok(await _gdsRepository.GetEEOPendingReportAsync(UserSession.Instance.User.UserID,
                                                                              parameters.Pagination.PageNumber,
                                                                              parameters.Pagination.PageSize,
                                                                              parameters.Pagination.SortColumn,
@@ -203,7 +203,7 @@ namespace HRIS.API.Controllers
             {
                 if (string.IsNullOrEmpty(parameters.RcDp.RCs)) parameters.RcDp.RCs = GetRC(false);
 
-                return Ok(await _gdsRepository.GetEEOSummaryReport(UserSession.Instance.User.UserID,
+                return Ok(await _gdsRepository.GetEEOSummaryReportAsync(UserSession.Instance.User.UserID,
                                                                              parameters.Pagination.PageNumber,
                                                                              parameters.Pagination.PageSize,
                                                                              parameters.Pagination.SortColumn,

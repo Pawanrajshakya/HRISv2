@@ -20,7 +20,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _headcountRepository.GetChartAsync(UserSession.Instance.User.UserID,
+                return Ok(await _headcountRepository.GetAgencyHeadcountChartAsync(UserSession.Instance.User.UserID,
                                                                    "",
                                                                    ""));
             }
@@ -32,7 +32,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _headcountRepository.GetChartAsync(UserSession.Instance.User.UserID,
+                return Ok(await _headcountRepository.GetAgencyHeadcountChartAsync(UserSession.Instance.User.UserID,
                                                                    parameters.RcDp.RCs,
                                                                    ""));
             }

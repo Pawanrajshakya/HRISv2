@@ -30,17 +30,17 @@ namespace HRIS.API
         {
             SqlParameter[] sqlParameters = new SqlParameter[] {
                                 new SqlParameter("@result", System.Data.SqlDbType.Int){Direction = System.Data.ParameterDirection.Output},
-                                new SqlParameter("@Title", announcement.Title){},
-                                new SqlParameter("@Content", announcement.Content){},
-                                new SqlParameter("@ImageURL", announcement.ImageURL){},
-                                new SqlParameter("@Link", announcement.Link ?? ""){},
-                                new SqlParameter("@DurationRestricted", announcement.DurationRestricted){},
-                                new SqlParameter("@DisplayAfter", announcement.DisplayAfter){},
-                                new SqlParameter("@DisplayUntil", announcement.DisplayUntil){},
-                                new SqlParameter("@Priority", announcement.Priority){},
-                                new SqlParameter("@EmailSent", announcement.EmailSent){},
-                                new SqlParameter("@CreatedBy", announcement.CreatedBy){},
-                                new SqlParameter("@Roles", string.Join(",", announcement.Roles)){},
+                                new SqlParameter("@Title", announcement.Title),
+                                new SqlParameter("@Content", announcement.Content),
+                                new SqlParameter("@ImageURL", announcement.ImageURL),
+                                new SqlParameter("@Link", announcement.Link ?? ""),
+                                new SqlParameter("@DurationRestricted", announcement.DurationRestricted),
+                                new SqlParameter("@DisplayAfter", announcement.DisplayAfter),
+                                new SqlParameter("@DisplayUntil", announcement.DisplayUntil),
+                                new SqlParameter("@Priority", announcement.Priority),
+                                new SqlParameter("@EmailSent", announcement.EmailSent),
+                                new SqlParameter("@CreatedBy", announcement.CreatedBy),
+                                new SqlParameter("@Roles", string.Join(",", announcement.Roles)),
                                 new SqlParameter("@IsVisible", announcement.IsVisible){}
             };
 
@@ -55,7 +55,7 @@ namespace HRIS.API
         {
             SqlParameter[] sqlParameters = new SqlParameter[] {
                                 new SqlParameter("@result", System.Data.SqlDbType.Int){Direction = System.Data.ParameterDirection.Output},
-                                new SqlParameter("@ID", ID){},
+                                new SqlParameter("@ID", ID),
                                 new SqlParameter("@UpdatedBy", userID){}
             };
 
@@ -149,18 +149,18 @@ namespace HRIS.API
         {
             SqlParameter[] sqlParameters = new SqlParameter[] {
                                 new SqlParameter("@result", System.Data.SqlDbType.Int){Direction = System.Data.ParameterDirection.Output},
-                                new SqlParameter("@ID", announcement.ID){},
-                                new SqlParameter("@Title", announcement.Title){},
-                                new SqlParameter("@Content", announcement.Content){},
-                                new SqlParameter("@ImageURL", announcement.ImageURL){},
-                                new SqlParameter("@Link", announcement.Link ?? ""){},
-                                new SqlParameter("@DurationRestricted", announcement.DurationRestricted){},
-                                new SqlParameter("@DisplayAfter", announcement.DisplayAfter){},
-                                new SqlParameter("@DisplayUntil", announcement.DisplayUntil){},
-                                new SqlParameter("@Priority", announcement.Priority){},
-                                new SqlParameter("@EmailSent", announcement.EmailSent){},
-                                new SqlParameter("@UpdatedBy", announcement.UpdatedBy){},
-                                new SqlParameter("@Roles", string.Join(",", announcement.Roles.ToArray())){},
+                                new SqlParameter("@ID", announcement.ID),
+                                new SqlParameter("@Title", announcement.Title),
+                                new SqlParameter("@Content", announcement.Content),
+                                new SqlParameter("@ImageURL", announcement.ImageURL),
+                                new SqlParameter("@Link", announcement.Link ?? ""),
+                                new SqlParameter("@DurationRestricted", announcement.DurationRestricted),
+                                new SqlParameter("@DisplayAfter", announcement.DisplayAfter),
+                                new SqlParameter("@DisplayUntil", announcement.DisplayUntil),
+                                new SqlParameter("@Priority", announcement.Priority),
+                                new SqlParameter("@EmailSent", announcement.EmailSent),
+                                new SqlParameter("@UpdatedBy", announcement.UpdatedBy),
+                                new SqlParameter("@Roles", string.Join(",", announcement.Roles.ToArray())),
                                 new SqlParameter("@IsVisible", announcement.IsVisible){}
             };
 
@@ -176,8 +176,8 @@ namespace HRIS.API
         {
             SqlParameter[] sqlParameters = new SqlParameter[] {
                                 new SqlParameter("@result", System.Data.SqlDbType.Int){Direction = System.Data.ParameterDirection.Output},
-                                new SqlParameter("@ID", ID){},
-                                new SqlParameter("@Priority", Priority){},
+                                new SqlParameter("@ID", ID),
+                                new SqlParameter("@Priority", Priority),
                                 new SqlParameter("@UpdatedBy", userID){}
             };
 

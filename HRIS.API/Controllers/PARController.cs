@@ -20,7 +20,7 @@ namespace HRIS.API.Controllers
             try
             {
 
-                return Ok(await _reportRepository.Get(UserSession.Instance.User.UserID
+                return Ok(await _reportRepository.GetReportAsync(UserSession.Instance.User.UserID
                     , dateFrom: parameters.DateFrom
                     , dateTo: parameters.DateTo
                     , openClose: (parameters.OpenClose == null ? "Open" : parameters.OpenClose)
@@ -45,7 +45,7 @@ namespace HRIS.API.Controllers
         {
             try
             {
-                return Ok(await _reportRepository.Get(reqNumber));
+                return Ok(await _reportRepository.GetDetailAsync(reqNumber));
             }
             catch (System.Exception ex)
             {

@@ -8,9 +8,9 @@ namespace HRIS.API
 {
     public interface IStaffRepository
     {
-        public Task<StaffDetailDto> GetDetail(string userid, string ein); //spGetStaffByEIN
+        public Task<StaffDetailDto> GetStaffDetailAsync(string userid, string ein); //spGetStaffByEIN
 
-        public Task<IEnumerable<StaffEmergencyContactInfoDto>> EmergencyContacts(string userid, string ein); //spGetStaffEmergencyContactsByEIN
+        public Task<IEnumerable<StaffEmergencyContactInfoDto>> GetEmergencyContactsAsync(string userid, string ein); //spGetStaffEmergencyContactsByEIN
     }
 
     public class StaffRepository : Repository, IStaffRepository
@@ -21,13 +21,13 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<StaffEmergencyContactInfoDto>> EmergencyContacts(string userid, string ein)
+        public async Task<IEnumerable<StaffEmergencyContactInfoDto>> GetEmergencyContactsAsync(string userid, string ein)
         {
             List<StaffEmergencyContactInfoDto> dtos = new List<StaffEmergencyContactInfoDto>();
 
             SqlParameter[] sqlParameters = new SqlParameter[] {
-                new SqlParameter("@UserID", userid){},
-                new SqlParameter("@EIN", ein){}
+                new SqlParameter("@UserID", userid),
+                new SqlParameter("@EIN", ein)
             };
 
             var rows = _context.EmergencyContactInfos
@@ -41,13 +41,13 @@ namespace HRIS.API
             return await Task.Run(() => dtos);
         }
 
-        public async Task<StaffDetailDto> GetDetail(string userid, string ein)
+        public async Task<StaffDetailDto> GetStaffDetailAsync(string userid, string ein)
         {
             List<StaffDetailDto> dtos = new List<StaffDetailDto>();
 
             SqlParameter[] sqlParameters = new SqlParameter[] {
-                new SqlParameter("@UserID", userid){},
-                new SqlParameter("@EIN", ein){}
+                new SqlParameter("@UserID", userid),
+                new SqlParameter("@EIN", ein)
             };
 
             var rows = _context.StaffDetails
