@@ -5,7 +5,39 @@
         <i class="bi bi-graph-up-arrow"></i>&nbsp;Headcount Chart
       </ng-template>
       <div class="mt-2">
-        <app-headcount-report-chart></app-headcount-report-chart>
+
+        <div class="col-sm-12">
+          <div class="card border-secondary">
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="rcs" class="col-sm-2 col-form-label col-form-label-sm">RC</label>
+                <div class="col-sm-10">
+                  <ng-select [multiple]="true" [hideSelected]="true" [(ngModel)]="selectedRC" id="rcs" name="selectedRC"
+                    placeholder="Select RC">
+                    <ng-option *ngFor="let rc of rcs" [value]="rc.code">{{rc.description}}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+
+              <div class="col-lg-12">
+                <div class="col-sm-10 offset-sm-2">
+                  <button class="btn btn-primary btn-sm float-left shadow" (click)="onSearch()">
+                    <i class="bi bi-search"></i> Search
+                  </button>
+                  <button class="btn btn-secondary btn-sm float-left ml-2 shadow" (click)="onClear()">
+                    <i class="bi bi-stars"></i> Clear
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="col-sm-12">
+          <div class="col-sm-6 offset-3">
+            <app-headcount-report-chart></app-headcount-report-chart>
+          </div>
+        </div>
       </div>
     </tab>
     <tab>
@@ -25,28 +57,28 @@
       </div>
     </tab>
     <tab>
-        <ng-template tabHeading>
-            <i class="bi bi-check2-circle"></i>&nbsp;Title & Budget Summary Reconciliation Report
-        </ng-template>
-        <div class="mt-2">
-          <app-headcount-report-reconciliation-summary></app-headcount-report-reconciliation-summary>
-        </div>
-      </tab>
-      <tab>
-        <ng-template tabHeading>
-            <i class="bi bi-cash-coin"></i>&nbsp;Title & Budget Summary Budget Only
-        </ng-template>
-        <div class="mt-2">
-          <app-headcount-report-budget-summary></app-headcount-report-budget-summary>
-        </div>
-      </tab>
-      <tab>
-        <ng-template tabHeading>
-            <i class="bi bi-person-check"></i>&nbsp;PMS Employee Details By RC Report
-        </ng-template>
-        <div class="mt-2">
-          <app-headcount-report-employee-detail></app-headcount-report-employee-detail>
-        </div>
-      </tab>
+      <ng-template tabHeading>
+        <i class="bi bi-check2-circle"></i>&nbsp;Title & Budget Summary Reconciliation Report
+      </ng-template>
+      <div class="mt-2">
+        <app-headcount-report-reconciliation-summary></app-headcount-report-reconciliation-summary>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-cash-coin"></i>&nbsp;Title & Budget Summary Budget Only
+      </ng-template>
+      <div class="mt-2">
+        <app-headcount-report-budget-summary></app-headcount-report-budget-summary>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        <i class="bi bi-person-check"></i>&nbsp;PMS Employee Details By RC Report
+      </ng-template>
+      <div class="mt-2">
+        <app-headcount-report-employee-detail></app-headcount-report-employee-detail>
+      </div>
+    </tab>
   </tabset>
 </div>

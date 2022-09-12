@@ -7,28 +7,26 @@ import { EcardService } from 'src/app/_services/ecard.service';
 @Component({
   selector: 'app-ecard',
   templateUrl: './ecard.component.html',
-  styleUrls: ['./ecard.component.scss']
+  styleUrls: ['./ecard.component.scss'],
 })
-export class EcardComponent extends BaseComponent<any>
-implements OnInit
-{
-constructor(
-  private codeService: CodeService,
-  private ecardService: EcardService
-) {
-  super();
-}
+export class EcardComponent extends BaseComponent<any> implements OnInit {
+  constructor(
+    private codeService: CodeService,
+    private ecardService: EcardService
+  ) {
+    super();
+  }
 
-ngOnInit(): void {
-  this.rcs = this.codeService.rc_dp.RC as IRc[];
-}
+  ngOnInit(): void {
+    this.rcs = this.codeService.rc_dp.RC as IRc[];
+  }
 
-onSearch() {
-  this.ecardService.selectedRCs.emit(this.selectedRC);
-}
+  onSearch() {
+    this.ecardService.selectedRCs.emit(this.selectedRC);
+  }
 
-onClear() {
-  this.selectedRC = [];
-  this.ecardService.selectedRCs.emit(this.selectedRC);
-}
+  onClear() {
+    this.selectedRC = [];
+    this.ecardService.selectedRCs.emit(this.selectedRC);
+  }
 }

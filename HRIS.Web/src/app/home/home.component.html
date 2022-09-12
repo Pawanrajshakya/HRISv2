@@ -35,7 +35,7 @@
       <app-ecard-chart-by-rc></app-ecard-chart-by-rc>
     </div>
     <div class="col-lg-4 mt-2" *ngIf="loginService.currentUser && !!loginService.currentUser.hasHeadcount">
-      <app-headcount-chart></app-headcount-chart>
+      <app-headcount-report-chart></app-headcount-report-chart>
     </div>
     <div class="col-lg-4 mt-2"
       *ngIf="loginService.currentUser && !(loginService.currentUser.roleID === 5) && !!loginService.currentUser.hasTEAMS">

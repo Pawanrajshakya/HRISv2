@@ -8,6 +8,7 @@ import { IHeadcountChartData } from 'src/app/_models/IHeadcountChartData';
 import { IRc } from 'src/app/_models/IRcDp';
 import { CodeService } from 'src/app/_services/code.service';
 import { DataService } from 'src/app/_services/data.service';
+import { HeadcountService } from 'src/app/_services/headcount.service';
 
 @Component({
   selector: 'app-headcount-report-chart',
@@ -77,13 +78,20 @@ export class HeadcountReportChartComponent
 
   constructor(
     private dataService: DataService,
-    private codeService: CodeService
+    private headcountService: HeadcountService
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.rcs = this.codeService.rc_dp.RC as IRc[];
+    //this.rcs = this.codeService.rc_dp.RC as IRc[];
+    this.filterSubject.next(this.filterValue);
+    this.headcountService.selectedRCs.subscribe({
+      next: (rcs: string[]) => {
+        this.selectedRC = rcs;
+        this.filterSubject.next(this.filterValue);
+      },
+    });
   }
 
   ngAfterViewInit(): void {
@@ -131,12 +139,12 @@ export class HeadcountReportChartComponent
     return typeof value === 'string' || value instanceof String;
   }
 
-  onSearch() {
-    this.filterSubject.next(this.filterValue);
-  }
+  // onSearch() {
+  //   this.filterSubject.next(this.filterValue);
+  // }
 
-  onClear() {
-    this.clear();
-    this.filterSubject.next(this.filterValue);
-  }
+  // onClear() {
+  //   this.clear();
+  //   this.filterSubject.next(this.filterValue);
+  // }
 }

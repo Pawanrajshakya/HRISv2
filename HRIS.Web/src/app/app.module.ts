@@ -37,7 +37,6 @@ import { UserComponent } from './tools/user/user.component';
 import { AnnouncementComponent } from './tools/announcement/announcement.component';
 import { BaseComponent } from './base/base.component';
 import { CarouselComponent } from './tools/announcement/carousel/carousel.component';
-import { HeadcountChartComponent } from './charts/headcount/headcount-chart.component';
 import { ActiveStaffComponent } from './staff/active-staff/active-staff.component';
 import { StaffDetailComponent } from './reports/staff-detail/staff-detail.component';
 import { HrisEmptyValuePipe } from './_pipes/hris-empty-value.pipe';
@@ -96,7 +95,6 @@ import { HrisTrimPipe } from './_pipes/hris-trim.pipe';
     AnnouncementComponent,
     BaseComponent,
     CarouselComponent,
-    HeadcountChartComponent,
     ActiveStaffComponent,
     StaffDetailComponent,
     ErrorComponent,

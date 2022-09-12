@@ -59,8 +59,7 @@ export class EcardChartByRcComponent
   constructor(
     private ecardService: EcardService,
     public loginService: LoginService,
-    private dataService: DataService,
-    private staffService: StaffService
+    private dataService: DataService
   ) {
     super();
     this.currentUser = this.loginService.currentUser;

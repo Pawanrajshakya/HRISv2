@@ -1,4 +1,4 @@
-<div class="col-sm-12">
+<!-- <div class="col-sm-12">
   <div class="card border-secondary mb-1">
     <div class="card-body">
       <div class="form-group row">
@@ -24,45 +24,47 @@
   </div>
   <div class="col-lg-12 mb-1">
     <div class="offset-3 col-lg-6">
-      <div class="card border-info shadow">
-        <div class="card-header text-white bg-secondary border-secondary shadow">
-          <i class="bi bi-graph-up-arrow"></i> DSS-HRA-DHS Headcount
-        </div>
-        <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div><mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
-        <div class="card-body pb-0 pt-1">
-          <div>
-            <canvas baseChart [data]="chartDataHC" [options]="chartOptionsHC" [plugins]="chartPluginsHC"
-              [type]="chartTypeHC">
-            </canvas>
-            <div class="table-responsive">
-              <table class="table table-sm table-hover">
-                <!-- <caption>List of users</caption> -->
-                <tbody>
-                  <tr class="bg-info">
-                    <td></td>
-                    <td class="text-center text-white" *ngFor="let item of chartDataHC.labels">
-                      <small>{{item}}</small></td>
-                  </tr>
-                  <tr [ngStyle]="{'color': hoverBackgroundColor[0]}">
-                    <td><small>Budgeted HC</small></td>
-                    <td class="text-center" *ngFor="let item of chartDataHC.datasets[0].data; let i = index">
-                      <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
-                  </tr>
-                  <tr [ngStyle]="{'color': hoverBackgroundColor[1]}">
-                    <td><small>Active Staff</small></td>
-                    <td class="text-center" *ngFor="let item of chartDataHC.datasets[1].data">
-                      <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
-                  </tr>
-                  <tr [ngStyle]="{'color': hoverBackgroundColor[2]}">
-                    <td><small>Vacancy</small></td>
-                    <td class="text-center" *ngFor="let item of chartDataHC.datasets[2].data">
-                      <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+
+    </div>
+  </div>
+</div> -->
+
+<div class="card border-info shadow">
+  <div class="card-header text-white bg-secondary border-secondary shadow">
+    <i class="bi bi-graph-up-arrow"></i> DSS-HRA-DHS Headcount
+  </div>
+  <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div>
+  <mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+  <div class="card-body pb-0 pt-1">
+    <div>
+      <canvas baseChart [data]="chartDataHC" [options]="chartOptionsHC" [plugins]="chartPluginsHC" [type]="chartTypeHC">
+      </canvas>
+      <div class="table-responsive">
+        <table class="table table-sm table-hover">
+          <!-- <caption>List of users</caption> -->
+          <tbody>
+            <tr class="bg-info">
+              <td></td>
+              <td class="text-center text-white" *ngFor="let item of chartDataHC.labels">
+                <small>{{item}}</small></td>
+            </tr>
+            <tr [ngStyle]="{'color': hoverBackgroundColor[0]}">
+              <td><small>Budgeted HC</small></td>
+              <td class="text-center" *ngFor="let item of chartDataHC.datasets[0].data; let i = index">
+                <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
+            </tr>
+            <tr [ngStyle]="{'color': hoverBackgroundColor[1]}">
+              <td><small>Active Staff</small></td>
+              <td class="text-center" *ngFor="let item of chartDataHC.datasets[1].data">
+                <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
+            </tr>
+            <tr [ngStyle]="{'color': hoverBackgroundColor[2]}">
+              <td><small>Vacancy</small></td>
+              <td class="text-center" *ngFor="let item of chartDataHC.datasets[2].data">
+                <small>{{convertToNumberFormat(item ?? 0)}}</small></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
