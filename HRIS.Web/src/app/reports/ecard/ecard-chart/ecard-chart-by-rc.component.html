@@ -1,4 +1,4 @@
-<div class="col-sm-12">
+<!-- <div class="col-sm-12">
   <div class="card border-secondary mb-1">
     <div class="card-body">
       <div class="form-group row">
@@ -24,34 +24,37 @@
   </div>
   <div class="col-lg-12 mb-1">
     <div class="offset-3 col-lg-6">
-      <div class="card border-info shadow">
-        <div class="card-header text-white bg-secondary border-secondary shadow">
-          <i class="bi bi-bar-chart-fill"></i> Agency Total # of E-cards Sent. As of {{today}}
-        </div>
-        <div class="card-body pb-0 pt-1">
-          <div style="display: block">
-            <canvas baseChart [data]="chartData" [options]="chartOptions" [plugins]="chartPlugins" [type]="chartType">
-            </canvas>
-            <!-- {{ecardChart.barChartData | json}} -->
-            <div class="table-responsive">
-              <table class="table table-sm table-hover">
-                <!-- <caption>List of users</caption> -->
-                <tbody>
-                  <tr class="bg-info">
-                    <td></td>
-                    <td class="text-center text-white " *ngFor="let item of chartData.labels"><small>{{item}}</small>
-                    </td>
-                  </tr>
-                  <tr [ngStyle]="{'color': hoverBackgroundColor[0]}">
-                    <td><small>Monthly Data</small></td>
-                    <td class="text-center" *ngFor="let item of chartData.datasets[0].data">
-                      <small>{{item ?? 0 | number}}</small></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+      
+    </div>
+  </div>
+</div> -->
+
+<div class="card border-info shadow">
+  <div class="card-header text-white bg-secondary border-secondary shadow">
+    <i class="bi bi-bar-chart-fill"></i> Agency Total # of E-cards Sent. As of {{today}}
+  </div>
+  <div class="nomat-progress-bar" *ngIf="!isLoadingResults"></div><mat-progress-bar mode="query" [hidden]="!isLoadingResults"></mat-progress-bar>
+  <div class="card-body pb-0 pt-1">
+    <div style="display: block">
+      <canvas baseChart [data]="chartData" [options]="chartOptions" [plugins]="chartPlugins" [type]="chartType">
+      </canvas>
+      <!-- {{ecardChart.barChartData | json}} -->
+      <div class="table-responsive">
+        <table class="table table-sm table-hover">
+          <!-- <caption>List of users</caption> -->
+          <tbody>
+            <tr class="bg-info">
+              <td></td>
+              <td class="text-center text-white " *ngFor="let item of chartData.labels"><small>{{item}}</small>
+              </td>
+            </tr>
+            <tr [ngStyle]="{'color': hoverBackgroundColor[0]}">
+              <td><small>Monthly Data</small></td>
+              <td class="text-center" *ngFor="let item of chartData.datasets[0].data">
+                <small>{{item ?? 0 | number}}</small></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

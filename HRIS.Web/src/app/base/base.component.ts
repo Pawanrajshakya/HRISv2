@@ -118,12 +118,13 @@ export class BaseComponent<T> {
 
   // chart
   backgroundColor: string[] = [
-    'rgba(247,203,137)',
+    'rgba(252,129,82)',
+    
     'rgba(78,162,210)',
     'rgba(52,191,120)',
     'rgba(110,78,122)',
     'rgba(252,114,114)',
-    'rgba(252,129,82)',
+    'rgba(247,203,137)',
     'rgba(197,170,59)',
     'rgba(199,110,50)',
     'rgba(126,135,135)',
@@ -131,12 +132,13 @@ export class BaseComponent<T> {
   ];
 
   transparentBackgroundColor: string[] = [
-    'rgba(247,203,137,0.4)',
+    'rgba(252,129,82,0.4)',
+    
     'rgba(78,162,210,0.4)',
     'rgba(52,191,120,0.4)',
     'rgba(110,78,122,0.4)',
     'rgba(252,114,114,0.4)',
-    'rgba(252,129,82,0.4)',
+    'rgba(247,203,137,0.4)',
     'rgba(197,170,59,0.4)',
     'rgba(199,110,50,0.4)',
     'rgba(126,135,135,0.4)',
@@ -144,12 +146,12 @@ export class BaseComponent<T> {
   ];
 
   hoverBackgroundColor: string[] = [
-    '#f1ab41',
+    '#FC6228',
     '#037bc0',
     '#02af57',
     '#4A235A',
     '#FC4F4F',
-    '#FC6228',
+    '#f1ab41',
     '#B7950B',
     '#BA4A00',
     '#5F6A6A',

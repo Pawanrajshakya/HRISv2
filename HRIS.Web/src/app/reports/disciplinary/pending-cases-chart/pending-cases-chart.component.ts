@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { merge, startWith, switchMap } from 'rxjs';
-import { getFullYear } from 'ngx-bootstrap/chronos';
 import { BaseComponent } from 'src/app/base/base.component';
 import { DisciplinaryService } from 'src/app/_services/disciplinary.service';
 import { DataService } from 'src/app/_services/data.service';

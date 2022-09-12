@@ -45,7 +45,8 @@ import { DeveloperGuard } from '../_services/_guard/developer.guard';
 const routes: Routes = [
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    resolve: { currentUser: CurrentUserResolver }
   },
   {
     path: 'user',

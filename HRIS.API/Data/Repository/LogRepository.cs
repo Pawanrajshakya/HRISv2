@@ -7,29 +7,14 @@ namespace HRIS.API
 {
     public interface ILogRepository
     {
-        public Task<bool> SaveAsync(
-            string source, 
-            DateTime logDateTime, 
-            string message, 
-            string queryString, 
-            string targetSite, 
-            string stackTrace, 
-            string serverName, 
-            string requestUrl, 
-            string userAgent, 
-            string userIP, 
-            string userAuthentication, 
-            string userName);
-
-        public Task<bool> AccessAsync(
-            string sessionID, 
-            string userName,
-            string hostName, 
-            string osVersion, 
-            string browser, 
-            string browserVersion, 
-            string url,
-            string action);
+        string UserName { get; set; }
+        string ID { get; set; }
+        string URL { get; set; }
+        string Host { get; set; }
+        string ClientComputerAddress { get; set; }
+        bool IsAuthenticated { get; set; }
+        public Task<bool> AccessLogAsync(string action);
+        public Task<bool> ExceptionLogAsync(Exception ex);
     }
 
     public class LogRepository : Repository, ILogRepository
@@ -40,52 +25,64 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<bool> AccessAsync(string sessionID, string userName, string hostName, string osVersion, 
-            string browser, string browserVersion, string url, string action)
+        public string ID { get; set; }
+        public string URL { get; set; }
+        public string Host { get; set; }
+        public string ClientComputerAddress { get; set; }
+        public string UserName { get; set; }
+        public bool IsAuthenticated { get; set; }
+
+        public async Task<bool> AccessLogAsync(string action)
         {
-            SqlParameter[] sqlParameters = new SqlParameter[] {
-                                new SqlParameter("@sessionID", sessionID){},
-                                new SqlParameter("@userName", userName){},
-                                new SqlParameter("@hostName", hostName){},
-                                new SqlParameter("@osVersion", osVersion){},
-                                new SqlParameter("@browser", browser){},
-                                new SqlParameter("@browserVersion", browserVersion){},
-                                new SqlParameter("@url", url){},
-                                new SqlParameter("@action", action){},
-                                new SqlParameter("@actionTime", DateTime.Now){},
+            int result = -1;
+            try
+            {
+                SqlParameter[] sqlParameters = new SqlParameter[] {
+                                new SqlParameter("@sessionID", ID??""),
+                                new SqlParameter("@userName", UserName??""),
+                                new SqlParameter("@browser",  UserSession.Platform ?? ""),
+                                new SqlParameter("@url", URL??""),
+                                new SqlParameter("@action", action??""),
+                                new SqlParameter("@computerName", ClientComputerAddress ?? ""),
+                                new SqlParameter("@actionTime", DateTime.Now),
             };
 
-            _context.Database.ExecuteSqlRaw($"INSERT INTO ACCESSLOG([SessionID],[Username],[ComputerName],[OSVersion],[Browser],[BrowserVersion],[URL],[Action],[ActionTime]) " +
-                $"VALUES(@sessionID, @username, @computerName, @osVersion, @browser, @browserVersion, @URL, @action, @actionTime)", sqlParameters);
+                result = _context.Database.ExecuteSqlRaw($"INSERT INTO ACCESSLOG([SessionID],[Username],[ComputerName],[Browser],[URL],[Action],[ActionTime]) " +
+                    $"VALUES(@sessionID, @userName, @computerName, @browser, @URL, @action, @actionTime)", sqlParameters);
 
-            return await Task.Run(() => true);
+                return await Task.Run(() => result > 0);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
-        public async Task<bool> SaveAsync(string source, DateTime logDateTime, string message, string queryString, 
-            string targetSite, string stackTrace, string serverName, string requestUrl, 
-            string userAgent, string userIP, string userAuthentication, string userName)
+        public async Task<bool> ExceptionLogAsync(Exception ex)
         {
+            int result = -1;
             SqlParameter[] sqlParameters = new SqlParameter[] {
-                                new SqlParameter("@result", System.Data.SqlDbType.Int){Direction = System.Data.ParameterDirection.Output},
-                                new SqlParameter("@Source", source){},
-                                new SqlParameter("@LogDateTime", logDateTime){},
-                                new SqlParameter("@Message", message){},
-                                new SqlParameter("@QueryString", queryString){},
-                                new SqlParameter("@TargetSite", targetSite){},
-                                new SqlParameter("@StackTrace", stackTrace){},
-                                new SqlParameter("@ServerName", serverName){},
-                                new SqlParameter("@RequestURL", requestUrl){},
-                                new SqlParameter("@UserAgent", userAgent){},
-                                new SqlParameter("@UserIP", userIP){},
-                                new SqlParameter("@UserAuthentication", userAuthentication){},
-                                new SqlParameter("@UserName", userName){}
+                                new SqlParameter("@result", System.Data.SqlDbType.Int ){Direction = System.Data.ParameterDirection.Output},
+                                new SqlParameter("@Source", ex.Source),
+                                new SqlParameter("@LogDateTime", DateTime.Now),
+                                new SqlParameter("@Message", ex.Message),
+                                new SqlParameter("@QueryString", ""),
+                                new SqlParameter("@TargetSite", ex.TargetSite.ToString()),
+                                new SqlParameter("@StackTrace", ex.StackTrace),
+                                new SqlParameter("@ServerName", Host),
+                                new SqlParameter("@RequestURL", URL),
+                                new SqlParameter("@UserAgent", ClientComputerAddress),
+                                new SqlParameter("@UserIP", Host),
+                                new SqlParameter("@UserAuthentication", IsAuthenticated),
+                                new SqlParameter("@UserName", UserName)
             };
 
-            _context.Database.ExecuteSqlRaw($"EXECUTE @result = [dbo].[spInsertExceptionLog] " +
-                $"@Source, @LogDateTime, @Message, @QueryString, @TargetSite, @StackTrace, " +
-                $"@ServerName, @RequestURL, @UserAgent, @UserIP, @UserAuthentication, @UserName", sqlParameters);
+            result = _context.Database.ExecuteSqlRaw($"EXECUTE @result = [dbo].[spInsertExceptionLog] " +
+             $"@Source, @LogDateTime, @Message, @QueryString, @TargetSite, @StackTrace, " +
+             $"@ServerName, @RequestURL, @UserAgent, @UserIP, @UserAuthentication, @UserName", sqlParameters);
 
-            return await Task.Run(() => ((int)sqlParameters[0].Value >= 0));
+            return await Task.Run(() => (int)sqlParameters[0].Value > 0);
         }
     }
 }

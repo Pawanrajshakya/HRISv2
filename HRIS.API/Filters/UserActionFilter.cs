@@ -8,10 +8,12 @@ namespace HRIS.API
     public class UserActionFilter : IActionFilter
     {
         private readonly IUserRepository _userRepository;
+        private readonly ILogRepository _logRepository;
 
-        public UserActionFilter(IUserRepository userRepository)
+        public UserActionFilter(IUserRepository userRepository, ILogRepository logRepository)
         {
             _userRepository = userRepository;
+            _logRepository = logRepository;
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
@@ -22,15 +24,34 @@ namespace HRIS.API
         {
             try
             {
+                _logRepository.ID = context.HttpContext.Connection.Id;
+                _logRepository.URL = context.HttpContext.Request.Path;
+                _logRepository.Host = context.HttpContext.Request.Host.ToString();
+                _logRepository.ClientComputerAddress = context.HttpContext.Connection.RemoteIpAddress.ToString();
+                _logRepository.IsAuthenticated = context.HttpContext.User.Identity.IsAuthenticated;
+                _logRepository.UserName = context.HttpContext.User.Identity.Name;
+                
+            }
+            catch (System.Exception)
+            {
+            }
+
+            try
+            {
                 var user = _userRepository.GetByLanID(UserSession.LanID);
-
+               
+                
                 if (user == null)
+                {
+                    _logRepository.AccessLogAsync("Unauthorized: " + UserSession.LanID ?? "");
                     context.Result = new UnauthorizedResult();
-
+                }
                 UserSession.Instance.User = user;
+                _logRepository.AccessLogAsync("Login:" + UserSession.Instance.User.LanID ?? "");
             }
             catch (System.Exception ex)
             {
+                _logRepository.ExceptionLogAsync(ex);
                 ShareManager.AddMessage(ex.Message);
                 context.Result = new ObjectResult(ex.Message);
             }

@@ -1,13 +1,12 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { merge, startWith, switchMap, Observable } from 'rxjs';
+import { merge, startWith, switchMap } from 'rxjs';
 import { BaseComponent } from 'src/app/base/base.component';
 import { ICurrentUser } from 'src/app/_models/ICurrentUser';
 import { IECardChart } from 'src/app/_models/IECard';
-import { IRc } from 'src/app/_models/IRcDp';
-import { CodeService } from 'src/app/_services/code.service';
 import { DataService } from 'src/app/_services/data.service';
+import { EcardService } from 'src/app/_services/ecard.service';
 import { LoginService } from 'src/app/_services/login.service';
 import { StaffService } from 'src/app/_services/staff.service';
 
@@ -58,7 +57,7 @@ export class EcardChartByRcComponent
   };
 
   constructor(
-    private codeService: CodeService,
+    private ecardService: EcardService,
     public loginService: LoginService,
     private dataService: DataService,
     private staffService: StaffService
@@ -68,7 +67,14 @@ export class EcardChartByRcComponent
   }
 
   ngOnInit(): void {
-    this.rcs = this.codeService.rc_dp.RC as IRc[];
+    //this.rcs = this.codeService.rc_dp.RC as IRc[];
+    this.filterSubject.next(this.filterValue);
+    this.ecardService.selectedRCs.subscribe({
+      next: (rcs: string[]) => {
+        this.selectedRC = rcs;
+        this.filterSubject.next(this.filterValue);
+      },
+    });
   }
 
   ngAfterViewInit(): void {
@@ -98,13 +104,13 @@ export class EcardChartByRcComponent
       });
   }
 
-  onSearch() {
-    this.reportParam.rcDp.rcs = this.selectedRC.join(',');
-    this.filterSubject.next(this.filterValue);
-  }
+  // onSearch() {
+  //   this.reportParam.rcDp.rcs = this.selectedRC.join(',');
+  //   this.filterSubject.next(this.filterValue);
+  // }
 
-  onClear() {
-    this.clear();
-    this.filterSubject.next(this.filterValue);
-  }
+  // onClear() {
+  //   this.clear();
+  //   this.filterSubject.next(this.filterValue);
+  // }
 }

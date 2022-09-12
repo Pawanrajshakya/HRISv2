@@ -29,6 +29,8 @@
                     _lanId = value;
             }
         }
+
+        public static string Platform { get; set; }
         public static UserSession Instance
         {
             get

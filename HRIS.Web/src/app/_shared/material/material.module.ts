@@ -19,6 +19,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
+import {PlatformModule} from '@angular/cdk/platform';
 
 @NgModule({
   exports: [
@@ -42,6 +43,7 @@ import { MatTreeModule } from '@angular/material/tree';
     MatRadioModule,
     MatTooltipModule,
     MatTreeModule,
+    PlatformModule
   ],
 })
 export class MaterialModule {}
