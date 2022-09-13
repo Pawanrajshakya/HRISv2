@@ -18,5 +18,6 @@ namespace HRIS.API
         public DbSet<ActualOT> ActualOTs { get; set; }
         public DbSet<OvertimeReport> OvertimeReports { get; set; }
         public DbSet<OvertimeEarnedAnalysisReport> OvertimeEarnedAnalysisReports { get; set; }
+        public DbSet<HRISFiscalYear> HRISFiscalYears { get; set; }
     }
 }

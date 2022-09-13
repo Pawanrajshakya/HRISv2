@@ -41,6 +41,7 @@ import { ECardsReportGuard } from '../_services/_guard/ecards-report.guard';
 import { DisciplinaryReportGuard } from '../_services/_guard/disciplinary-report.guard';
 import { CustomerServiceComplaintsReportGuard } from '../_services/_guard/customer-service-complaints-report.guard';
 import { DeveloperGuard } from '../_services/_guard/developer.guard';
+import { FisalYearResolverService } from '../_services/_resolvers/fisal-year-resolver.service';
 
 const routes: Routes = [
   {
@@ -157,6 +158,7 @@ const routes: Routes = [
     resolve: {
       currentUser: CurrentUserResolver,
       rcdp: RcDpCodeResolverService,
+      fiscalYear: FisalYearResolverService
     },
     canActivate: [OvertimeReportGuard]
   },

@@ -108,7 +108,7 @@ namespace HRIS.API.Controllers
         }
 
         [HttpPost("upload/{id:int}")]
-        public async Task<ActionResult> Upload(int id, IFormFile file)
+        public ActionResult Upload(int id, IFormFile file)
         {
             string folderPath = ShareManager.UploadFolderPath;
 
@@ -121,7 +121,7 @@ namespace HRIS.API.Controllers
                     string filePath = Path.Combine(folderPath, file.FileName);
                     using (Stream stream = new FileStream(filePath, FileMode.Create))
                     {
-                        await file.CopyToAsync(stream);
+                        file.CopyToAsync(stream);
                     }
                     try
                     {

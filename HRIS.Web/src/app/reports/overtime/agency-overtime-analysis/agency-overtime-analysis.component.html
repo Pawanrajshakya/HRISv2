@@ -14,7 +14,7 @@
           <div class="col-sm-4">
             <ng-select [hideSelected]="true" [(ngModel)]="selectedYear" id="years" name="selectedYear"
               placeholder="Select Year">
-              <ng-option *ngFor="let year of years" [value]="year">{{year}}</ng-option>
+              <ng-option *ngFor="let year of years" [value]="year.fiscalYear">{{year.fiscalYear}}</ng-option>
             </ng-select>
           </div>
           <div class="col-sm-6"></div>

@@ -16,6 +16,7 @@ import { Reports } from 'src/app/_models/Reports.enum';
 import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
 import { DataService } from 'src/app/_services/data.service';
+import { IFiscalYear } from 'src/app/_models/IFiscalYear';
 
 @Component({
   selector: 'app-agency-overtime-analysis',
@@ -30,8 +31,8 @@ export class AgencyOvertimeAnalysisComponent
   selectedType: string = 'Earned';
   types: string[] = ['Earned', 'Paid'];
 
-  selectedYear: string = '2022';
-  years: string[] = ['2022', '2021', '2020', '2019'];
+  selectedYear: string = '';
+  years: IFiscalYear[] = [];
 
   constructor(
     private codeService: CodeService,
@@ -66,6 +67,8 @@ export class AgencyOvertimeAnalysisComponent
       'project_Percent',
       'project_Diff',
     ];
+    this.years = this.codeService.fiscalYears as IFiscalYear[];
+    this.selectedYear = this.years[0].fiscalYear;
     this.rcs = this.codeService.rc_dp.RC as IRc[];
     this.filteredDPs = this.dps;
   }
@@ -118,7 +121,7 @@ export class AgencyOvertimeAnalysisComponent
   onClear() {
     this.clear();
     this.selectedType = this.types[0];
-    this.selectedYear = this.years[0];
+    this.selectedYear = this.years[0].fiscalYear;
   }
 
   onExport() {

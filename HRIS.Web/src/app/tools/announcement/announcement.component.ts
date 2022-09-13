@@ -7,7 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -20,7 +19,6 @@ import {
   tap,
   of as observableOf,
 } from 'rxjs';
-import { IAnnouncementSummary } from 'src/app/_models/IAnnouncementSummary';
 import { BaseComponent } from '../../base/base.component';
 import { IAnnouncement } from '../../_models/IAnnouncement';
 import { IAnnouncementList } from '../../_models/IAnnouncementList';

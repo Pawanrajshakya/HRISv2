@@ -4,6 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { IBackupTitle } from '../_models/IBackupTitle';
 import { ICSStatus } from '../_models/ICSStatus';
 import { IEmployeeBehavior } from '../_models/IEmployeeBehavior';
+import { IFiscalYear } from '../_models/IFiscalYear';
 import { ILeaveStatus } from '../_models/ILeaveStatus';
 import { ILocation } from '../_models/ILocation';
 import { IRc, IDp, IRcDp, IDpGroup } from '../_models/IRcDp';
@@ -22,7 +23,8 @@ export class CodeService extends BaseService {
   csStatuses: ICSStatus[] = [];
   lvStatuses: ILeaveStatus[] = [];
   employeeBehaviors: IEmployeeBehavior[] = [];
- 
+  fiscalYears: IFiscalYear[] = [];
+
   constructor(
     private httpClient: HttpClient,
     private errorHandlingService: ErrorHandlingService
@@ -198,17 +200,43 @@ export class CodeService extends BaseService {
         this.employeeBehaviors === null ||
         this.employeeBehaviors.length === 0
       ) {
-        this.httpClient.get<IEmployeeBehavior[]>(this.url + 'code/employeeBehaviorCode/').subscribe({
-          next: (data) => {
-            this.employeeBehaviors = data;
-          },
-          error: (error) => {},
-          complete: () => {
-            resolve(this.employeeBehaviors);
-          },
-        });
+        this.httpClient
+          .get<IEmployeeBehavior[]>(this.url + 'code/employeeBehaviorCode/')
+          .subscribe({
+            next: (data) => {
+              this.employeeBehaviors = data;
+            },
+            error: (error) => {},
+            complete: () => {
+              resolve(this.employeeBehaviors);
+            },
+          });
       } else {
         resolve(this.employeeBehaviors);
+      }
+    });
+  }
+
+  resolveFiscalYear(): Promise<IFiscalYear[]> {
+    return new Promise((resolve, reject) => {
+      if (
+        this.fiscalYears === undefined ||
+        this.fiscalYears === null ||
+        this.fiscalYears.length === 0
+      ) {
+        this.httpClient
+          .get<IFiscalYear[]>(this.url + 'overtime/FiscalYear')
+          .subscribe({
+            next: (data) => {
+              this.fiscalYears = data;
+            },
+            error: (error) => {},
+            complete: () => {
+              resolve(this.fiscalYears);
+            },
+          });
+      } else {
+        resolve(this.fiscalYears);
       }
     });
   }

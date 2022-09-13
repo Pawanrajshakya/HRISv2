@@ -91,6 +91,9 @@ namespace HRIS.API
                 .ForMember(x => x.Dec, y => y.MapFrom(z => z.December));
 
             CreateMap<OvertimeCitytimeReport, OvertimeCitytimeReportDto>();
+            
+            CreateMap<HRISFiscalYear, HRISFiscalYearDto>();
+
             #endregion
 
             #region headcount

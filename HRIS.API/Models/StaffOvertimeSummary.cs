@@ -217,4 +217,15 @@ namespace HRIS.API
         public double Voluntary { get; set; }
         public double Involuntary { get; set; }
     }
+
+    public class HRISFiscalYear
+    {
+        [Key]
+        public string FiscalYear { get; set; }
+    }
+
+    public class HRISFiscalYearDto
+    {
+        public string FiscalYear { get; set; }
+    }
 }

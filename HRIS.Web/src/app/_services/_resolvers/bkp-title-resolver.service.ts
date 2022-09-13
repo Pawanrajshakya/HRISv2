@@ -11,6 +11,4 @@ export class BkpTitleResolverService implements Resolve<IBackupTitle[]> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<IBackupTitle[]> {
       return this.codeService.resolveBkpTitle();
     }
-
-
 }

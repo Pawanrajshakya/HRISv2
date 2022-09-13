@@ -1,22 +1,23 @@
-<div class="card border-info shadow">
+<div class="card border-info shadow pb-2 bg-offwhite">
   <div class="card-header text-white bg-secondary border-secondary shadow">
     <i class="bi bi-broadcast-pin"></i> Announcement
   </div>
-  <div class="card-body carousel bg-offwhite">
+  <div class="card-body carousel">
     <carousel [isAnimated]="true" *ngIf="announcementService.selectedAnnouncement| async as announcementSummary">
       <slide *ngFor="let announcement of announcementSummary">
         <div class="row mb-1">
           <div class="col-lg-4">
-            <img src="{{announcement.imageURL}}" alt="No Image" height="40px">
+            {{announcement.imageURL}}
+            <img *ngIf="!!announcement.imageURL" src="{{announcement.imageURL}}" alt="No Image" height="40px">
           </div>
           <div class="col-lg-8">
-            <a *ngIf="!!announcement.link" href="{{announcement.link}}" class="btn btn-link"><i
+            <a *ngIf="!!announcement.link" href="{{announcement.link}}" target="_blank" class="btn btn-link"><i
                 class="bi bi-link-45deg"></i> {{announcement.title}}</a>
             <h5 *ngIf="!announcement.link">{{announcement.title}}</h5>
           </div>
         </div>
         <div class="content">
-          <p class="text-wrap text-truncate text-justify"><small>{{announcement.content}}</small></p>
+          <p class="text-wrap text-truncate text-primary">{{announcement.content}}</p>
         </div>
       </slide>
     </carousel>

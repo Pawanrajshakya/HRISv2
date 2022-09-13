@@ -10,12 +10,14 @@ namespace HRIS.API
     public interface IOvertimeRepository
     {
         public Task<StaffOvertimeSummaryDto> GetStaffOvertimeSummaryAsync(string userid, string ein, string calenderType);
-        public Task<IEnumerable<BudgetedOT>> GetBudgetedOvertimeAsync(string userid, string rcs, string year);
-        public Task<IEnumerable<ActualOT>> GetActualOvertimeAsync(string userid, string rcs);
+        public Task<IEnumerable<BudgetedOTDto>> GetBudgetedOvertimeAsync(string userid, string rcs, string year);
+        public Task<IEnumerable<ActualOTDto>> GetActualOvertimeAsync(string userid, string rcs);
         public Task<IEnumerable<OvertimeReportDto>> GetOvertimeReportAsync(string userid, string rcs, string dps, string isCalender,
            int roleID, int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "");
         public Task<IEnumerable<OvertimeEarnedAnalysisReportDto>> GetOvertimeEarnedAnalysisReportAsync(string userid, string rcs, string year, bool isDateEarned,
            int pageNumber = 1, int pageSize = 10, string sortColumn = "", string sortOrder = "", string searchTerm = "");
+
+        public Task<IEnumerable<HRISFiscalYearDto>> GetFiscalYears();
     }
 
     public class OvertimeRepository : IOvertimeRepository
@@ -30,12 +32,12 @@ namespace HRIS.API
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ActualOT>> GetActualOvertimeAsync(
+        public async Task<IEnumerable<ActualOTDto>> GetActualOvertimeAsync(
             string userid, string rcs)
         {
             try
             {
-                List<ActualOT> dtos = new List<ActualOT>();
+                List<ActualOTDto> dtos = new List<ActualOTDto>();
 
                 SqlParameter[] sqlParameters =
                     new SqlParameter[] {
@@ -49,7 +51,7 @@ namespace HRIS.API
 
                 foreach (var row in rows)
                 {
-                    dtos.Add(_mapper.Map<ActualOT>(row));
+                    dtos.Add(_mapper.Map<ActualOTDto>(row));
                 }
                 return await Task.Run(() => dtos);
             }
@@ -59,11 +61,11 @@ namespace HRIS.API
             }
         }
 
-        public async Task<IEnumerable<BudgetedOT>> GetBudgetedOvertimeAsync(string userid, string rcs, string year)
+        public async Task<IEnumerable<BudgetedOTDto>> GetBudgetedOvertimeAsync(string userid, string rcs, string year)
         {
             try
             {
-                List<BudgetedOT> dtos = new List<BudgetedOT>();
+                List<BudgetedOTDto> dtos = new List<BudgetedOTDto>();
 
                 SqlParameter[] sqlParameters =
                     new SqlParameter[] {
@@ -78,7 +80,7 @@ namespace HRIS.API
 
                 foreach (var row in rows)
                 {
-                    dtos.Add(_mapper.Map<BudgetedOT>(row));
+                    dtos.Add(_mapper.Map<BudgetedOTDto>(row));
                 }
                 return await Task.Run(() => dtos);
             }
@@ -194,6 +196,27 @@ namespace HRIS.API
                 foreach (var row in rows)
                 {
                     dtos.Add(_mapper.Map<OvertimeEarnedAnalysisReportDto>(row));
+                }
+                return await Task.Run(() => dtos);
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<HRISFiscalYearDto>> GetFiscalYears()
+        {
+            try
+            {
+                List<HRISFiscalYearDto> dtos = new List<HRISFiscalYearDto>();
+
+                var rows = _context.HRISFiscalYears
+                        .FromSqlRaw($"EXECUTE dbo.[spHRISGetFiscalYear]")
+                        .ToList();
+                foreach (var row in rows)
+                {
+                    dtos.Add(_mapper.Map<HRISFiscalYearDto>(row));
                 }
                 return await Task.Run(() => dtos);
             }

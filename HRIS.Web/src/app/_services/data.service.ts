@@ -45,6 +45,7 @@ import {
   IEmployeeBehaviorChart,
   IEmployeeBehaviorParameters,
 } from '../_models/IEmployeeBehavior';
+import { IFiscalYear } from '../_models/IFiscalYear';
 
 @Injectable({
   providedIn: 'root',
@@ -109,6 +110,16 @@ export class DataService extends BaseService {
   //#endregion
 
   //#region  OVERTIME
+
+  fiscalYear$(){
+    return this.httpClient
+      .get<IFiscalYear[]>(
+        this.url + 'overtime/FiscalYear')
+      .pipe(
+        //tap((data) => {  console.log('$', data); }),
+        catchError((err) => this.errorHandlingService.handleError(err))
+      );
+  }
 
   budgetedOTChart$(rcs: string, year: string) {
     if (!rcs || rcs.length === 0) rcs = '*';

@@ -115,5 +115,18 @@ namespace HRIS.API.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpGet("FiscalYear")]
+        public async Task<ActionResult> GetFiscalYear()
+        {
+            try
+            {
+                return Ok(await _overtimeRepository.GetFiscalYears());
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }
