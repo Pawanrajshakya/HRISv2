@@ -31,7 +31,7 @@
               [(ngModel)]="selectedDP" [multiple]="true" [hideSelected]="true" placeholder="Select DP" id="dps"
               name="selectedDP">
               <ng-template ng-optgroup-tmp let-item="item">
-                {{ item.rcCode || "Unnamed group" }}
+                {{item.rcCode || 'Unnamed group'}}
               </ng-template>
             </ng-select>
           </div>

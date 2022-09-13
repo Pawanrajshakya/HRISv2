@@ -13,3 +13,23 @@
 .mat-toolbar-single-row {
   height: 48px !important;
 }
+
+/* .mat-menu-item {
+  height: 38px !important;
+} */
+
+button.mat-menu-item,
+.mat-menu-content,
+.mat-menu-panel {
+  background-color: #00468B !important;
+  color: white;
+}
+
+a.mat-menu-item {
+  height: 30px !important;
+  min-width: 280px !important;
+}
+
+/* button.mat-menu-item:hover {
+  color: lightgreen !important;
+} */

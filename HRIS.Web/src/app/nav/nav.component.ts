@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICurrentUser } from '../_models/ICurrentUser';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
@@ -10,6 +10,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css'],
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: BsDropdownConfig,

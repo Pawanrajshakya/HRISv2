@@ -17,7 +17,7 @@ import { StaffLeaveComponent } from '../reports/staff-leave/staff-leave.componen
 import { LeaveStatusResolverService } from '../_services/_resolvers/leave-status-resolver.service';
 import { CeasedStaffComponent } from '../reports/ceased-staff/ceased-staff.component';
 import { StaffEmergencyContactInfoComponent } from '../reports/staff-emergency-contact-info/staff-emergency-contact-info.component';
-import { VacationRosterComponent } from '../reports/vacation-roster/vacation-roster.component';
+import { VacationRoasterComponent } from '../reports/vacation-roaster/vacation-roaster.component';
 import { SeparationComponent } from '../reports/separation/separation.component';
 import { ParComponent } from '../reports/par/par.component';
 import { OvertimeComponent } from '../reports/overtime/overtime.component';
@@ -31,7 +31,7 @@ import { MyInfoComponent } from '../my-info/my-info.component';
 import { MyInfoTreeResolverService } from '../_services/_resolvers/my-info-tree-resolver.service';
 import { StaffReportGuard } from '../_services/_guard/staff-report.guard';
 import { AdminToolGuard } from '../_services/_guard/admin-tool.guard';
-import { VacationRosterReportGuard } from '../_services/_guard/vacation-roster-report.guard';
+import { VacationRoasterReportGuard } from '../_services/_guard/vacation-roaster-report.guard';
 import { SeparationsReportGuard } from '../_services/_guard/separations-report.guard';
 import { PARReportGuard } from '../_services/_guard/par-report.guard';
 import { OvertimeReportGuard } from '../_services/_guard/overtime-report.guard';
@@ -112,14 +112,14 @@ const routes: Routes = [
   },
   {
     path: 'vacationRoasterReport',
-    component: VacationRosterComponent,
+    component: VacationRoasterComponent,
     resolve: {
       currentUser: CurrentUserResolver,
       rcdp: RcDpCodeResolverService,
       location: LocationCodeResolverService,
       title: TitleCodeResolverService,
     },
-    canActivate: [VacationRosterReportGuard]
+    canActivate: [VacationRoasterReportGuard]
   },
   {
     path: 'emergencyContactInfoReport',

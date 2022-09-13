@@ -85,7 +85,7 @@
       </div>
       <div class="col-lg-12">
         <div class="table-container table-responsive" [hidden]="resultsLength === 0">
-          <table mat-table [dataSource]="data" matSortActive="ein"  matSortDirection="asc"
+          <table mat-table [dataSource]="data" matSort matSortActive="ein"  matSortDirection="asc"
             class="table table-hover table-bordered">
             <ng-container matColumnDef="ein">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-nowrap">EIN</th>

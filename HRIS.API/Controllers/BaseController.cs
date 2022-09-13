@@ -57,7 +57,7 @@ namespace HRIS.API.Controllers
 
             switch (parameters.ReportName)
             {
-                case "ActiveStaffReport":
+                case "SearchStaffReport":
                 case "UsersReport":
                 case "LeaveReport":
                 case "CeasedReport":

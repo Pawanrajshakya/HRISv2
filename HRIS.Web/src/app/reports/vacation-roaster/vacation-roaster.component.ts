@@ -14,16 +14,16 @@ import { IRc, IDp } from '../../_models/IRcDp';
 import { Reports } from '../../_models/Reports.enum';
 import { CodeService } from '../../_services/code.service';
 import { LoginService } from '../../_services/login.service';
-import { IVacationRosterReport } from 'src/app/_models/IVacationRosterReport';
+import { IVacationRoasterReport } from 'src/app/_models/IVacationRoasterReport';
 import { DataService } from 'src/app/_services/data.service';
 
 @Component({
-  selector: 'app-vacation-roster',
-  templateUrl: './vacation-roster.component.html',
-  styleUrls: ['./vacation-roster.component.scss'],
+  selector: 'app-vacation-roaster',
+  templateUrl: './vacation-roaster.component.html',
+  styleUrls: ['./vacation-roaster.component.scss'],
 })
-export class VacationRosterComponent
-  extends BaseComponent<IVacationRosterReport>
+export class VacationRoasterComponent
+  extends BaseComponent<IVacationRoasterReport>
   implements AfterViewInit, OnInit
 {
   isCollapsed = false;
@@ -97,7 +97,7 @@ export class VacationRosterComponent
           this.reportParam.pagination.sortColumn = this.sort.active;
           this.reportParam.pagination.sortOrder = this.sort.direction;
           return this.dataService
-            .vacationRosterReport$(this.reportParam)
+            .vacationRoasterReport$(this.reportParam)
             .pipe(catchError(() => observableOf(null)));
         }),
         map((data) => {

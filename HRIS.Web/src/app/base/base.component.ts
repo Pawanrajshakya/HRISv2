@@ -119,7 +119,7 @@ export class BaseComponent<T> {
   // chart
   backgroundColor: string[] = [
     'rgba(252,129,82)',
-    
+
     'rgba(78,162,210)',
     'rgba(52,191,120)',
     'rgba(110,78,122)',
@@ -133,7 +133,7 @@ export class BaseComponent<T> {
 
   transparentBackgroundColor: string[] = [
     'rgba(252,129,82,0.4)',
-    
+
     'rgba(78,162,210,0.4)',
     'rgba(52,191,120,0.4)',
     'rgba(110,78,122,0.4)',
@@ -255,7 +255,7 @@ export class BaseComponent<T> {
     }
   }
 
-  clear() {
+  clear(hasTable: boolean = true) {
     this.selectedGroup = [];
     this.selectedRC = [];
     this.selectedDP = [];
@@ -287,7 +287,7 @@ export class BaseComponent<T> {
     this.reportParam.openClose = '';
     this.reportParam.isCalendarYear = true;
     this.filterValue = '';
-    this.sort._stateChanges.next();
+    if (hasTable) this.sort._stateChanges.next();
     this.filterSubject.next('');
   }
 

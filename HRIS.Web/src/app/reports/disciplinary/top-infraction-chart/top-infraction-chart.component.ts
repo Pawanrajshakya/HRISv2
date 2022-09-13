@@ -47,6 +47,7 @@ export class TopInfractionChartComponent
         display: true,
         position: 'bottom',
         align: 'end',
+        // labels: { color: 'red' },
       },
     },
   };

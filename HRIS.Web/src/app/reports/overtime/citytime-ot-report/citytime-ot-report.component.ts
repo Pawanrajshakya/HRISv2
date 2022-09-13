@@ -11,7 +11,6 @@ import { CodeService } from 'src/app/_services/code.service';
 import { LoginService } from 'src/app/_services/login.service';
 import { DataService } from 'src/app/_services/data.service';
 
-
 @Component({
   selector: 'app-citytime-otreport',
   templateUrl: './citytime-ot-report.component.html',
@@ -79,6 +78,7 @@ export class CitytimeOTReportComponent
   ngOnInit(): void {
     this.rcs = this.codeService.rc_dp.RC as IRc[];
     this.dps = this.codeService.rc_dp.DP as IDp[];
+    this.filteredDPs = this.dps;
   }
 
   ngAfterViewInit(): void {
@@ -131,7 +131,7 @@ export class CitytimeOTReportComponent
   }
 
   onClear() {
-    this.clear();
+    this.clear(false);
 
     this.selectedDateFrom = undefined;
     this.selectedDateTo = undefined;

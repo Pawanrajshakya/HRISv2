@@ -25,7 +25,7 @@ import {
 } from '../_models/IHeadcountReport';
 import { IAgencySeparationChart } from '../_models/IAgencySeparationChart';
 import { IAgencySeparationSummary } from '../_models/IAgencySeparationSummary';
-import { IVacationRosterReport } from '../_models/IVacationRosterReport';
+import { IVacationRoasterReport } from '../_models/IVacationRoasterReport';
 import { IStaffEmergencyContactInfoReport } from '../_models/IStaffEmergencyContactInfoReport';
 import { IStaffLeaveReport } from '../_models/IStaffLeaveReport';
 import { IActiveStaffReport } from '../_models/IActiveStaffReport';
@@ -372,9 +372,9 @@ export class DataService extends BaseService {
       );
   }
 
-  vacationRosterReport$(tableViewParam?: IReportParam) {
+  vacationRoasterReport$(tableViewParam?: IReportParam) {
     return this.httpClient
-      .post<IVacationRosterReport[]>(
+      .post<IVacationRoasterReport[]>(
         this.url + 'hrisReport/vactionRoasterReport',
         tableViewParam
       )

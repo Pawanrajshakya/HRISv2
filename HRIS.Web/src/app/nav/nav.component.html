@@ -55,7 +55,7 @@
     (this.loginService.currentUser.groups?.indexOf(7) !== -1)">E-Cards Report (DSS & HRA)</button>
 
     <button mat-menu-item [routerLink]="['/eeo']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
-    (this.loginService.currentUser.groups?.indexOf(6) !== -1)">EEO Report (DSS & HRA)</button>
+    (this.loginService.currentUser.groups?.indexOf(6) !== -1)">EEO Reports (DSS & HRA)</button>
 
     <button mat-menu-item [routerLink]="['/emergencyContactInfoReport']" routerLinkActive="active"
       *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5)">
@@ -63,11 +63,11 @@
     </button>
 
     <button mat-menu-item [routerLink]="['/headcount']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
-    (this.loginService.currentUser.groups?.indexOf(5) !== -1)">Headcount Report (DSS & HRA)</button>
+    (this.loginService.currentUser.groups?.indexOf(5) !== -1)">Headcount Reports (DSS & HRA)</button>
 
     <button mat-menu-item [routerLink]="['/overtimeReport']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
     (this.loginService.currentUser.groups?.indexOf(3) !== -1)">
-      Overrtime Report (DSS & HRA)
+      OverTime Reports (DSS & HRA)
     </button>
 
     <button mat-menu-item [routerLink]="['/parReport']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
@@ -77,12 +77,12 @@
 
     <button mat-menu-item [routerLink]="['/separationReport']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4) &&
     (this.loginService.currentUser.groups?.indexOf(10) !== -1)">
-      Seperations Report (DSS & HRA)
+      Separations Report (DSS & HRA)
     </button>
 
     <button mat-menu-item [routerLink]="['/vacationRoasterReport']" routerLinkActive="active" *ngIf=" loginService.currentUser && (loginService.currentUser.roleID == 1 || loginService.currentUser.roleID == 2 || loginService.currentUser.roleID == 3 || loginService.currentUser.roleID == 4 || loginService.currentUser.roleID == 5) &&
     (this.loginService.currentUser.groups?.indexOf(11) !== -1)">
-      Vacation Roster Report (HRA)
+      Vacation Roaster Report (HRA)
     </button>
 
     <button mat-menu-item [matMenuTriggerFor]="staffReport"
@@ -120,72 +120,69 @@
       class="bi bi-link"></i> Quick Links <i class="caret"></i></a>
   <mat-menu #quickLinkMenu="matMenu" yPosition="below">
 
-    <a class="text-decoration-none" mat-menu-item href="https://webp16dssap01/CARF/SearchRequests.aspx"
+    <a class="text-decoration-none text-white" mat-menu-item href="https://webp16dssap01/CARF/SearchRequests.aspx"
       routerLinkActive="active" target="_blank">CARF (Classification Request Form)</a>
 
-    <a class="text-decoration-none" mat-menu-item href="https://webp16dssap01/CARF/SearchRequests.aspx"
-      routerLinkActive="active" target="_blank">CARF (Classification Request Form)</a>
-
-    <a class="text-decoration-none" mat-menu-item
+    <a class="text-decoration-none text-white" mat-menu-item
       href="https://CentralIntake.hra.nycnet/CentralIntakeWorkFlow/UI/Page/Login.aspx" routerLinkActive="active"
       target="_blank">Central Intake Workflow System (CIWS)</a>
-    <a class="text-decoration-none" mat-menu-item href="https://nycdss.myprintdesk.net/DSF/SmartStore.aspx#!/Storefront"
+    <a class="text-decoration-none text-white" mat-menu-item href="https://nycdss.myprintdesk.net/DSF/SmartStore.aspx#!/Storefront"
       routerLinkActive="active" target="_blank">Design and Print Ordering System (DPOS)</a>
-    <a class="text-decoration-none" mat-menu-item href="https://intranet.dhs.nycnet" routerLinkActive="active"
+    <a class="text-decoration-none text-white" mat-menu-item href="https://intranet.dhs.nycnet" routerLinkActive="active"
       target="_blank">DHS Intranet</a>
-    <a class="text-decoration-none" mat-menu-item href="https://ecard.hra.nycnet/ECard/UI/Pages/SendCard.aspx"
+    <a class="text-decoration-none text-white" mat-menu-item href="https://ecard.hra.nycnet/ECard/UI/Pages/SendCard.aspx"
       routerLinkActive="active" target="_blank">ECards</a>
-    <a class="text-decoration-none" mat-menu-item
+    <a class="text-decoration-none text-white" mat-menu-item
       href="https://EEODiscussionSurvey.hra.nycnet/EEO_Discussion_Survey/UI/page/home.aspx" routerLinkActive="active"
       target="_blank">EEO Supervisory Discussion</a>
-    <a class="text-decoration-none" mat-menu-item href="https://onlinerequests.hra.nycnet/HRAForms/authorize.aspx"
+    <a class="text-decoration-none text-white" mat-menu-item href="https://onlinerequests.hra.nycnet/HRAForms/authorize.aspx"
       routerLinkActive="active" target="_blank">Employee Online Forms</a>
-    <a class="text-decoration-none" mat-menu-item href="https://hra-transfer.hra.nycnet/transfer"
+    <a class="text-decoration-none text-white" mat-menu-item href="https://hra-transfer.hra.nycnet/transfer"
       routerLinkActive="active" target="_blank">Employee Transfer System</a>
-    <a class="text-decoration-none" mat-menu-item
+    <a class="text-decoration-none text-white" mat-menu-item
       href="https://gds.hra.nycnet/GlobalDirectoryServices/UI/Page/homev4.aspx" routerLinkActive="active"
       target="_blank" custom-quick-link-directive>Global Directory Services (GDS)<i class="note"
         style="color: white; letter-spacing: 0px; word-spacing: 0px">
         - Update your Contact Info in Outlook.</i></a>
-    <a class="text-decoration-none" mat-menu-item href="http://intranetnew.hra.nycnet/sites/HRAIntranet/Pages/osr.aspx"
+    <a class="text-decoration-none text-white" mat-menu-item href="http://intranetnew.hra.nycnet/sites/HRAIntranet/Pages/osr.aspx"
       routerLinkActive="active" target="_blank">HR Source</a>
-    <a class="text-decoration-none" mat-menu-item
+    <a class="text-decoration-none text-white" mat-menu-item
       href="http://hraedocs.hra.nycnet/HRAeDocs/DocumentFunctions/DocumentDirectAccess.aspx?DocId=b46862b4-cc6c-4eca-a061-69b73dd3a6d4"
       routerLinkActive="active" target="_blank">HRS Management Directory
     </a>
-    <a class="text-decoration-none" mat-menu-item href="https://peas.hra.nycnet/PEAS_V2/UI/Page/home.aspx"
+    <a class="text-decoration-none text-white" mat-menu-item href="https://peas.hra.nycnet/PEAS_V2/UI/Page/home.aspx"
       routerLinkActive="active" target="_blank">Paperless Employee Appraisal System (PEAS)</a>
-    <a class="text-decoration-none" mat-menu-item href="https://webp16dssap03.hra.nycnet/pirs" routerLinkActive="active"
+    <a class="text-decoration-none text-white" mat-menu-item href="https://webp16dssap03.hra.nycnet/pirs" routerLinkActive="active"
       target="_blank">Photo ID Request System (PIRS)</a>
 
-    <a class="text-decoration-none" mat-menu-item *ngIf="loginService.currentUser && (
+    <a class="text-decoration-none text-white" mat-menu-item *ngIf="loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 4)
       " href="https://webp16dssap01.hra.nycnet/AgencyOTSystem/UI/Pages/Index.aspx" routerLinkActive="active"
       target="_blank">Agency Overtime Management System</a>
-    <a class="text-decoration-none" mat-menu-item *ngIf="loginService.currentUser && (
+    <a class="text-decoration-none text-white" mat-menu-item *ngIf="loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 4)
       " href="https://CPS.hra.nycnet/cps_system/oba_prf/logon.cfm" routerLinkActive="active"
       target="_blank">Comprehensive Personnel System (CPS)</a>
-    <a class="text-decoration-none" mat-menu-item *ngIf="loginService.currentUser && (
+    <a class="text-decoration-none text-white" mat-menu-item *ngIf="loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 4)
       " href="https://webp16dssap01.hra.nycnet/dssEmailGeneratorv2/Login.aspx" routerLinkActive="active"
       target="_blank">DSS Email Generator</a>
-    <a class="text-decoration-none" mat-menu-item *ngIf=" loginService.currentUser && (
+    <a class="text-decoration-none text-white" mat-menu-item *ngIf=" loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 4)
       " href="https://oneview04.hra.nycnet/hraoneviewer/default.aspx" routerLinkActive="active" target="_blank">HRA ONE
       Viewer</a>
-    <a class="text-decoration-none" mat-menu-item *ngIf=" loginService.currentUser && (
+    <a class="text-decoration-none text-white" mat-menu-item *ngIf=" loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 4)
       " href="https://TEAMS.hra.nycnet/TEAMS/UI/Pages/Home.aspx" routerLinkActive="active" target="_blank">The Employee
       Accountability Management System (TEAMS)
     </a>
 
-    <a class="text-decoration-none" mat-menu-item href="https://CODLog.hra.nycnet/CODLog/" *ngIf=" loginService.currentUser && (
+    <a class="text-decoration-none text-white" mat-menu-item href="https://CODLog.hra.nycnet/CODLog/" *ngIf=" loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 2 ||
         loginService.currentUser.roleID == 3 ||
@@ -193,7 +190,7 @@
         loginService.currentUser.roleID == 5)
       " routerLinkActive="active" target="_blank">Classification & Organizational Development Reporting Log
       (CODLog)</a>
-    <a class="text-decoration-none" mat-menu-item href="https://epar.hra.nycnet/epar/" *ngIf=" loginService.currentUser && (
+    <a class="text-decoration-none text-white" mat-menu-item href="https://epar.hra.nycnet/epar/" *ngIf=" loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 2 ||
         loginService.currentUser.roleID == 3 ||
@@ -201,7 +198,7 @@
         loginService.currentUser.roleID == 5)
       " routerLinkActive="active" target="_blank">Electronic Personnel Action Request (ePAR)</a>
 
-    <a class="text-decoration-none" mat-menu-item *ngIf=" loginService.currentUser && (
+    <a class="text-decoration-none text-white" mat-menu-item *ngIf=" loginService.currentUser && (
         loginService.currentUser.roleID == 1 ||
         loginService.currentUser.roleID == 4)
       " href="https://hrateams.hra.nycnet/sites/OSR/HRSolutionsXchange/SitePages/Home.aspx" routerLinkActive="active"
