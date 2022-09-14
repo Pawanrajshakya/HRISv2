@@ -34,6 +34,7 @@ namespace HRIS.API
         public int ID { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        [MaxLength(300, ErrorMessage ="Image Url lenght is too long.")]
         public string ImageURL { get; set; }
         public string Link { get; set; }
         public bool DurationRestricted { get; set; }

@@ -27,7 +27,7 @@ namespace HRIS.API
             var RCs = _context.RC.FromSqlRaw("spGetRCList @UserID", param)
                 .ProjectTo<RCDto>(_mapper.ConfigurationProvider)
                 .ToList();
-            return await Task.Run(() => RCs);
+            return await Task.Run(() => RCs.OrderBy(x=>x.Code).ToList());
         }
     }
 }

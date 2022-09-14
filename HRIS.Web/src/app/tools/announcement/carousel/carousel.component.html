@@ -7,7 +7,6 @@
       <slide *ngFor="let announcement of announcementSummary">
         <div class="row mb-1">
           <div class="col-lg-4">
-            {{announcement.imageURL}}
             <img *ngIf="!!announcement.imageURL" src="{{announcement.imageURL}}" alt="No Image" height="40px">
           </div>
           <div class="col-lg-8">

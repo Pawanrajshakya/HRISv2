@@ -5,6 +5,7 @@ import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { LoginService } from '../_services/login.service';
 import { Route, Router } from '@angular/router';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-nav',
@@ -24,8 +25,13 @@ export class NavComponent {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined;
   
   message: any;
-  constructor(public loginService: LoginService) {
+  constructor(public loginService: LoginService
+    , private location: Location) {
     this.currentUser$ = this.loginService.currentUserAction$;
+  }
+
+  onBack():void{
+    this.location.back();
   }
 
   // openMyMenu(menu: any) {

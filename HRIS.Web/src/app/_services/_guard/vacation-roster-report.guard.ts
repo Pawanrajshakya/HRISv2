@@ -6,7 +6,7 @@ import { LoginService } from '../login.service';
 @Injectable({
   providedIn: 'root'
 })
-export class VacationRoasterReportGuard implements CanActivate {
+export class VacationRosterReportGuard implements CanActivate {
   
   constructor(private loginService: LoginService, private route: Router) {}
 

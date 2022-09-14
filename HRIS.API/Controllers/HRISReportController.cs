@@ -93,7 +93,7 @@ namespace HRIS.API.Controllers
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
-        [HttpPost("vactionRoasterReport")]
+        [HttpPost("vactionRosterReport")]
         public async Task<ActionResult> GetVacationRosterReportAsync(ReportParameters parameters)
         {
             try

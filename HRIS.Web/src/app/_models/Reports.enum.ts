@@ -5,7 +5,7 @@ export enum Reports {
   LeaveReport,
   CeasedReport,
   EmergencyContactInfoReport,
-  VacationRoasterReport,
+  VacationRosterReport,
   PARReport,
   OvertimeReport,
   OvertimeEarnedAnalysisReport,

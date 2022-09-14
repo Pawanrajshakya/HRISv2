@@ -71,7 +71,7 @@ export class LoginService extends BaseService {
         this.currentUser.hasPEAS = user.groups?.indexOf(8) !== -1;
         this.currentUser.hasCustSvcComplaints = user.groups?.indexOf(9) !== -1;
         this.currentUser.hasAgencySeparation = user.groups?.indexOf(10) !== -1;
-        this.currentUser.hasVacationRoasters = user.groups?.indexOf(11) !== -1;
+        this.currentUser.hasVacationRosters = user.groups?.indexOf(11) !== -1;
       }
     }),
     catchError((error) => this.errorHandlingService.handleError(error))

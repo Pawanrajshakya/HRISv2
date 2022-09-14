@@ -71,7 +71,7 @@ export class UserComponent
   ) {
     super();
     this.displayedColumns = [
-      'ein',
+      'EmployeeID',
       'firstName',
       'role',
       'lanid',

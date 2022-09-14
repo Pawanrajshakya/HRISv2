@@ -32,7 +32,7 @@ namespace HRIS.API
                 .ProjectTo<DPDto>(_mapper.ConfigurationProvider)
                 .ToList();
 
-            return await Task.Run(() => DPs);
+            return await Task.Run(() => DPs.OrderBy(x=>x.DPCode).ToList());
         }
 
         public async Task<IEnumerable<DPDto>> GetAsync()
@@ -46,7 +46,7 @@ namespace HRIS.API
                 .ProjectTo<DPDto>(_mapper.ConfigurationProvider)
                 .ToList();
 
-            return await Task.Run(() => DPs);
+            return await Task.Run(() => DPs.OrderBy(x => x.DPCode).ToList());
         }
 
         public async Task<IEnumerable<DPDto>> GetByUserIDAsync(string userid, string rc = "")
@@ -60,7 +60,7 @@ namespace HRIS.API
                 .ProjectTo<DPDto>(_mapper.ConfigurationProvider)
                 .ToList();
 
-            return await Task.Run(() => DPs);
+            return await Task.Run(() => DPs.OrderBy(x => x.DPCode).ToList());
         }
     }
 }

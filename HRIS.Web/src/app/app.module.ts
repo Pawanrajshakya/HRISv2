@@ -54,7 +54,7 @@ import { EeoComponent } from './reports/eeo/eeo.component';
 import { OvertimeComponent } from './reports/overtime/overtime.component';
 import { ParComponent } from './reports/par/par.component';
 import { SeparationComponent } from './reports/separation/separation.component';
-import { VacationRoasterComponent } from './reports/vacation-roaster/vacation-roaster.component';
+import { VacationRosterComponent } from './reports/vacation-roster/vacation-roster.component';
 import { OvertimeChartComponent } from './reports/overtime/overtime-chart/overtime-chart.component';
 import { OvertimeReportComponent } from './reports/overtime/overtime-report/overtime-report.component';
 import { AgencyOvertimeAnalysisComponent } from './reports/overtime/agency-overtime-analysis/agency-overtime-analysis.component';
@@ -115,7 +115,7 @@ import { HrisTrimPipe } from './_pipes/hris-trim.pipe';
     OvertimeComponent,
     ParComponent,
     SeparationComponent,
-    VacationRoasterComponent,
+    VacationRosterComponent,
     OvertimeChartComponent,
     OvertimeReportComponent,
     AgencyOvertimeAnalysisComponent,

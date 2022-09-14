@@ -1,5 +1,5 @@
 
-export interface IVacationRoasterReport {
+export interface IVacationRosterReport {
     total?: number;
     rowNum?: number;
     rc?: string;

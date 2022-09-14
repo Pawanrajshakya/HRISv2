@@ -23,13 +23,31 @@ button.mat-menu-item,
 .mat-menu-panel {
   background-color: #00468B !important;
   color: white;
+  font-size: small;
+  /* letter-spacing: .5px; */
+  min-width: 300px !important;
 }
 
 a.mat-menu-item {
   height: 30px !important;
-  min-width: 280px !important;
+  font-size: small;
+  color: white;
+  letter-spacing: .5px;
+}
+button.mat-menu-item:active,
+button.mat-menu-item:focus,
+button.mat-menu-item:hover {
+  color: lightgreen !important;
 }
 
-/* button.mat-menu-item:hover {
+a.mat-menu-item:active,
+a.mat-menu-item:focus,
+a.mat-menu-item:hover {
+  background-color: #00468B !important;
   color: lightgreen !important;
-} */
+}
+
+.example-tooltip {
+  color: lightgreen !important;
+  font-size: small;
+}

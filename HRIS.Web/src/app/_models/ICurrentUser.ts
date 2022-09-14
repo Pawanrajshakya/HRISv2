@@ -34,5 +34,5 @@ export interface ICurrentUser {
   hasPEAS?: boolean;
   hasCustSvcComplaints?: boolean;
   hasAgencySeparation?: boolean;
-  hasVacationRoasters?: boolean;
+  hasVacationRosters?: boolean;
 }
