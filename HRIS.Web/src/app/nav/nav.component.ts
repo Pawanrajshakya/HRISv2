@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICurrentUser } from '../_models/ICurrentUser';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
@@ -23,25 +28,24 @@ import { Location } from '@angular/common';
 export class NavComponent {
   currentUser$: Observable<ICurrentUser>;
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined;
-  
+
   message: any;
-  constructor(public loginService: LoginService
-    , private location: Location) {
+  constructor(public loginService: LoginService, private location: Location) {
     this.currentUser$ = this.loginService.currentUserAction$;
   }
 
-  onBack():void{
+  onBack(): void {
     this.location.back();
   }
 
   // openMyMenu(menu: any) {
   //   console.log(menu);
   //   this.trigger?.openMenu();
-  // } 
+  // }
   // closeMyMenu(menu: any) {
   //   console.log(menu);
   //   this.trigger?.closeMenu();
-  // }  
+  // }
 
   onClassificationReportClick(i: number) {
     console.log(i);
