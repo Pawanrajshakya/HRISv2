@@ -4,9 +4,27 @@ import { MyStaffTreeComponent } from './my-staff-tree/my-staff-tree.component';
 import { MyStaffInfoComponent } from './my-staff-info/my-staff-info.component';
 import { MaterialModule } from '../_shared/material.module';
 import { PipeModule } from '../_shared/pipe.module';
+import { RouterModule } from '@angular/router';
+import { MyInfoComponent } from './my-info.component';
+import { CurrentUserResolver } from '../_services/_resolvers/current-user-resolver.service';
+import { MyInfoTreeResolverService } from '../_services/_resolvers/my-info-tree-resolver.service';
 
 @NgModule({
-  imports: [SharedModule, MaterialModule, PipeModule],
+  imports: [
+    SharedModule,
+    MaterialModule,
+    PipeModule,
+    RouterModule.forChild([
+      {
+        path: 'myinfo',
+        component: MyInfoComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          tree: MyInfoTreeResolverService,
+        },
+      },
+    ]),
+  ],
   declarations: [MyStaffTreeComponent, MyStaffInfoComponent],
   exports: [MyStaffTreeComponent, MyStaffInfoComponent],
 })

@@ -10,7 +10,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { HeaderInterceptorService } from './_services/_interceptors/header-interceptor.service';
 import { MaterialModule } from './_shared/material.module';
 import { AppComponent } from './app.component';
-import { DeveloperComponent } from './developer/developer.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { NavComponent } from './nav/nav.component';
@@ -22,12 +21,12 @@ import { PipeModule } from './_shared/pipe.module';
 import { ToolModule } from './tools/tool.module';
 import { ReportModule } from './reports/report.module';
 import { ChartsModule } from './reports/chart.module';
+import { DeveloperModule } from './developer/developer.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    DeveloperComponent,
     HomeComponent,
     ErrorComponent,
     DownloadComponent,
@@ -40,6 +39,7 @@ import { ChartsModule } from './reports/chart.module';
     ToolModule,
     ReportModule,
     ChartsModule,
+    DeveloperModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),

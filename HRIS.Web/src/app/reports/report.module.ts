@@ -39,6 +39,27 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MyInfoModule } from '../my-info/my-info.module';
+import { RouterModule } from '@angular/router';
+import { CurrentUserResolver } from '../_services/_resolvers/current-user-resolver.service';
+import { RcDpCodeResolverService } from '../_services/_resolvers/rc-dp-code-resolver.service';
+import { TitleCodeResolverService } from '../_services/_resolvers/title-code-resolver.service';
+import { LeaveStatusResolverService } from '../_services/_resolvers/leave-status-resolver.service';
+import { StaffReportGuard } from '../_services/_guard/staff-report.guard';
+import { LocationCodeResolverService } from '../_services/_resolvers/location-code-resolver.service';
+import { VacationRosterReportGuard } from '../_services/_guard/vacation-roster-report.guard';
+import { PARReportGuard } from '../_services/_guard/par-report.guard';
+import { SeparationsReportGuard } from '../_services/_guard/separations-report.guard';
+import { FisalYearResolverService } from '../_services/_resolvers/fisal-year-resolver.service';
+import { OvertimeReportGuard } from '../_services/_guard/overtime-report.guard';
+import { HeadcountReportGuard } from '../_services/_guard/headcount-report.guard';
+import { EEOReportGuard } from '../_services/_guard/eeo-report.guard';
+import { ECardsReportGuard } from '../_services/_guard/ecards-report.guard';
+import { DisciplinaryReportGuard } from '../_services/_guard/disciplinary-report.guard';
+import { EmployeeBehaviorCodeResolverService } from '../_services/_resolvers/employee-behavior-code-resolver.service';
+import { CustomerServiceComplaintsReportGuard } from '../_services/_guard/customer-service-complaints-report.guard';
+import { BkpTitleResolverService } from '../_services/_resolvers/bkp-title-resolver.service';
+import { CsStatusResolverService } from '../_services/_resolvers/cs-status-resolver.service';
+import { StaffDetailResolverService } from '../_services/_resolvers/staff-detail-resolver.service';
 
 @NgModule({
   imports: [
@@ -53,6 +74,150 @@ import { MyInfoModule } from '../my-info/my-info.module';
     CollapseModule.forRoot(),
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
+    RouterModule.forChild([
+      {
+        path: 'leaveReport',
+        component: StaffLeaveComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+          titles: TitleCodeResolverService,
+          lvStatus: LeaveStatusResolverService,
+        },
+        canActivate: [StaffReportGuard],
+      },
+      {
+        path: 'ceasedReport',
+        component: CeasedStaffComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+          titles: TitleCodeResolverService,
+          lvStatus: LeaveStatusResolverService,
+        },
+        canActivate: [StaffReportGuard],
+      },
+      {
+        path: 'vacationRosterReport',
+        component: VacationRosterComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+          location: LocationCodeResolverService,
+          title: TitleCodeResolverService,
+        },
+        canActivate: [VacationRosterReportGuard],
+      },
+      {
+        path: 'emergencyContactInfoReport',
+        component: StaffEmergencyContactInfoComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+          location: LocationCodeResolverService,
+        },
+        canActivate: [StaffReportGuard],
+      },
+      {
+        path: 'separationReport',
+        component: SeparationComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+        },
+        canActivate: [SeparationsReportGuard],
+      },
+      {
+        path: 'parReport',
+        component: ParComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+          titles: TitleCodeResolverService,
+          locations: LocationCodeResolverService,
+        },
+        canActivate: [PARReportGuard],
+      },
+      {
+        path: 'overtimeReport',
+        component: OvertimeComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+          fiscalYear: FisalYearResolverService,
+        },
+        canActivate: [OvertimeReportGuard],
+      },
+      {
+        path: 'headcount',
+        component: HeadcountComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+          titles: TitleCodeResolverService,
+          lvStatus: LeaveStatusResolverService,
+        },
+        canActivate: [HeadcountReportGuard],
+      },
+      {
+        path: 'eeo',
+        component: EeoComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+        },
+        canActivate: [EEOReportGuard],
+      },
+      {
+        path: 'ecard',
+        component: EcardComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+        },
+        canActivate: [ECardsReportGuard],
+      },
+      {
+        path: 'disciplinary',
+        component: DisciplinaryComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+        },
+        canActivate: [DisciplinaryReportGuard],
+      },
+      {
+        path: 'customerServiceComplaint',
+        component: CustomerServiceComplaintsComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          employeeBehaviors: EmployeeBehaviorCodeResolverService,
+        },
+        canActivate: [CustomerServiceComplaintsReportGuard],
+      },
+      {
+        path: 'activeStaff',
+        component: ActiveStaffComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          rcdp: RcDpCodeResolverService,
+          locations: LocationCodeResolverService,
+          titles: TitleCodeResolverService,
+          bkpTiltes: BkpTitleResolverService,
+          csStatuses: CsStatusResolverService,
+        },
+        canActivate: [StaffReportGuard],
+      },
+      {
+        path: 'staffDetail/:ein',
+        component: StaffDetailComponent,
+        resolve: {
+          currentUser: CurrentUserResolver,
+          staffDetail: StaffDetailResolverService,
+        },
+        canActivate: [StaffReportGuard]
+      },
+    ]),
   ],
   declarations: [
     CeasedStaffComponent,
@@ -84,7 +249,6 @@ import { MyInfoModule } from '../my-info/my-info.module';
     ParComponent,
     SeparationComponent,
     VacationRosterComponent,
-
   ],
 
   exports: [
@@ -117,7 +281,6 @@ import { MyInfoModule } from '../my-info/my-info.module';
     ParComponent,
     SeparationComponent,
     VacationRosterComponent,
-
   ],
 })
 export class ReportModule {}
