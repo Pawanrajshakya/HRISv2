@@ -217,3 +217,12 @@ $body-bg: #f3f3f0;*/
 .nomat-progress-bar {
   min-height: 4px;
 }
+
+table {
+  width: 100%;
+}
+
+.table-container {
+  height: 400px;
+  overflow: auto;
+}
