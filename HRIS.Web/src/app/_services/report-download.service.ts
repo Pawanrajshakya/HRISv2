@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { IReportParam } from '../_models/IReportParam';
 import { ErrorHandlingService } from './error-handling.service';
 import { BaseService } from './_base.service';
@@ -24,7 +25,7 @@ export class ReportDownloadService extends BaseService {
       })
       .pipe(
         tap((data) => {
-          console.log(data);
+          if (!environment.production) console.log(data);
         }),
         catchError((err) => this.errorHandlingService.handleError(err))
       );

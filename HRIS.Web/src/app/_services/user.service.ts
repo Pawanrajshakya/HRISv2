@@ -80,27 +80,27 @@ export class UserService extends BaseService {
 
   add$(user: IUser) {
     return this.httpClient.post(this.url + 'user', user).pipe(
-      tap((data) => {
-        console.log(data);
-      }),
+      // tap((data) => {
+      //   console.log(data);
+      // }),
       catchError((err) => this.errorHandlingService.handleError(err))
     );
   }
 
   update$(user: IUser) {
     return this.httpClient.put(this.url + 'user', user).pipe(
-      tap((data) => {
-        console.log(data);
-      }),
+      // tap((data) => {
+      //   console.log(data);
+      // }),
       catchError((err) => this.errorHandlingService.handleError(err))
     );
   }
 
   delete$(userID: string) {
     return this.httpClient.delete(this.url + 'user/' + userID).pipe(
-      tap((data) => {
-        console.log(data);
-      }),
+      // tap((data) => {
+      //   console.log(data);
+      // }),
       catchError((err) => this.errorHandlingService.handleError(err))
     );
   }

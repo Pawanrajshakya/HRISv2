@@ -31,9 +31,7 @@ export class DynamicFlatNodeService {
     this.rootLevelNodes = this.myInfoService.tree;
     return this.rootLevelNodes.map((tree) => {
       // if (tree.ein === this.loginService.currentUser.ein) {
-      console.log('1', this.rootLevelNodes);
       this.myInfoService.GetChildren(tree).then((data) => {
-        console.log('2', data, tree);
         if (data) this.dataMap.set(tree, data);
       });
       return new DynamicFlatNode(

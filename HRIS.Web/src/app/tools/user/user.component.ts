@@ -24,6 +24,7 @@ import { Reports } from '../../_models/Reports.enum';
 import { BaseComponent } from '../../base/base.component';
 import { DownloadComponent } from '../../download/download.component';
 import { IDp, IRc } from 'src/app/_models/IRcDp';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-user',
@@ -222,7 +223,7 @@ export class UserComponent
           : (this.userForm.title = 'Add User');
       },
       error: (error) => {
-        console.error(error.userMessage);
+        if (!environment.production) console.error(error.userMessage);
         this._snackBar.open(error.userMessage, 'Close', {
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
@@ -253,7 +254,7 @@ export class UserComponent
           this.modalRef?.hide();
         },
         error: (error) => {
-          console.error(error.userMessage);
+          if (!environment.production) console.error(error.userMessage);
           this._snackBar.open(error.userMessage, 'Close', {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,

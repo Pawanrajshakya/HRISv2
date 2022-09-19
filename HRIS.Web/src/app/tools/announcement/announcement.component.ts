@@ -240,10 +240,10 @@ export class AnnouncementComponent
 
     this.announcementService.updatePriority$(row.id, _priority).subscribe({
       next: (data) => {
-        console.log(data);
+        //console.log(data);
       },
       error: (error) => {
-        console.log(error);
+        //console.log(error);
       },
       complete: () => {
         this.filterSubject.next(this.filterValue);
@@ -309,12 +309,12 @@ export class AnnouncementComponent
   }
 
   onEdit(template: TemplateRef<any>, id: number) {
-    console.log(id);
+    //console.log(id);
 
     this.announcementService.get$(id).subscribe({
       next: (data) => {
         var _data = (data as unknown as IAnnouncement[])[0];
-        console.log(_data, _data.imageURL);
+        //console.log(_data, _data.imageURL);
         this.announcementForm.inEditMode = true;
 
         this.announcementForm.title = 'Edit Announcement';
@@ -362,7 +362,7 @@ export class AnnouncementComponent
     const target = e.target as HTMLInputElement;
     const file = (target.files as FileList)[0];
 
-    console.log(file);
+    //console.log(file);
 
     if (file !== undefined) {
       var isImage = file.name.match(/.(jpg|png|jpeg)$/i);
@@ -384,7 +384,7 @@ export class AnnouncementComponent
         complete: () => {},
       });
 
-      console.log(isImage);
+      //console.log(isImage);
     }
   }
 

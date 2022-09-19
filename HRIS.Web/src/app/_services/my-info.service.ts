@@ -78,15 +78,9 @@ export class MyInfoService extends BaseService {
             this.tree = [];
             this.tree.push(data);
             this.selectedTree = data;
-            console.log('this.myInfoTreeStaffs.', data, this.tree);
 
             if (data.ein) {
               this.GetInfo(data.ein).then((staffInfo) => {
-                console.log(
-                  'this.GetStaffInfo(data.ein service',
-                  staffInfo,
-                  staffInfo._emergency
-                );
                 this.selectedTreeInfo = staffInfo._info ?? {};
                 this.selectedTree_Emergency_Info =
                   staffInfo._emergency ?? {};

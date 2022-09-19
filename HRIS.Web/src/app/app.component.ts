@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { LoginService } from './_services/login.service';
 
 @Component({
@@ -10,9 +11,10 @@ export class AppComponent implements OnInit {
   constructor(private loginService: LoginService) {}
 
   ngOnInit() {
-    console.log(
-      'Login step 1: AppComponent > ngOnInit > this.userService.loginSubject.next("");'
-    );
+    if (!environment.production)
+      console.log(
+        'Login step 1: AppComponent > ngOnInit > this.userService.loginSubject.next("");'
+      );
     this.loginService.loginSubject.next('');
   }
 }

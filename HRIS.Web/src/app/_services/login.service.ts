@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { ICurrentUser } from '../_models/ICurrentUser';
 import { ErrorHandlingService } from './error-handling.service';
 import { BaseService } from './_base.service';
@@ -36,6 +37,7 @@ export class LoginService extends BaseService {
 
         this.user$.subscribe({
           next: (user: ICurrentUser | null) => {
+            if (!environment.production)
             console.log(
               'Login step 3: UserService >> constructor >> this.user$.subscribe >> ',
               user,
@@ -45,6 +47,7 @@ export class LoginService extends BaseService {
             this.currentUserSubject.next(this.currentUser);
           },
         });
+        if (!environment.production)
         console.log(
           'Login step 2: UserService >> constructor >> this.loginAction$.subscribe >> ',
           lanID
@@ -84,6 +87,7 @@ export class LoginService extends BaseService {
         this.currentUser.lanID === undefined ||
         this.currentUser.lanID === null
       ) {
+        if (!environment.production)
         console.log('Current User not found', this.currentUser);
         this.user$.subscribe({
           next: (currentUser) => {
@@ -97,6 +101,7 @@ export class LoginService extends BaseService {
           complete: () => {},
         });
       } else {
+        if (!environment.production)
         console.log('Current User found', this.currentUser);
         resolve(this.currentUser);
       }
