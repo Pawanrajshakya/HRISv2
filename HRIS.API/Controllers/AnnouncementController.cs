@@ -107,8 +107,8 @@ namespace HRIS.API.Controllers
             catch (System.Exception ex) { return NotFound(ex.Message); }
         }
 
-        [HttpPost("upload/{id:int}")]
-        public ActionResult Upload(int id, IFormFile file)
+        [HttpPost("upload/{id:int}"), DisableRequestSizeLimit]
+        public async Task<ActionResult> Upload(int id, IFormFile file)
         {
             string folderPath = ShareManager.UploadFolderPath;
 
@@ -121,7 +121,7 @@ namespace HRIS.API.Controllers
                     string filePath = Path.Combine(folderPath, file.FileName);
                     using (Stream stream = new FileStream(filePath, FileMode.Create))
                     {
-                        file.CopyToAsync(stream);
+                        await file.CopyToAsync(stream);
                     }
                     try
                     {
