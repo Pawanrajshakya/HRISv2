@@ -10,6 +10,7 @@ import { CurrentUserResolver } from '../_services/_resolvers/current-user-resolv
 import { MyInfoTreeResolverService } from '../_services/_resolvers/my-info-tree-resolver.service';
 
 @NgModule({
+  declarations: [MyStaffTreeComponent, MyStaffInfoComponent],
   imports: [
     SharedModule,
     MaterialModule,
@@ -25,7 +26,6 @@ import { MyInfoTreeResolverService } from '../_services/_resolvers/my-info-tree-
       },
     ]),
   ],
-  declarations: [MyStaffTreeComponent, MyStaffInfoComponent],
   exports: [MyStaffTreeComponent, MyStaffInfoComponent],
 })
 export class MyInfoModule {}

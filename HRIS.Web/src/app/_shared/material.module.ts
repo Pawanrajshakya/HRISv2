@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -22,6 +21,29 @@ import { MatTreeModule } from '@angular/material/tree';
 import { PlatformModule } from '@angular/cdk/platform';
 
 @NgModule({
+  imports: [
+    MatTableModule,
+    CdkTableModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressBarModule,
+    MatToolbarModule,
+    MatSelectModule,
+    MatCardModule,
+    MatMenuModule,
+    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatRadioModule,
+    MatTooltipModule,
+    MatTreeModule,
+    PlatformModule,
+  ],
   exports: [
     MatTableModule,
     CdkTableModule,

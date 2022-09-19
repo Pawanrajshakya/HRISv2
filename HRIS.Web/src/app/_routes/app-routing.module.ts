@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    resolve: { currentUser: CurrentUserResolver }
+    resolve: { currentUser: CurrentUserResolver },
+  },
+  {
+    path: 'developer',
+    loadChildren: () =>
+      import('./../developer/developer.module').then((m) => m.DeveloperModule),
   },
   {
     path: '',

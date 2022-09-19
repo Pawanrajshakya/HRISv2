@@ -11,7 +11,7 @@ import { DeveloperGuard } from '../_services/_guard/developer.guard';
     MaterialModule,
     RouterModule.forChild([
       {
-        path: 'developer',
+        path: '',
         component: DeveloperComponent,
         canActivate: [DeveloperGuard],
       },

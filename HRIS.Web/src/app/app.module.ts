@@ -10,11 +10,9 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { HeaderInterceptorService } from './_services/_interceptors/header-interceptor.service';
 import { MaterialModule } from './_shared/material.module';
 import { AppComponent } from './app.component';
-import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { NavComponent } from './nav/nav.component';
 import { AuthInterceptorService } from './_services/_interceptors/auth-interceptor.service';
-import { DownloadComponent } from './download/download.component';
 import { SharedModule } from './_shared/shared.module';
 import { MyInfoModule } from './my-info/my-info.module';
 import { PipeModule } from './_shared/pipe.module';
@@ -22,16 +20,18 @@ import { ToolModule } from './tools/tool.module';
 import { ReportModule } from './reports/report.module';
 import { ChartsModule } from './reports/chart.module';
 import { DeveloperModule } from './developer/developer.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './_routes/app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavComponent,
-    HomeComponent,
-    ErrorComponent,
-    DownloadComponent,
-  ],
+  declarations: [AppComponent, NavComponent, HomeComponent],
   imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
     SharedModule,
     MaterialModule,
     MyInfoModule,
